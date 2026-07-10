@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>She Balanced on Furniture Before She Could Fly – Rebeca Andrade</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #F5F3EE;
+    color: #1A1A1A;
+    font-family: 'Merriweather', Georgia, serif;
+    line-height: 1.8;
+  }
+
+  /* ── Word bank ── */
+  .word-bank {
+    background: #EEF4FF;
+    border: 2px solid #B0C8E8;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin: 2.5em 0;
+  }
+  .word-bank h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #1E4D8C;
+    margin-bottom: 16px;
+  }
+  .word-bank dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 28px;
+  }
+  @media (max-width: 560px) { .word-bank dl { grid-template-columns: 1fr; } }
+  .word-bank div {
+    padding: 8px 0;
+    border-bottom: 1px solid #C8D8E8;
+  }
+  .word-bank dt {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    color: #1E4D8C;
+    margin-bottom: 2px;
+  }
+  .word-bank dd {
+    font-size: .88rem;
+    color: #3A4A5A;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(160deg, #0A1E2F 0%, #1A3A5C 60%, #0E5A8A 100%);
+    color: #fff;
+    padding: 60px 24px 50px;
+    text-align: center;
+  }
+  .hero .category {
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #6AACF0;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.25;
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+  .hero h1 em { color: #FFD700; font-style: italic; }
+  .hero .subtitle {
+    font-size: 1.05rem;
+    color: #B8CDD8;
+    font-style: italic;
+    max-width: 540px;
+    margin: 0 auto 30px;
+  }
+  .hero .meta {
+    font-family: 'Inter', sans-serif;
+    font-size: .8rem;
+    color: #7A9AB8;
+    letter-spacing: .04em;
+  }
+
+  /* ── Layout ── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── Drop cap ── */
+  p.dropcap::first-letter {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0E5A8A;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Body text ── */
+  p {
+    font-size: 1.05rem;
+    color: #2A2A2A;
+    margin-bottom: 1.4em;
+  }
+
+  /* ── Subheadings ── */
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #0E5A8A;
+    margin: 2.2em 0 .7em;
+    border-bottom: 2px solid #C8D8E8;
+    padding-bottom: 6px;
+  }
+
+  /* ── Pull quote ── */
+  blockquote {
+    border-left: 5px solid #FFD700;
+    background: #fff;
+    margin: 2em 0;
+    padding: 20px 28px;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  }
+  blockquote p {
+    font-size: 1.18rem;
+    font-style: italic;
+    color: #1A3A5C;
+    margin: 0;
+    line-height: 1.65;
+  }
+  blockquote cite {
+    display: block;
+    font-size: .82rem;
+    font-family: 'Inter', sans-serif;
+    color: #7A9AB8;
+    margin-top: 10px;
+    font-style: normal;
+  }
+
+  /* ── Fact box ── */
+  .fact-box {
+    background: #1A3A5C;
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 2.5em 0;
+  }
+  .fact-box h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #FFD700;
+    margin-bottom: 14px;
+  }
+  .fact-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .fact-box ul li {
+    font-size: .97rem;
+    color: #C8D8E8;
+    padding: 5px 0 5px 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .fact-box ul li::before {
+    content: '🥇';
+    position: absolute;
+    left: 0;
+    font-size: .85rem;
+  }
+  .fact-box ul li:nth-child(2)::before { content: '🥈'; }
+  .fact-box ul li:nth-child(3)::before { content: '🥉'; }
+  .fact-box ul li:nth-child(4)::before { content: '⭐'; }
+  .fact-box ul li:nth-child(5)::before { content: '⭐'; }
+  .fact-box ul li:nth-child(6)::before { content: '⭐'; }
+
+  /* ── Grammar tip ── */
+  .grammar-tip {
+    background: #FFF8E8;
+    border: 2px solid #C8891E;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 3em 0 1em;
+  }
+  .grammar-tip h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #A06010;
+    margin-bottom: 10px;
+  }
+  .grammar-tip p {
+    font-size: .95rem;
+    color: #5A3A00;
+    margin: 0 0 .5em;
+  }
+  .grammar-tip em {
+    color: #0E5A8A;
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* ── Divider ── */
+  hr {
+    border: none;
+    border-top: 1px solid #D8D0C4;
+    margin: 2em 0;
+  }
+
+  /* ── Portrait ── */
+  .portrait {
+    float: right;
+    width: 210px;
+    margin: 0 0 16px 24px;
+    border-radius: 10px;
+    box-shadow: 0 3px 16px rgba(0,0,0,.22);
+  }
+
+  /* ── Photo gallery ── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 2em 0;
+  }
+  .photo-grid figure { margin: 0; }
+  .photo-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+    display: block;
+  }
+  .photo-grid figcaption {
+    font-size: .8rem;
+    color: #7A8A9A;
+    text-align: center;
+    margin-top: 5px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+  }
+
+  /* ── Comprehension questions ── */
+  .comp-questions {
+    background: #F0F7F0;
+    border: 2px solid #2A7A4A;
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin: 2.5em 0;
+  }
+  .comp-questions h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: .82rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: #1A5A34;
+    margin-bottom: 6px;
+  }
+  .comp-inst {
+    font-size: .9rem !important;
+    color: #3A5A44 !important;
+    font-style: italic;
+    margin-bottom: 18px !important;
+  }
+  .comp-item { margin-bottom: 20px; }
+  .comp-q {
+    font-size: 1rem !important;
+    color: #1A2A1A !important;
+    margin-bottom: 6px !important;
+    line-height: 1.5 !important;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .comp-num {
+    background: #2A7A4A;
+    color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .78rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .comp-lines div {
+    border-bottom: 1.5px solid #9ABAA8;
+    height: 28px;
+    margin-bottom: 2px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    color: #A89A8A;
+    padding-top: 2em;
+    border-top: 1px solid #D8D0C4;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="category">🤸 Sports &amp; Inspiration</div>
+  <h1>She Balanced on Furniture<br>Before She Could <em>Fly</em></h1>
+  <p class="subtitle">Brazil's Rebeca Andrade: the gymnast who refused to give up</p>
+  <div class="meta">Based on verified sources · July 2026</div>
+</div>
+
+<div class="page">
+
+  <img src="Rebeca_Andrade_in_2023.jpg" alt="Rebeca Andrade with medal" class="portrait">
+
+  <p class="dropcap">Most people don't know where Rebeca Andrade grew up. The answer might surprise them. She was born in Guarulhos, a city just outside São Paulo, in a favela where eight children shared a home with a single mother who worked as a maid. There were no coaches, no facilities, no sponsorships. There was a bunk bed.</p>
+
+  <p>"I would go up, go down, and hang," Andrade once recalled in an interview. "I think I was already training and I didn't even know."</p>
+
+  <p>She was four years old when her older brother Emerson started taking her to a local gymnastics gym — on his bicycle, because the family couldn't afford public transport. Their mother, Rosa, walked to work every morning so that Rebeca could use her bus pass to get to practice.</p>
+
+  <blockquote>
+    <p>"My mother walked to work so that I could use her bus pass to go to the gym with my brother. I am very grateful to her, and to my siblings, who made my dream possible."</p>
+    <cite>— Rebeca Andrade</cite>
+  </blockquote>
+
+  <h2>A Road Full of Obstacles</h2>
+
+  <p>But the road to the Olympics was anything but smooth.</p>
+
+  <p>Do you have any idea how many times she tore her ACL (anterior cruciate ligament — one of the main ligaments in the knee)? Three. In 2015, 2017, and 2019 — three separate knee injuries that would have ended most athletes' careers before they truly began. Each time, the questions came: <em>Could you tell me if she'll ever compete again? Do you know when — or whether — she'll come back?</em></p>
+
+  <p>Each time, she did.</p>
+
+  <div class="photo-grid">
+    <figure>
+      <img src="28921157815_2eb970a696_b.jpg" alt="Rebeca Andrade mid-air during competition">
+      <figcaption>Andrade mid-routine — power and precision in every movement</figcaption>
+    </figure>
+    <figure>
+      <img src="Rebeca_Andrade_Rio_2016.jpg" alt="Rebeca Andrade at Rio 2016 Olympics">
+      <figcaption>Rio 2016 — the beginning of a historic journey on home soil</figcaption>
+    </figure>
+  </div>
+
+  <h2>Tokyo 2021: History Is Made</h2>
+
+  <p>At the Tokyo Olympics in 2021, Andrade made history. She became the first Brazilian woman to win a gymnastics medal at the Olympic Games — and she didn't just win one. She took gold on vault and silver in the all-around. An entire country celebrated. Don't they say that resilience is the most important quality in a champion? Andrade proved it.</p>
+
+  <div class="fact-box">
+    <h3>📊 Fast Facts: Paris 2024</h3>
+    <ul>
+      <li>Gold medal — floor exercise</li>
+      <li>Silver medal — individual all-around</li>
+      <li>Silver medal — vault</li>
+      <li>Bronze medal — team event (first-ever for Brazil)</li>
+      <li>Flag bearer at the closing ceremony</li>
+      <li>Most decorated Brazilian Olympian in history — any sport</li>
+    </ul>
+  </div>
+
+  <h2>Paris 2024: Four Medals and a Flag</h2>
+
+  <p>But 2024 was something else entirely.</p>
+
+  <p>At the Paris Olympics, Andrade won four medals: a team bronze, two silvers, and — in front of a roaring crowd — a gold medal on the floor exercise. She performed her routine to a Brazilian funk song, and the audience could not stay still. When it was over, she was chosen to carry the Brazilian flag at the closing ceremony, a moment that reduced her family, her coaches, and millions of fans back home to tears.</p>
+
+  <p>She is now one of only three gymnasts in the 21st century to have won medals on every single apparatus at the World Championships. The other two? Simone Biles and Aliya Mustafina. In April 2025, she won the Laureus World Sports Award for Comeback of the Year.</p>
+
+  <blockquote>
+    <p>"Would you mind telling me what drives someone through three ACL surgeries, a childhood without resources, and the pressure of representing an entire nation?"</p>
+    <cite>— A journalist at a Paris 2024 press conference</cite>
+  </blockquote>
+
+  <p>Andrade's answer was simple. She still thinks about the bunk bed.</p>
+
+  <hr>
+
+  <div class="word-bank">
+    <h3>📖 Word Bank</h3>
+    <dl>
+      <div>
+        <dt>favela</dt>
+        <dd>An informal neighborhood, usually on the outskirts of a Brazilian city, where people with lower incomes live.</dd>
+      </div>
+      <div>
+        <dt>ACL (anterior cruciate ligament)</dt>
+        <dd>One of the main ligaments in the knee. A tear is a serious sports injury that requires surgery and months of recovery.</dd>
+      </div>
+      <div>
+        <dt>resilience</dt>
+        <dd>The ability to recover quickly from difficulties; the strength to keep going after failure or setbacks.</dd>
+      </div>
+      <div>
+        <dt>all-around</dt>
+        <dd>A gymnastics competition where athletes compete on all events — vault, bars, beam, and floor.</dd>
+      </div>
+      <div>
+        <dt>apparatus</dt>
+        <dd>The equipment used in gymnastics, such as the vault, the uneven bars, the balance beam, and the floor mat.</dd>
+      </div>
+      <div>
+        <dt>obstacle</dt>
+        <dd>Something that makes it hard to move forward; a problem or challenge that blocks your path.</dd>
+      </div>
+      <div>
+        <dt>sponsorship</dt>
+        <dd>Financial support given to an athlete by a company, usually in exchange for advertising or publicity.</dd>
+      </div>
+      <div>
+        <dt>Laureus Award</dt>
+        <dd>One of the most prestigious awards in world sport, given each year to recognize outstanding athletic achievements.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="grammar-tip">
+    <h3>💡 Language Tip — Indirect Questions in the Article</h3>
+    <p>Did you notice how indirect questions were used naturally in this article? Look at these examples:</p>
+    <p><em>"Do you have any idea how many times she tore her ACL?"</em></p>
+    <p><em>"Could you tell me if she'll ever compete again?"</em></p>
+    <p><em>"Do you know when — or whether — she'll come back?"</em></p>
+    <p><em>"Would you mind telling me what drives someone…?"</em></p>
+    <p>These are the same structures from your lesson! Notice how they make the questions sound more thoughtful and polite.</p>
+  </div>
+
+  <div class="comp-questions">
+    <h3>✏️ Comprehension Questions</h3>
+    <p class="comp-inst">Answer the questions in your own words, based on the article.</p>
+
+    <div class="comp-item">
+      <p class="comp-q"><span class="comp-num">1</span> Where did Rebeca Andrade grow up, and what was her home life like?</p>
+      <div class="comp-lines"><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="comp-item">
+      <p class="comp-q"><span class="comp-num">2</span> How did Rebeca's family support her gymnastics training despite having very little money?</p>
+      <div class="comp-lines"><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="comp-item">
+      <p class="comp-q"><span class="comp-num">3</span> What serious injuries did she suffer, and how many times? Why is this remarkable?</p>
+      <div class="comp-lines"><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="comp-item">
+      <p class="comp-q"><span class="comp-num">4</span> What historic achievement did Rebeca accomplish at the Tokyo Olympics in 2021?</p>
+      <div class="comp-lines"><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="comp-item">
+      <p class="comp-q"><span class="comp-num">5</span> Why do you think Rebeca was chosen to carry the Brazilian flag at the Paris 2024 closing ceremony? Use information from the article to explain.</p>
+      <div class="comp-lines"><div></div><div></div><div></div></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Sources: Wikipedia · Olympics.com · NBC Olympics · Legit.ng · Laureus World Sports Awards<br>
+    Created for AEF4-1A · For personal study use only
+  </div>
+
+</div>
+</body>
+</html>

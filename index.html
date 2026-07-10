@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF Courses</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; min-height: 100%; font-family: 'Segoe UI', system-ui, sans-serif; background: #0F2A38; color: #1C2B3A; }
+
+  header {
+    background: #0F2A38;
+    padding: 56px 24px 44px;
+    text-align: center;
+    color: #fff;
+  }
+  header h1 {
+    font-size: 2.3rem;
+    font-weight: 800;
+    letter-spacing: .01em;
+  }
+  header p {
+    margin-top: 10px;
+    color: rgba(255,255,255,.7);
+    font-size: 1.05rem;
+  }
+
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .level-group { margin-bottom: 44px; }
+  .level-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    background: #C8891E;
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    letter-spacing: .03em;
+  }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  .course-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    text-decoration: none;
+    color: #1C2B3A;
+    box-shadow: 0 2px 10px rgba(15,42,56,.10);
+    border: 1px solid #E4E8EC;
+    transition: transform .15s ease, box-shadow .15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(15,42,56,.18);
+    border-color: #C8891E;
+  }
+  .course-code {
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #C8891E;
+    text-transform: uppercase;
+  }
+  .course-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0F2A38;
+  }
+  .course-open {
+    margin-top: 8px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #14607A;
+  }
+
+  .empty-note {
+    color: rgba(255,255,255,.55);
+    font-size: .92rem;
+    text-align: center;
+    padding: 20px 0 0;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: rgba(255,255,255,.4);
+    font-size: .82rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AEF Courses</h1>
+  <p>American English File — all lessons in one place</p>
+</header>
+
+<main id="main"></main>
+
+<footer>Updated automatically as new lessons are added</footer>
+
+<script>
+  // ── Add one entry per course folder here. ──
+  // level: used to group cards under a heading (e.g. "AEF0", "AEF3", "AEF4")
+  // folder: exact folder name inside AEF Courses
+  // file: the html file to open inside that folder
+  // code / title: what shows on the card
+  const courses = [
+    { level: "AEF3", folder: "AEF3-1B", file: "index.html", code: "AEF3 · 1B", title: "Modern Families" },
+    { level: "AEF4", folder: "AEF4-1A", file: "index.html", code: "AEF4 · 1A", title: "Questions and Answers" },
+    { level: "AEF4", folder: "AEF4-2A", file: "index.html", code: "AEF4 · 2A", title: "Doctor, Doctor!" },
+
+    // Not yet added — paste the folder into AEF-Courses, then add a line here:
+    // { level: "AEF4", folder: "AEF4-3A", file: "index.html", code: "AEF4 · 3A", title: "Fasten Your Seat Belts" },
+    // { level: "AEF4", folder: "AEF4-7A", file: "index.html", code: "AEF4 · 7A", title: "..." },
+    // { level: "AEF0", folder: "AEF0-PE3", file: "PE3_What_time_is_it.html", code: "AEF0 · PE3", title: "What Time Is It?" },
+  ];
+
+  const main = document.getElementById('main');
+
+  if (courses.length === 0) {
+    main.innerHTML = '<p class="empty-note">No courses added yet.</p>';
+  } else {
+    const levels = [...new Set(courses.map(c => c.level))];
+    levels.forEach(level => {
+      const group = document.createElement('div');
+      group.className = 'level-group';
+
+      const title = document.createElement('div');
+      title.className = 'level-title';
+      title.textContent = level;
+      group.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.className = 'course-grid';
+
+      courses.filter(c => c.level === level).forEach(c => {
+        const a = document.createElement('a');
+        a.className = 'course-card';
+        a.href = `${encodeURIComponent(c.folder)}/${c.file}`;
+        a.innerHTML = `
+          <span class="course-code">${c.code}</span>
+          <span class="course-title">${c.title}</span>
+          <span class="course-open">Open lesson →</span>
+        `;
+        grid.appendChild(a);
+      });
+
+      group.appendChild(grid);
+      main.appendChild(group);
+    });
+  }
+</script>
+
+</body>
+</html>

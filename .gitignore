@@ -1,0 +1,14 @@
+# Copyrighted textbook/audio material — kept locally, never pushed
+*.pdf
+*.mp3
+
+# Node dependencies (regenerable, not needed on GitHub)
+node_modules/
+
+# OS junk
+.DS_Store
+
+# Manual timestamped backups (git history replaces these now)
+index_backup_*.html
+index_2*.html
+*_backup_*.html
