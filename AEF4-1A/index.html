@@ -2498,7 +2498,7 @@ function downloadNotes() {
     + '.card-body [style*="background-color"]{color:#1a1a1a!important}'
     + '@media print{body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{margin:1cm}}'
     + '</style></head><body>'
-    + '<div class="banner"><span class="banner-title">Questions and Answers</span><span class="banner-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF4-1A/" target="_blank">https://teacher-nanda.github.io/AEF4-1A/</a></span></div>'
+    + '<div class="banner"><span class="banner-title">Questions and Answers</span><span class="banner-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html</a></span></div>'
     + '<div class="date">' + date + '</div>'
     + cards
     + '</body></html>';
@@ -2520,7 +2520,7 @@ function printAll(){
     if(i===0){
       var linkEl=document.createElement('div');
       linkEl.className='lesson-link-print';
-      linkEl.innerHTML='<span class="lp-title">Questions and Answers</span><span class="lp-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF4-1A/" target="_blank">https://teacher-nanda.github.io/AEF4-1A/</a></span>';
+      linkEl.innerHTML='<span class="lp-title">Questions and Answers</span><span class="lp-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html</a></span>';
       slide.insertBefore(linkEl,slide.firstChild);
       injected.push(linkEl);
     }
