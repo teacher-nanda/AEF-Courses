@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEF4-3B: A Really Good Ending?</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; }
+        .container { position: relative; width: 100%; height: 100vh; background: white; display: flex; flex-direction: column; }
+        .main { flex: 1; position: relative; overflow: hidden; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.4s; display: flex; flex-direction: column; padding: 60px 50px; overflow-y: auto; }
+        .slide.active { opacity: 1; }
+        .cover { background: linear-gradient(135deg, #C85A2D 0%, #A04620 48%, #6B3410 100%); color: white; justify-content: flex-end; padding-bottom: 120px; }
+        .cover-text { text-align: center; }
+        .title { font-size: 3.5rem; font-weight: 700; margin-bottom: 20px; }
+        .accent { color: #FFD580; }
+        .subtitle { font-size: 1.5rem; font-weight: 300; opacity: 0.95; }
+        .banner { display: inline-block; padding: 6px 14px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; }
+        .grammar { background: #4A1A6A; color: white; }
+        .vocab { background: #2A6B42; color: white; }
+        h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; }
+        .inst { font-size: 0.95rem; color: #666; margin-bottom: 15px; font-style: italic; line-height: 1.6; }
+        .item { background: #f9f9f9; padding: 12px; border-radius: 4px; margin-bottom: 12px; border-left: 3px solid #C85A2D; }
+        .input { padding: 6px 8px; border: 2px solid #ddd; border-radius: 3px; font-size: 0.9rem; font-family: inherit; }
+        .input.empty { border-color: #FF9800; background: #fff3e0; }
+        .input.ok { border-color: #1A7A4A; background: #e8f5e9; }
+        .input.bad { border-color: #C4614A; background: #ffebee; }
+        .btn { padding: 6px 12px; border: none; border-radius: 3px; font-size: 0.85rem; font-weight: 600; cursor: pointer; background: #1A7A4A; color: white; }
+        .btn:hover { background: #155a3c; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd; }
+        th { background: #4A1A6A; color: white; padding: 8px; text-align: left; font-weight: 600; font-size: 0.9rem; }
+        td { padding: 8px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .story { background: #f0f0f0; padding: 12px; border-radius: 4px; margin: 10px 0; line-height: 1.6; font-size: 0.9rem; }
+        .nav { position: fixed; bottom: 0; width: 100%; height: 48px; background: white; border-top: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 100; }
+        .nbtn { width: 30px; height: 30px; border: none; border-radius: 3px; background: #f0f0f0; cursor: pointer; font-size: 0.9rem; }
+        .nbtn:hover { background: #e0e0e0; }
+        .dots { display: flex; gap: 4px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; cursor: pointer; }
+        .dot.on { background: #C85A2D; }
+        .cnt { font-size: 0.8rem; color: #666; margin: 0 10px; }
+        .bold { font-weight: 600; }
+        .list { margin-left: 20px; margin-top: 8px; }
+        .list-item { margin-bottom: 6px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main" id="main"></div>
+        <div class="nav">
+            <button class="nbtn" onclick="prev()">←</button>
+            <button class="nbtn" id="home" onclick="go(0)" style="display:none;">🏠</button>
+            <div class="dots" id="dots"></div>
+            <span class="cnt"><span id="cur">1</span>/20</span>
+            <button class="nbtn" onclick="next()">→</button>
+            <button class="nbtn" onclick="window.print()">🖨️</button>
+        </div>
+    </div>
+
+    <script>
+const slides = [
+  {type: 'cover', title: 'A really good <span class="accent">ending?</span>', sub: 'Adverbs and adverbial phrases'},
+
+  {type: 'slide', banner: '📖 GRAMMAR', title: '1 GRAMMAR the position of adverbs and adverbial phrases', inst: 'a Read four 50-word stories. Predict how you think each story ends.', content: `
+    <div class="story"><span class="bold">1 Sweet talking</span><br>"What are you reading there? It looks serious – you must be incredibly smart." He uses his usual pick-up lines on the train. Ask them a simple question. Then pay them a compliment. It always works. Sadly not this time.</div>
+    <div class="story"><span class="bold">2 Can't live without it</span><br>Absolutely alone. Silence imprisons her. She gets up and crosses the room. She presses the button. Waits. Three. Two. One. At once, there is noise! Footsteps running down the stairs. Shouts and wonderful chaos at last! She smiles. Three voices shout in unison,</div>
+    <div class="story"><span class="bold">3 Departed</span><br>"Is Mommy gone?" "Unfortunately she is, sweetie." "I miss Mommy." "So do I, sweetie. Don't cry." "Let's go and get Mommy, right now!" "We can't do that, sweetie." "Where is she?" "She's in a much better place." "WHERE?"</div>
+    <div class="story"><span class="bold">4 Revenge is sweet</span><br>"You're sitting in my seat!" the woman said. She showed me her ticket and shouted rudely, "See? It's mine. Move." I looked at the ticket carefully. Then I stood up silently. As the train left the station, I whispered to her,</div>
+  `},
+
+  {type: 'slide', banner: '📖 GRAMMAR', title: '1b Read the four final sentences and match', inst: 'b Read the four final sentences and match them to the stories. Which one do you think has the best ending?', items: [
+    {q: 'A "She\'s gone to have a facial in a nice, quiet beauty salon."', a: 'D'},
+    {q: 'B "Mom! The internet\'s not working!"', a: 'B'},
+    {q: 'C "You have the right seat, but the wrong train."', a: 'C'},
+    {q: 'D "My divorce papers," she replied angrily, and turned away.', a: 'A'}
+  ]},
+
+  {type: 'slide', banner: '📖 GRAMMAR', title: '1c Look at the highlighted adverbs', inst: 'c Look at the highlighted adverbs or adverbial phrases in the stories. Think about what they mean and write them in the correct place in the chart.', content: `
+    <table>
+      <tr><th>Types of adverbs</th><th>Examples from the stories</th></tr>
+      <tr><td><span class="bold">Time</span> (when things happen, e.g., immediately, right now)</td><td>At once, right now</td></tr>
+      <tr><td><span class="bold">Manner</span> (how you do something, e.g., slowly, rudely)</td><td>rudely, silently</td></tr>
+      <tr><td><span class="bold">Degree</span> (describing / modifying an adjective, e.g., very)</td><td>incredibly</td></tr>
+      <tr><td><span class="bold">Comment</span> (giving an opinion, e.g., luckily)</td><td>Sadly, Unfortunately</td></tr>
+      <tr><td><span class="bold">Frequency</span> (how often things happen, e.g., rarely)</td><td>always</td></tr>
+    </table>
+  `},
+
+  {type: 'slide', banner: '📖 GRAMMAR', title: '1d With a partner, decide where the bold adverbs should go', inst: 'd With a partner, decide where the bold adverbs should go in these sentences.', items: [
+    {q: '1 He speaks French and Spanish <span class="bold">fluently</span>.', a: 'He speaks French and Spanish fluently.'},
+    {q: '2 I <span class="bold">hardly ever</span> use public transportation.', a: 'I hardly ever use public transportation.'},
+    {q: '3 I thought I\'d lost my phone, but <span class="bold">fortunately</span> it was in my bag.', a: 'I thought I\'d lost my phone, but fortunately it was in my bag.'},
+    {q: '4 It\'s <span class="bold">extremely</span> important that you arrive on time.', a: 'It\'s extremely important that you arrive on time.'},
+    {q: '5 When I find out, I\'ll tell you <span class="bold">immediately</span>.', a: 'When I find out, I\'ll tell you immediately.'}
+  ]},
+
+  {type: 'slide', banner: '📖 GRAMMAR', title: '1f Listen to sound effects and conversations', inst: 'f 🔊 3.15 Listen to some sound effects and short conversations. Then use the bold adverb to complete the sentence.', items: [
+    {q: '1 When she got to the bus stop, the bus... <span class="bold">just</span>', a: 'had just left'},
+    {q: '2 They were having a party when... <span class="bold">suddenly</span>', a: 'the music suddenly stopped'},
+    {q: '3 He thought he had lost his boarding pass, but... <span class="bold">luckily</span>', a: 'he found it'},
+    {q: '4 The woman thought Andrea and Tom were friends, but in fact... <span class="bold">hardly</span>', a: 'they hardly knew each other'},
+    {q: '5 The driver couldn\'t see where he was going because... <span class="bold">hard</span>', a: 'it was raining hard'},
+    {q: '6 Salvatore couldn\'t understand the man because... <span class="bold">incredibly</span>', a: 'he was speaking incredibly fast'}
+  ]},
+
+  {type: 'slide', banner: '🔤 VOCABULARY', title: '2 VOCABULARY adverbs and adverbial phrases', inst: 'a Read another 50-word story. What do you think the missing word is?', content: `
+    <div class="story"><span class="bold">Hard rock</span><br>I nearly forget his birthday! I rush to the store. <span class="bold">Lately</span>, he enjoys listening to music, so I choose a Bluetooth speaker. I forget it now. His bedroom is near mine. The music is really loud! I open the door, and shout, "It's <span class="bold">late</span>. Please turn the volume down!"</div>
+  `},
+
+  {type: 'slide', banner: '🔤 VOCABULARY', title: '2b Look at the highlighted adverbs', inst: 'b Look at the highlighted adverbs. What\'s the difference between...?', items: [
+    {q: 'a near and nearly', a: 'near = close in distance; nearly = almost'},
+    {q: 'b late and lately', a: 'late = not on time; lately = recently'}
+  ]},
+
+  {type: 'slide', banner: '🔊 PRONUNCIATION', title: '3 PRONUNCIATION word stress and intonation', inst: 'a 🔊 3.18 Underline the stressed syllables in these adverbs. Listen and check.', content: `
+    <p style="font-size: 0.9rem; line-height: 1.8; background: #f9f9f9; padding: 12px; border-radius: 4px;">
+    <u>AB</u>solutely &nbsp; &nbsp; <u>AC</u>tually &nbsp; &nbsp; <u>AP</u>parently &nbsp; &nbsp; <u>BA</u>sically &nbsp; &nbsp; <u>DEF</u>initely<br>
+    <u>ES</u>pecially &nbsp; &nbsp; <u>E</u>ventually &nbsp; &nbsp; <u>FOR</u>tunately &nbsp; &nbsp; <u>GRAD</u>ually &nbsp; &nbsp; <u>I</u>deally<br>
+    <u>IN</u>credibly &nbsp; &nbsp; <u>LUCK</u>ily &nbsp; &nbsp; <u>OB</u>viously &nbsp; &nbsp; <u>UN</u>fortunately
+    </p>
+  `},
+
+  {type: 'slide', banner: '🔊 PRONUNCIATION', title: '3b Listen and repeat the sentences', inst: 'b 🔊 3.19 Listen and repeat the sentences, copying the stress and intonation of the adverbs.', items: [
+    {q: '1 There was a lot of traffic, and <span class="bold">unfortunately</span>, we arrived <span class="bold">extremely</span> late.'},
+    {q: '2 We <span class="bold">definitely</span> want to go abroad this summer, <span class="bold">ideally</span> somewhere hot.'},
+    {q: '3 It\'s <span class="bold">incredibly</span> easy – even a child could do it!'},
+    {q: '4 I thought Roberto was Portuguese, but <span class="bold">actually</span> he\'s Brazilian.'},
+    {q: '5 <span class="bold">Apparently</span>, Jack has been offered a promotion at work, but it will mean moving to New York.'},
+    {q: '6 I <span class="bold">absolutely</span> love Italian food, <span class="bold">especially</span> pasta.'}
+  ]},
+
+  {type: 'slide', banner: '💬 SPEAKING', title: '5 SPEAKING', inst: 'a Look at the questions about reading habits and answer them with a partner.', content: `
+    <p style="font-weight: 600; color: #C85A2D; margin-bottom: 12px;">Reading habits</p>
+    <p style="font-weight: 600; margin-bottom: 8px;">• Which of the following do you read? How often?</p>
+    <div class="list">
+      <p style="font-weight: 600; margin-bottom: 6px;">PRINT</p>
+      <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px;">comics or magazines<br>fiction, e.g., classic or modern novels, short stories, graphic novels<br>nonfiction, e.g., self-help books, history books, travel writing, guidebooks, textbooks, manuals, or instructions</p>
+      <p style="font-weight: 600; margin-bottom: 6px;">ONLINE</p>
+      <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px;">blogs &nbsp; chat rooms / forums<br>news reports and articles<br>recipes &nbsp; shopping websites<br>social media &nbsp; song lyrics<br>study- or work-related articles</p>
+    </div>
+    <p style="font-weight: 600; margin-top: 12px;">• Why do you choose to read some things in print and some on-screen?</p>
+    <p style="font-weight: 600; margin-top: 8px;">• What do you read, if anything, specifically to improve your English?</p>
+  `},
+
+  {type: 'slide', banner: '📖 READING & LISTENING', title: '6 READING & LISTENING The Necklace - Part 1', inst: 'a 🔊 3.20 Read and listen to Part 1 of a short story. With a partner, continue sentences 1–8 in your own words.', items: [
+    {q: '1 Mathilde was unhappy because...'},
+    {q: '2 She never visited Madame Forestier because...'},
+    {q: '3 Her husband was proud when he came home one night because...'},
+    {q: '4 Mathilde threw the invitation on the table because...'},
+    {q: '5 Her husband was really upset because...'},
+    {q: '6 He was able to give her the money for a dress because...'},
+    {q: '7 Mathilde was still unhappy because...'},
+    {q: '8 She was delighted when she visited Madame Forestier because...'}
+  ]},
+
+  {type: 'slide', banner: '📖 READING & LISTENING', title: '6b The Necklace - Part 2', inst: 'b 🔊 3.21 Now listen to Part 2. Answer the questions with a partner.', items: [
+    {q: '1 Did Mathilde enjoy the party? Give examples.'},
+    {q: '2 How did they get home?'},
+    {q: '3 What did she discover when they got home?'},
+    {q: '4 What did her husband do?'},
+    {q: '5 What did they decide to do in the end?'},
+    {q: '6 How did they raise the money?'},
+    {q: '7 How did Madame Forestier react?'}
+  ]},
+
+  {type: 'slide', banner: '📖 READING & LISTENING', title: '6c The Necklace - Part 3', inst: 'c 🔊 3.22 Read and listen to Part 3. Answer the questions with a partner.', items: [
+    {q: '1 How did life change for Mathilde?'},
+    {q: '2 How did it change for her husband?'},
+    {q: '3 What had they achieved at the end of the ten years?'},
+    {q: '4 How had Mathilde changed over the ten years?'}
+  ]},
+
+  {type: 'slide', banner: '📖 READING & LISTENING', title: '6d The Necklace - Conclusion', inst: 'd 🔊 3.23 Listen to the end of the story. Did it end the way you expected? Do your feelings for Mathilde change during the story? What do you think might have happened after the final conversation? What do you think the message of the story is?'},
+
+  {type: 'slide', banner: '✏️ WRITING', title: '4 WRITING', inst: 'a You are going to write a 50-word story. It must be 50 words exactly (not including the title) and you must include at least two adverbs. Contracted forms (e.g., I\'d) count as one word. First, in pairs, choose one of the titles below.', content: `
+    <p style="font-weight: 600; margin-top: 15px; margin-bottom: 10px;">Titles:</p>
+    <p style="font-size: 0.95rem; line-height: 1.6; color: #C85A2D;"><span class="bold">A summer romance</span> &nbsp; &nbsp; <span class="bold">A day to remember</span><br><span class="bold">The lie</span> &nbsp; &nbsp; <span class="bold">Never again</span></p>
+    <p style="font-weight: 600; margin-top: 15px;">b Brainstorm ideas for the plot. Then together, write a first draft. Don't worry about the number of words.</p>
+    <p style="font-weight: 600; margin-top: 12px;">c Now edit the story to make it exactly 50 words.</p>
+    <p style="font-weight: 600; margin-top: 12px;">d Read two other pairs' stories. Which do you like best?</p>
+  `},
+
+  {type: 'cover', title: '📝 Homework', sub: 'Grammar Bank & Practice'},
+
+  {type: 'slide', banner: '📖 HOMEWORK - GRAMMAR', title: 'HW-1a Grammar Bank 3B', inst: 'a Underline the adverbs or adverbial phrases in each sentence. Correct the word order if it\'s wrong.', items: [
+    {q: '1 She liked a lot the present.', a: 'She liked the present a lot. ✓'},
+    {q: '2 Mark came last night very late.', a: 'Mark came very late last night. ✓'},
+    {q: '3 The ambulance arrived at the scene of the accident after a few minutes.', a: 'The ambulance arrived at the scene of the accident after a few minutes. ✓'},
+    {q: '4 A young man was hurt badly and was taken to the hospital.', a: 'A young man was badly hurt and was taken to the hospital. ✓'},
+    {q: '5 I was incredibly tired last night.', a: 'I was incredibly tired last night. ✓'},
+    {q: '6 She\'s lazy a little bit about doing her homework.', a: 'She\'s a little bit lazy about doing her homework. ✓'},
+    {q: '7 I forgot your birthday almost, but my sister fortunately reminded me.', a: 'I almost forgot your birthday, but fortunately my sister reminded me. ✓'},
+    {q: '8 We luckily had taken an umbrella, because it started to rain right away.', a: 'We had luckily taken an umbrella, because it started to rain right away. ✓'},
+    {q: '9 Mary doesn\'t always eat healthily – she often has snacks between meals.', a: 'Mary doesn\'t always eat healthily – she often has snacks between meals. ✓'},
+    {q: '10 Yadier has been apparently fired.', a: 'Apparently, Yadier has been fired. ✓'}
+  ]},
+
+  {type: 'slide', banner: '📖 HOMEWORK - GRAMMAR', title: 'HW-1b Put the adverbs in parentheses in the correct position', inst: 'b Put the adverbs in parentheses in the normal position in these sentences.', items: [
+    {q: '1 I\'m considering resigning from my job. (seriously)', a: 'I\'m seriously considering resigning from my job.'},
+    {q: '2 Their house was damaged in the fire. (badly, last week)', a: 'Their house was badly damaged in the fire last week.'},
+    {q: '3 Ben is at his friend\'s house. (often, in the evening)', a: 'Ben is often at his friend\'s house in the evening.'},
+    {q: '4 My father takes a nap. (usually, in the afternoon)', a: 'My father usually takes a nap in the afternoon.'},
+    {q: '5 Julia left and she didn\'t say goodbye. (early, even)', a: 'Julia left early and even didn\'t say goodbye.'},
+    {q: '6 Martin eats quickly. (always, incredibly)', a: 'Martin always eats incredibly quickly.'},
+    {q: '7 We\'re going to the movies. (probably, tonight)', a: 'We\'re probably going to the movies tonight.'},
+    {q: '8 I send emails. (rarely, nowadays)', a: 'I rarely send emails nowadays.'},
+    {q: '9 I bought a beautiful new coat. (just, really)', a: 'I just bought a really beautiful new coat.'},
+    {q: '10 Maya realized that she was going to learn to drive. (eventually, never)', a: 'Maya realized that she was eventually never going to learn to drive.'}
+  ]},
+
+  {type: 'slide', banner: '🔤 HOMEWORK - VOCABULARY', title: 'HW-2a Confusing adverbs and adverbial phrases', inst: 'a Match each pair of adverbs with a pair of sentences. Then decide which adverb goes where and write it in the Adverbs column.', content: `
+    <p style="font-size: 0.85rem; line-height: 1.6; background: #f9f9f9; padding: 10px; border-radius: 4px; margin-bottom: 12px;">
+    <span class="bold">Adverb pairs:</span><br>
+    right now / actually &nbsp; &nbsp; especially / specially<br>
+    ever / even &nbsp; &nbsp; hard / hardly<br>
+    near / nearly &nbsp; &nbsp; in the end / at the end<br>
+    late / lately &nbsp; &nbsp; still / yet
+    </p>
+    <p style="font-size: 0.85rem;">See Workbook page 22 for complete sentences and table to complete.</p>
+  `},
+
+  {type: 'slide', banner: '🔤 HOMEWORK - VOCABULARY', title: 'HW-2b Comment adverbs', inst: 'b Read the sentences. Then match the bold adverbs with definitions 1–8.', items: [
+    {q: '1 I thought the job was going to be difficult, but <span class="bold">in fact</span> it\'s really easy.', a: '2 (used to emphasize that something is really true)'},
+    {q: '2 It took us over five hours to get there, but <span class="bold">eventually</span> we were able to relax.', a: '8 (in the end; after a series of events)'},
+    {q: '3 <span class="bold">Ideally</span>, we\'d go to Australia if we could afford it.', a: '3 (in the main and most important way)'},
+    {q: '4 <span class="bold">Basically</span>, it\'s a pretty simple idea.', a: '4 (clearly; used to give information)'},
+    {q: '5 I thought they\'d broken up, but <span class="bold">apparently</span>, they\'re back together again.', a: '6 (according to what you have heard or read)'},
+    {q: '6 ...so you can tell it was a really awful weekend. <span class="bold">Anyway</span>, let\'s forget about it and talk about something else.', a: '7 (in any case; to change or finish a conversation)'},
+    {q: '7 He\'s only 14, so <span class="bold">obviously</span> he can\'t stay at home on his own.', a: '1 (in a perfect world)'},
+    {q: '8 She\'s been sick for weeks, but <span class="bold">gradually</span> she\'s beginning to feel better.', a: '5 (little by little)'}
+  ]},
+
+  {type: 'slide', banner: '🔊 HOMEWORK - PRONUNCIATION', title: 'HW-3a Underline stressed syllables', inst: 'a Underline the stressed syllable in the adverbs in the list. Then put them in the correct column.', content: `
+    <table>
+      <tr>
+        <th style="width: 50%;">Stress on first syllable</th>
+        <th style="width: 50%;">Stress on second syllable</th>
+      </tr>
+      <tr><td>absolutely, basically, luckily, obviously, etc.</td><td>actually, particularly, etc.</td></tr>
+    </table>
+    <p style="font-size: 0.85rem; margin-top: 12px;">ab·so·lute·ly &nbsp; ac·tu·al·ly &nbsp; ap·par·ent·ly &nbsp; ba·sic·al·ly &nbsp; def·i·nite·ly<br>
+    e·spe·cial·ly &nbsp; e·ven·tu·al·ly &nbsp; for·tu·nate·ly &nbsp; grad·u·al·ly &nbsp; i·de·al·ly<br>
+    in·cred·i·bly &nbsp; luck·i·ly &nbsp; ob·vi·ous·ly &nbsp; un·for·tu·nate·ly</p>
+  `},
+
+  {type: 'slide', banner: '🔊 HOMEWORK - PRONUNCIATION', title: 'HW-3b Listen and complete', inst: 'b 🔊 3.4 Listen and complete the sentences.', items: [
+    {q: '1 I <span class="bold">absolutely</span> love Japanese food, <span class="bold">especially</span> sushi.', a: 'absolutely, especially'},
+    {q: '2 I thought Brad was single, but <span class="bold">________</span> he\'s <span class="bold">________</span>.', a: 'apparently, married'},
+    {q: '3 We paid a lot for the tickets, but <span class="bold">________</span>, the play was boring.', a: 'unfortunately'},
+    {q: '4 That movie is <span class="bold">________</span> – even my husband cried at the end!', a: 'incredibly sad'},
+    {q: '5 I <span class="bold">________</span> want to change my job, <span class="bold">________</span> for something better paid.', a: 'seriously, for something better paid'},
+    {q: '6 <span class="bold">________</span>, Tina has been downsized, so she\'s moving back in with her <span class="bold">________</span>.', a: 'Unfortunately, parents'}
+  ]},
+
+  {type: 'cover', title: '✅ Complete!', sub: 'Great job learning adverbs and adverbial phrases!'}
+];
+
+const main = document.getElementById('main');
+const dots = document.getElementById('dots');
+let cur = 0;
+
+function render() {
+    main.innerHTML = '';
+    const d = slides[cur];
+    let html = '';
+    
+    if (d.type === 'cover') {
+        html = `<div class="slide cover active"><div class="cover-text"><h1 class="title">${d.title}</h1><p class="subtitle">${d.sub}</p></div></div>`;
+    } else {
+        html = `<div class="slide active"><div class="banner ${d.banner.includes('GRAMMAR') ? 'grammar' : 'vocab'}">${d.banner}</div><h2>${d.title}</h2><p class="inst">${d.inst}</p>`;
+        if (d.content) {
+            html += d.content;
+        }
+        if (d.items) {
+            d.items.forEach((it, i) => {
+                html += `<div class="item"><div>${it.q}</div>`;
+                if (it.a) html += `<input class="input" data-ans="${it.a}">`;
+                html += `</div>`;
+            });
+            if (d.items.some(i => i.a)) html += `<button class="btn" onclick="chk(${cur})">Check</button>`;
+        }
+        html += '</div>';
+    }
+    
+    main.innerHTML = html;
+    document.getElementById('cur').textContent = cur + 1;
+    document.getElementById('home').style.display = cur === 0 ? 'none' : 'block';
+    updateDots();
+}
+
+function chk(n) {
+    const slide = main.querySelector('.slide');
+    slide.querySelectorAll('.input').forEach(inp => {
+        const v = inp.value.trim().toLowerCase();
+        const a = inp.dataset.ans.toLowerCase();
+        inp.classList.remove('empty', 'ok', 'bad');
+        if (!v) inp.classList.add('empty');
+        else inp.classList.add(v === a ? 'ok' : 'bad');
+    });
+}
+
+function updateDots() {
+    dots.innerHTML = '';
+    for (let i = 0; i < slides.length; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === cur ? ' on' : '');
+        d.onclick = () => go(i);
+        dots.appendChild(d);
+    }
+}
+
+function next() { if (cur < slides.length - 1) { cur++; render(); } }
+function prev() { if (cur > 0) { cur--; render(); } }
+function go(n) { cur = n; render(); }
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+});
+
+render();
+    </script>
+</body>
+</html>
