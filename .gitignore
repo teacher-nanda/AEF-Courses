@@ -1,6 +1,6 @@
-# Copyrighted textbook/audio material — kept locally, never pushed
+# Copyrighted textbook material — kept locally, never pushed
 *.pdf
-*.mp3
+# mp3 audio files ARE committed and pushed (needed for lesson playback for students)
 
 # Node dependencies (regenerable, not needed on GitHub)
 node_modules/
