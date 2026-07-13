@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF4 3B — A Really Good Ending?</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
+  .slide {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+    transition:opacity .35s ease; overflow-y:auto; min-height:100vh;
+    display:flex; flex-direction:column; background:#fff;
+  }
+  .slide.active { opacity:1; pointer-events:auto; }
+
+  /* ===== COVER / HW COVER ===== */
+  #s1, #hw-cover {
+    background: linear-gradient(135deg, #1A0F1F 0%, #4A1A3A 55%, #8C2F4A 100%);
+    align-items:center; justify-content:center;
+  }
+  .title-inner { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; }
+  .title-label { text-transform:uppercase; letter-spacing:.18em; font-size:1.1rem; font-weight:500; color:rgba(255,255,255,.65); margin-bottom:10px; }
+  .title-sub { font-size:1.15rem; font-weight:400; color:rgba(255,255,255,.75); margin-bottom:26px; }
+  .title-main { font-size:3.4rem; font-weight:900; color:#fff; line-height:1.1; text-align:center; max-width:900px; }
+  .title-accent { color:#D9A441; }
+  .hw-badge { background:rgba(255,255,255,.1); border-radius:8px; padding:7px 22px; font-size:1rem; letter-spacing:.15em; color:rgba(255,255,255,.85); text-transform:uppercase; font-weight:600; margin-bottom:32px; }
+
+  /* ===== BANNERS ===== */
+  .banner { width:100%; padding:13px 28px; font-size:1.1rem; font-weight:700; letter-spacing:.03em; display:flex; align-items:center; gap:10px; flex-shrink:0; color:#fff; }
+  .banner-leadin    { background:#B5541C; }
+  .banner-vocab     { background:#2F6B4F; }
+  .banner-reading   { background:#6B2A4A; }
+  .banner-listening { background:#0E7A8A; }
+  .banner-speaking  { background:#1E4D8C; }
+  .banner-grammar   { background:#4A1A6A; }
+  .banner-pron      { background:#0E7A8A; }
+  .banner-writing   { background:#8C1E4D; }
+  .banner-review    { background:#2E2A6B; }
+  .banner-hw        { background:#1C2B3A; }
+
+  .slide-main { flex:1; overflow-y:auto; width:100%; display:flex; flex-direction:column; padding-bottom:60px; }
+  .content { padding:24px 48px 20px; flex:1; }
+  h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
+  .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
+  .flow-wrap { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+  .flow-col { display:flex; flex-direction:column; align-items:center; gap:0; }
+  .flow-header { width:100%; text-align:center; font-size:1.3rem; font-weight:800; padding:10px; border:2.5px solid; border-radius:10px; }
+  .flow-yes { color:#1A7A4A; border-color:#1A7A4A; background:#EAF4EC; }
+  .flow-no { color:#8C1E4D; border-color:#8C1E4D; background:#F8E6EE; }
+  .flow-arrow { font-size:1.3rem; color:#888; margin:2px 0; line-height:1; }
+  .flow-box { width:100%; border:1.5px solid #ccc; border-radius:8px; padding:12px 16px; text-align:center; font-size:1.05rem; color:#1C2B3A; background:#fff; }
+
+  /* ===== CARDS / EXERCISE CONTAINERS ===== */
+  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
+  .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .book-placeholder .bp-note { font-weight:400; font-size:1.05rem; color:#9A7A2E; margin-top:6px; }
+
+  .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:10px; }
+  .story-card { background:#F4F8FA; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .story-card img { width:100%; display:block; aspect-ratio:16/9; object-fit:cover; }
+  .story-card .story-title { padding:12px 14px 0; font-weight:800; color:#4A1A6A; font-size:1.25rem; }
+  .story-card .story-text-placeholder { margin:8px 14px 14px; border:2px dashed #C9A227; background:#FBF6E8; border-radius:8px; padding:14px; color:#7A5A1E; font-size:1.05rem; text-align:center; line-height:1.5; }
+  .story-cutoff { display:inline-block; width:14px; height:14px; background:#E8B4A8; border-radius:2px; margin-left:4px; vertical-align:middle; }
+  .story-grid.small .story-title { font-size:1.2rem; font-weight:800; color:#4A1A6A; padding-top:8px !important; }
+  .story-grid.small .ex-row { font-size:1.1rem; line-height:1.6; }
+  .story-grid.small img { aspect-ratio:16/6 !important; }
+
+  .ex-row { font-size:1.06rem; line-height:1.7; margin-bottom:10px; color:#1C2B3A; }
+  .ans-input { border:none; border-bottom:2px solid #4A1A6A; background:transparent; font-size:1.05rem; font-weight:700; width:160px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
+  .ans-input.small { width:110px; }
+  #hwpron2 .ans-input.small { width:132px; }
+  .ans-input.wide { width:100%; margin-top:6px; }
+  textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
+  .ans-input:focus { outline:none; border-bottom-color:#8C1E4D; }
+  .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
+  .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
+  .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
+
+  .two-col { columns:2; column-gap:40px; }
+  .two-col .ex-row { break-inside:avoid; }
+  .two-col .adv-item { break-inside:avoid; }
+  .fixed-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; align-items:start; }
+
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  .btn-check { background:#4A1A6A; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-suggest { background:#0E7A8A; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  .suggest-box { display:none; background:#EAF4F6; border-left:4px solid #0E7A8A; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .suggest-box.show { display:block; }
+  .suggest-box li { margin-bottom:6px; }
+  .suggest-inline { display:none; margin-top:6px; padding:8px 12px; background:#EAF4F6; border-left:3px solid #0E7A8A; border-radius:6px; color:#1C2B3A; font-size:1.05rem; }
+  #glisten1.show .suggest-inline { display:block; }
+
+  /* circle MC */
+  .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#4A1A6A; margin-right:8px; font-size:.9rem; }
+  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt.picked { border-color:#4A1A6A; background:#EDE3F3; font-weight:700; }
+  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .circ-opt.example-x { color:#aaa; text-decoration:line-through; cursor:default; border-color:#ddd; }
+  .stress-word { display:inline-flex; border:1.5px solid #ccc; border-radius:8px; overflow:hidden; }
+  .stress-word .syl { border:none; border-radius:0; margin:0; padding:7px 9px; background:#fff; border-right:1px solid #ddd; font-size:1.05rem; }
+  .stress-word .syl:last-child { border-right:none; }
+  .stress-word .syl.picked { background:#EDE3F3; border-color:#4A1A6A; }
+  .stress-word .syl.correct { background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .stress-word .syl.wrong { background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .example-badge { background:#2E7D32;color:#fff;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:800; margin-right:8px; font-size:.9rem; }
+  .example-label { background:#2E7D32; color:#fff; display:inline-block; padding:5px 16px; border-radius:14px; font-weight:800; font-size:.95rem; letter-spacing:.03em; text-transform:uppercase; }
+
+  /* checkbox */
+  .chk-item { display:block; padding:9px 14px; border:1.5px solid #ccc; border-radius:8px; margin-bottom:8px; cursor:pointer; font-size:1.06rem; color:#1C2B3A; }
+  .chk-item.picked { border-color:#4A1A6A; background:#EDE3F3; }
+  .chk-item.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:700; }
+  .chk-item.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:700; }
+
+  /* classify */
+  .classify-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .classify-chip { border:1.5px solid #4A1A6A; color:#4A1A6A; border-radius:20px; padding:6px 16px; cursor:pointer; font-weight:700; font-size:1.05rem; background:#fff; font-family:inherit; }
+  .classify-chip.selected { background:#4A1A6A; color:#fff; }
+  .classify-chip.used { opacity:.35; cursor:default; border-style:dashed; }
+  .classify-chip.inline { border:none; border-radius:4px; padding:1px 5px; font-size:inherit; font-weight:800; background:#FDF3D6; color:#8A6D1E; }
+  .classify-chip.inline.selected { background:#4A1A6A; color:#fff; }
+  .classify-chip.inline.used { background:transparent; color:inherit; font-weight:800; opacity:.55; border:none; text-decoration:underline dotted; }
+  .classify-cols { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .classify-col { background:#fff; border:2px solid #ddd; border-radius:10px; padding:14px; min-height:70px; cursor:pointer; }
+  .classify-col h4 { margin:0 0 8px; font-size:1.1rem; color:#4A1A6A; }
+  .classify-col .placed { display:inline-block; background:#EDE3F3; border-radius:14px; padding:3px 10px; margin:3px; font-size:1.05rem; font-weight:700; }
+  .classify-col .placed.correct { background:#E3F5EA; color:#1A7A4A; }
+  .classify-col .placed.wrong { background:#FBEAE6; color:#C4614A; }
+
+  /* match colour pair */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .match-item { padding:10px 14px; border-radius:8px; border:1.5px solid #ccc; margin-bottom:10px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; -webkit-user-drag:none; user-select:none; -webkit-user-select:none; position:relative; transition:border-color .15s, box-shadow .15s; }
+  .match-item img { -webkit-user-drag:none; user-select:none; pointer-events:none; }
+  .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
+  .match-item.c0::after { color:#7B2D8E; }
+  .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
+  .match-item.c1::after { color:#C9822E; }
+  .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
+  .match-item.c2::after { color:#2A5A9E; }
+  .match-item.c3 { border-color:#0E7A8A; border-width:3px; background:#E3F2F4; box-shadow:0 0 0 2px rgba(14,122,138,.25); }
+  .match-item.c3::after { color:#0E7A8A; }
+  .match-item.c4 { border-color:#B23A6B; border-width:3px; background:#F8E6EE; box-shadow:0 0 0 2px rgba(178,58,107,.25); }
+  .match-item.c4::after { color:#B23A6B; }
+  .match-item.c5 { border-color:#8C7A1E; border-width:3px; background:#F5F1DD; box-shadow:0 0 0 2px rgba(140,122,30,.25); }
+  .match-item.c5::after { color:#8C7A1E; }
+  .match-item.c6 { border-color:#4A5A8C; border-width:3px; background:#E6E9F5; box-shadow:0 0 0 2px rgba(74,90,140,.25); }
+  .match-item.c6::after { color:#4A5A8C; }
+  .match-item.picking { border-color:#4A1A6A; border-width:3px; border-style:dashed; box-shadow:0 0 0 2px rgba(74,26,106,.2); }
+  .match-item.correctpair { outline:3px solid #1A7A4A; background:#1A7A4A !important; color:#fff; }
+  .match-item.correctpair .story-title, .match-item.correctpair .ex-row { color:#fff !important; }
+  .match-item.wrongpair { outline:3px solid #C4614A; background:#C4614A !important; color:#fff; }
+  .match-item.wrongpair .story-title, .match-item.wrongpair .ex-row { color:#fff !important; }
+  .match-sq { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; min-width:26px; padding:0; margin:0; border-radius:6px; font-size:.85rem; font-weight:800; vertical-align:middle; }
+  .adv-mark { cursor:pointer; padding:1px 4px; border-radius:3px; }
+  .adv-mark:hover { background:#F4E9EE; }
+  .adv-mark.used { text-decoration:line-through; opacity:.45; }
+  .adv-mark.given { cursor:default; }
+  .adv-mark.given:hover { background:none; }
+
+  /* word bank tiles */
+  .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .wb-tile { border:1.5px solid #8C1E4D; color:#8C1E4D; background:#fff; border-radius:18px; padding:6px 16px; cursor:pointer; font-weight:700; font-family:inherit; font-size:1.05rem; }
+  .wb-tile.used { opacity:.35; border-style:dashed; cursor:default; }
+  .wb-tile.selected { background:#8C1E4D; color:#fff; }
+  .wb-blank { display:inline-block; min-width:90px; border-bottom:2px solid #8C1E4D; padding:2px 8px; margin:0 3px; cursor:pointer; font-weight:700; color:#8C1E4D; text-align:center; }
+  .wb-blank.filled { border-style:solid; }
+  .wb-blank.correct { color:#1A7A4A; border-color:#1A7A4A; }
+  .wb-blank.wrong { color:#C4614A; border-color:#C4614A; }
+  .wb-blank.slot { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; min-width:20px; padding:0; margin:0 4px; border:2px solid #8C1E4D; border-radius:4px; font-size:0; vertical-align:middle; background:#fff; }
+  .wb-blank.slot.filled { width:auto; height:auto; min-width:26px; padding:3px 12px; font-size:1.05rem; border-radius:6px; }
+  .wb-blank.slot.correct { background:#1A7A4A; border-color:#1A7A4A; color:#fff; font-weight:800; }
+  .wb-blank.slot.wrong { background:#C4614A; border-color:#C4614A; color:#fff; font-weight:800; }
+
+  /* click-word-to-identify + click-square-to-place (adverb position ID) */
+  .adv-item { margin-bottom:22px; }
+  .adv-orig { font-size:1.06rem; line-height:1.9; color:#1C2B3A; margin-bottom:8px; }
+  .adv-word { cursor:pointer; padding:1px 5px; border-radius:3px; }
+  .adv-word:hover { background:#F4E9EE; }
+  .adv-word.correct { background:#1A7A4A; color:#fff; font-weight:700; }
+  .adv-word.wrong { background:#C4614A; color:#fff; }
+  .adv-hint { font-size:1.05rem; color:#999; font-style:italic; }
+  .adv-item.identified .adv-hint { display:none; }
+  .adv-arrow { color:#8C1E4D; font-weight:700; margin-right:4px; }
+  .adv-correct-msg { display:none; font-size:1.05rem; color:#1A7A4A; font-weight:700; }
+  .adv-item.identified.ok-item .adv-correct-msg { display:block; }
+  .adv-rewrite { display:none; margin-top:6px; }
+  .adv-item.identified.fix-item .adv-rewrite { display:block; }
+  .adv-rewrite label { display:block; font-size:1.05rem; color:#6B4A78; font-weight:700; margin-bottom:4px; }
+
+  /* dice */
+  .dice-box { text-align:center; background:#F4F8FA; border-radius:14px; padding:30px; }
+  .die-face { font-size:3.5rem; margin-bottom:16px; }
+  .dice-prompt { font-size:1.15rem; font-weight:700; color:#1C2B3A; margin-top:16px; min-height:30px; }
+  .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
+  .fact-card { cursor:pointer; border:2px solid #C4507A; border-radius:12px; padding:16px; text-align:center; background:#fff; min-height:70px; display:flex; align-items:center; justify-content:center; }
+  .fact-front { font-weight:700; color:#C4507A; font-size:1.05rem; }
+  .fact-back { display:none; font-size:1.05rem; color:#1C2B3A; font-weight:600; }
+  .fact-card.flipped { background:#FBEAF0; }
+  .fact-card.flipped .fact-front { display:none; }
+  .fact-card.flipped .fact-back { display:block; }
+
+  /* audio */
+  .audio-box { background:#f0f4f8; border-radius:999px; padding:10px 18px; display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .audio-box audio { width:100%; }
+
+  .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
+
+  /* ===== MPF grammar cards (Meaning / Form) ===== */
+  .mpf-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
+  .mpf-chip { display:inline-flex; align-items:center; gap:7px; padding:8px 18px; border-radius:20px; font-weight:800; font-size:1.05rem; color:#fff; }
+  .mpf-chip.manner { background:#C9822E; }
+  .mpf-chip.frequency { background:#0E7A8A; }
+  .mpf-chip.timeplace { background:#2A5A9E; }
+  .mpf-chip.degree { background:#7B2D8E; }
+  .mpf-chip.comment { background:#C4507A; }
+
+  .mpf-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+  .mpf-grid.two { grid-template-columns:repeat(2,1fr); }
+  .mpf-card { border-radius:12px; padding:16px 18px; border-left:6px solid #ccc; background:#F4F8FA; }
+  .mpf-card.manner { border-left-color:#C9822E; background:#FBEFE0; }
+  .mpf-card.frequency { border-left-color:#0E7A8A; background:#E3F2F4; }
+  .mpf-card.timeplace { border-left-color:#2A5A9E; background:#E3EBFA; }
+  .mpf-card.degree { border-left-color:#7B2D8E; background:#F3E6F7; }
+  .mpf-card.comment { border-left-color:#C4507A; background:#FBE6ED; }
+  .mpf-card h3 { margin:0 0 8px; font-size:1.08rem; font-weight:800; color:#1C2B3A; display:flex; align-items:center; gap:8px; }
+  .mpf-meaning { font-size:1.05rem; color:#1C2B3A; margin:0 0 10px; line-height:1.55; }
+  .mpf-form { font-size:1.05rem; font-weight:700; color:#1C2B3A; margin:0 0 8px; line-height:1.55; }
+  .mpf-examples { font-size:1.05rem; line-height:1.8; color:#1C2B3A; margin:0; padding-left:0; list-style:none; }
+  .mpf-card .hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; }
+  .mpf-card.manner .hl { background:#C9822E; }
+  .mpf-card.frequency .hl { background:#0E7A8A; }
+  .mpf-card.timeplace .hl { background:#2A5A9E; }
+  .mpf-card.degree .hl { background:#7B2D8E; }
+  .mpf-card.comment .hl { background:#C4507A; }
+  .mpf-sub { font-size:1.05rem; color:#1C2B3A; margin-top:10px; padding-top:10px; border-top:1px dashed rgba(0,0,0,.15); line-height:1.6; }
+  .mpf-emphasis { font-size:1.05rem; font-style:italic; color:#4A1A6A; margin-top:8px; }
+  .mpf-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .mpf-note b { color:#5A4212; }
+
+  /* ===== NAV / NOTES / HOME ===== */
+  #notesBtn { position:fixed; top:14px; right:22px; z-index:1000; background:rgba(10,40,54,.88); color:#fff; border:none; padding:9px 20px; border-radius:22px; cursor:pointer; font-size:.92rem; font-weight:600; letter-spacing:.02em; transition:background .2s; backdrop-filter:blur(4px); }
+  #notesBtn:hover { background:rgba(10,40,54,1); }
+  #homeBtn { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:1000; display:none; background:rgba(10,40,54,.88); color:#fff; border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem; align-items:center; justify-content:center; transition:background .2s; backdrop-filter:blur(4px); }
+  #homeBtn:hover { background:rgba(20,96,122,.95); }
+  #notesPanel { position:fixed; top:54px; right:22px; z-index:999; width:360px; max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .25s ease; opacity:0; border-radius:14px; }
+  #notesPanel.open { max-height:320px; opacity:1; }
+  #notesPanel.cover { left:50%; right:auto; top:56px; transform:translateX(-50%); width:min(760px,94vw); max-height:calc(100vh - 110px) !important; display:flex; flex-direction:column; }
+  #notesPanel.cover #notesTA { min-height:calc(100vh - 210px) !important; max-height:calc(100vh - 210px) !important; overflow-y:auto; }
+  #notesToolbar { display:flex; gap:5px; padding:6px 10px; background:rgba(10,40,54,.7); border-radius:10px 10px 0 0; align-items:center; flex-wrap:wrap; }
+  #notesToolbar button { background:rgba(255,255,255,.12); border:none; border-radius:5px; color:#fff; font-size:.85rem; padding:3px 9px; cursor:pointer; font-family:inherit; transition:background .15s; }
+  #notesToolbar button:hover { background:rgba(255,255,255,.25); }
+  #notesTA { width:100%; min-height:220px; max-height:260px; padding:14px; border:none; border-radius:0 0 14px 14px; outline:none; font-size:1rem; line-height:1.55; background:rgba(10,40,54,.92); color:#fff; font-family:inherit; backdrop-filter:blur(6px); box-sizing:border-box; overflow-y:auto; }
+  #notesTA:empty::before { content:attr(data-placeholder); color:rgba(255,255,255,.4); pointer-events:none; }
+  #notesTA [style*="background-color"] { color:#1a1a1a !important; }
+  #nav { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(10,40,54,.96); z-index:500; display:flex; align-items:center; justify-content:center; gap:14px; }
+  #nav button { background:rgba(255,255,255,.12); color:#fff; border:none; border-radius:7px; padding:7px 16px; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #dots { display:flex; gap:5px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; }
+  .dot.active { background:#D9A441; }
+  #counter { color:#fff; font-size:.9rem; min-width:54px; text-align:center; }
+
+  /* print */
+  .slide-notes-print { display:none; }
+  .lesson-link-print { display:none; }
+  @media print {
+    @page { margin:1.2cm; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { height:auto !important; overflow:visible !important; background:#fff !important; display:block !important; }
+    #deck { overflow:visible !important; height:auto !important; display:block !important; position:static !important; }
+    #notesBtn, #notesPanel, #nav, #homeBtn { display:none !important; }
+    body.print-all .slide { display:flex !important; flex-direction:column !important; position:relative !important; inset:auto !important; opacity:1 !important; padding:16px 24px !important; page-break-after:always; break-after:page; min-height:0 !important; height:auto !important; }
+    .slide * { flex:none !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+    .slide-main, .content { overflow:visible !important; }
+    img { max-height:240px !important; width:auto !important; max-width:100% !important; object-fit:contain !important; }
+    body.print-all .slide::before { content:"AEF4 3B \2014  A Really Good Ending?"; display:block !important; font-size:10px; color:#999; font-family:'Segoe UI', Arial, sans-serif; padding-bottom:5px; border-bottom:1px solid #ddd; margin-bottom:8px; }
+    body.print-all #s1::before { display:none !important; }
+    .lesson-link-print { display:block !important; padding:28px 32px; margin-bottom:20px; background:linear-gradient(135deg, #1A0F1F 0%, #4A1A3A 55%, #8C2F4A 100%); border-radius:12px; text-align:center; font-family:'Segoe UI', Arial, sans-serif; }
+    .lesson-link-print .lp-title { display:block; font-size:30px; font-weight:900; color:#fff; margin-bottom:10px; letter-spacing:.01em; line-height:1.2; }
+    .lesson-link-print .lp-sub { display:block; font-size:20px; color:rgba(255,255,255,.88); font-weight:500; }
+    .lesson-link-print a { color:#D9A441; font-weight:800; text-decoration:underline; font-size:20px; }
+    .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
+    .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
+  }
+</style>
+</head>
+<body>
+<button id="homeBtn" onclick="goTo(0)">🏠</button>
+<button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
+<div id="notesPanel">
+  <div id="notesToolbar">
+    <button onclick="notesFormat('bold')" title="Bold"><b>B</b></button>
+    <button onclick="notesFormat('underline')" title="Underline"><u>U</u></button>
+    <span style="display:flex;gap:3px;align-items:center;margin-left:6px;padding-left:6px;border-left:1px solid rgba(255,255,255,.2)">
+      <button onclick="notesHilite('#FFE600')" title="Yellow" style="background:#FFE600;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#90EE90')" title="Green"  style="background:#90EE90;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#FFB3C6')" title="Pink"   style="background:#FFB3C6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#ADD8E6')" title="Blue"   style="background:#ADD8E6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.78rem;padding:2px 7px;color:#ff9999;margin-left:2px;background:rgba(255,255,255,.1);border:none;border-radius:4px;cursor:pointer;">✕</button>
+    </span>
+  </div>
+  <div id="notesTA" contenteditable="true" data-placeholder="Your notes for this slide…" spellcheck="false" oninput="saveNotes()"></div>
+</div>
+
+<div id="deck">
+
+<!-- ============ COVER ============ -->
+<div class="slide active" id="s1">
+  <div class="title-inner">
+    <div class="title-label">Conversational English</div>
+    <div class="title-sub">with teacher Nanda</div>
+    <div class="title-main">A Really Good <span class="title-accent">Ending?</span></div>
+    <a href="../index.html" title="All AEF Courses" style="position:absolute;bottom:70px;left:32px;font-size:1.7rem;line-height:1;text-decoration:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));">🏠</a>
+    <div style="position:absolute;bottom:70px;right:32px;">
+      <button onclick="goToId('hw-cover')" style="background:#1C2B3A;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.03em;">📝 Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LEAD-IN ============ -->
+<div class="slide" id="s-leadin">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>Stories with a twist</h2>
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:start;">
+      <div>
+        <p class="discuss-label">💬 Share your thoughts</p>
+        <ul class="discuss-list">
+          <li>What's your favorite kind of story ending — happy, sad, or surprising?</li>
+          <li>Can you think of a movie or book with a twist ending that shocked you?</li>
+          <li>Do you prefer stories that are short and to the point, or long and detailed?</li>
+        </ul>
+        <div class="dice-box" id="dice-story">
+          <div class="die-face" id="dice-story-face">⚀</div>
+          <button class="btn-check" onclick="rollDie('dice-story')">🎲 Roll for a Prompt</button>
+          <p class="dice-prompt" id="dice-story-prompt"></p>
+        </div>
+      </div>
+      <img src="maegan-martin-6nsGg3Iw37c-unsplash.jpg" alt="Everyone has a story" style="width:100%;max-height:320px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.12);object-fit:cover;">
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MEANING ============ -->
+<div class="slide" id="s-gram-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>fiftywordstories.com</h2>
+    <p class="inst-light">fiftywordstories.com is a website where people from all over the world contribute stories written in exactly 50 words.</p>
+    <p class="instruction">Read these four 50-word stories and guess how each one might end.</p>
+    <div class="story-grid">
+      <div class="story-card">
+        <img src="Gemini_Generated_Image_i62v1bi62v1bi62v.png" alt="Talking Too Much">
+        <div class="story-title">1 &nbsp;Talking Too Much</div>
+        <div class="ex-row" style="padding:0 14px 14px;margin:8px 0 0;">Excitedly, she showed him photo after photo on her phone. He nodded slowly, pretending to listen. She talked constantly about her cat's birthday party. Thirty minutes later, the train stopped. He stood up quickly. "Actually," he said, "this isn't my station."<span class="story-cutoff"></span></div>
+      </div>
+      <div class="story-card">
+        <img src="Gemini_Generated_Image_n2jre1n2jre1n2jr.png" alt="The Big Surprise">
+        <div class="story-title">2 &nbsp;The Big Surprise</div>
+        <div class="ex-row" style="padding:0 14px 14px;margin:8px 0 0;">She'd promised them a surprise. The teenagers thundered down the stairs, shouting excitedly. Their mother waited calmly by the counter. "Well?" they asked breathlessly. She smiled and pointed outside.<span class="story-cutoff"></span></div>
+      </div>
+      <div class="story-card">
+        <img src="Gemini_Generated_Image_so5x8vso5x8vso5x.png" alt="The Wrong Question">
+        <div class="story-title">3 &nbsp;The Wrong Question</div>
+        <div class="ex-row" style="padding:0 14px 14px;margin:8px 0 0;">He stared blankly at the calendar. "Where's Mommy today?" his daughter asked, spilling cereal everywhere. "She's traveling for work, sweetie." "When's she coming back?" "Soon, hopefully."<span class="story-cutoff"></span></div>
+      </div>
+      <div class="story-card">
+        <img src="Gemini_Generated_Image_3de37d3de37d3de3.png" alt="Wrong Car">
+        <div class="story-title">4 &nbsp;Wrong Car</div>
+        <div class="ex-row" style="padding:0 14px 14px;margin:8px 0 0;">Standing over the young man, she snapped, "You're in my seat, obviously." He apologized nervously and stood up. She sat down triumphantly, smoothing her jacket. Moments later, the conductor leaned in and said quietly,<span class="story-cutoff"></span></div>
+      </div>
+    </div>
+    <div class="ccq-box card">
+      <p class="ccq-label" style="font-weight:700;margin:0 0 10px;">💭 Talk it through</p>
+      <ul class="discuss-list" style="margin:0;">
+        <li>What do you think happens at the end of each story?</li>
+        <li>Which story are you most curious about?</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MATCH ENDINGS ============ -->
+<div class="slide" id="s-gram-match">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Match the endings</h2>
+    <p class="instruction">Read the four possible endings below and match each one to its story. Which ending do you think is best?</p>
+    <div class="match-wrap" id="gmatch1" style="grid-template-columns:1.6fr 1fr;align-items:start;">
+      <div class="story-grid small" style="grid-template-columns:1fr 1fr;gap:12px;max-height:520px;overflow-y:auto;padding-right:8px;align-content:start;">
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)" style="padding:0;overflow:hidden;">
+          <img src="Gemini_Generated_Image_i62v1bi62v1bi62v.png" alt="Talking Too Much" draggable="false" style="width:100%;aspect-ratio:16/6;object-fit:cover;display:block;">
+          <div style="padding:10px 14px;">
+            <div class="story-title" style="padding:0;">1 &nbsp;Talking Too Much</div>
+            <div class="ex-row" style="margin:6px 0 0;">Excitedly, she showed him photo after photo on her phone. He nodded slowly, pretending to listen. She talked constantly about her cat's birthday party. Thirty minutes later, the train stopped. He stood up quickly. "Actually," he said, "this isn't my station."</div>
+          </div>
+        </div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)" style="padding:0;overflow:hidden;">
+          <img src="Gemini_Generated_Image_n2jre1n2jre1n2jr.png" alt="The Big Surprise" draggable="false" style="width:100%;aspect-ratio:16/6;object-fit:cover;display:block;">
+          <div style="padding:10px 14px;">
+            <div class="story-title" style="padding:0;">2 &nbsp;The Big Surprise</div>
+            <div class="ex-row" style="margin:6px 0 0;">She'd promised them a surprise. The teenagers thundered down the stairs, shouting excitedly. Their mother waited calmly by the counter. "Well?" they asked breathlessly. She smiled and pointed outside.</div>
+          </div>
+        </div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)" style="padding:0;overflow:hidden;">
+          <img src="Gemini_Generated_Image_so5x8vso5x8vso5x.png" alt="The Wrong Question" draggable="false" style="width:100%;aspect-ratio:16/6;object-fit:cover;display:block;">
+          <div style="padding:10px 14px;">
+            <div class="story-title" style="padding:0;">3 &nbsp;The Wrong Question</div>
+            <div class="ex-row" style="margin:6px 0 0;">He stared blankly at the calendar. "Where's Mommy today?" his daughter asked, spilling cereal everywhere. "She's traveling for work, sweetie." "When's she coming back?" "Soon, hopefully."</div>
+          </div>
+        </div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)" style="padding:0;overflow:hidden;">
+          <img src="Gemini_Generated_Image_3de37d3de37d3de3.png" alt="Wrong Car" draggable="false" style="width:100%;aspect-ratio:16/6;object-fit:cover;display:block;">
+          <div style="padding:10px 14px;">
+            <div class="story-title" style="padding:0;">4 &nbsp;Wrong Car</div>
+            <div class="ex-row" style="margin:6px 0 0;">Standing over the young man, she snapped, "You're in my seat, obviously." He apologized nervously and stood up. She sat down triumphantly, smoothing her jacket. Moments later, the conductor leaned in and said quietly,</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)">"Actually, he had no idea — he'd forgotten to ask before she'd angrily slammed the door that morning."</div>
+        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)">"He'd missed it three stops ago."</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)">"Your seat is actually in the next car — she'd been sitting in First Class the whole time."</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)">"A new puppy sat there, wagging its tail happily — nobody mentioned the ruined carpet upstairs."</div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkMatchSlide('gmatch1')">Check Answers</button>
+          <button class="btn-reset" onclick="resetMatchSlide('gmatch1')">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: SORT ADVERBS ============ -->
+<div class="slide" id="s-gram-sort">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Types of adverbs</h2>
+    <p class="instruction">Look at the highlighted adverbs and adverbial phrases in the stories. Click a highlighted word, then click the category it belongs to.</p>
+    <div class="card" id="gsort1-bank" style="margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <div style="font-size:1.05rem;line-height:1.6;color:#1C2B3A;">
+          <p style="font-weight:800;margin:0 0 5px;font-size:1.1rem;color:#4A1A6A;">1 Talking <span class="classify-chip inline" data-ans="degree" onclick="classifyPick(this)">Too Much</span></p>
+          <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">Excitedly</span>, she showed him photo after photo on her phone. He nodded slowly, pretending to listen. She talked <span class="classify-chip inline" data-ans="frequency" onclick="classifyPick(this)">constantly</span> about her cat's birthday party. <span class="classify-chip inline" data-ans="time" onclick="classifyPick(this)">Thirty minutes later</span>, the train stopped. He stood up <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">quickly</span>. "Actually," he said, "this isn't my station."
+        </div>
+        <div style="font-size:1.05rem;line-height:1.6;color:#1C2B3A;">
+          <p style="font-weight:800;margin:0 0 5px;font-size:1.1rem;color:#4A1A6A;">2 The Big Surprise</p>
+          She'd promised them a surprise. The teenagers thundered down the stairs, shouting excitedly. Their mother waited <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">calmly</span> by the counter. "Well?" they asked <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">breathlessly</span>. She smiled and pointed outside.
+        </div>
+        <div style="font-size:1.05rem;line-height:1.6;color:#1C2B3A;">
+          <p style="font-weight:800;margin:0 0 5px;font-size:1.1rem;color:#4A1A6A;">3 The Wrong Question</p>
+          He stared <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">blankly</span> at the calendar. "Where's Mommy <span class="classify-chip inline" data-ans="time" onclick="classifyPick(this)">today</span>?" his daughter asked, spilling cereal everywhere. "She's traveling for work, sweetie." "When's she coming back?" "<span class="classify-chip inline" data-ans="time" onclick="classifyPick(this)">Soon</span>, hopefully."
+        </div>
+        <div style="font-size:1.05rem;line-height:1.6;color:#1C2B3A;">
+          <p style="font-weight:800;margin:0 0 5px;font-size:1.1rem;color:#4A1A6A;">4 Wrong Car</p>
+          Standing over the young man, she snapped, "You're in my seat, <span class="classify-chip inline" data-ans="comment" onclick="classifyPick(this)">obviously</span>." He apologized <span class="classify-chip inline" data-ans="manner" onclick="classifyPick(this)">nervously</span> and stood up. She sat down triumphantly, smoothing her jacket. <span class="classify-chip inline" data-ans="time" onclick="classifyPick(this)">Moments later</span>, the conductor leaned in and said quietly,
+        </div>
+      </div>
+    </div>
+    <div class="classify-cols" id="gsort1-cols" style="grid-template-columns:repeat(5,1fr);">
+      <div class="classify-col" data-target="time" onclick="classifyTarget(this)"><h4>Time</h4><p style="margin:0 0 6px;font-size:1.05rem;font-weight:400;color:#5A5A5A;line-height:1.45;">when things happen<br><em>e.g. immediately</em></p></div>
+      <div class="classify-col" data-target="manner" onclick="classifyTarget(this)"><h4>Manner</h4><p style="margin:0 0 6px;font-size:1.05rem;font-weight:400;color:#5A5A5A;line-height:1.45;">how you do something<br><em>e.g. slowly</em></p></div>
+      <div class="classify-col" data-target="degree" onclick="classifyTarget(this)"><h4>Degree</h4><p style="margin:0 0 6px;font-size:1.05rem;font-weight:400;color:#5A5A5A;line-height:1.45;">modifies an adjective<br><em>e.g. very</em></p></div>
+      <div class="classify-col" data-target="comment" onclick="classifyTarget(this)"><h4>Comment</h4><p style="margin:0 0 6px;font-size:1.05rem;font-weight:400;color:#5A5A5A;line-height:1.45;">gives an opinion<br><em>e.g. luckily</em></p></div>
+      <div class="classify-col" data-target="frequency" onclick="classifyTarget(this)"><h4>Frequency</h4><p style="margin:0 0 6px;font-size:1.05rem;font-weight:400;color:#5A5A5A;line-height:1.45;">how often things happen<br><em>e.g. rarely</em></p></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('gsort1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('gsort1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: ADVERB PLACEMENT ============ -->
+<div class="slide" id="s-gram-place">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Where does the adverb go?</h2>
+    <p class="instruction">Click the adverb, then click the square where it should go in the sentence.</p>
+    <div class="fixed-two-col" id="gplace1">
+      <div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">1. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> He <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> speaks <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> French and Spanish <span class="wb-blank slot" data-ans="fluently" onclick="wbPlace(this)">______</span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="fluently" onclick="wbPick(this)">fluently</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">2. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> I <span class="wb-blank slot" data-ans="hardly ever" onclick="wbPlace(this)">______</span> use <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> public transportation <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="hardly ever" onclick="wbPick(this)">hardly ever</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">3. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> I thought I'd lost my phone, but <span class="wb-blank slot" data-ans="fortunately" onclick="wbPlace(this)">______</span> it <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> was in my bag <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="fortunately" onclick="wbPick(this)">fortunately</span></div>
+      </div>
+      </div>
+      <div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">4. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> It's <span class="wb-blank slot" data-ans="extremely" onclick="wbPlace(this)">______</span> important that you arrive <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> on time <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="extremely" onclick="wbPick(this)">extremely</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">5. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> When I find out, <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> I'll <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)">______</span> tell you <span class="wb-blank slot" data-ans="immediately" onclick="wbPlace(this)">______</span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="immediately" onclick="wbPick(this)">immediately</span></div>
+      </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('gplace1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('gplace1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MPF — MEANING ============ -->
+<div class="slide" id="s-gram-mpf-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>What do adverbs tell us?</h2>
+    <p class="inst-light">Adverbs and adverbial phrases can be one word (<em>often</em>) or several words (<em>once a week</em>). Different types tell us different things about a sentence.</p>
+    <div class="mpf-legend">
+      <span class="mpf-chip manner">🚶 Manner</span>
+      <span class="mpf-chip frequency">🔁 Frequency</span>
+      <span class="mpf-chip timeplace">🕐 Time &amp; Place</span>
+      <span class="mpf-chip degree">📊 Degree</span>
+      <span class="mpf-chip comment">💬 Comment</span>
+    </div>
+    <div class="mpf-grid">
+      <div class="mpf-card manner">
+        <h3>🚶 Manner</h3>
+        <p class="mpf-meaning"><b>HOW</b> something happens.</p>
+        <p class="mpf-examples">She walked <span class="hl">quickly</span>.</p>
+      </div>
+      <div class="mpf-card frequency">
+        <h3>🔁 Frequency</h3>
+        <p class="mpf-meaning"><b>HOW OFTEN</b> something happens.</p>
+        <p class="mpf-examples">I <span class="hl">rarely</span> cook.</p>
+      </div>
+      <div class="mpf-card timeplace">
+        <h3>🕐 Time &amp; Place</h3>
+        <p class="mpf-meaning"><b>WHEN</b> or <b>WHERE</b> something happens.</p>
+        <p class="mpf-examples">We arrived <span class="hl">yesterday</span>.</p>
+      </div>
+      <div class="mpf-card degree">
+        <h3>📊 Degree</h3>
+        <p class="mpf-meaning"><b>HOW MUCH</b>, or to what extent.</p>
+        <p class="mpf-examples">It's <span class="hl">extremely</span> cold.</p>
+      </div>
+      <div class="mpf-card comment">
+        <h3>💬 Comment</h3>
+        <p class="mpf-meaning">The speaker's <b>OPINION</b> about the whole sentence.</p>
+        <p class="mpf-examples"><span class="hl">Luckily</span>, nobody was hurt.</p>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MPF — FORM (Manner / Frequency / Time & Place) ============ -->
+<div class="slide" id="s-gram-mpf-form1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Where do they go?</h2>
+    <p class="inst-light">Now look at where each type is normally positioned in a sentence.</p>
+    <div class="mpf-grid">
+      <div class="mpf-card manner">
+        <h3>🚶 Manner</h3>
+        <p class="mpf-form">Usually right after the verb / verb phrase.</p>
+        <p class="mpf-examples">
+          He answered the question <span class="hl">carefully</span>.<br>
+          She sings <span class="hl">beautifully</span>.
+        </p>
+        <p class="mpf-sub">Passive verbs: mid-position — after the auxiliary: The cake was <span class="hl">carefully</span> decorated.</p>
+      </div>
+      <div class="mpf-card frequency">
+        <h3>🔁 Frequency</h3>
+        <p class="mpf-form">Before the main verb, but after the verb <em>to be</em>.</p>
+        <p class="mpf-examples">
+          I <span class="hl">usually</span> walk to work.<br>
+          He's <span class="hl">never</span> late.
+        </p>
+        <p class="mpf-emphasis">💡 sometimes/usually/normally can also start the sentence: <span class="hl">Usually</span>, I don't mind the rain.</p>
+      </div>
+      <div class="mpf-card timeplace">
+        <h3>🕐 Time &amp; Place</h3>
+        <p class="mpf-form">Usually at the end of the sentence. If both appear, place comes before time.</p>
+        <p class="mpf-examples">They'll meet us <span class="hl">at the station</span> <span class="hl">tomorrow</span>.</p>
+        <p class="mpf-emphasis">💡 Time adverbs can also start the sentence: <span class="hl">Tomorrow</span>, we start our new jobs!</p>
+      </div>
+    </div>
+    <div class="mpf-grid two">
+      <div class="mpf-card degree">
+        <h3>📊 Degree</h3>
+        <p class="mpf-form">Before the adjective or adverb it modifies.</p>
+        <p class="mpf-examples">
+          I'm <span class="hl">completely</span> exhausted.<br>
+          That's <span class="hl">incredibly</span> kind of you.
+        </p>
+        <p class="mpf-sub"><b>nearly / almost</b> go before the verb: I <span class="hl">nearly</span> missed the bus.<br><b>a lot / much</b> go after the verb: He travels <span class="hl">a lot</span>.<br><b>a little / a little bit</b> can go with an adjective or a verb: We're <span class="hl">a little</span> tired.</p>
+      </div>
+      <div class="mpf-card comment">
+        <h3>💬 Comment</h3>
+        <p class="mpf-form">Usually at the beginning of the sentence or clause.</p>
+        <p class="mpf-examples">
+          <span class="hl">Fortunately</span>, the flight wasn't delayed.<br>
+          <span class="hl">Apparently</span>, the shop has closed down.
+        </p>
+        <p class="mpf-sub">Other comment adverbs: luckily, basically, clearly, obviously, eventually…</p>
+      </div>
+    </div>
+    <div class="mpf-note"><b>📌 Other adverbs:</b> Most other short adverbs (<em>just, even, probably, actually…</em>) go in mid-position — before the main verb. I <b>just</b> need five more minutes. She'll <b>probably</b> call later.</div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: EX A (fix word order) ============ -->
+<div class="slide" id="s-gram-ex1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Fix the adverb position</h2>
+    <p class="instruction">Click the adverb(s) or adverb phrase(s) in each sentence. If the word order is wrong, rewrite the sentence correctly below.</p>
+    <div class="card" style="text-align:center;">
+      <span class="example-label">Example</span>
+      <div style="margin-top:10px;font-size:1.06rem;line-height:1.8;color:#1C2B3A;">
+        We're going to be <b style="background:#1A7A4A;color:#fff;border-radius:3px;padding:1px 6px;">unfortunately</b> late. ✗
+        <span class="adv-arrow">→</span>
+        <span style="color:#1A5030;font-weight:700;">Unfortunately, we're going to be late.</span>
+      </div>
+    </div>
+    <div class="fixed-two-col" id="gex1">
+      <div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">1. <span class="adv-word" data-status="none" onclick="advWordPick(this)">She</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">liked</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">a lot</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">the</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">present.</span></div>
+        <div class="adv-hint">👆 Click the adverb phrase above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="She liked the present a lot.">
+        </div>
+      </div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">2. <span class="adv-word" data-status="none" onclick="advWordPick(this)">Mark</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">came</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">last night</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">very late</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">home.</span></div>
+        <div class="adv-hint">👆 Click both adverb phrases above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="Mark came home very late last night.">
+        </div>
+      </div>
+      <div class="adv-item ok-item">
+        <div class="adv-orig">3. <span class="adv-word" data-status="none" onclick="advWordPick(this)">The</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">ambulance</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">arrived</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">at</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">the</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">scene</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">of</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">the</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">accident</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">after a few minutes.</span></div>
+        <div class="adv-hint">👆 Click the adverb phrase above</div>
+        <div class="adv-correct-msg">✓ Already in the correct position!</div>
+      </div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">4. <span class="adv-word" data-status="none" onclick="advWordPick(this)">A</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">young</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">man</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">was</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">hurt</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">badly</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">and</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">was</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">taken</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">to</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">the</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">hospital.</span></div>
+        <div class="adv-hint">👆 Click the adverb above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="A young man was badly hurt and was taken to the hospital.">
+        </div>
+      </div>
+      <div class="adv-item ok-item">
+        <div class="adv-orig">5. <span class="adv-word" data-status="none" onclick="advWordPick(this)">I</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">was</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">incredibly</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">tired</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">last</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">night.</span></div>
+        <div class="adv-hint">👆 Click the adverb above</div>
+        <div class="adv-correct-msg">✓ Already in the correct position!</div>
+      </div>
+      </div>
+      <div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">6. <span class="adv-word" data-status="none" onclick="advWordPick(this)">She's</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">lazy</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">a little bit</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">about</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">doing</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">her</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">homework.</span></div>
+        <div class="adv-hint">👆 Click the adverb phrase above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="She's a little bit lazy about doing her homework.">
+        </div>
+      </div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">7. <span class="adv-word" data-status="none" onclick="advWordPick(this)">I</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">forgot</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">your</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">birthday</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">almost,</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">but</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">my</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">sister</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">fortunately</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">reminded</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">me.</span></div>
+        <div class="adv-hint">👆 Click both adverbs above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="I almost forgot your birthday, but fortunately my sister reminded me.">
+        </div>
+      </div>
+      <div class="adv-item ok-item">
+        <div class="adv-orig">8. <span class="adv-word" data-status="none" onclick="advWordPick(this)">We</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">luckily</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">had</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">taken</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">an</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">umbrella,</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">because</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">it</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">started</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">to</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">rain</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">right away.</span></div>
+        <div class="adv-hint">👆 Click both adverbs above</div>
+        <div class="adv-correct-msg">✓ Already in the correct position!</div>
+      </div>
+      <div class="adv-item ok-item">
+        <div class="adv-orig">9. <span class="adv-word" data-status="none" onclick="advWordPick(this)">Mary</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">doesn't</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">always</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">eat</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">healthily</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">—</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">she</span> <span class="adv-word" data-status="ok" onclick="advWordPick(this)">often</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">has</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">snacks</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">between</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">meals.</span></div>
+        <div class="adv-hint">👆 Click all three adverbs above</div>
+        <div class="adv-correct-msg">✓ Already in the correct position!</div>
+      </div>
+      <div class="adv-item fix-item">
+        <div class="adv-orig">10. <span class="adv-word" data-status="none" onclick="advWordPick(this)">Yadier</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">has</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">been</span> <span class="adv-word" data-status="fix" onclick="advWordPick(this)">apparently</span> <span class="adv-word" data-status="none" onclick="advWordPick(this)">fired.</span></div>
+        <div class="adv-hint">👆 Click the adverb above</div>
+        <div class="adv-correct-msg">✓ Correct!</div>
+        <div class="adv-rewrite">
+          <label>✏️ Rewrite the sentence with the correct word order:</label>
+          <input type="text" class="ans-input wide" data-ans="Apparently, Yadier has been fired.">
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkAdvSlide('gex1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetAdvSlide('gex1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: EX B (insert adverb) ============ -->
+<div class="slide" id="s-gram-ex2">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Insert the adverb</h2>
+    <p class="instruction">Click the adverb, then click the square where it should go in the sentence.</p>
+    <div class="card" style="text-align:center;">
+      <span class="example-label">Example</span>
+      <div style="margin-top:10px;">
+        <p style="margin:0;font-size:1.06rem;line-height:1.8;color:#1C2B3A;">I'm <span class="wb-blank slot filled correct" style="cursor:default;">seriously</span> considering resigning from my job. <span class="wb-tile used" style="cursor:default;">seriously</span></p>
+      </div>
+    </div>
+    <div class="two-col" id="gex2">
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">1. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> Their house was <span class="wb-blank slot" data-ans="badly" onclick="wbPlace(this)"> </span> damaged <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> in the fire <span class="wb-blank slot" data-ans="last week" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="badly" onclick="wbPick(this)">badly</span><span class="wb-tile" data-val="last week" onclick="wbPick(this)">last week</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">2. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> Ben is <span class="wb-blank slot" data-ans="often" onclick="wbPlace(this)"> </span> at his friend's house <span class="wb-blank slot" data-ans="in the evening" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="often" onclick="wbPick(this)">often</span><span class="wb-tile" data-val="in the evening" onclick="wbPick(this)">in the evening</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">3. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> My father <span class="wb-blank slot" data-ans="usually" onclick="wbPlace(this)"> </span> takes <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> a nap <span class="wb-blank slot" data-ans="in the afternoon" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="usually" onclick="wbPick(this)">usually</span><span class="wb-tile" data-val="in the afternoon" onclick="wbPick(this)">in the afternoon</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">4. Julia <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> left <span class="wb-blank slot" data-ans="early" onclick="wbPlace(this)"> </span> and she <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> didn't <span class="wb-blank slot" data-ans="even" onclick="wbPlace(this)"> </span> say goodbye <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="early" onclick="wbPick(this)">early</span><span class="wb-tile" data-val="even" onclick="wbPick(this)">even</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">5. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> Martin <span class="wb-blank slot" data-ans="always" onclick="wbPlace(this)"> </span> eats <span class="wb-blank slot" data-ans="incredibly" onclick="wbPlace(this)"> </span> quickly <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="always" onclick="wbPick(this)">always</span><span class="wb-tile" data-val="incredibly" onclick="wbPick(this)">incredibly</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">6. <span class="wb-blank slot" data-ans="Apparently" onclick="wbPlace(this)"> </span> His brother <span class="wb-blank slot" data-ans="nearly" onclick="wbPlace(this)"> </span> died <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> in a skiing accident <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="Apparently" onclick="wbPick(this)">Apparently</span><span class="wb-tile" data-val="nearly" onclick="wbPick(this)">nearly</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">7. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> We're <span class="wb-blank slot" data-ans="probably" onclick="wbPlace(this)"> </span> going <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> to the movies <span class="wb-blank slot" data-ans="tonight" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="probably" onclick="wbPick(this)">probably</span><span class="wb-tile" data-val="tonight" onclick="wbPick(this)">tonight</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">8. <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> I <span class="wb-blank slot" data-ans="rarely" onclick="wbPlace(this)"> </span> send <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> emails <span class="wb-blank slot" data-ans="nowadays" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="rarely" onclick="wbPick(this)">rarely</span><span class="wb-tile" data-val="nowadays" onclick="wbPick(this)">nowadays</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">9. I <span class="wb-blank slot" data-ans="just" onclick="wbPlace(this)"> </span> bought a <span class="wb-blank slot" data-ans="really" onclick="wbPlace(this)"> </span> beautiful new coat <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="just" onclick="wbPick(this)">just</span><span class="wb-tile" data-val="really" onclick="wbPick(this)">really</span></div>
+      </div>
+      <div class="ex-row">
+        <p style="margin:0 0 8px;">10. <span class="wb-blank slot" data-ans="Eventually" onclick="wbPlace(this)"> </span> Maya realized that she was <span class="wb-blank slot" data-ans="never" onclick="wbPlace(this)"> </span> going to <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span> learn to drive <span class="wb-blank slot" data-ans="" onclick="wbPlace(this)"> </span>.</p>
+        <div class="wb-bank"><span class="wb-tile" data-val="Eventually" onclick="wbPick(this)">Eventually</span><span class="wb-tile" data-val="never" onclick="wbPick(this)">never</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('gex2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('gex2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: ROLL & TELL ============ -->
+<div class="slide" id="s-speak-roll">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Roll &amp; Tell</h2>
+    <p class="instruction">Roll the die, then answer the question — try to use the adverb in the correct position!</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div class="dice-box" id="dice-adverb" style="margin:0;">
+        <div class="die-face" id="dice-adverb-face">⚀</div>
+        <button class="btn-check" onclick="rollDie('dice-adverb')">🎲 Roll for a Question</button>
+        <p class="dice-prompt" id="dice-adverb-prompt"></p>
+      </div>
+      <div class="card">
+        <p style="font-size:1.05rem;font-weight:700;color:#1C2B3A;margin:0 0 10px;">Adverbs you might get:</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">nearly</span>
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">hardly</span>
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">right away</span>
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">badly</span>
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">luckily</span>
+          <span style="background:#1E4D8C;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">still</span>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: LISTENING PRACTICE ============ -->
+<div class="slide" id="s-gram-listen">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the sentence</h2>
+    <p class="instruction">Listen to some sound effects and short conversations. Then use the <b>bold</b> adverb to complete the sentence.</p>
+    <div class="audio-box"><div style="width:100%;"><audio controls src="AEF3e_Level_4_SB_3.15.mp3"></audio></div></div>
+    <div class="two-col" id="glisten1">
+      <div class="ex-row">1. When she got to the bus stop, the bus… <b>(just)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline">…had <b>just</b> left.</div>
+      </div>
+      <div class="ex-row">2. They were having a party when… <b>(suddenly)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline"><b>Suddenly</b> the music stopped / the electricity went off.</div>
+      </div>
+      <div class="ex-row">3. He thought he had lost his boarding pass, but… <b>(luckily)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline"><b>luckily</b>, he found it in his pocket / it was in his pocket.</div>
+      </div>
+      <div class="ex-row">4. The woman thought Andrea and Tom were friends, but in fact… <b>(hardly)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline">…they <b>hardly</b> knew each other.</div>
+      </div>
+      <div class="ex-row">5. The driver couldn't see where he was going because… <b>(hard)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline">…it was raining (so) <b>hard</b>, etc.</div>
+      </div>
+      <div class="ex-row">6. Salvatore couldn't understand the man because… <b>(incredibly)</b>
+        <input type="text" class="ans-input wide">
+        <div class="suggest-inline">…he was speaking <b>incredibly</b> fast / quickly.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('glisten1')">💡 Suggested Answers</button>
+      <button class="btn-reset" onclick="resetListenSlide('glisten1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCAB: MEANING ============ -->
+<div class="slide" id="s-vocab1">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Loud Music</h2>
+    <p class="instruction">Read this short story. Has something similar ever happened to you?</p>
+    <div style="display:flex;gap:32px;align-items:flex-start;">
+      <img src="ChatGPT Image Jul 12, 2026, 09_05_27 PM.png" alt="Music Too Loud — short story" style="width:48%;flex-shrink:0;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.12);">
+      <div style="flex:1;">
+        <p class="discuss-label">💬 Look at the highlighted adverbs</p>
+        <ul class="discuss-list">
+          <li>What's the difference between <b>near</b> and <b>nearly</b>?</li>
+          <li>What's the difference between <b>late</b> and <b>lately</b>?</li>
+        </ul>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCAB: CONFUSING ADVERBS ============ -->
+<div class="slide" id="s-vocab2">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Confusing adverbs</h2>
+    <p class="instruction">Click a pair of adverbs, then click the square to match it with a sentence. Then type the correct adverb in each blank.</p>
+    <div class="match-wrap" id="vconf-match" style="display:block;">
+      <div class="card">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 24px;">
+          <div>
+            <span class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)" style="display:block;text-align:center;">right now / actually</span>
+            <span class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)" style="display:block;text-align:center;">especially / specially</span>
+            <span class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)" style="display:block;text-align:center;">ever / even</span>
+          </div>
+          <div>
+            <span class="match-item" style="display:block;text-align:center;cursor:default;background:#EAF4EC;border-color:#1A7A4A;border-width:3px;color:#1A7A4A;font-weight:700;">hard / hardly ✓</span>
+            <span class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)" style="display:block;text-align:center;">in the end / at the end</span>
+            <span class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)" style="display:block;text-align:center;">late / lately</span>
+          </div>
+          <div>
+            <span class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)" style="display:block;text-align:center;">near / nearly</span>
+            <span class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)" style="display:block;text-align:center;">still / yet</span>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-two-col" style="margin-top:18px;">
+        <div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" style="cursor:default;background:#1A7A4A;border-color:#1A7A4A;color:#fff;">✓</span>
+            <div>
+              <p style="margin:0;">1. He trains very <b style="color:#1A7A4A;">hard</b> – at least three hours a day.</p>
+              <p style="margin:0;">It's incredibly foggy. I can <b style="color:#1A7A4A;">hardly</b> see anything.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="2" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">2. I hate it when people arrive <input type="text" class="ans-input small" data-ans="late"> for meetings.</p>
+              <p style="margin:0;">I haven't heard from Mike <input type="text" class="ans-input small" data-ans="lately">. He must be very busy.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="3" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">3. <input type="text" class="ans-input" data-ans="At the end"> of a movie, I always stay and watch the credits roll.</p>
+              <p style="margin:0;">I didn't want to go, but <input type="text" class="ans-input" data-ans="in the end"> they persuaded me.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="4" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">4. I love most kinds of music, but <input type="text" class="ans-input small" data-ans="especially"> jazz.</p>
+              <p style="margin:0;">My wedding dress was <input type="text" class="ans-input small" data-ans="specially"> made for me by a dressmaker.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="5" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">5. She looks younger than me, but <input type="text" class="ans-input small" data-ans="actually"> she's two years older.</p>
+              <p style="margin:0;"><input type="text" class="ans-input" data-ans="Right now"> they're renting a house, but they're hoping to buy one soon.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="6" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">6. I've <input type="text" class="ans-input small" data-ans="nearly"> finished my book. I'm on the last chapter.</p>
+              <p style="margin:0;">Excuse me, is there a bank <input type="text" class="ans-input small" data-ans="near"> here?</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="7" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">7. Have you found a job <input type="text" class="ans-input small" data-ans="yet">?</p>
+              <p style="margin:0;">He's 35, but he <input type="text" class="ans-input small" data-ans="still"> lives with his parents.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <span class="match-item match-sq" data-side="right" data-pair="8" onclick="matchPick(this)"></span>
+            <div>
+              <p style="margin:0;">8. Have you <input type="text" class="ans-input small" data-ans="ever"> been to the US?</p>
+              <p style="margin:0;">I've been all over the US – I've <input type="text" class="ans-input small" data-ans="even"> been to Alaska!</p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('vconf-match'); checkSlide('vconf-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('vconf-match'); resetSlide('vconf-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCAB: COMMENT ADVERBS ============ -->
+<div class="slide" id="s-vocab3">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Comment adverbs</h2>
+    <p class="instruction">Read the sentences. Then write the correct adverb next to its definition (1–8).</p>
+    <div class="fixed-two-col" id="vcomm1" style="grid-template-columns:1.3fr 1fr;">
+      <div>
+        <div class="ex-row"><em>a.</em> I thought the job was going to be difficult, but <b class="adv-mark given used">in fact</b> it's very easy.</div>
+        <div class="ex-row"><em>b.</em> It took us over five hours to get there, but <b class="adv-mark" onclick="toggleUsedMark(this)">eventually</b> we were able to relax.</div>
+        <div class="ex-row"><em>c.</em> <b class="adv-mark" onclick="toggleUsedMark(this)">Ideally</b>, we'd go to Australia if we could afford it.</div>
+        <div class="ex-row"><em>d.</em> <b class="adv-mark" onclick="toggleUsedMark(this)">Basically</b>, it's a pretty simple idea.</div>
+        <div class="ex-row"><em>e.</em> I thought they'd broken up, but <b class="adv-mark" onclick="toggleUsedMark(this)">apparently</b>, they're back together again.</div>
+        <div class="ex-row"><em>f.</em> …so you can tell it was a really awful weekend. <b class="adv-mark" onclick="toggleUsedMark(this)">Anyway</b>, let's forget about it and talk about something else.</div>
+        <div class="ex-row"><em>g.</em> He's only 14, so <b class="adv-mark" onclick="toggleUsedMark(this)">obviously</b> he can't stay at home on his own.</div>
+        <div class="ex-row"><em>h.</em> She's been sick for weeks, but <b class="adv-mark" onclick="toggleUsedMark(this)">gradually</b> she's beginning to feel better.</div>
+      </div>
+      <div>
+        <div class="ex-row">1. <input type="text" class="ans-input" style="width:150px;" data-ans="Ideally"> in a perfect world</div>
+        <div class="ex-row" style="color:#1A7A4A;font-weight:700;">2. <span style="display:inline-block;width:150px;">in fact</span> the truth is; actually (used to emphasize something, especially the opposite of what was previously said)</div>
+        <div class="ex-row">3. <input type="text" class="ans-input" style="width:150px;" data-ans="Basically"> in the main and most important way</div>
+        <div class="ex-row">4. <input type="text" class="ans-input" style="width:150px;" data-ans="Obviously"> clearly (used to give information you expect other people to know or agree with)</div>
+        <div class="ex-row">5. <input type="text" class="ans-input" style="width:150px;" data-ans="Gradually"> little by little</div>
+        <div class="ex-row">6. <input type="text" class="ans-input" style="width:150px;" data-ans="Apparently"> according to what you have heard or read</div>
+        <div class="ex-row">7. <input type="text" class="ans-input" style="width:150px;" data-ans="Anyway"> in any case (used to change or finish a conversation)</div>
+        <div class="ex-row">8. <input type="text" class="ans-input" style="width:150px;" data-ans="Eventually"> in the end; after a series of events or difficulties</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('vcomm1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('vcomm1'); document.querySelectorAll('#vcomm1 .adv-mark:not(.given)').forEach(function(el){ el.classList.remove('used'); });">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: APPARENTLY... GOSSIP GAME ============ -->
+<div class="slide" id="s-speak-gossip">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>"Apparently..." — Did You Know?</h2>
+    <p class="instruction">Click a card to reveal a fact. React to it out loud using a comment adverb from the box below.</p>
+    <div class="card" style="margin-bottom:16px;">
+      <p style="font-size:1.05rem;font-weight:700;color:#1C2B3A;margin:0 0 10px;">Try reacting with:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">Apparently…</span>
+        <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">Obviously…</span>
+        <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">Basically…</span>
+        <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">In fact…</span>
+        <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">Actually…</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 1<br>Click to reveal</div>
+        <div class="fact-back">Octopuses have three hearts and blue blood.</div>
+      </div>
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 2<br>Click to reveal</div>
+        <div class="fact-back">Honey never spoils — archaeologists have found 3,000-year-old honey that's still edible.</div>
+      </div>
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 3<br>Click to reveal</div>
+        <div class="fact-back">Bananas are naturally slightly radioactive.</div>
+      </div>
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 4<br>Click to reveal</div>
+        <div class="fact-back">A group of flamingos is called a "flamboyance."</div>
+      </div>
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 5<br>Click to reveal</div>
+        <div class="fact-back">The Eiffel Tower can grow more than 15 cm taller in summer because of heat expansion.</div>
+      </div>
+      <div class="fact-card" onclick="this.classList.toggle('flipped')">
+        <div class="fact-front">🎴 Card 6<br>Click to reveal</div>
+        <div class="fact-back">Cows have best friends and get stressed when separated from them.</div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: STRESS ============ -->
+<div class="slide" id="s-pron1">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Word stress</h2>
+    <p class="instruction">Click the stressed syllable in each adverb. Listen and check.</p>
+    <div class="audio-box"><div style="width:100%;"><audio controls src="AEF3e_Level_4_SB_3.18.mp3"></audio></div></div>
+    <div class="card" id="pstress1" style="display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;">
+      <span class="stress-word"><button class="circ-opt syl" data-group="w1" data-correct="lute" onclick="circPick(this)">ab</button><button class="circ-opt syl" data-group="w1" data-correct="lute" onclick="circPick(this)">so</button><button class="circ-opt syl" data-group="w1" data-correct="lute" onclick="circPick(this)">lute</button><button class="circ-opt syl" data-group="w1" data-correct="lute" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w2" data-correct="ac" onclick="circPick(this)">ac</button><button class="circ-opt syl" data-group="w2" data-correct="ac" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="w2" data-correct="ac" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="w2" data-correct="ac" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w3" data-correct="par" onclick="circPick(this)">ap</button><button class="circ-opt syl" data-group="w3" data-correct="par" onclick="circPick(this)">par</button><button class="circ-opt syl" data-group="w3" data-correct="par" onclick="circPick(this)">ent</button><button class="circ-opt syl" data-group="w3" data-correct="par" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w4" data-correct="ba" onclick="circPick(this)">ba</button><button class="circ-opt syl" data-group="w4" data-correct="ba" onclick="circPick(this)">si</button><button class="circ-opt syl" data-group="w4" data-correct="ba" onclick="circPick(this)">cal</button><button class="circ-opt syl" data-group="w4" data-correct="ba" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w5" data-correct="def" onclick="circPick(this)">def</button><button class="circ-opt syl" data-group="w5" data-correct="def" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="w5" data-correct="def" onclick="circPick(this)">nite</button><button class="circ-opt syl" data-group="w5" data-correct="def" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w6" data-correct="spe" onclick="circPick(this)">e</button><button class="circ-opt syl" data-group="w6" data-correct="spe" onclick="circPick(this)">spe</button><button class="circ-opt syl" data-group="w6" data-correct="spe" onclick="circPick(this)">cial</button><button class="circ-opt syl" data-group="w6" data-correct="spe" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w7" data-correct="ven" onclick="circPick(this)">e</button><button class="circ-opt syl" data-group="w7" data-correct="ven" onclick="circPick(this)">ven</button><button class="circ-opt syl" data-group="w7" data-correct="ven" onclick="circPick(this)">tual</button><button class="circ-opt syl" data-group="w7" data-correct="ven" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w8" data-correct="for" onclick="circPick(this)">for</button><button class="circ-opt syl" data-group="w8" data-correct="for" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="w8" data-correct="for" onclick="circPick(this)">nate</button><button class="circ-opt syl" data-group="w8" data-correct="for" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w9" data-correct="grad" onclick="circPick(this)">grad</button><button class="circ-opt syl" data-group="w9" data-correct="grad" onclick="circPick(this)">u</button><button class="circ-opt syl" data-group="w9" data-correct="grad" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="w9" data-correct="grad" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w10" data-correct="de" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="w10" data-correct="de" onclick="circPick(this)">de</button><button class="circ-opt syl" data-group="w10" data-correct="de" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="w10" data-correct="de" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w11" data-correct="cre" onclick="circPick(this)">in</button><button class="circ-opt syl" data-group="w11" data-correct="cre" onclick="circPick(this)">cre</button><button class="circ-opt syl" data-group="w11" data-correct="cre" onclick="circPick(this)">di</button><button class="circ-opt syl" data-group="w11" data-correct="cre" onclick="circPick(this)">bly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w12" data-correct="luck" onclick="circPick(this)">luck</button><button class="circ-opt syl" data-group="w12" data-correct="luck" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="w12" data-correct="luck" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w13" data-correct="ob" onclick="circPick(this)">ob</button><button class="circ-opt syl" data-group="w13" data-correct="ob" onclick="circPick(this)">vi</button><button class="circ-opt syl" data-group="w13" data-correct="ob" onclick="circPick(this)">ous</button><button class="circ-opt syl" data-group="w13" data-correct="ob" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="w14" data-correct="for" onclick="circPick(this)">un</button><button class="circ-opt syl" data-group="w14" data-correct="for" onclick="circPick(this)">for</button><button class="circ-opt syl" data-group="w14" data-correct="for" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="w14" data-correct="for" onclick="circPick(this)">nate</button><button class="circ-opt syl" data-group="w14" data-correct="for" onclick="circPick(this)">ly</button></span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('pstress1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('pstress1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: SENTENCES ============ -->
+<div class="slide" id="s-pron2">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Listen and repeat</h2>
+    <p class="instruction">Listen to the sentences and repeat, copying the stress and intonation of the adverbs.</p>
+    <div class="audio-box"><div style="width:100%;"><audio controls src="AEF3e_Level_4_SB_3.19.mp3"></audio></div></div>
+    <div class="card">
+      <p class="ex-row">1. There was a lot of traffic, and unfortunately, we arrived extremely late.</p>
+      <p class="ex-row">2. We definitely want to go abroad this summer, ideally somewhere hot.</p>
+      <p class="ex-row">3. It's incredibly easy – even a child could do it!</p>
+      <p class="ex-row">4. I thought Roberto was Portuguese, but actually he's Brazilian.</p>
+      <p class="ex-row">5. Apparently, Jack has been offered a promotion at work, but it will mean moving to New York.</p>
+      <p class="ex-row">6. I absolutely love Italian food, especially pasta.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: READING HABITS (PATH GAME) ============ -->
+<div class="slide" id="s-speak1">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Do you read books for pleasure?</h2>
+    <p class="instruction">Talk about your reading habits, following the questions below.</p>
+    <div class="flow-wrap">
+      <div class="flow-col">
+        <div class="flow-header flow-yes">YES</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">What was the last book you read? Why did you choose to read it?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">What are you reading right now?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Do you have a favorite author or authors?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">What's the best book you've read recently?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Do you read more or less than you used to (or about the same)?</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-header flow-no">NO</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Would you read more if you had more time?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Did you use to read more when you were younger? When did you stop?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Did you have a favorite children's book or character?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">What do you do to pass the time when you're traveling or waiting for something?</div>
+      </div>
+    </div>
+    <div class="btn-row" style="justify-content:center;margin-top:16px;">
+      <button class="btn-suggest" onclick="toggleSuggested('rl-toggle')">🎧 Reading &amp; Listening Questions</button>
+    </div>
+    <div class="suggest-box" id="rl-toggle">
+      <h4 style="margin:0 0 10px;color:#1E4D8C;font-size:1.08rem;">Do you ever…?</h4>
+      <ul class="discuss-list" style="margin:0;">
+        <li>listen to a song and read the lyrics at the same time</li>
+        <li>watch movies or TV in English with English subtitles</li>
+        <li>read books and listen to them on audio at the same time, e.g., Graded Readers</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LESSON REVIEW ============ -->
+<div class="slide" id="s-review">
+  <div class="banner banner-review">⭐ Lesson Review</div>
+  <div class="slide-main"><div class="content">
+    <h2 style="margin-bottom:14px;">What have we learned?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+      <!-- LEFT: Grammar + Vocabulary -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- Grammar -->
+        <div style="background:#F5F0FF;border-radius:12px;padding:16px 20px;border-left:5px solid #4A1A6A;">
+          <p style="font-size:1.2rem;font-weight:800;color:#4A1A6A;margin-bottom:10px;">📐 Grammar — Adverb Position</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+            <span style="background:#C9822E;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">🚶 Manner</span>
+            <span style="background:#0E7A8A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">🔁 Frequency</span>
+            <span style="background:#2A5A9E;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">🕐 Time &amp; Place</span>
+            <span style="background:#7B2D8E;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">📊 Degree</span>
+            <span style="background:#C4507A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">💬 Comment</span>
+          </div>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">We practiced <strong>fixing word order</strong> in sentences with misplaced adverbs, and <strong>inserting</strong> adverbs into the correct position.</p>
+        </div>
+
+        <!-- Vocabulary -->
+        <div style="background:#F2FAF5;border-radius:12px;padding:16px 20px;border-left:5px solid #2A6B42;">
+          <p style="font-size:1.2rem;font-weight:800;color:#2A6B42;margin-bottom:10px;">📚 Vocabulary</p>
+          <p style="font-size:1.05rem;font-weight:700;color:#2A6B42;margin-bottom:6px;">Confusing adverb pairs</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+            <span style="background:#2A6B42;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">hard / hardly</span>
+            <span style="background:#2A6B42;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">late / lately</span>
+            <span style="background:#2A6B42;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">near / nearly</span>
+            <span style="background:#2A6B42;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">especially / specially</span>
+          </div>
+          <p style="font-size:1.05rem;font-weight:700;color:#2A6B42;margin-bottom:6px;">Comment adverbs</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            <span style="background:#1A5030;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">in fact</span>
+            <span style="background:#1A5030;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">apparently</span>
+            <span style="background:#1A5030;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">ideally</span>
+            <span style="background:#1A5030;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">gradually</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Pronunciation + Speaking -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- Pronunciation -->
+        <div style="background:#EEF8FA;border-radius:12px;padding:16px 20px;border-left:5px solid #0E7A8A;">
+          <p style="font-size:1.2rem;font-weight:800;color:#0E7A8A;margin-bottom:8px;">🔊 Pronunciation</p>
+          <p style="font-size:1.05rem;font-weight:700;color:#0E7A8A;margin-bottom:6px;">Word stress in long adverbs</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+            <span style="background:#0E7A8A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">abso<u>lute</u>ly</span>
+            <span style="background:#0E7A8A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">ap<u>par</u>ently</span>
+            <span style="background:#0E7A8A;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">un<u>for</u>tunately</span>
+          </div>
+          <p style="font-size:1.05rem;color:#1C2B3A;margin:0;">Emphatic <strong>intonation</strong> when stressing adverbs in a sentence.</p>
+        </div>
+
+        <!-- Speaking -->
+        <div style="background:#EBF2FF;border-radius:12px;padding:16px 20px;border-left:5px solid #1E4D8C;">
+          <p style="font-size:1.2rem;font-weight:800;color:#1E4D8C;margin-bottom:8px;">💬 Speaking</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">We talked about our <strong>reading habits</strong> — following the "Do you read books for pleasure?" Yes/No question chain.</p>
+        </div>
+
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HOMEWORK COVER ============ -->
+<div class="slide" id="hw-cover">
+  <div class="title-inner">
+    <div class="hw-badge">📝 Homework</div>
+    <div class="title-main">A Really Good <span class="title-accent">Ending?</span></div>
+  </div>
+</div>
+
+<!-- ============ HW1: ODD ONE OUT ============ -->
+<div class="slide" id="hw-gr1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW1 — Find the different adverb</h2>
+    <p class="instruction">In each group, select the adverb or adverbial phrase that doesn't belong with the others.</p>
+    <div id="hwgr1">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Time: all day · <span style="color:#1A5030;font-weight:800;">indoors ✓</span> · soon · tonight</div>
+      <div class="ex-row">2. Place: <button class="circ-opt" data-group="h2" data-correct="in fact" onclick="circPick(this)">here</button> <button class="circ-opt" data-group="h2" data-correct="in fact" onclick="circPick(this)">in fact</button> <button class="circ-opt" data-group="h2" data-correct="in fact" onclick="circPick(this)">in the park</button> <button class="circ-opt" data-group="h2" data-correct="in fact" onclick="circPick(this)">outside</button></div>
+      <div class="ex-row">3. Manner: <button class="circ-opt" data-group="h3" data-correct="absolutely" onclick="circPick(this)">absolutely</button> <button class="circ-opt" data-group="h3" data-correct="absolutely" onclick="circPick(this)">fluently</button> <button class="circ-opt" data-group="h3" data-correct="absolutely" onclick="circPick(this)">rudely</button> <button class="circ-opt" data-group="h3" data-correct="absolutely" onclick="circPick(this)">slowly</button></div>
+      <div class="ex-row">4. Degree: <button class="circ-opt" data-group="h4" data-correct="hard" onclick="circPick(this)">a little</button> <button class="circ-opt" data-group="h4" data-correct="hard" onclick="circPick(this)">almost</button> <button class="circ-opt" data-group="h4" data-correct="hard" onclick="circPick(this)">hard</button> <button class="circ-opt" data-group="h4" data-correct="hard" onclick="circPick(this)">very</button></div>
+      <div class="ex-row">5. Comment: <button class="circ-opt" data-group="h5" data-correct="sometimes" onclick="circPick(this)">clearly</button> <button class="circ-opt" data-group="h5" data-correct="sometimes" onclick="circPick(this)">fortunately</button> <button class="circ-opt" data-group="h5" data-correct="sometimes" onclick="circPick(this)">obviously</button> <button class="circ-opt" data-group="h5" data-correct="sometimes" onclick="circPick(this)">sometimes</button></div>
+      <div class="ex-row">6. Frequency: <button class="circ-opt" data-group="h6" data-correct="right away" onclick="circPick(this)">always</button> <button class="circ-opt" data-group="h6" data-correct="right away" onclick="circPick(this)">hardly ever</button> <button class="circ-opt" data-group="h6" data-correct="right away" onclick="circPick(this)">usually</button> <button class="circ-opt" data-group="h6" data-correct="right away" onclick="circPick(this)">right away</button></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwgr1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwgr1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW2: REORDER ============ -->
+<div class="slide" id="hw-gr2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW2 — Put the words in order</h2>
+    <p class="instruction">Reorder the words to make a sentence, putting the adverb in its usual position.</p>
+    <div class="two-col" id="hwgr2">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I / umbrella / an / had / luckily / taken — <span style="color:#1A5030;font-weight:700;">Luckily, I had taken an umbrella.</span></div>
+      <div class="ex-row">2. sick / hardly ever / daughter / is / my<br><input class="ans-input wide" data-ans="My daughter is hardly ever sick."></div>
+      <div class="ex-row">3. parents / next year / are / his / retiring<br><input class="ans-input wide" data-ans="His parents are retiring next year."></div>
+      <div class="ex-row">4. boy / rude / teacher / was / to / the / extremely / his<br><input class="ans-input wide" data-ans="The boy was extremely rude to his teacher."></div>
+      <div class="ex-row">5. dresses / my / stylishly / very / sister<br><input class="ans-input wide" data-ans="My sister dresses very stylishly."></div>
+      <div class="ex-row">6. is / Omar / apparently / divorced / getting<br><input class="ans-input wide" data-ans="Apparently, Omar is getting divorced."></div>
+      <div class="ex-row">7. were / would / you / never / thought / I / have / 30<br><input class="ans-input wide" data-ans="I would never have thought you were 30."></div>
+      <div class="ex-row">8. bandaged / was / by a nurse / his ankle / carefully<br><input class="ans-input wide" data-ans="His ankle was carefully bandaged by a nurse."></div>
+      <div class="ex-row">9. be / in five minutes / I'll / there<br><input class="ans-input wide" data-ans="I'll be there in five minutes."></div>
+      <div class="ex-row">10. go / much / the / to / later / in / I / summer / bed<br><input class="ans-input wide" data-ans="I go to bed much later in the summer."></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwgr2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwgr2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW3: REWRITE ============ -->
+<div class="slide" id="hw-gr3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW3 — Fix the adverb position</h2>
+    <p class="instruction">One adverb or adverbial phrase in each sentence is in the wrong position. Rewrite the sentence correctly.</p>
+    <div class="two-col" id="hwgr3">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> He <span class="book-hl">usually</span> <span class="book-hl">immediately</span> gets up when his alarm rings. — <span style="color:#1A5030;font-weight:700;">He usually gets up immediately when his alarm rings.</span></div>
+      <div class="ex-row">2. Although she studies <span class="book-hl">a lot</span>, she goes <span class="book-hl">rarely</span> to the library.<br><input class="ans-input wide" data-ans="Although she studies a lot, she rarely goes to the library."></div>
+      <div class="ex-row">3. I crashed my new car <span class="book-hl">unfortunately</span> <span class="book-hl">last week</span>.<br><input class="ans-input wide" data-ans="Unfortunately, I crashed my new car last week."></div>
+      <div class="ex-row">4. <span class="book-hl">Ideally</span>, we should leave tomorrow <span class="book-hl">early</span>.<br><input class="ans-input wide" data-ans="Ideally, we should leave early tomorrow."></div>
+      <div class="ex-row">5. I can understand a word <span class="book-hl">hardly</span> when people speak English <span class="book-hl">quickly</span>.<br><input class="ans-input wide" data-ans="I can hardly understand a word when people speak English quickly."></div>
+      <div class="ex-row">6. Hiro <span class="book-hl">almost</span> forgot <span class="book-hl">yesterday</span> his doctor's appointment.<br><input class="ans-input wide" data-ans="Hiro almost forgot his doctor's appointment yesterday."></div>
+      <div class="ex-row">7. She's angry <span class="book-hl">incredibly</span> because her husband came home late <span class="book-hl">last night</span>.<br><input class="ans-input wide" data-ans="She's incredibly angry because her husband came home late last night."></div>
+      <div class="ex-row">8. It <span class="book-hl">surprisingly</span> didn't rain <span class="book-hl">at all</span> while we were in London.<br><input class="ans-input wide" data-ans="Surprisingly, it didn't rain at all while we were in London."></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwgr3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwgr3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW4: VOCAB CIRCLE ============ -->
+<div class="slide" id="hw-voc1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW4 — Choose the correct word</h2>
+    <p class="instruction">Select the correct word to complete each sentence.</p>
+    <div class="two-col" id="hwvoc1">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Ellie ate all her lunch, <span style="color:#aaa;text-decoration:line-through;">ever</span> <span style="color:#1A5030;font-weight:800;">even ✓</span> the vegetables!</div>
+      <div class="ex-row">2. I haven't seen Tyler <button class="circ-opt" data-group="hv2" data-correct="lately" onclick="circPick(this)">late</button> <button class="circ-opt" data-group="hv2" data-correct="lately" onclick="circPick(this)">lately</button>, have you?</div>
+      <div class="ex-row">3. I can't stand most TV shows, <button class="circ-opt" data-group="hv3" data-correct="especially" onclick="circPick(this)">specially</button> <button class="circ-opt" data-group="hv3" data-correct="especially" onclick="circPick(this)">especially</button> reality shows.</div>
+      <div class="ex-row">4. Dave <button class="circ-opt" data-group="hv4" data-correct="nearly" onclick="circPick(this)">near</button> <button class="circ-opt" data-group="hv4" data-correct="nearly" onclick="circPick(this)">nearly</button> crashed his car, but he braked just in time.</div>
+      <div class="ex-row">5. Please don't tell me what happens because I haven't read the book <button class="circ-opt" data-group="hv5" data-correct="yet" onclick="circPick(this)">still</button> <button class="circ-opt" data-group="hv5" data-correct="yet" onclick="circPick(this)">yet</button>.</div>
+      <div class="ex-row">6. I'm not going to Sam's party. I <button class="circ-opt" data-group="hv6" data-correct="hardly" onclick="circPick(this)">hard</button> <button class="circ-opt" data-group="hv6" data-correct="hardly" onclick="circPick(this)">hardly</button> know him!</div>
+      <div class="ex-row">7. Do you <button class="circ-opt" data-group="hv7" data-correct="ever" onclick="circPick(this)">ever</button> <button class="circ-opt" data-group="hv7" data-correct="ever" onclick="circPick(this)">even</button> wear jeans to work?</div>
+      <div class="ex-row">8. My grandparents don't live <button class="circ-opt" data-group="hv8" data-correct="near" onclick="circPick(this)">near</button> <button class="circ-opt" data-group="hv8" data-correct="near" onclick="circPick(this)">nearly</button> here; they live about 30 miles away.</div>
+      <div class="ex-row">9. My father worked very <button class="circ-opt" data-group="hv9" data-correct="hard" onclick="circPick(this)">hard</button> <button class="circ-opt" data-group="hv9" data-correct="hard" onclick="circPick(this)">hardly</button> all his life.</div>
+      <div class="ex-row">10. Alan's feet are so big that his shoes are <button class="circ-opt" data-group="hv10" data-correct="specially" onclick="circPick(this)">especially</button> <button class="circ-opt" data-group="hv10" data-correct="specially" onclick="circPick(this)">specially</button> made for him.</div>
+      <div class="ex-row">11. My cousin is a doctor, and <button class="circ-opt" data-group="hv11" data-correct="right now" onclick="circPick(this)">right now</button> <button class="circ-opt" data-group="hv11" data-correct="right now" onclick="circPick(this)">actually</button> she's working in Africa.</div>
+      <div class="ex-row">12. I can't wait to find out what happens <button class="circ-opt" data-group="hv12" data-correct="at the end" onclick="circPick(this)">at the end</button> <button class="circ-opt" data-group="hv12" data-correct="at the end" onclick="circPick(this)">in the end</button> of this book.</div>
+      <div class="ex-row">13. I missed my bus because I got up <button class="circ-opt" data-group="hv13" data-correct="late" onclick="circPick(this)">late</button> <button class="circ-opt" data-group="hv13" data-correct="late" onclick="circPick(this)">lately</button>.</div>
+      <div class="ex-row">14. We were thinking of going to the movies, but <button class="circ-opt" data-group="hv14" data-correct="in the end" onclick="circPick(this)">at the end</button> <button class="circ-opt" data-group="hv14" data-correct="in the end" onclick="circPick(this)">in the end</button> we just went out for coffee.</div>
+      <div class="ex-row">15. I thought the movie was going to be boring, but <button class="circ-opt" data-group="hv15" data-correct="actually" onclick="circPick(this)">actually</button> <button class="circ-opt" data-group="hv15" data-correct="actually" onclick="circPick(this)">right now</button> I really enjoyed it.</div>
+      <div class="ex-row">16. I didn't finish the exam – I was <button class="circ-opt" data-group="hv16" data-correct="still" onclick="circPick(this)">still</button> <button class="circ-opt" data-group="hv16" data-correct="still" onclick="circPick(this)">yet</button> writing when the teacher told us to stop.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwvoc1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwvoc1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW5: WORD BANK DEFINITIONS ============ -->
+<div class="slide" id="hw-voc2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW5 — Complete with the matching adverb</h2>
+    <p class="instruction">Complete each sentence with an adverb from the list that matches the definition in parentheses.</p>
+    <div class="wb-bank" id="hwvoc2-bank">
+      <span class="wb-tile used" data-val="basically">basically</span>
+      <span class="wb-tile" data-val="apparently" onclick="wbPick(this)">apparently</span>
+      <span class="wb-tile" data-val="certainly" onclick="wbPick(this)">certainly</span>
+      <span class="wb-tile" data-val="eventually" onclick="wbPick(this)">eventually</span>
+      <span class="wb-tile" data-val="gradually" onclick="wbPick(this)">gradually</span>
+      <span class="wb-tile" data-val="ideally" onclick="wbPick(this)">ideally</span>
+      <span class="wb-tile" data-val="in fact" onclick="wbPick(this)">in fact</span>
+      <span class="wb-tile" data-val="obviously" onclick="wbPick(this)">obviously</span>
+    </div>
+    <div id="hwvoc2">
+      <p class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span style="color:#1A5030;font-weight:700;">Basically</span> (the main reason is), we don't have enough money to buy our own house.</p>
+      <p class="ex-row">2. <span class="wb-blank" data-ans="ideally" onclick="wbPlace(this)">______</span> (in a perfect world), we'd each have our own room in the house, but that isn't possible.</p>
+      <p class="ex-row">3. That's <span class="wb-blank" data-ans="certainly" onclick="wbPlace(this)">______</span> (without a doubt) the best lobster that I've ever eaten!</p>
+      <p class="ex-row">4. My sister is <span class="wb-blank" data-ans="gradually" onclick="wbPlace(this)">______</span> (little by little) building a new life for herself after her divorce.</p>
+      <p class="ex-row">5. If you keep applying for jobs, you'll find one <span class="wb-blank" data-ans="eventually" onclick="wbPlace(this)">______</span> (in the end).</p>
+      <p class="ex-row">6. I thought the meal was going to be expensive, but <span class="wb-blank" data-ans="in fact" onclick="wbPlace(this)">______</span> (the truth is) it was very reasonable.</p>
+      <p class="ex-row">7. <span class="wb-blank" data-ans="obviously" onclick="wbPlace(this)">______</span> (clearly), her son will move out when he gets a job, but for now he's living with her.</p>
+      <p class="ex-row">8. <span class="wb-blank" data-ans="apparently" onclick="wbPlace(this)">______</span> (according to what I've heard), a lot of flights have been canceled because of the bad weather.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('hwvoc2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('hwvoc2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW6: GAP-FILL MINI STORIES ============ -->
+<div class="slide" id="hw-voc3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW6 — Complete the stories</h2>
+    <p class="instruction">Complete each short story with the correct adverb from its word list.</p>
+    <div class="card">
+      <p style="font-weight:800;margin:0 0 6px;">Hoodlums</p>
+      <div class="wb-bank" id="hwvoc3a-bank">
+        <span class="wb-tile used" data-val="aggressively">aggressively</span>
+        <span class="wb-tile" data-val="hardly ever" onclick="wbPick(this)">hardly ever</span>
+        <span class="wb-tile" data-val="luckily" onclick="wbPick(this)">luckily</span>
+        <span class="wb-tile" data-val="now" onclick="wbPick(this)">now</span>
+      </div>
+      <p class="ex-row">The young men walked <span style="font-weight:700;color:#1A5030;">aggressively</span> <em>(example)</em> through the crowded shopping mall. They had their target in their sights and wouldn't stop until they had done what they had set out to do. <span class="wb-blank" data-ans="now" onclick="wbPlace(this)">______</span> she felt scared. She ran from the hooded gang, stopped, and was cornered. "Miss, you forgot your handbag."</p>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin:0 0 6px;">Revenge is sweet</p>
+      <div class="wb-bank" id="hwvoc3b-bank">
+        <span class="wb-tile" data-val="all day" onclick="wbPick(this)">all day</span>
+        <span class="wb-tile" data-val="bitterly" onclick="wbPick(this)">bitterly</span>
+        <span class="wb-tile" data-val="suddenly" onclick="wbPick(this)">suddenly</span>
+        <span class="wb-tile" data-val="very" onclick="wbPick(this)">very</span>
+      </div>
+      <p class="ex-row">They had been arguing <span class="wb-blank" data-ans="bitterly" onclick="wbPlace(this)">______</span> the night before. He had come in from the garage with oil on his shoes. Fed up, desperate, she hit him. Horrified by what she had done, she drove away from the house along the mountain road. <span class="wb-blank" data-ans="suddenly" onclick="wbPlace(this)">______</span>, she realized that the brakes weren't working.</p>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin:0 0 6px;">Generation gap</p>
+      <div class="wb-bank" id="hwvoc3c-bank">
+        <span class="wb-tile" data-val="always" onclick="wbPick(this)">always</span>
+        <span class="wb-tile" data-val="angrily" onclick="wbPick(this)">angrily</span>
+        <span class="wb-tile" data-val="extremely" onclick="wbPick(this)">extremely</span>
+        <span class="wb-tile" data-val="unfortunately" onclick="wbPick(this)">unfortunately</span>
+      </div>
+      <p class="ex-row">He was worried. <span class="wb-blank" data-ans="unfortunately" onclick="wbPlace(this)">______</span>, since his wife's death, his teenage daughter had become <span class="wb-blank" data-ans="extremely" onclick="wbPlace(this)">______</span> difficult. They had agreed 2:00 a.m. as the latest return time from clubs. Now it was 3:30. He prepared himself for confrontation as the door opened. "Dad," she shouted <span class="wb-blank" data-ans="angrily" onclick="wbPlace(this)">______</span>, "I've been frantic. You're late again."</p>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin:0 0 6px;">The story of my life</p>
+      <div class="wb-bank" id="hwvoc3d-bank">
+        <span class="wb-tile" data-val="actually" onclick="wbPick(this)">actually</span>
+        <span class="wb-tile" data-val="last week" onclick="wbPick(this)">last week</span>
+        <span class="wb-tile" data-val="normally" onclick="wbPick(this)">normally</span>
+        <span class="wb-tile" data-val="slightly" onclick="wbPick(this)">slightly</span>
+      </div>
+      <p class="ex-row">Stage one: Feel fat. Go on diet. Lose weight. Feel fabulous. Buy new clothes.<br>Stage two: Eat <span class="wb-blank" data-ans="normally" onclick="wbPlace(this)">______</span> but controlling intake. Look fabulous. New clothes <span class="wb-blank" data-ans="slightly" onclick="wbPlace(this)">______</span> tight.<br>Stage three: Eat and drink normally. New clothes don't fit. Old clothes thrown away.<br>Back to stage one.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('hw-voc3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('hw-voc3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW7: PERSONAL SENTENCES ============ -->
+<div class="slide" id="hw-voc4">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW7 — Make it personal</h2>
+    <p class="instruction">Choose six of these adverbs and write sentences that are true for you.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+      <span class="circ-opt" style="cursor:default;">a lot</span><span class="circ-opt" style="cursor:default;">apparently</span><span class="circ-opt" style="cursor:default;">fluently</span><span class="circ-opt" style="cursor:default;">here</span><span class="circ-opt" style="cursor:default;">ideally</span><span class="circ-opt" style="cursor:default;">incredibly</span><span class="circ-opt" style="cursor:default;">slowly</span><span class="circ-opt" style="cursor:default;">sometimes</span><span class="circ-opt" style="cursor:default;">tonight</span><span class="circ-opt" style="cursor:default;">usually</span>
+    </div>
+    <textarea class="ans-input wide" id="hwvoc4" style="min-height:130px;"></textarea>
+    <div class="btn-row">
+      <button class="btn-reset" onclick="document.getElementById('hwvoc4').value=''">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW8: PRONUNCIATION STRESS ============ -->
+<div class="slide" id="hw-pron1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW8 — Word stress</h2>
+    <p class="instruction">Click the stressed syllable in each adverb.</p>
+    <div class="card" id="hwpron1" style="display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;">
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw1" data-correct="lute" onclick="circPick(this)">ab</button><button class="circ-opt syl" data-group="hw1" data-correct="lute" onclick="circPick(this)">so</button><button class="circ-opt syl" data-group="hw1" data-correct="lute" onclick="circPick(this)">lute</button><button class="circ-opt syl" data-group="hw1" data-correct="lute" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw2" data-correct="ac" onclick="circPick(this)">ac</button><button class="circ-opt syl" data-group="hw2" data-correct="ac" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="hw2" data-correct="ac" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="hw2" data-correct="ac" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw3" data-correct="par" onclick="circPick(this)">ap</button><button class="circ-opt syl" data-group="hw3" data-correct="par" onclick="circPick(this)">par</button><button class="circ-opt syl" data-group="hw3" data-correct="par" onclick="circPick(this)">ent</button><button class="circ-opt syl" data-group="hw3" data-correct="par" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw4" data-correct="ba" onclick="circPick(this)">ba</button><button class="circ-opt syl" data-group="hw4" data-correct="ba" onclick="circPick(this)">si</button><button class="circ-opt syl" data-group="hw4" data-correct="ba" onclick="circPick(this)">cal</button><button class="circ-opt syl" data-group="hw4" data-correct="ba" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw5" data-correct="def" onclick="circPick(this)">def</button><button class="circ-opt syl" data-group="hw5" data-correct="def" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="hw5" data-correct="def" onclick="circPick(this)">nite</button><button class="circ-opt syl" data-group="hw5" data-correct="def" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw6" data-correct="ven" onclick="circPick(this)">e</button><button class="circ-opt syl" data-group="hw6" data-correct="ven" onclick="circPick(this)">ven</button><button class="circ-opt syl" data-group="hw6" data-correct="ven" onclick="circPick(this)">tual</button><button class="circ-opt syl" data-group="hw6" data-correct="ven" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw7" data-correct="spe" onclick="circPick(this)">e</button><button class="circ-opt syl" data-group="hw7" data-correct="spe" onclick="circPick(this)">spe</button><button class="circ-opt syl" data-group="hw7" data-correct="spe" onclick="circPick(this)">cial</button><button class="circ-opt syl" data-group="hw7" data-correct="spe" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw8" data-correct="for" onclick="circPick(this)">for</button><button class="circ-opt syl" data-group="hw8" data-correct="for" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="hw8" data-correct="for" onclick="circPick(this)">nate</button><button class="circ-opt syl" data-group="hw8" data-correct="for" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw9" data-correct="grad" onclick="circPick(this)">grad</button><button class="circ-opt syl" data-group="hw9" data-correct="grad" onclick="circPick(this)">u</button><button class="circ-opt syl" data-group="hw9" data-correct="grad" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="hw9" data-correct="grad" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw10" data-correct="de" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="hw10" data-correct="de" onclick="circPick(this)">de</button><button class="circ-opt syl" data-group="hw10" data-correct="de" onclick="circPick(this)">al</button><button class="circ-opt syl" data-group="hw10" data-correct="de" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw11" data-correct="cre" onclick="circPick(this)">in</button><button class="circ-opt syl" data-group="hw11" data-correct="cre" onclick="circPick(this)">cre</button><button class="circ-opt syl" data-group="hw11" data-correct="cre" onclick="circPick(this)">di</button><button class="circ-opt syl" data-group="hw11" data-correct="cre" onclick="circPick(this)">bly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw12" data-correct="luck" onclick="circPick(this)">luck</button><button class="circ-opt syl" data-group="hw12" data-correct="luck" onclick="circPick(this)">i</button><button class="circ-opt syl" data-group="hw12" data-correct="luck" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw13" data-correct="ob" onclick="circPick(this)">ob</button><button class="circ-opt syl" data-group="hw13" data-correct="ob" onclick="circPick(this)">vi</button><button class="circ-opt syl" data-group="hw13" data-correct="ob" onclick="circPick(this)">ous</button><button class="circ-opt syl" data-group="hw13" data-correct="ob" onclick="circPick(this)">ly</button></span>
+      <span class="stress-word"><button class="circ-opt syl" data-group="hw14" data-correct="for" onclick="circPick(this)">un</button><button class="circ-opt syl" data-group="hw14" data-correct="for" onclick="circPick(this)">for</button><button class="circ-opt syl" data-group="hw14" data-correct="for" onclick="circPick(this)">tu</button><button class="circ-opt syl" data-group="hw14" data-correct="for" onclick="circPick(this)">nate</button><button class="circ-opt syl" data-group="hw14" data-correct="for" onclick="circPick(this)">ly</button></span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwpron1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwpron1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW9: LISTENING COMPLETION ============ -->
+<div class="slide" id="hw-pron2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW9 — Listen and complete</h2>
+    <p class="instruction">Listen and complete the sentences.</p>
+    <div class="audio-box"><div style="width:100%;"><audio controls src="AEF3e_Level_4_WB_3.4.mp3"></audio></div></div>
+    <div id="hwpron2">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I <span style="color:#1A5030;font-weight:700;">absolutely</span> love Japanese food, <span style="color:#1A5030;font-weight:700;">especially</span> sushi.</div>
+      <div class="ex-row">2. I thought Brad was single, but <input class="ans-input small" data-ans="actually"> he's <input class="ans-input small" data-ans="married">.</div>
+      <div class="ex-row">3. We paid a lot for the tickets, but <input class="ans-input small" data-ans="unfortunately">, the play was <input class="ans-input small" data-ans="extremely"> boring.</div>
+      <div class="ex-row">4. That movie is <input class="ans-input small" data-ans="incredibly"> <input class="ans-input small" data-ans="sad"> – even my husband cried at the end!</div>
+      <div class="ex-row">5. I <input class="ans-input small" data-ans="definitely"> want to change my job, <input class="ans-input small" data-ans="ideally"> for something better paid.</div>
+      <div class="ex-row">6. <input class="ans-input small" data-ans="Apparently"> Tina has been downsized, so she's moving back in with her <input class="ans-input small" data-ans="parents">.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwpron2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwpron2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW10: WRITING ============ -->
+<div class="slide" id="hw-writing">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW10 — Write your own 50-word story</h2>
+    <p class="instruction">Choose a title and write a story of exactly 50 words (not including the title), using at least two adverbs. Contractions count as one word.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+      <span class="circ-opt" style="cursor:default;">A summer romance</span>
+      <span class="circ-opt" style="cursor:default;">A day to remember</span>
+      <span class="circ-opt" style="cursor:default;">The lie</span>
+      <span class="circ-opt" style="cursor:default;">Never again</span>
+    </div>
+    <textarea class="ans-input wide" id="wr1" style="min-height:192px;"></textarea>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('wr1box')">💡 Writing Tips</button>
+      <button class="btn-reset" onclick="document.getElementById('wr1').value=''">Reset</button>
+    </div>
+    <div class="suggest-box" id="wr1box">
+      <ul style="margin:0;padding-left:20px;">
+        <li>Brainstorm your plot first, then write a first draft without worrying about the word count.</li>
+        <li>Edit afterward to make it exactly 50 words.</li>
+        <li>Try to include a small twist at the end, like the four stories you read.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+</div><!-- END #deck (temporary close for skeleton) -->
+
+<div id="nav">
+  <button id="prevBtn" onclick="goTo(current-1)">◀ Prev</button>
+  <div id="dots"></div>
+  <div id="counter">1/1</div>
+  <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
+  <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
+  <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+</div>
+
+<script>
+/* ===================== SLIDE NAV DATA ===================== */
+var slideIds = ["s1","s-leadin","s-gram-meaning","s-gram-match","s-gram-sort","s-gram-place","s-gram-mpf-meaning","s-gram-mpf-form1","s-gram-ex1","s-gram-ex2","s-speak-roll","s-gram-listen","s-vocab1","s-vocab2","s-vocab3","s-speak-gossip","s-pron1","s-pron2","s-speak1","s-review","hw-cover","hw-gr1","hw-gr2","hw-gr3","hw-voc1","hw-voc2","hw-voc3","hw-voc4","hw-pron1","hw-pron2","hw-writing"];
+var slideLabels = ["Cover","Lead-in","Grammar – Meaning (Predict Endings)","Grammar – Match Endings","Grammar – Sort Adverbs","Grammar – Adverb Placement","Grammar – Meaning of Adverb Types","Grammar – Form: Where Adverbs Go","Grammar – Fix Word Order","Grammar – Insert Adverb","Speaking – Roll & Tell","Grammar – Listening Practice","Vocabulary – Loud Music","Vocabulary – Confusing Adverbs","Vocabulary – Comment Adverbs","Speaking – Apparently... Gossip Game","Pronunciation – Word Stress","Pronunciation – Listen & Repeat","Speaking – Reading Habits","Lesson Review","Homework Cover","HW1 – Find the Different Adverb","HW2 – Put the Words in Order","HW3 – Fix the Adverb Position","HW4 – Choose the Correct Word","HW5 – Complete with the Matching Adverb","HW6 – Complete the Stories","HW7 – Make it Personal","HW8 – Word Stress","HW9 – Listen and Complete","HW10 – 50-Word Story"];
+
+var slides = Array.from(document.querySelectorAll('.slide'));
+var current = 0;
+var notesData = {};
+var notesOpen = false;
+
+if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
+  console.warn('Slide count mismatch:', slides.length, 'slides,', slideIds.length, 'IDs,', slideLabels.length, 'labels');
+}
+
+/* build dots */
+var dotsWrap = document.getElementById('dots');
+slides.forEach(function(s, i){
+  var d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = function(){ goTo(i); };
+  dotsWrap.appendChild(d);
+});
+
+function goTo(n){
+  if (n < 0 || n >= slides.length) return;
+  saveNotes();
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  document.getElementById('counter').textContent = (current+1)+'/'+slides.length;
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===slides.length-1;
+  document.getElementById('homeBtn').style.display = current===0 ? 'none' : 'flex';
+  var panel = document.getElementById('notesPanel');
+  if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
+  else { panel.classList.remove('cover'); }
+  loadNotes(current);
+  if (slides[current].id === 's-spin' && typeof window.drawWheelFn === 'function') { setTimeout(window.drawWheelFn, 50); }
+}
+function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.contentEditable === 'true') return;
+  if (e.key === 'ArrowRight') goTo(current+1);
+  if (e.key === 'ArrowLeft') goTo(current-1);
+});
+
+/* ===================== NOTES ===================== */
+function toggleNotes(){
+  notesOpen = !notesOpen;
+  var panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open', notesOpen);
+  if (current === 0) panel.classList.toggle('cover', notesOpen);
+  document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+}
+function notesFormat(cmd){
+  document.getElementById('notesTA').focus();
+  document.execCommand(cmd, false, null);
+  saveNotes();
+}
+function notesHilite(color){
+  var ta = document.getElementById('notesTA');
+  ta.focus();
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) return;
+  document.execCommand('styleWithCSS', false, true);
+  if (color !== 'remove'){
+    var cur = document.queryCommandValue('backColor');
+    var hex = color.replace('#','');
+    var r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+    if (cur === 'rgb('+r+', '+g+', '+b+')' || cur === 'rgb('+r+','+g+','+b+')') { color = 'remove'; }
+  }
+  if (color === 'remove'){
+    document.execCommand('hiliteColor', false, 'transparent');
+    Array.from(ta.querySelectorAll('[style*="background"]')).forEach(function(el){
+      var c = el.style.backgroundColor;
+      if (c === 'transparent' || c === 'rgba(0, 0, 0, 0)' || c === ''){
+        var p = el.parentNode;
+        if (!p) return;
+        while (el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+      }
+    });
+  } else {
+    document.execCommand('hiliteColor', false, color);
+  }
+  saveNotes();
+}
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function savePDF(){
+  saveNotes();
+  var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
+  if (!hasNotes){ alert('No notes to save yet!'); return; }
+  var win = window.open('', '_blank');
+  var cards = '';
+  slideIds.forEach(function(sid, idx){
+    var note = notesData[idx] || '';
+    if (!note.replace(/<[^>]*>/g,'').trim()) return;
+    cards += '<div class="card"><div class="card-header">Slide '+(idx+1)+' &mdash; '+slideLabels[idx]+'</div><div class="card-body">'+note+'</div></div>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF4 3B</title><style>'+
+    'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
+    '.header{border-bottom:2px solid #1A0F1F;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#1A0F1F}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#0E7A8A}'+
+    '.date{font-size:.85rem;color:#666;margin:10px 0 24px}'+
+    '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid}'+
+    '.card-header{background:#1A0F1F;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem}'+
+    '.card-body{padding:12px 16px;font-size:.95rem;line-height:1.7}'+
+    'mark{background:#FFE066;color:#1a1a1a;padding:0 2px}'+
+    '[style*="background-color"]{color:#1a1a1a!important}'+
+    '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
+    '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
+  '</style></head><body>'+
+  '<div class="header"><h1>AEF4 3B – A Really Good Ending?</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html</a></div></div>'+
+  '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
+  cards+'</body></html>');
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 400);
+}
+
+/* ===================== GENERIC: TYPED GAP-FILL ===================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’]+$/,'').replace(/\s+/g,' '); }
+function checkSlide(sid){
+  var box = document.getElementById(sid);
+  var inputs = box.querySelectorAll('.ans-input');
+  inputs.forEach(function(inp){
+    var val = norm(inp.value);
+    if (!val) { inp.classList.remove('correct','wrong'); inp.classList.add('empty-warn'); return; }
+    inp.classList.remove('empty-warn');
+    var ans = norm(inp.dataset.ans);
+    var alts = (inp.dataset.alt || '').split('|').map(norm).filter(Boolean);
+    if (val === ans || alts.indexOf(val) > -1) { inp.classList.add('correct'); inp.classList.remove('wrong'); }
+    else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+  });
+}
+function resetSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.ans-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== GENERIC: CIRCLE MC ===================== */
+function circPick(btn){
+  var group = btn.dataset.group;
+  var box = btn.closest('.slide');
+  box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
+  btn.classList.add('picked');
+}
+function checkCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var groups = {};
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  Object.keys(groups).forEach(function(g){
+    var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
+    groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
+    if (!picked) return;
+    if (picked.dataset.correct === picked.textContent.trim()) picked.classList.add('correct');
+    else picked.classList.add('wrong');
+  });
+}
+function resetCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
+}
+
+/* ===================== GENERIC: COLOUR-PAIR MATCH ===================== */
+var matchColours = ['c0','c1','c2','c3','c4','c5','c6'];
+var matchPending = {};
+function matchPick(el){
+  var wrap = el.closest('.match-wrap');
+  var wid = wrap.id;
+
+  /* Already paired — clicking again always un-pairs both sides (free redo) */
+  if (el._linked){
+    var partner = el._linked;
+    matchColours.forEach(function(c){ el.classList.remove(c); partner.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    partner.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null; partner._linked = null;
+    delete el.dataset.colour; delete partner.dataset.colour;
+    if (matchPending[wid] === el) matchPending[wid] = null;
+    return;
+  }
+
+  var pending = matchPending[wid];
+
+  /* A different, unpaired item from the OTHER side is waiting — complete the pair */
+  if (pending && pending !== el && pending.dataset.side !== el.dataset.side){
+    var used = Array.from(wrap.querySelectorAll('.match-item')).map(function(x){ return x.dataset.colour; }).filter(Boolean);
+    var next = matchColours.find(function(c){ return used.indexOf(c) === -1; }) || matchColours[Math.floor(used.length/2) % matchColours.length];
+    pending.classList.remove('picking');
+    pending.classList.add(next); el.classList.add(next);
+    pending.dataset.colour = next; el.dataset.colour = next;
+    pending._linked = el; el._linked = pending;
+    matchPending[wid] = null;
+    return;
+  }
+
+  /* Clicking the currently-pending item again cancels the pending state */
+  if (pending === el){
+    pending.classList.remove('picking');
+    matchPending[wid] = null;
+    return;
+  }
+
+  /* Otherwise: start (or switch) the pending selection */
+  if (pending) pending.classList.remove('picking');
+  el.classList.add('picking');
+  matchPending[wid] = el;
+}
+function checkMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item[data-side="left"]').forEach(function(l){
+    l.classList.remove('correctpair','wrongpair');
+    if (l._linked) l._linked.classList.remove('correctpair','wrongpair');
+    if (!l._linked) return;
+    var r = l._linked;
+    if (r.dataset.pair === l.dataset.pair){ l.classList.add('correctpair'); r.classList.add('correctpair'); }
+    else { l.classList.add('wrongpair'); r.classList.add('wrongpair'); }
+  });
+}
+function resetMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item').forEach(function(el){
+    matchColours.forEach(function(c){ el.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null;
+    delete el.dataset.colour;
+  });
+  matchPending[id] = null;
+}
+
+/* ===================== GENERIC: CLASSIFY / SORT ===================== */
+var classifySelected = {};
+function classifyPick(chip){
+  if (chip.classList.contains('used')) return;
+  var bank = chip.closest('[id$="-bank"]') || chip.parentElement;
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  classifySelected[bank.id] = chip;
+}
+function classifyTarget(col){
+  var colsEl = col.closest('[id$="-cols"]');
+  var bankId = colsEl ? colsEl.id.replace(/-cols$/, '-bank') : null;
+  var chip = bankId ? classifySelected[bankId] : null;
+  if (!chip) return;
+  var tag = document.createElement('span');
+  tag.className = 'placed';
+  tag.textContent = chip.textContent;
+  tag.dataset.ans = chip.dataset.ans;
+  tag.dataset.chipRef = '1';
+  tag.onclick = function(e){ e.stopPropagation(); tag.remove(); chip.classList.remove('used'); };
+  col.appendChild(tag);
+  chip.classList.add('used'); chip.classList.remove('selected');
+  delete classifySelected[bankId];
+}
+function checkClassifySlide(prefix){
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.classify-col').forEach(function(col){
+    col.querySelectorAll('.placed').forEach(function(tag){
+      tag.classList.remove('correct','wrong');
+      if (tag.dataset.ans === col.dataset.target) tag.classList.add('correct');
+      else tag.classList.add('wrong');
+    });
+  });
+}
+function resetClassifySlide(prefix){
+  var bank = document.getElementById(prefix+'-bank');
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.placed').forEach(function(tag){ tag.remove(); });
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
+  classifySelected = {};
+}
+
+/* ===================== GENERIC: WORD BANK FILL ===================== */
+var wbSelected = {};
+function wbPick(tile){
+  if (tile.classList.contains('used')) return;
+  var bank = tile.parentElement;
+  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
+  tile.classList.add('selected');
+  wbSelected[closestSlideId(tile)] = tile;
+}
+function closestSlideId(el){ return el.closest('.slide').id; }
+function wbPlace(blank){
+  var sid = closestSlideId(blank);
+  if (blank.classList.contains('filled')) {
+    var tile = blank._tileRef;
+    if (tile) tile.classList.remove('used');
+    blank.textContent = '______';
+    blank.classList.remove('filled','correct','wrong');
+    blank._tileRef = null;
+    return;
+  }
+  var tile = wbSelected[sid];
+  if (!tile) return;
+  blank.textContent = tile.dataset.val;
+  blank.classList.add('filled');
+  blank._tileRef = tile;
+  tile.classList.add('used'); tile.classList.remove('selected');
+  delete wbSelected[sid];
+}
+function checkWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){
+    b.classList.remove('correct','wrong');
+    if (!b.classList.contains('filled')) return;
+    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+}
+function resetWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
+  box.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
+  wbSelected = {};
+}
+
+/* ===================== ADVERB IDENTIFY (click all adverbs; if any need fixing, rewrite the sentence) ===================== */
+function normSentence(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’"—-]/g,' ').replace(/\s+/g,' ').trim(); }
+function advWordPick(el){
+  if (el.classList.contains('correct')) return;
+  var item = el.closest('.adv-item');
+  var status = el.dataset.status;
+  if (status === 'ok' || status === 'fix'){
+    el.classList.add('correct');
+    var real = item.querySelectorAll('.adv-word[data-status="ok"], .adv-word[data-status="fix"]');
+    var allDone = Array.prototype.every.call(real, function(w){ return w.classList.contains('correct'); });
+    if (allDone) item.classList.add('identified');
+    return;
+  }
+  el.classList.add('wrong');
+  setTimeout(function(){ el.classList.remove('wrong'); }, 600);
+}
+function checkAdvSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.adv-item .ans-input').forEach(function(inp){
+    inp.classList.remove('correct','wrong','empty-warn');
+    var val = normSentence(inp.value);
+    if (!val) { inp.classList.add('empty-warn'); return; }
+    var ok = val === normSentence(inp.dataset.ans || '');
+    inp.classList.add(ok ? 'correct' : 'wrong');
+  });
+}
+function resetAdvSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.adv-word').forEach(function(w){ w.classList.remove('correct','wrong'); });
+  box.querySelectorAll('.adv-item').forEach(function(item){ item.classList.remove('identified'); });
+  box.querySelectorAll('.adv-item .ans-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== SUGGESTED ANSWER TOGGLE ===================== */
+function toggleSuggested(id){
+  var box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+function toggleUsedMark(el){
+  el.classList.toggle('used');
+}
+function resetListenSlide(id){
+  var box = document.getElementById(id);
+  box.classList.remove('show');
+  box.querySelectorAll('.ans-input').forEach(function(inp){ inp.value=''; });
+}
+
+/* ===================== DICE ROLLER ===================== */
+var diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+var dicePrompts = {
+  'dice-story': {
+    1: "Tell me about a book or movie ending that surprised you.",
+    2: "If you wrote a 50-word story right now, what would it be about?",
+    3: "Do you prefer stories with happy endings or realistic ones?",
+    4: "What's a story you know that has a twist?",
+    5: "Would you rather read a long novel or several short stories? Why?",
+    6: "Tell me about the last story you read or watched."
+  },
+  'dice-adverb': {
+    1: "Tell me about something you (nearly) forgot to do this week.",
+    2: "What's something you can (hardly) do without help?",
+    3: "Describe something you (right away) noticed when you walked in today.",
+    4: "Tell me about a time you did something (badly) at first, but got better with practice.",
+    5: "What's something you (luckily) avoided or escaped from?",
+    6: "Is there something you (still) haven't done, but really want to?"
+  }
+};
+function rollDie(id){
+  var face = document.getElementById(id+'-face');
+  var promptEl = document.getElementById(id+'-prompt');
+  var n = 0, rolls = 0;
+  var spin = setInterval(function(){
+    n = Math.floor(Math.random()*6);
+    face.textContent = diceFaces[n];
+    rolls++;
+    if (rolls > 10){
+      clearInterval(spin);
+      promptEl.textContent = dicePrompts[id][n+1];
+    }
+  }, 80);
+}
+
+/* ===================== PRINT LESSON ===================== */
+function printAll(){
+  saveNotes();
+  var injected = [];
+  slides.forEach(function(slide, i){
+    if (i === 0){
+      var linkEl = document.createElement('div');
+      linkEl.className = 'lesson-link-print';
+      linkEl.innerHTML = '<span class="lp-title">A Really Good Ending?</span>' +
+        '<span class="lp-sub">Click on this link to access the lesson: ' +
+        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html</a></span>';
+      slide.insertBefore(linkEl, slide.firstChild);
+      injected.push(linkEl);
+    }
+    var n = notesData[i] || '';
+    if (n.replace(/<[^>]*>/g,'').trim()){
+      var notesEl = document.createElement('div');
+      notesEl.className = 'slide-notes-print';
+      notesEl.innerHTML = '<div class="slide-notes-print-label">📝 Teacher Notes</div>' + n;
+      slide.appendChild(notesEl);
+      injected.push(notesEl);
+    }
+  });
+  document.body.classList.add('print-all');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-all');
+    injected.forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
+  }, 1500);
+}
+
+/* init */
+document.getElementById('counter').textContent = '1/'+slides.length;
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
