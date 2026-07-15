@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF4 4B — A Risky Business</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
+  .slide {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+    transition:opacity .35s ease; overflow-y:auto; min-height:100vh;
+    display:flex; flex-direction:column; background:#fff;
+  }
+  .slide.active { opacity:1; pointer-events:auto; }
+
+  /* ===== COVER / HW COVER ===== */
+  #s1, #hw-cover {
+    background: linear-gradient(135deg, #180B08 0%, #3D1810 30%, #6B2318 55%, #8B3A1E 75%, #C44D1E 100%);
+    align-items:center; justify-content:center;
+  }
+  .title-inner { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; }
+  .title-label { text-transform:uppercase; letter-spacing:.18em; font-size:1.1rem; font-weight:500; color:rgba(255,255,255,.65); margin-bottom:10px; }
+  .title-sub { font-size:1.15rem; font-weight:400; color:rgba(255,255,255,.75); margin-bottom:26px; }
+  .title-main { font-size:3.4rem; font-weight:900; color:#fff; line-height:1.1; text-align:center; max-width:900px; }
+  .title-accent { color:#FF6B35; text-shadow:0 0 28px rgba(255,107,53,.5); }
+  .hw-badge { background:rgba(255,255,255,.1); border-radius:8px; padding:7px 22px; font-size:1rem; letter-spacing:.15em; color:rgba(255,255,255,.85); text-transform:uppercase; font-weight:600; margin-bottom:32px; }
+
+  /* ===== BANNERS ===== */
+  .banner { width:100%; padding:13px 28px; font-size:1.1rem; font-weight:700; letter-spacing:.03em; display:flex; align-items:center; gap:10px; flex-shrink:0; color:#fff; }
+  .banner-leadin    { background:#D35400; }
+  .banner-listening { background:#0E7A8A; }
+  .banner-speaking  { background:#B23A6B; }
+  .banner-grammar   { background:#5A2E8C; }
+  .banner-pron      { background:#A8571E; }
+  .banner-reading   { background:#2A6B42; }
+  .banner-vocab     { background:#1E7A5F; }
+  .banner-video     { background:#A83232; }
+  .banner-review    { background:#2E2A6B; }
+  .banner-hw        { background:#1C2B3A; }
+
+  .slide-main { flex:1; overflow-y:auto; width:100%; display:flex; flex-direction:column; padding-bottom:60px; }
+  .content { padding:24px 48px 20px; flex:1; }
+  h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
+  .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .section-subhead { font-size:1.3rem; font-weight:800; color:#5A2E8C; margin:24px 0 10px; }
+  .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
+  .discuss-list li { margin-bottom:10px; }
+
+  /* ===== CARDS / EXERCISE CONTAINERS ===== */
+  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
+  .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .book-placeholder .bp-note { font-weight:400; font-size:1.05rem; color:#9A7A2E; margin-top:6px; }
+  .lead-img-wrap { text-align:center; margin-bottom:20px; }
+  .lead-img { width:100%; max-height:280px; object-fit:cover; border-radius:14px; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .lead-img-caption { font-size:1.08rem; font-style:italic; font-weight:700; color:#8B3A1E; margin:12px 0 0; }
+
+  .ex-row { font-size:1.06rem; line-height:1.7; margin-bottom:10px; color:#1C2B3A; }
+  .ans-input { border:none; border-bottom:2px solid #5A2E8C; background:transparent; font-size:1.05rem; font-weight:700; width:160px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
+  .ans-input.small { width:120px; }
+  .ans-input.wide { width:100%; margin-top:6px; }
+  .ans-input.half { width:50%; margin-top:6px; }
+  textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
+  .ans-input:focus { outline:none; border-bottom-color:#B23A6B; }
+  .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
+  .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
+  .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
+
+  .two-col { columns:2; column-gap:40px; }
+  .two-col .ex-row { break-inside:avoid; }
+  .fixed-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; align-items:start; }
+  .fixed-three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 28px; align-items:start; }
+
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  .btn-check { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-suggest { background:#1B6E96; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  .suggest-box { display:none; background:#EAF4F6; border-left:4px solid #1B6E96; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .suggest-box.show { display:block; }
+  .suggest-box li { margin-bottom:6px; }
+
+  /* circle MC */
+  .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#5A2E8C; margin-right:8px; font-size:.9rem; }
+  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt.picked { border-color:#5A2E8C; background:#EEE7F7; font-weight:700; }
+  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .example-badge { background:#2E7D32;color:#fff;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:800; margin-right:8px; font-size:.9rem; }
+
+  /* classify */
+  .classify-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .classify-chip { border:1.5px solid #5A2E8C; color:#5A2E8C; border-radius:20px; padding:6px 16px; cursor:pointer; font-weight:700; font-size:1.05rem; background:#fff; font-family:inherit; }
+  .classify-chip.selected { background:#5A2E8C; color:#fff; }
+  .classify-chip.used { opacity:.35; cursor:default; border-style:dashed; }
+  .classify-cols { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .classify-col { background:#fff; border:2px solid #ddd; border-radius:10px; padding:14px; min-height:70px; cursor:pointer; }
+  .classify-col h4 { margin:0 0 8px; font-size:1.1rem; color:#5A2E8C; }
+  .classify-col .placed { display:inline-block; background:#EEE7F7; border-radius:14px; padding:3px 10px; margin:3px; font-size:1.05rem; font-weight:700; }
+  .classify-col .placed.correct { background:#E3F5EA; color:#1A7A4A; }
+  .classify-col .placed.wrong { background:#FBEAE6; color:#C4614A; }
+
+  /* match colour pair */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; background:#F8FAFB; border-radius:14px; padding:1.3rem 1.4rem; }
+  .match-col-head { font-weight:800; font-size:1rem; letter-spacing:.02em; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #E0E6EC; }
+  .match-col-head.mc-left { color:#5A2E8C; }
+  .match-col-head.mc-right { color:#A8571E; }
+  .match-item { padding:11px 14px; border-radius:8px; border:1.5px solid #ddd; margin-bottom:10px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; user-select:none; position:relative; transition:border-color .15s, box-shadow .15s, transform .15s; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:flex-start; }
+  .match-item:not(.example-pair):hover { box-shadow:0 3px 10px rgba(0,0,0,.14); transform:translateY(-1px); }
+  .match-item.example-pair { cursor:default; background:#EAF6EE !important; border-color:#2E7D32 !important; }
+  .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
+  .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
+  .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
+  .match-item.c3 { border-color:#0E7A8A; border-width:3px; background:#E3F2F4; box-shadow:0 0 0 2px rgba(14,122,138,.25); }
+  .match-item.c4 { border-color:#B23A6B; border-width:3px; background:#F8E6EE; box-shadow:0 0 0 2px rgba(178,58,107,.25); }
+  .match-item.c5 { border-color:#8C7A1E; border-width:3px; background:#F5F1DD; box-shadow:0 0 0 2px rgba(140,122,30,.25); }
+  .match-item.c6 { border-color:#4A5A8C; border-width:3px; background:#E6E9F5; box-shadow:0 0 0 2px rgba(74,90,140,.25); }
+  .match-item.c7 { border-color:#3E8C5E; border-width:3px; background:#E6F5EC; box-shadow:0 0 0 2px rgba(62,140,94,.25); }
+  .match-item.picking { border-color:#5A2E8C; border-width:3px; border-style:dashed; box-shadow:0 0 0 2px rgba(90,46,140,.2); }
+  .match-item.correctpair { outline:3px solid #1A7A4A; background:#1A7A4A !important; color:#fff; }
+  .match-item.wrongpair { outline:3px solid #C4614A; background:#C4614A !important; color:#fff; }
+
+  /* word bank tiles */
+  .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .wb-bank.book-style { border-top:3px double #333; border-bottom:1px solid #ccc; padding:12px 4px; }
+  .wb-tile { border:1.5px solid #A8571E; color:#A8571E; background:#fff; border-radius:18px; padding:6px 16px; cursor:pointer; font-weight:700; font-family:inherit; font-size:1.05rem; }
+  .wb-tile.used { opacity:.35; border-style:dashed; cursor:default; }
+  .wb-tile.selected { background:#A8571E; color:#fff; }
+  .wb-tile.example-used { opacity:.5; border-style:dashed; cursor:default; text-decoration:line-through; }
+  .wb-blank { display:inline-block; min-width:90px; border-bottom:2px solid #A8571E; padding:2px 8px; margin:0 3px; cursor:pointer; font-weight:700; color:#A8571E; text-align:center; }
+  .wb-blank.filled { border-style:solid; }
+  .wb-blank.correct { color:#1A7A4A; border-color:#1A7A4A; }
+  .wb-blank.wrong { color:#C4614A; border-color:#C4614A; }
+
+  /* audio / video placeholders */
+  .audio-box { background:#f0f4f8; border-radius:999px; padding:10px 18px; display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .audio-box audio { width:100%; }
+  .video-box { background:#1C2B3A; border-radius:14px; padding:16px 20px; margin-bottom:18px; }
+  .video-box video { width:100%; border-radius:8px; display:block; }
+  .video-box p { color:#fff; font-size:.95rem; margin:0 0 10px; font-weight:700; letter-spacing:.02em; }
+  .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
+  .glossary-box { background:#F4F8FA; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .glossary-box h4 { margin:0 0 8px; font-size:1rem; color:#5A2E8C; }
+  .glossary-box p { margin:0 0 6px; font-size:1.02rem; line-height:1.6; color:#1C2B3A; }
+  .glossary-box b { color:#1C2B3A; }
+
+  /* answer key toggle */
+  .akey-box { display:none; background:#F3EEF7; border-left:4px solid #5A2E8C; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .akey-box.show { display:block; }
+  .akey-box li { margin-bottom:8px; }
+  .btn-akey { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  /* grammar theory / form reference */
+  .gram-box { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; border-left:6px solid #5A2E8C; }
+  .gram-box h3 { margin:0 0 8px; font-size:1.1rem; color:#5A2E8C; }
+  .gram-box p { font-size:1.06rem; line-height:1.7; color:#1C2B3A; margin:0 0 8px; }
+  .gram-box .hl { font-weight:800; color:#5A2E8C; }
+  .gram-box ul { margin:6px 0 0; padding-left:20px; font-size:1.05rem; line-height:1.8; color:#1C2B3A; }
+  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .gram-mistake { background:#FDEBEA; border-left:4px solid #C4614A; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A2A1E; margin-top:10px; line-height:1.6; }
+  .gram-mistake s { color:#922B21; }
+  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.6; }
+  .ex-example-centered .ex-tag { display:block; font-style:normal; font-weight:800; letter-spacing:.06em; font-size:.78rem; text-transform:uppercase; color:#2F7A52; margin-bottom:6px; }
+
+  /* CCQ box */
+  .ccq-box { background:#F4F8FA; border-radius:10px; padding:14px 18px; margin:14px 0; }
+  .ccq-label { font-weight:700; color:#5A2E8C; margin-bottom:8px; font-size:1.05rem; }
+  .ccq-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .ccq-list li { font-size:1.05rem; color:#1C2B3A; }
+  .ccq-list em { color:#5A2E8C; font-weight:700; font-style:normal; }
+  .ccq-reveal-btn { background:#5A2E8C; color:#fff; border:none; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700; cursor:pointer; margin-right:10px; }
+  .ccq-reveal-btn:hover { background:#7A45B5; }
+  .ccq-answer { display:none; color:#1A5030; font-weight:600; }
+  .ccq-answer.show { display:inline; }
+
+  /* speaking interview cards */
+  .interview-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:10px; }
+  .interview-card { background:#F8F0F4; border-radius:14px; padding:18px 20px; border-left:6px solid #B23A6B; }
+  .interview-card h4 { margin:0 0 12px; font-size:1.15rem; color:#B23A6B; }
+  .interview-q { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; font-size:1.03rem; line-height:1.6; color:#1C2B3A; }
+  .interview-q:last-child { margin-bottom:0; }
+  .r-check { flex-shrink:0; width:34px; height:34px; border-radius:8px; border:2px solid #B23A6B; background:#fff; color:#B23A6B; font-weight:800; font-size:.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit; margin-top:2px; }
+  .r-check.picked { background:#B23A6B; color:#fff; }
+  .r-summary { background:#1C2B3A; color:#fff; border-radius:10px; padding:14px 20px; margin-top:14px; font-size:1.05rem; text-align:center; font-weight:700; }
+
+  /* image placeholder */
+  .img-placeholder { background:linear-gradient(135deg,#FBEFE0,#F5DCC0); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8B5A1E; font-size:.95rem; font-weight:600; border:2px dashed #D9B36C; margin:8px 0; padding:24px; text-align:center; min-height:120px; }
+  .img-placeholder .ip-icon { font-size:1.8rem; margin-bottom:6px; }
+  .photo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:16px; }
+  .photo-item { position:relative; }
+  .photo-item .img-placeholder { min-height:140px; margin:0; }
+  .photo-num { position:absolute; top:8px; left:8px; background:#1C2B3A; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .photo-label { margin-top:6px; }
+  .photo-label .wb-blank { display:block; width:100%; text-align:center; }
+
+  /* article */
+  .article-box { background:#FAFAF8; border-radius:12px; padding:20px 24px; margin-bottom:16px; border:1px solid #eee; }
+  .article-box h3 { font-size:1.3rem; font-weight:900; color:#1C2B3A; margin:0 0 4px; line-height:1.3; }
+  .article-box h3 .hl { background:#A83232; color:#fff; padding:2px 8px; border-radius:4px; }
+  .article-box p { font-size:1.02rem; line-height:1.75; color:#1C2B3A; margin:0 0 14px; }
+  .article-box p:last-child { margin-bottom:0; }
+
+  /* checkbox tick list */
+  .tick-list { display:flex; flex-direction:column; gap:8px; margin:10px 0 18px; }
+  .tick-item { display:flex; align-items:center; gap:12px; padding:9px 14px; border:1.5px solid #ddd; border-radius:8px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; background:#fff; transition:all .15s; }
+  .tick-item:hover { border-color:#2A6B42; }
+  .tick-box { width:22px; height:22px; border:2px solid #999; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:#fff; font-weight:800; }
+  .tick-item.picked { border-color:#2A6B42; background:#EAF6EE; }
+  .tick-item.picked .tick-box { background:#2A6B42; border-color:#2A6B42; }
+  .tick-item.correct { border-color:#1A7A4A; background:#E3F5EA; }
+  .tick-item.correct .tick-box { background:#1A7A4A; border-color:#1A7A4A; }
+  .tick-item.wrong { border-color:#C4614A; background:#FBEAE6; }
+  .tick-item.wrong .tick-box { background:#C4614A; border-color:#C4614A; }
+  .tick-item.missed { border-color:#C98A1E; background:#FDF3D6; }
+
+  /* dice */
+  .dice-box { text-align:center; background:#F4F8FA; border-radius:14px; padding:30px; }
+  .die-face { font-size:3.5rem; margin-bottom:16px; }
+  .dice-prompt { font-size:1.15rem; font-weight:700; color:#1C2B3A; margin-top:16px; min-height:30px; }
+  .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
+
+  /* review */
+  .review-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:10px 0; }
+
+  /* score scale (Listening 1a) */
+  .score-card { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+  .env-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:9px 0; border-bottom:1px solid #e2e8e2; font-size:1.05rem; color:#1C2B3A; }
+  .env-row:last-child { border-bottom:none; }
+  .env-row .env-label { flex:1; }
+  .env-scale { display:flex; gap:6px; }
+  .env-pill { width:32px; height:32px; border-radius:50%; border:1.5px solid #0E7A8A; color:#0E7A8A; background:#fff; cursor:pointer; font-weight:700; font-size:.95rem; display:flex; align-items:center; justify-content:center; font-family:inherit; }
+  .env-pill.picked { background:#0E7A8A; color:#fff; }
+  .score-legend { display:flex; justify-content:space-between; font-size:.85rem; color:#888; margin-top:6px; font-style:italic; }
+
+  /* ===== NAV / NOTES / HOME ===== */
+  #notesBtn { position:fixed; top:14px; right:22px; z-index:1000; background:rgba(10,40,54,.88); color:#fff; border:none; padding:9px 20px; border-radius:22px; cursor:pointer; font-size:.92rem; font-weight:600; letter-spacing:.02em; transition:background .2s; backdrop-filter:blur(4px); }
+  #notesBtn:hover { background:rgba(10,40,54,1); }
+  #homeBtn { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:1000; display:none; background:rgba(10,40,54,.88); color:#fff; border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem; align-items:center; justify-content:center; transition:background .2s; backdrop-filter:blur(4px); }
+  #homeBtn:hover { background:rgba(20,96,122,.95); }
+  #notesPanel { position:fixed; top:54px; right:22px; z-index:999; width:360px; max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .25s ease; opacity:0; border-radius:14px; }
+  #notesPanel.open { max-height:320px; opacity:1; }
+  #notesPanel.cover { left:50%; right:auto; top:56px; transform:translateX(-50%); width:min(760px,94vw); max-height:calc(100vh - 110px) !important; display:flex; flex-direction:column; }
+  #notesPanel.cover #notesTA { min-height:calc(100vh - 210px) !important; max-height:calc(100vh - 210px) !important; overflow-y:auto; }
+  #notesToolbar { display:flex; gap:5px; padding:6px 10px; background:rgba(10,40,54,.7); border-radius:10px 10px 0 0; align-items:center; flex-wrap:wrap; }
+  #notesToolbar button { background:rgba(255,255,255,.12); border:none; border-radius:5px; color:#fff; font-size:.85rem; padding:3px 9px; cursor:pointer; font-family:inherit; transition:background .15s; }
+  #notesToolbar button:hover { background:rgba(255,255,255,.25); }
+  #notesTA { width:100%; min-height:220px; max-height:260px; padding:14px; border:none; border-radius:0 0 14px 14px; outline:none; font-size:1rem; line-height:1.55; background:rgba(10,40,54,.92); color:#fff; font-family:inherit; backdrop-filter:blur(6px); box-sizing:border-box; overflow-y:auto; }
+  #notesTA:empty::before { content:attr(data-placeholder); color:rgba(255,255,255,.4); pointer-events:none; }
+  #notesTA [style*="background-color"] { color:#1a1a1a !important; }
+  #nav { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(10,40,54,.96); z-index:500; display:flex; align-items:center; justify-content:center; gap:14px; }
+  #nav button { background:rgba(255,255,255,.12); color:#fff; border:none; border-radius:7px; padding:7px 16px; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #dots { display:flex; gap:5px; flex-wrap:wrap; max-width:360px; justify-content:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; }
+  .dot.active { background:#FF6B35; }
+  #counter { color:#fff; font-size:.9rem; min-width:54px; text-align:center; }
+
+  /* print */
+  .slide-notes-print { display:none; }
+  .lesson-link-print { display:none; }
+  @media print {
+    @page { margin:1.2cm; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { height:auto !important; overflow:visible !important; background:#fff !important; display:block !important; }
+    #deck { overflow:visible !important; height:auto !important; display:block !important; position:static !important; }
+    #notesBtn, #notesPanel, #nav, #homeBtn { display:none !important; }
+    body.print-all .slide { display:flex !important; flex-direction:column !important; position:relative !important; inset:auto !important; opacity:1 !important; padding:16px 24px !important; page-break-after:always; break-after:page; min-height:0 !important; height:auto !important; }
+    .slide * { flex:none !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+    .slide-main, .content { overflow:visible !important; }
+    img, video { max-height:240px !important; width:auto !important; max-width:100% !important; object-fit:contain !important; }
+    body.print-all .slide::before { content:"AEF4 4B \2014  A Risky Business"; display:block !important; font-size:10px; color:#999; font-family:'Segoe UI', Arial, sans-serif; padding-bottom:5px; border-bottom:1px solid #ddd; margin-bottom:8px; }
+    body.print-all #s1::before { display:none !important; }
+    .lesson-link-print { display:block !important; padding:28px 32px; margin-bottom:20px; background:linear-gradient(135deg, #180B08 0%, #3D1810 30%, #6B2318 55%, #8B3A1E 75%, #C44D1E 100%); border-radius:12px; text-align:center; font-family:'Segoe UI', Arial, sans-serif; }
+    .lesson-link-print .lp-title { display:block; font-size:30px; font-weight:900; color:#fff; margin-bottom:10px; letter-spacing:.01em; line-height:1.2; }
+    .lesson-link-print .lp-sub { display:block; font-size:20px; color:rgba(255,255,255,.88); font-weight:500; }
+    .lesson-link-print a { color:#FF6B35; font-weight:800; text-decoration:underline; font-size:20px; }
+    .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
+    .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
+    .card-body, .card-body * { color:#1a1a1a !important; }
+  }
+</style>
+</head>
+<body>
+<button id="homeBtn" onclick="goTo(0)">🏠</button>
+<button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
+<div id="notesPanel">
+  <div id="notesToolbar">
+    <button onclick="notesFormat('bold')" title="Bold"><b>B</b></button>
+    <button onclick="notesFormat('underline')" title="Underline"><u>U</u></button>
+    <span style="display:flex;gap:3px;align-items:center;margin-left:6px;padding-left:6px;border-left:1px solid rgba(255,255,255,.2)">
+      <button onclick="notesHilite('#FFE600')" title="Yellow" style="background:#FFE600;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#90EE90')" title="Green"  style="background:#90EE90;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#FFB3C6')" title="Pink"   style="background:#FFB3C6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#ADD8E6')" title="Blue"   style="background:#ADD8E6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.78rem;padding:2px 7px;color:#ff9999;margin-left:2px;background:rgba(255,255,255,.1);border:none;border-radius:4px;cursor:pointer;">✕</button>
+    </span>
+  </div>
+  <div id="notesTA" contenteditable="true" data-placeholder="Your notes for this slide…" spellcheck="false" oninput="saveNotes()"></div>
+</div>
+
+<div id="deck">
+
+<!-- ============ COVER ============ -->
+<div class="slide active" id="s1">
+  <div class="title-inner">
+    <div class="title-label">Conversational English</div>
+    <div class="title-sub">with teacher Nanda</div>
+    <div class="title-main">A <span class="title-accent">Risky</span> Business</div>
+    <a href="../index.html" title="All AEF Courses" style="position:absolute;bottom:70px;left:32px;font-size:1.7rem;line-height:1;text-decoration:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));">🏠</a>
+    <div style="position:absolute;bottom:70px;right:32px;">
+      <button onclick="goToId('hw-cover')" style="background:#1C2B3A;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.03em;">📝 Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LEAD-IN: THE QUOTE ============ -->
+<div class="slide" id="s-leadin">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>Do one thing every day that scares you.</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <div class="card" style="background:linear-gradient(135deg,#FBEFE0 0%,#F5DCC0 100%);border-left:6px solid #8B3A1E;">
+      <p style="font-size:1.25rem;line-height:1.6;color:#1C2B3A;margin:0 0 10px;font-style:italic;">"Do one thing every day that scares you."</p>
+      <p style="font-size:1.05rem;color:#5A4212;margin:0;font-weight:700;">— Eleanor Roosevelt, US diplomat and activist</p>
+    </div>
+    <ul class="discuss-list">
+      <li>Eleanor Roosevelt (1884–1962) also served as the First Lady of the United States during her husband President Franklin D. Roosevelt's four terms in office, making her the longest-serving First Lady of the United States.</li>
+      <li>Why do you think she said this?</li>
+      <li>Do you agree with it?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 1a: SCORE THE RISKS ============ -->
+<div class="slide" id="s-listen1">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>How risky is it?</h2>
+    <p class="instruction">Look at the things on the list. How risky do you personally think they are? Why? Score them 1–5 (1 = not risky at all, 5 = very risky).</p>
+    <div class="score-card">
+      <div id="risk-scale">
+        <div class="env-row"><span class="env-label">a. having cosmetic surgery</span><span class="env-scale" data-row="a">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">b. riding a bike in your city</span><span class="env-scale" data-row="b">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">c. smoking</span><span class="env-scale" data-row="c">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">d. eating street food when you're traveling</span><span class="env-scale" data-row="d">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">e. buying a used car</span><span class="env-scale" data-row="e">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">f. hiking in the mountains</span><span class="env-scale" data-row="f">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">g. online dating</span><span class="env-scale" data-row="g">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">h. telling a lie on your résumé</span><span class="env-scale" data-row="h">
+          <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
+      </div>
+      <div class="score-legend"><span>1 = not risky at all</span><span>5 = very risky</span></div>
+    </div>
+    <p class="inst-light">Tell your tutor your scores and why you gave them. How similar do you think you'd be to other people?</p>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 1b+1c: AUDIO 4.8 ============ -->
+<div class="slide" id="s-listen2">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Are you a risk-taker?</h2>
+    <p class="instruction">Listen to four people answering the question <i>Are you a risk-taker?</i> Select ✓, ✗, or ✓/✗, and which topic the risk they talk about relates to.</p>
+    <div class="audio-box">
+      <audio controls src="track_4_08.mp3" style="width:100%;"></audio>
+    </div>
+    <div class="fixed-two-col" id="lst1">
+      <div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <b style="min-width:80px;">1 Holly</b>
+          <span><button class="circ-opt" data-group="l1-1" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="l1-1" data-correct="✗" onclick="circPick(this)">✗</button><button class="circ-opt" data-group="l1-1" data-correct="✗" onclick="circPick(this)">✓/✗</button></span>
+          <span><button class="circ-opt" data-group="l1-1t" data-correct="a sport" onclick="circPick(this)">a job</button><button class="circ-opt" data-group="l1-1t" data-correct="a sport" onclick="circPick(this)">a sport</button><button class="circ-opt" data-group="l1-1t" data-correct="a sport" onclick="circPick(this)">a relationship</button><button class="circ-opt" data-group="l1-1t" data-correct="a sport" onclick="circPick(this)">money</button></span>
+        </div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <b style="min-width:80px;">2 Natalie</b>
+          <span><button class="circ-opt" data-group="l1-2" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="l1-2" data-correct="✓" onclick="circPick(this)">✗</button><button class="circ-opt" data-group="l1-2" data-correct="✓" onclick="circPick(this)">✓/✗</button></span>
+          <span><button class="circ-opt" data-group="l1-2t" data-correct="money" onclick="circPick(this)">a job</button><button class="circ-opt" data-group="l1-2t" data-correct="money" onclick="circPick(this)">a sport</button><button class="circ-opt" data-group="l1-2t" data-correct="money" onclick="circPick(this)">a relationship</button><button class="circ-opt" data-group="l1-2t" data-correct="money" onclick="circPick(this)">money</button></span>
+        </div>
+      </div>
+      <div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <b style="min-width:80px;">3 Tom</b>
+          <span><button class="circ-opt" data-group="l1-3" data-correct="✓/✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="l1-3" data-correct="✓/✗" onclick="circPick(this)">✗</button><button class="circ-opt" data-group="l1-3" data-correct="✓/✗" onclick="circPick(this)">✓/✗</button></span>
+          <span><button class="circ-opt" data-group="l1-3t" data-correct="a job" onclick="circPick(this)">a job</button><button class="circ-opt" data-group="l1-3t" data-correct="a job" onclick="circPick(this)">a sport</button><button class="circ-opt" data-group="l1-3t" data-correct="a job" onclick="circPick(this)">a relationship</button><button class="circ-opt" data-group="l1-3t" data-correct="a job" onclick="circPick(this)">money</button></span>
+        </div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <b style="min-width:80px;">4 Jeanie</b>
+          <span><button class="circ-opt" data-group="l1-4" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="l1-4" data-correct="✗" onclick="circPick(this)">✗</button><button class="circ-opt" data-group="l1-4" data-correct="✗" onclick="circPick(this)">✓/✗</button></span>
+          <span><button class="circ-opt" data-group="l1-4t" data-correct="a relationship" onclick="circPick(this)">a job</button><button class="circ-opt" data-group="l1-4t" data-correct="a relationship" onclick="circPick(this)">a sport</button><button class="circ-opt" data-group="l1-4t" data-correct="a relationship" onclick="circPick(this)">a relationship</button><button class="circ-opt" data-group="l1-4t" data-correct="a relationship" onclick="circPick(this)">money</button></span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('lst1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('lst1')">Reset</button>
+    </div>
+    <h3 class="section-subhead" style="color:#0E7A8A;">🔁 Listen again</h3>
+    <p class="instruction">Listen again and select who each sentence is about: H (Holly), N (Natalie), T (Tom), or J (Jeanie).</p>
+    <div class="fixed-two-col" id="lst2">
+      <div>
+        <div class="ex-row">1. …thinks his/her attitude to risk hasn't changed at all throughout his/her life. <button class="circ-opt" data-group="l2-1" data-correct="H" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-1" data-correct="H" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-1" data-correct="H" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-1" data-correct="H" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">2. …thinks that the risk varies depending on the price. <button class="circ-opt" data-group="l2-2" data-correct="N" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-2" data-correct="N" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-2" data-correct="N" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-2" data-correct="N" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">3. …had to make a life-changing decision. <button class="circ-opt" data-group="l2-3" data-correct="J" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-3" data-correct="J" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-3" data-correct="J" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-3" data-correct="J" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">4. …is surprised about how positive he/she felt after doing a risky activity. <button class="circ-opt" data-group="l2-4" data-correct="H" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-4" data-correct="H" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-4" data-correct="H" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-4" data-correct="H" onclick="circPick(this)">J</button></div>
+      </div>
+      <div>
+        <div class="ex-row">5. …thinks most people take this kind of risk these days. <button class="circ-opt" data-group="l2-5" data-correct="N" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-5" data-correct="N" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-5" data-correct="N" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-5" data-correct="N" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">6. …decided not to go right into working in an office. <button class="circ-opt" data-group="l2-6" data-correct="T" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-6" data-correct="T" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-6" data-correct="T" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-6" data-correct="T" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">7. …wonders whether things might have been different if he/she hadn't taken the risk. <button class="circ-opt" data-group="l2-7" data-correct="J" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-7" data-correct="J" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-7" data-correct="J" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-7" data-correct="J" onclick="circPick(this)">J</button></div>
+        <div class="ex-row">8. …thinks the risk was worth taking because he/she learned some useful things for the future. <button class="circ-opt" data-group="l2-8" data-correct="T" onclick="circPick(this)">H</button><button class="circ-opt" data-group="l2-8" data-correct="T" onclick="circPick(this)">N</button><button class="circ-opt" data-group="l2-8" data-correct="T" onclick="circPick(this)">T</button><button class="circ-opt" data-group="l2-8" data-correct="T" onclick="circPick(this)">J</button></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('lst2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('lst2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 1d: BIGGEST RISK ============ -->
+<div class="slide" id="s-listen3">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Who took the biggest risk?</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <ul class="discuss-list">
+      <li>Which speaker do you think took the biggest risk? Why?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: ARE YOU A RISK-TAKER? ============ -->
+<div class="slide" id="s-speak1">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Are you a risk-taker?</h2>
+    <p class="instruction">Your tutor will ask you the questions below, one area at a time. After each question, click the <b>R</b> button if you think you're prepared to take risks in that area. Explain your answers — don't just say yes or no.</p>
+    <div class="interview-grid">
+      <div class="interview-card">
+        <h4>Appearance</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Have you ever done something dramatically different to your hair, e.g., had a very different hairstyle or hair color? How did you feel immediately afterwards?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Would you ever get a tattoo or a piercing?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>On the road</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Do you walk by yourself late at night, or take late-night taxis?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Where do you usually cross the street — at a traffic light or crosswalk, or just anywhere?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Do you drive a car or ride a motorcycle? Do you ever go really fast and break the speed limit?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>Shopping and money</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Do you use internet or mobile banking? Do you think it's safe?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Have you ever bought something expensive on eBay or a similar site? Would you?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Do you have different PINs and passwords, or do you always use the same one?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>Food</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>If you were offered very unusual food that you'd never had before, would you try it? Why (not)?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>If food is past its sell-by date, would you still eat it? Have you ever had food poisoning from eating something that wasn't fresh?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>Travel</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Have you ever gone on vacation with someone you didn't know very well?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Have you ever taken selfies on vacation in a dangerous place, e.g., on the edge of a cliff?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Do you usually take out insurance when you travel?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>If you're traveling somewhere, do you usually get to the station or airport with plenty of time, or do you always arrive at the last minute?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>Work and study</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Have you ever put off studying for an exam to the last minute? Did you pass?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>Would you accept a job abroad in a country where you didn't speak the language?</span></div>
+      </div>
+    </div>
+    <div class="r-summary" id="r-summary-text">0 out of 16 areas marked — the more you marked, the bigger risk-taker you are!</div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MEANING — ZERO & FIRST CONDITIONAL ============ -->
+<div class="slide" id="s-gram-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Zero and first conditionals</h2>
+    <p class="inst-light">Study how each conditional is formed and used.</p>
+    <div class="gram-box">
+      <h3>Zero conditional</h3>
+      <p><i>If you want to be in shape, you need to exercise every day.</i></p>
+      <p><i>If people are wearing headphones while walking, they often don't notice other people.</i></p>
+      <p><i>If you haven't been to New York, you haven't lived.</i></p>
+      <ul>
+        <li>We use zero conditionals to talk about something that is <span class="hl">always true</span> or always happens as a result of something else.</li>
+        <li>We use <span class="hl">if + simple present</span>, and the simple present in the other clause.</li>
+        <li>You can also use the present continuous or present perfect in either clause.</li>
+      </ul>
+    </div>
+    <div class="ccq-box">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>"If you heat water, it boils." Is this true only once, or every time? <em>(every time)</em></li>
+        <li>Are we talking about a specific moment in time? <em>(no — it's a general fact)</em></li>
+      </ul>
+    </div>
+    <div class="gram-box">
+      <h3>First conditional</h3>
+      <p><i>If the photos are good, I'll send them to you.</i></p>
+      <p><i>If you're not going to Jason's party, I'm not going to go either.</i></p>
+      <p><i>If I haven't come back by 9:00, start dinner without me.</i></p>
+      <p><i>I'll have finished in an hour if you don't disturb me.</i></p>
+      <ul>
+        <li>We use first conditionals to talk about something that will <span class="hl">probably happen in the future</span> as a result of something else.</li>
+        <li>We use <span class="hl">if + a present tense</span>, and a future tense in the other clause.</li>
+        <li>You can use any present form in the <i>if</i>-clause (simple present, continuous, or perfect) and any future form (<i>will</i>, <i>going to</i>, future perfect, future continuous) or an imperative in the other clause.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: FUTURE TIME CLAUSES ============ -->
+<div class="slide" id="s-gram-future">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Future time clauses</h2>
+    <p class="inst-light">Study how future time clauses are formed and used.</p>
+    <div class="gram-box">
+      <p><i>I'll be ready <span class="hl">as soon as</span> I've had a cup of coffee.</i></p>
+      <p><i>Text me <span class="hl">when</span> your train's coming into the station.</i></p>
+      <p><i>I'm not going to buy the new model <span class="hl">until</span> the price has gone down a little.</i></p>
+      <p><i>I'm not going to work overtime this weekend <span class="hl">unless</span> I get paid for it.</i></p>
+      <p><i>Take your umbrella <span class="hl">in case</span> it's raining when you leave work.</i></p>
+      <ul>
+        <li>Future time clauses are similar to the <i>if</i>-clause in first conditional sentences, but instead of <i>if</i>, we use expressions like <span class="hl">as soon as, when, until, unless, before, after,</span> and <span class="hl">in case</span> followed by a present (not future) tense.</li>
+        <li>This can be any present form, e.g., simple present, present continuous, present perfect. We can use any future form or imperative in the other clause.</li>
+      </ul>
+    </div>
+    <div class="gram-mistake">
+      <b>⚠️ Typical mistakes</b> — a future tense can never be used after <i>if, when, as soon as, until, unless, before, after,</i> or <i>in case</i>.
+      <p style="margin:8px 0 0;">I'll be ready as soon as <s>I'll have had</s> a shower. → I'll be ready as soon as I've had a shower.</p>
+      <p style="margin:4px 0 0;">We'll probably be watching the game when <s>you'll arrive</s>. → …when you arrive.</p>
+    </div>
+    <div class="gram-box" style="border-left-color:#A8571E;">
+      <h3 style="color:#A8571E;">in case</h3>
+      <p>We use <i>in case</i> when we do something in order to be ready for future situations/problems. Compare <i>if</i> and <i>in case</i>:</p>
+      <ul>
+        <li><i>I'll take an umbrella <span class="hl">if</span> it's raining.</i> = I'll only take an umbrella if it's raining.</li>
+        <li><i>I'll take an umbrella <span class="hl">in case</span> it rains.</i> = I'll take an umbrella anyway because it might rain.</li>
+      </ul>
+      <p style="margin-top:8px;"><i>In case</i> can also be used in the past (<i>I took a jacket in case it got cold later</i>), and — unlike the other expressions — it cannot be used at the beginning of a sentence.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MATCH THE SENTENCE HALVES ============ -->
+<div class="slide" id="s-gram-ex1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Match the sentence halves</h2>
+    <p class="instruction">Match each numbered sentence beginning on the left to its lettered ending on the right.</p>
+    <div class="match-wrap" id="gex1-match">
+      <div>
+        <div class="match-col-head mc-left">Sentence beginnings</div>
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>If my dad finds out I've been hitchhiking,</div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>When you're crossing the street in the US,</div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>As soon as I've passed my driver's test,</div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>If it's still snowing tomorrow,</div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>When we've booked the flights,</div>
+        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>Unless you lend her that money,</div>
+        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>If his temperature hasn't gone down,</div>
+        <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>If it doesn't rain by the end of the week,</div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">Sentence endings</div>
+        <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">a</span>all the plants in the garden will have died.</div>
+        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">b</span>he'll be furious.</div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">c</span>I'm going to buy a car.</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">d</span>make sure you look left and right.</div>
+        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">e</span>she won't be able to buy a train ticket.</div>
+        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">f</span>we need to start looking for hotels.</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">g</span>we won't be driving anywhere.</div>
+        <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">h</span>he isn't going to school tomorrow.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('gex1-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('gex1-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: ANALYZING THE FORM ============ -->
+<div class="slide" id="s-gram-ex2">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Look more closely at the form</h2>
+    <p class="instruction">Look back at the highlighted verbs in the sentences you just matched. What forms or tenses can you use after <i>if, when,</i> etc., and in the main clause?</p>
+    <div class="ccq-box">
+      <ul class="ccq-list">
+        <li>After <i>if, when,</i> etc. (in items 1–8): <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Any present form, e.g., simple present, present continuous, present perfect.</span></li>
+        <li>In the main clause (a–h): <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Any future form, e.g., <i>will, going to,</i> present continuous with future meaning, future perfect, future continuous, or an imperative.</span></li>
+      </ul>
+    </div>
+    <p class="instruction" style="margin-top:22px;">Now look at two more conditional sentences. Does the <b>bold</b> clause refer to (a) something that is a <i>possible</i> consequence of the <i>if</i>-clause, or (b) something that is <i>always</i> a consequence of the <i>if</i>-clause?</p>
+    <div class="fixed-two-col" id="gex2">
+      <div>
+        <div class="ex-row">1. If you don't take out travel insurance, <b>you run the risk of paying expensive medical fees</b>.<br><button class="circ-opt" data-group="ge2-1" data-correct="a" onclick="circPick(this)">a — possible consequence</button><button class="circ-opt" data-group="ge2-1" data-correct="a" onclick="circPick(this)">b — always a consequence</button></div>
+      </div>
+      <div>
+        <div class="ex-row">2. If you use online banking, <b>it's essential to never share your password</b>.<br><button class="circ-opt" data-group="ge2-2" data-correct="b" onclick="circPick(this)">a — possible consequence</button><button class="circ-opt" data-group="ge2-2" data-correct="b" onclick="circPick(this)">b — always a consequence</button></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('gex2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('gex2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR BANK: CIRCLE THE CORRECT FORM ============ -->
+<div class="slide" id="s-gram-ex3">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Circle the correct form</h2>
+    <p class="instruction">Select the correct form to complete each sentence.</p>
+    <div class="fixed-two-col" id="gex3">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> If Rob <span style="color:#1A5030;font-weight:800;">has studied ✓</span> / <span style="color:#aaa;text-decoration:line-through;">had studied</span> enough, he'll easily pass the exam.</div>
+        <div class="ex-row">2. If you <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">aren't feeling</button> / <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">won't be feeling</button> better tomorrow, you should go to the doctor.</div>
+        <div class="ex-row">3. If we're lucky, we <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">have sold</button> / <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">'ll have sold</button> our house by New Year's.</div>
+        <div class="ex-row">4. I'll pay for dinner – if I <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">have</button> / <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">'ll have</button> enough money!</div>
+        <div class="ex-row">5. If we continue playing like this, we <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">'ll have scored</button> / <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">have scored</button> ten goals by halftime.</div>
+        <div class="ex-row">6. Don't call Sophie now. If it's eight o'clock, she <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll bath</button> / <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll be bathing</button> the baby.</div>
+      </div>
+      <div>
+        <div class="ex-row">7. If you don't hurry up, you <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">don't get</button> / <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">won't get</button> to school on time.</div>
+        <div class="ex-row">8. You can be fined if you <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">aren't wearing</button> / <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">won't be wearing</button> a seat belt in your car.</div>
+        <div class="ex-row">9. If you go out with wet hair, you <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll catch</button> / <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll be catching</button> a cold.</div>
+        <div class="ex-row">10. My suitcase <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">always gets</button> / <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">will always get</button> lost if I have a connecting flight.</div>
+        <div class="ex-row">11. I <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">won't go</button> / <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">don't go</button> to work on Monday if my daughter is still sick.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('gex3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('gex3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR BANK: COMPLETE WITH A TIME EXPRESSION ============ -->
+<div class="slide" id="s-gram-ex4">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the sentence with a time expression</h2>
+    <p class="instruction">Click a time expression in the bank, then click the blank where it belongs.</p>
+    <div class="wb-bank book-style" id="gex4-bank">
+      <span class="wb-tile example-used" data-val="as soon as">as soon as</span>
+      <span class="wb-tile" data-val="after" onclick="wbPick(this)">after</span>
+      <span class="wb-tile" data-val="as soon as" onclick="wbPick(this)">as soon as</span>
+      <span class="wb-tile" data-val="before" onclick="wbPick(this)">before</span>
+      <span class="wb-tile" data-val="if" onclick="wbPick(this)">if</span>
+      <span class="wb-tile" data-val="in case" onclick="wbPick(this)">in case</span>
+      <span class="wb-tile" data-val="in case" onclick="wbPick(this)">in case</span>
+      <span class="wb-tile" data-val="unless" onclick="wbPick(this)">unless</span>
+      <span class="wb-tile" data-val="unless" onclick="wbPick(this)">unless</span>
+      <span class="wb-tile" data-val="until" onclick="wbPick(this)">until</span>
+      <span class="wb-tile" data-val="when" onclick="wbPick(this)">when</span>
+    </div>
+    <div class="fixed-two-col" id="gex4">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I'll call you <span style="color:#1A5030;font-weight:800;">as soon as</span> my plane lands.</div>
+        <div class="ex-row">2. I'm going to pack my suitcase <span class="wb-blank" data-ans="before" onclick="wbPlace(this)">______</span> I go to bed.</div>
+        <div class="ex-row">3. Take your phone with you <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> you get lost.</div>
+        <div class="ex-row">4. I'll be leaving work early tomorrow <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> there's a last-minute crisis.</div>
+        <div class="ex-row">5. Let's meet <span class="wb-blank" data-ans="when" onclick="wbPlace(this)">______</span> I'm in Toronto next week.</div>
+        <div class="ex-row">6. There's a crisis! Please call me <span class="wb-blank" data-ans="as soon as" onclick="wbPlace(this)">______</span> you possibly can.</div>
+      </div>
+      <div>
+        <div class="ex-row">7. <span class="wb-blank" data-ans="if" onclick="wbPlace(this)">______</span> I'm late tomorrow, start the meeting without me.</div>
+        <div class="ex-row">8. Mei Ting will have packed some sandwiches <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> we get hungry.</div>
+        <div class="ex-row">9. Dan will be playing soccer in the park <span class="wb-blank" data-ans="until" onclick="wbPlace(this)">______</span> it gets dark.</div>
+        <div class="ex-row">10. Then, <span class="wb-blank" data-ans="after" onclick="wbPlace(this)">______</span> we've eaten, we could go for a walk.</div>
+        <div class="ex-row">11. Don't call 911 <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> it's a real emergency.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('gex4')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('gex4')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: LISTEN & COMPLETE ============ -->
+<div class="slide" id="s-pron1">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Linked phrases</h2>
+    <p class="instruction">Listen and complete the sentence below with three words.</p>
+    <div class="audio-box">
+      <audio controls src="track_4_12.mp3" style="width:100%;"></audio>
+    </div>
+    <div class="ex-row" id="pron1" style="font-size:1.15rem;">I'll call you <input class="ans-input" data-ans="as soon as"> the mail's been delivered.</div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('pron1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('pron1')">Reset</button>
+    </div>
+    <div class="ccq-box" style="margin-top:20px;">
+      <p class="ccq-label">💭 Can you explain the linking?</p>
+      <ul class="ccq-list">
+        <li>Why are the first and second words linked together? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>As</i> and <i>soon</i> are linked because <i>as</i> finishes with the /z/ sound and <i>soon</i> starts with the very similar sound /s/.</span></li>
+        <li>Why are the second and third words linked together? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>Soon</i> and <i>as</i> are linked because <i>soon</i> ends with a consonant sound (/n/) and <i>as</i> begins with a vowel sound (/æ/).</span></li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: COMPLETE THE SENTENCES ============ -->
+<div class="slide" id="s-pron2">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the sentences</h2>
+    <p class="instruction">Listen and complete the sentences with the missing three-word phrase (contractions count as one word).</p>
+    <div class="audio-box">
+      <audio controls src="track_4_13.mp3" style="width:100%;"></audio>
+    </div>
+    <div class="fixed-two-col" id="pron2">
+      <div>
+        <div class="ex-row">1. Don't call me <input class="ans-input" data-ans="unless it's an"> emergency.</div>
+        <div class="ex-row">2. As <input class="ans-input" data-ans="far as I'm"> concerned, you have to be crazy to want to do an extreme sport.</div>
+        <div class="ex-row">3. Be careful with your wallet, <input class="ans-input" data-ans="and above all">, don't use your phone on the street.</div>
+        <div class="ex-row">4. It was <input class="ans-input" data-ans="such an amazing"> experience that I've never forgotten it.</div>
+      </div>
+      <div>
+        <div class="ex-row">5. I dyed my hair blue a <input class="ans-input" data-ans="short time ago">, and I hated it!</div>
+        <div class="ex-row">6. I was scared at first, but it was <input class="ans-input" data-ans="worth it in"> the end.</div>
+        <div class="ex-row">7. <input class="ans-input" data-ans="first of all">, let's try to find a cheap hotel.</div>
+        <div class="ex-row">8. In <input class="ans-input" data-ans="an ideal"> world, everyone would earn a salary.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('pron2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('pron2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: PRACTICE & PERSONALIZE ============ -->
+<div class="slide" id="s-pron3">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Practice and personalize</h2>
+    <p class="instruction">Practice saying the highlighted phrases below, linking the words together. Then make personal sentences using as many of the phrases as you can.</p>
+    <div class="card" style="display:flex;flex-wrap:wrap;gap:10px;">
+      <span class="wb-tile" style="cursor:default;">unless it's an emergency</span>
+      <span class="wb-tile" style="cursor:default;">as far as I'm concerned</span>
+      <span class="wb-tile" style="cursor:default;">and above all</span>
+      <span class="wb-tile" style="cursor:default;">such an amazing (experience)</span>
+      <span class="wb-tile" style="cursor:default;">a short time ago</span>
+      <span class="wb-tile" style="cursor:default;">worth it in the end</span>
+      <span class="wb-tile" style="cursor:default;">first of all</span>
+      <span class="wb-tile" style="cursor:default;">in an ideal world</span>
+    </div>
+    <textarea class="ans-input wide" id="pron3-txt" rows="3" style="margin-top:16px;"></textarea>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('pron3-sugg')">💡 Suggested Answer</button>
+      <button class="btn-reset" onclick="document.getElementById('pron3-txt').value='';document.getElementById('pron3-sugg').classList.remove('show');">Reset</button>
+    </div>
+    <div class="suggest-box" id="pron3-sugg">
+      <i>I never go to the doctor unless it's an emergency.</i>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: LABEL THE PHOTOS ============ -->
+<div class="slide" id="s-read1">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Label the photos</h2>
+    <p class="instruction">Click a sport in the bank, then click the photo it matches. What other extreme sports do you know?</p>
+    <div class="wb-bank book-style" id="read1-bank">
+      <span class="wb-tile" data-val="bungee jumping" onclick="wbPick(this)">bungee jumping</span>
+      <span class="wb-tile" data-val="paragliding" onclick="wbPick(this)">paragliding</span>
+      <span class="wb-tile" data-val="skydiving" onclick="wbPick(this)">skydiving</span>
+      <span class="wb-tile" data-val="wingsuit flying" onclick="wbPick(this)">wingsuit flying</span>
+    </div>
+    <div class="photo-grid" id="read1">
+      <div class="photo-item">
+        <div class="photo-num">1</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Two people wingsuit flying over mountains</div>
+        <div class="photo-label"><span class="wb-blank" data-ans="wingsuit flying" onclick="wbPlace(this)">______</span></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">2</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Person upside down, bungee jumping</div>
+        <div class="photo-label"><span class="wb-blank" data-ans="bungee jumping" onclick="wbPlace(this)">______</span></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">3</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Person skydiving in freefall</div>
+        <div class="photo-label"><span class="wb-blank" data-ans="skydiving" onclick="wbPlace(this)">______</span></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">4</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Person paragliding over the coast</div>
+        <div class="photo-label"><span class="wb-blank" data-ans="paragliding" onclick="wbPlace(this)">______</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('read1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('read1')">Reset</button>
+    </div>
+    <p class="inst-light" style="margin-top:18px;">What other extreme sports do you know?</p>
+  </div></div>
+</div>
+
+<!-- ============ READING: ARTICLE + REASONS ============ -->
+<div class="slide" id="s-read2">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Why are deadly extreme sports more popular than ever?</h2>
+    <p class="instruction">Read the article and check the three reasons it gives for why extreme sports are becoming more popular.</p>
+    <div class="tick-list" id="read2">
+      <div class="tick-item" data-val="1" onclick="toggleTick(this)"><span class="tick-box">✓</span>More and more celebrities are taking them up.</div>
+      <div class="tick-item" data-val="2" onclick="toggleTick(this)"><span class="tick-box">✓</span>Once some people have tried it, they can't stop.</div>
+      <div class="tick-item" data-val="3" onclick="toggleTick(this)"><span class="tick-box">✓</span>People find traditional sports, like soccer, not challenging enough.</div>
+      <div class="tick-item" data-val="4" onclick="toggleTick(this)"><span class="tick-box">✓</span>People want to have new experiences.</div>
+      <div class="tick-item" data-val="5" onclick="toggleTick(this)"><span class="tick-box">✓</span>They are better known because you can watch other people doing them live online.</div>
+      <div class="tick-item" data-val="6" onclick="toggleTick(this)"><span class="tick-box">✓</span>It's cheaper to do extreme sports than ever before.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkTickSlide('read2', ['2','4','5'])">Check Answers</button>
+      <button class="btn-reset" onclick="resetTickSlide('read2')">Reset</button>
+    </div>
+    <div class="article-box" style="margin-top:22px;">
+      <h3>Why are <span class="hl">deadly extreme sports</span> more popular than ever?</h3>
+      <p>Two men leap from the top of the mountain and spread their wings to fly down one of the most dangerous routes in one of the world's most dangerous sports. Dario Zanon and Graham Dickinson are experts at wingsuit flying. Using pieces of cloth that join their arms and legs, they fly past cliff edges and between trees at over 110 mph. Then they release their parachutes and drift down to land. This video has been watched over ten million times on social media.</p>
+      <p>A few months later, Zanon returned to Chamonix and climbed the Aiguille du Midi on the other side of the valley, for a solo flight. On that Sunday, his body was found on the glaciers 5,000 feet below. He was 33. Most likely no one will ever know exactly which small thing went wrong. Small things become big quickly at 110 mph. It does happen to the best. Mark Sutton, the man who parachuted into the London Olympics stadium dressed as James Bond, was killed wingsuit flying in the Swiss Alps, while filming for EpicTV. Dean Potter, a famous US wingsuit flyer, died with his friend Graham Hunt. They had jumped from Taft Point in California.</p>
+      <p>Today extreme sports are booming. Skydiving is a good example – in 2006, the British Parachute Association recorded 39,100 first jumps, but last year there were 59,679. The number of people climbing Everest has rocketed since the 1990s, and the proportion of women climbers is increasing, up from about 16% in 2002 to 36% now.</p>
+      <p>"You just get into it and then progressively build up," says Jess Cox, 27, an instructor at her father's paragliding business. "Better flights involve going higher, further, doing acrobatic stuff." She shows me a video on her phone, of when she and a friend jumped off a mountain in Turkey. "Woo-hoo!" she squeals, watching. "I'd say that was one of the best days of my life. It's completely addictive. Some people become completely obsessed, quit their jobs, and just travel around the world, leaping off things." Science teacher Becky, on the other hand, didn't get addicted. "I did a skydive once and I've also done bungee jumping. The skydive was good, yes. I've no particular need to do it again. But," she says, "life would be a bit boring if people didn't try new things."</p>
+      <p>Extreme sports constantly push people to test the ultimate limits of their own safety. They are jumping blindfolded, or with their dog, or skydiving without a parachute into a giant net – and you'll find all these online, thanks to action cameras. One hundred hours of GoPro video are uploaded onto YouTube every minute, and sales of these cameras are growing by 50% a year. Watching other people do these things is attracting many more new participants.</p>
+      <p>A good soccer player or tennis player always wants to be tested against better opponents, but their opponents are human. In extreme sports, the opponent is danger. So how can you get better without killing yourself? Steph Davis, one of the world's best-known climbers and wingsuit flyers, wrote, "Perhaps getting better means becoming more elegant." Maybe the future of extreme sports is about learning to be less extreme.</p>
+    </div>
+    <div class="glossary-box">
+      <h4>Glossary</h4>
+      <p><b>Taft Point</b> a very high granite rock in Yosemite National Park, California</p>
+      <p><b>GoPro</b> a compact action camera capable of taking photos and videos in extreme conditions</p>
+    </div>
+    <p class="glossary-note">Adapted from The Guardian</p>
+  </div></div>
+</div>
+
+<!-- ============ READING: FIND THE MISSING INFORMATION ============ -->
+<div class="slide" id="s-read3">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Find the missing information</h2>
+    <p class="instruction">Read the article again and fill in the blanks. Each blank needs a name or a number.</p>
+    <div class="fixed-two-col" id="read3">
+      <div>
+        <div class="ex-row">1. <input class="ans-input" data-ans="110 mph"> — the typical speed of a wingsuit flyer</div>
+        <div class="ex-row">2. <input class="ans-input" data-ans="33"> — the age that Zanon was when he died</div>
+        <div class="ex-row">3. <input class="ans-input" data-ans="Dean Potter"> and <input class="ans-input" data-ans="Graham Hunt"> — the two men killed wingsuit flying in the US a few years ago</div>
+        <div class="ex-row">4. <input class="ans-input" data-ans="59,679" data-alt="59679"> — the number of people who parachuted for the first time last year</div>
+      </div>
+      <div>
+        <div class="ex-row">5. <input class="ans-input" data-ans="36%" data-alt="36"> — the percentage of female climbers now</div>
+        <div class="ex-row">6. <input class="ans-input" data-ans="Jess Cox"> — the woman who paraglided off a mountain in Turkey</div>
+        <div class="ex-row">7. <input class="ans-input" data-ans="Steph Davis"> — one of the world's best female wingsuit flyers</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('read3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('read3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: DISCUSSION ============ -->
+<div class="slide" id="s-read4">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Talk about it</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <p class="section-subhead" style="font-size:1.1rem;">The writer's opinion</p>
+    <ul class="discuss-list">
+      <li>Read the last paragraph again. What do you think the writer means when he says <i>"Maybe the future of extreme sports is about learning to be less extreme"</i>?</li>
+      <li>Do you agree?</li>
+    </ul>
+    <p class="section-subhead" style="font-size:1.1rem;">Your experience</p>
+    <ul class="discuss-list">
+      <li>Have you ever done an extreme sport? Did you enjoy it? Why (not)?</li>
+      <li>Which extreme sport that you have never done would you most / least like to try?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: MATCH THE ANSWERS ============ -->
+<div class="slide" id="s-vocab1">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Match the answers to the questions</h2>
+    <p class="instruction">Listen to Sophie Rees, who works in the ski industry, answering six questions about extreme sports. Match her answers 1–6 (in the order you hear them) to questions A–F.</p>
+    <div class="audio-box">
+      <audio controls src="track_4_14.mp3" style="width:100%;"></audio>
+    </div>
+    <div class="match-wrap" id="vocab1-match">
+      <div>
+        <div class="match-col-head mc-left">Sophie's answers</div>
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>Her first answer</div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>Her second answer</div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>Her third answer</div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>Her fourth answer</div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>Her fifth answer</div>
+        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>Her sixth answer</div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">Questions</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">A</span>Are you ever afraid that you might get injured or killed?</div>
+        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">B</span>Do you think extreme sports are more popular with men than with women?</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">C</span>What other extreme sports have you done?</div>
+        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">D</span>What's the first extreme sport you did? When was it?</div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">E</span>Why do you enjoy extreme sports?</div>
+        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">F</span>Why do you think extreme sports are becoming more popular?</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('vocab1-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('vocab1-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: LISTEN AGAIN ============ -->
+<div class="slide" id="s-vocab2">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Listen again</h2>
+    <p class="discuss-label">💬 Tell your tutor, in your own words, how Sophie answered each question.</p>
+    <div class="btn-row" style="margin-bottom:10px;">
+      <button class="btn-suggest" onclick="toggleSuggested('vocab2-sugg')">💡 Suggested Answer</button>
+    </div>
+    <div class="suggest-box" id="vocab2-sugg">
+      <ul>
+        <li>Skiing; when she was six.</li>
+        <li>Mountain biking, rock climbing, ice-walking, white-water rafting.</li>
+        <li>She loves taking risks; she loves the adrenaline rush.</li>
+        <li>She doesn't really think about getting injured or killed.</li>
+        <li>Because extreme sports are becoming more accessible, and there's much more exposure than before on TV and social media. It's the adrenaline rush people enjoy.</li>
+        <li>She thinks it's becoming more equal between men and women, but men still dominate.</li>
+      </ul>
+    </div>
+    <p class="instruction" style="margin-top:22px;">Look at three extracts from the interview. Can you remember the missing words?</p>
+    <div id="vocab2">
+      <div class="ex-row">1. I take <input class="ans-input" data-ans="after"> my dad – we're both sports-crazy.</div>
+      <div class="ex-row">2. I think it's because I love taking <input class="ans-input" data-ans="risks">; I love the adrenaline rush.</div>
+      <div class="ex-row">3. I think more and more people are taking <input class="ans-input" data-ans="part"> in extreme sports…</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('vocab2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('vocab2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: EXPRESSIONS & PHRASAL VERBS WITH TAKE ============ -->
+<div class="slide" id="s-vocab3">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Expressions and phrasal verbs with <i>take</i></h2>
+    <p class="instruction">Look at the expressions below. Try to figure out their meaning from the context, then reveal the answer.</p>
+    <h3 class="section-subhead">Expressions with <i>take</i></h3>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">1. My neighbor <b>takes care of</b> my son while I'm at work. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">care for someone / something / yourself</span></div>
+        <div class="ex-row">2. You should <b>take advantage of</b> that job offer. It's a great opportunity. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">make use of something well / an opportunity</span></div>
+        <div class="ex-row">3. The concert will <b>take place</b> on March 6th. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">happen, especially after being planned</span></div>
+        <div class="ex-row">4. You don't need to hurry. <b>Take your time</b>. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">use as much time as you need without hurrying</span></div>
+      </div>
+      <div>
+        <div class="ex-row">5. Regarding evaluation, coursework is <b>taken into account</b>, as well as exam results. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">consider particular facts or circumstances</span></div>
+        <div class="ex-row">6. Lina <b>took part in</b> a charity walk and raised $500 for a local animal shelter. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">participate in</span></div>
+        <div class="ex-row">7. The dog looked so hungry that I <b>took pity on</b> it, and gave it some of my food. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">show compassion, feel sorry for</span></div>
+      </div>
+    </div>
+    <h3 class="section-subhead">Phrasal verbs with <i>take</i></h3>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">8. <b>Take</b> your jacket <b>off</b> – it's hot in here. The flight will <b>take off</b> in about 20 minutes. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">remove; leave the ground and begin to fly</span></div>
+        <div class="ex-row">9. I'd love to <b>take up</b> snowboarding – it sounds really exciting. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">learn or start to do something, for pleasure</span></div>
+        <div class="ex-row">10. My boyfriend's little sister has really <b>taken to</b> me – she always wants to play with me. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">start liking someone</span></div>
+      </div>
+      <div>
+        <div class="ex-row">11. Our company is growing quickly. We're planning to <b>take on</b> three new employees in the marketing department. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">employ or hire someone</span></div>
+        <div class="ex-row">12. Elias is <b>taking me out</b> for dinner tonight to a great new restaurant. Please <b>take</b> the trash <b>out</b>. It's beginning to smell. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">go out with someone; remove</span></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: PERSONALIZE — I'LL TAKE A QUESTION ============ -->
+<div class="slide" id="s-vocab4">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>I'll take a question</h2>
+    <p class="instruction">Complete the phrasal verbs and expressions below. Then your tutor will ask you the questions — give examples to explain your answers.</p>
+    <div id="vocab4">
+      <div class="ex-row">1. Who do you take <input class="ans-input small" data-ans="after"> more, your father or your mother?</div>
+      <div class="ex-row">2. Do you take <input class="ans-input small" data-ans="care of"> yourself, or are you very laid-back about your health?</div>
+      <div class="ex-row">3. Have you ever <u>not</u> taken <input class="ans-input small" data-ans="advantage of"> a good opportunity and then regretted it?</div>
+      <div class="ex-row">4. Has any big sporting event ever taken <input class="ans-input small" data-ans="place"> in your (nearest big) city? Did you go to it?</div>
+      <div class="ex-row">5. Do you sometimes get annoyed by little things that people do, or do you take no <input class="ans-input small" data-ans="notice">? What kinds of things?</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('vocab4')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('vocab4')">Reset</button>
+    </div>
+    <div class="gram-note" style="margin-top:20px;">
+      <b>💡 Giving examples</b> — We often use <i>for example</i> or <i>for instance</i> to give examples.<br>
+      <i>I usually get up quickly, but sometimes I take my time, for example / for instance, on the weekend.</i>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VIDEO LISTENING: RIDING THE WAVES ============ -->
+<div class="slide" id="s-video">
+  <div class="banner banner-video">🎥 Video Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Riding the waves</h2>
+    <p class="instruction">Watch a documentary about Grace Doyle. How did surfing help her through a difficult time in her life?</p>
+    <div class="video-box">
+      <p>🎥 Riding the waves — video file needed</p>
+      <div class="img-placeholder" style="background:linear-gradient(135deg,#2A2A2A,#444);color:#ddd;border-color:#666;">
+        <span class="ip-icon">🎬</span>Video placeholder — add the "Riding the Waves" video file here
+      </div>
+    </div>
+    <div class="glossary-box">
+      <h4>Glossary</h4>
+      <p><b>surfboard</b> a long narrow piece of hard material that you stand on to surf (also <b>body~</b>, a short, light board that you ride lying on your front)</p>
+      <p><b>wipe out</b> to fall, especially when doing a sport such as surfing or skiing</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('video-sugg1')">💡 Suggested Answer</button>
+    </div>
+    <div class="suggest-box" id="video-sugg1">Surfing helped her to relax and get her mind off her problems.</div>
+
+    <h3 class="section-subhead" style="margin-top:26px;">Watch again and complete the information</h3>
+    <div class="fixed-two-col" id="video1">
+      <div>
+        <div class="ex-row">1. Grace is from a small town in <input class="ans-input" data-ans="Ireland">.</div>
+        <div class="ex-row">2. She originally trained to be a <input class="ans-input wide" data-ans="math teacher">.</div>
+        <div class="ex-row">3. She got interested in surfing when she was young because of her <input class="ans-input wide" data-ans="older brother">.</div>
+        <div class="ex-row">4. Grace has surfed abroad in places such as Central America, <input class="ans-input" data-ans="Indonesia">, and <input class="ans-input" data-ans="Europe">.</div>
+        <div class="ex-row">5. The global surfing business is worth about a <input class="ans-input small" data-ans="hundred"> billion <input class="ans-input small" data-ans="dollars">.</div>
+      </div>
+      <div>
+        <div class="ex-row">6. Grace thinks that media coverage is one reason why surfing has become <input class="ans-input wide" data-ans="so popular">.</div>
+        <div class="ex-row">7. According to Grace, people are attracted to surfing because it's <input class="ans-input small" data-ans="healthy"> and <input class="ans-input small" data-ans="fun">.</div>
+        <div class="ex-row">8. If you fall off a big wave, you need to hold your <input class="ans-input small" data-ans="breath"> and <input class="ans-input small" data-ans="relax">.</div>
+        <div class="ex-row">9. Grace enjoys the balance between the danger of injury and the chance she might get the <input class="ans-input wide" data-ans="best wave"> of her life.</div>
+        <div class="ex-row">10. In highly competitive surfing, there's a real risk that you could get <input class="ans-input small" data-ans="hurt"> or even <input class="ans-input small" data-ans="die">.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('video1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('video1')">Reset</button>
+    </div>
+
+    <p class="discuss-label" style="margin-top:26px;">💬 Share your thoughts</p>
+    <ul class="discuss-list">
+      <li>Do you think doing something that gives you an "adrenaline rush" is always more enjoyable? What things do you do that are both healthy and fun?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- SLIDES_PLACEHOLDER -->
+
+</div><!-- END #deck -->
+
+<div id="nav">
+  <button id="prevBtn" onclick="goTo(current-1)">◀ Prev</button>
+  <div id="dots"></div>
+  <div id="counter">1/1</div>
+  <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
+  <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
+  <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+</div>
+
+<script>
+/* ===================== SLIDE NAV DATA ===================== */
+var slideIds = ["s1","s-leadin","s-listen1","s-listen2","s-listen3","s-speak1","s-gram-meaning","s-gram-future","s-gram-ex1","s-gram-ex2","s-gram-ex3","s-gram-ex4","s-pron1","s-pron2","s-pron3","s-read1","s-read2","s-read3","s-read4","s-vocab1","s-vocab2","s-vocab3","s-vocab4","s-video"];
+var slideLabels = ["Cover","Lead-in – Risk Quote","Listening – Score the Risks","Listening – Are You a Risk-Taker?","Listening – Biggest Risk Discussion","Speaking – Are You a Risk-Taker?","Grammar – Zero & First Conditionals","Grammar – Future Time Clauses","Grammar – Match the Sentence Halves","Grammar – Look More Closely at the Form","Grammar – Circle the Correct Form","Grammar – Complete with a Time Expression","Pronunciation – Listen and Complete","Pronunciation – Complete the Sentences","Pronunciation – Practice and Personalize","Reading – Label the Photos","Reading – Article & Reasons","Reading – Find the Information","Reading – Discussion","Vocabulary – Match the Answers","Vocabulary – Listen Again","Vocabulary – Expressions & Phrasal Verbs with Take","Vocabulary – I'll Take a Question","Video Listening – Riding the Waves"];
+
+var slides = Array.from(document.querySelectorAll('.slide'));
+var current = 0;
+var notesData = {};
+var notesOpen = false;
+
+if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
+  console.warn('Slide count mismatch:', slides.length, 'slides,', slideIds.length, 'IDs,', slideLabels.length, 'labels');
+}
+
+var dotsWrap = document.getElementById('dots');
+slides.forEach(function(s, i){
+  var d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = function(){ goTo(i); };
+  dotsWrap.appendChild(d);
+});
+
+function goTo(n){
+  if (n < 0 || n >= slides.length) return;
+  saveNotes();
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  document.getElementById('counter').textContent = (current+1)+'/'+slides.length;
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===slides.length-1;
+  document.getElementById('homeBtn').style.display = current===0 ? 'none' : 'flex';
+  var panel = document.getElementById('notesPanel');
+  if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
+  else { panel.classList.remove('cover'); }
+  loadNotes(current);
+}
+function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.contentEditable === 'true') return;
+  if (e.key === 'ArrowRight') goTo(current+1);
+  if (e.key === 'ArrowLeft') goTo(current-1);
+});
+
+/* ===================== NOTES ===================== */
+function toggleNotes(){
+  notesOpen = !notesOpen;
+  var panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open', notesOpen);
+  if (current === 0) panel.classList.toggle('cover', notesOpen);
+  document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+}
+function notesFormat(cmd){
+  document.getElementById('notesTA').focus();
+  document.execCommand(cmd, false, null);
+  saveNotes();
+}
+function notesHilite(color){
+  var ta = document.getElementById('notesTA');
+  ta.focus();
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) return;
+  document.execCommand('styleWithCSS', false, true);
+  if (color !== 'remove'){
+    var cur = document.queryCommandValue('backColor');
+    var hex = color.replace('#','');
+    var r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+    if (cur === 'rgb('+r+', '+g+', '+b+')' || cur === 'rgb('+r+','+g+','+b+')') { color = 'remove'; }
+  }
+  if (color === 'remove'){
+    document.execCommand('hiliteColor', false, 'transparent');
+    Array.from(ta.querySelectorAll('[style*="background"]')).forEach(function(el){
+      var c = el.style.backgroundColor;
+      if (c === 'transparent' || c === 'rgba(0, 0, 0, 0)' || c === ''){
+        var p = el.parentNode;
+        if (!p) return;
+        while (el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+      }
+    });
+  } else {
+    document.execCommand('hiliteColor', false, color);
+  }
+  saveNotes();
+}
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function savePDF(){
+  saveNotes();
+  var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
+  if (!hasNotes){ alert('No notes to save yet!'); return; }
+  var win = window.open('', '_blank');
+  var cards = '';
+  slideIds.forEach(function(sid, idx){
+    var note = notesData[idx] || '';
+    if (!note.replace(/<[^>]*>/g,'').trim()) return;
+    cards += '<div class="card"><div class="card-header">Slide '+(idx+1)+' &mdash; '+slideLabels[idx]+'</div><div class="card-body">'+note+'</div></div>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF4 4B</title><style>'+
+    'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
+    '.header{border-bottom:2px solid #0B1929;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#0B1929}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#1B6E96}'+
+    '.date{font-size:.85rem;color:#666;margin:10px 0 24px}'+
+    '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid}'+
+    '.card-header{background:#0B1929;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem}'+
+    '.card-body{padding:12px 16px;font-size:.95rem;line-height:1.7}'+
+    'mark{background:#FFE066;color:#1a1a1a;padding:0 2px}'+
+    '[style*="background-color"]{color:#1a1a1a!important}'+
+    '.card-body,.card-body *{color:#1a1a1a!important}'+
+    '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
+    '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
+  '</style></head><body>'+
+  '<div class="header"><h1>AEF4 4B – A Risky Business</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4B/index.html</a></div></div>'+
+  '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
+  cards+'</body></html>');
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 400);
+}
+
+/* ===================== GENERIC: TYPED GAP-FILL ===================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’]+$/,'').replace(/\s+/g,' '); }
+function checkSlide(sid){
+  var box = document.getElementById(sid);
+  var inputs = box.querySelectorAll('.ans-input');
+  inputs.forEach(function(inp){
+    var val = norm(inp.value);
+    if (!val) { inp.classList.remove('correct','wrong'); inp.classList.add('empty-warn'); return; }
+    inp.classList.remove('empty-warn');
+    var ans = norm(inp.dataset.ans);
+    var alts = (inp.dataset.alt || '').split('|').map(norm).filter(Boolean);
+    if (val === ans || alts.indexOf(val) > -1) { inp.classList.add('correct'); inp.classList.remove('wrong'); }
+    else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+  });
+}
+function resetSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.ans-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== GENERIC: CIRCLE MC ===================== */
+function circPick(btn){
+  var group = btn.dataset.group;
+  var box = btn.closest('.slide');
+  var wasPicked = btn.classList.contains('picked');
+  box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
+  if (!wasPicked) btn.classList.add('picked');
+}
+function checkCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var groups = {};
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  Object.keys(groups).forEach(function(g){
+    var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
+    groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
+    if (!picked) return;
+    if (picked.dataset.correct === picked.textContent.trim()) picked.classList.add('correct');
+    else picked.classList.add('wrong');
+  });
+}
+function resetCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
+}
+
+/* ===================== GENERIC: COLOUR-PAIR MATCH ===================== */
+var matchColours = ['c0','c1','c2','c3','c4','c5','c6','c7'];
+var matchPending = {};
+function matchPick(el){
+  var wrap = el.closest('.match-wrap');
+  var wid = wrap.id;
+  if (el._linked){
+    var partner = el._linked;
+    matchColours.forEach(function(c){ el.classList.remove(c); partner.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    partner.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null; partner._linked = null;
+    delete el.dataset.colour; delete partner.dataset.colour;
+    if (matchPending[wid] === el) matchPending[wid] = null;
+    return;
+  }
+  var pending = matchPending[wid];
+  if (pending && pending !== el && pending.dataset.side !== el.dataset.side){
+    var used = Array.from(wrap.querySelectorAll('.match-item')).map(function(x){ return x.dataset.colour; }).filter(Boolean);
+    var next = matchColours.find(function(c){ return used.indexOf(c) === -1; }) || matchColours[Math.floor(used.length/2) % matchColours.length];
+    pending.classList.remove('picking');
+    pending.classList.add(next); el.classList.add(next);
+    pending.dataset.colour = next; el.dataset.colour = next;
+    pending._linked = el; el._linked = pending;
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending === el){
+    pending.classList.remove('picking');
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending) pending.classList.remove('picking');
+  el.classList.add('picking');
+  matchPending[wid] = el;
+}
+function checkMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item[data-side="left"]').forEach(function(l){
+    l.classList.remove('correctpair','wrongpair');
+    if (l._linked) l._linked.classList.remove('correctpair','wrongpair');
+    if (!l._linked) return;
+    var r = l._linked;
+    if (r.dataset.pair === l.dataset.pair){ l.classList.add('correctpair'); r.classList.add('correctpair'); }
+    else { l.classList.add('wrongpair'); r.classList.add('wrongpair'); }
+  });
+}
+function resetMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item').forEach(function(el){
+    matchColours.forEach(function(c){ el.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null;
+    delete el.dataset.colour;
+  });
+  matchPending[id] = null;
+}
+
+/* ===================== GENERIC: CLASSIFY / SORT ===================== */
+var classifySelected = {};
+function classifyPick(chip){
+  if (chip.classList.contains('used')) return;
+  var bank = chip.closest('[id$="-bank"]') || chip.parentElement;
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  classifySelected[bank.id] = chip;
+}
+function classifyTarget(col){
+  var colsEl = col.closest('[id$="-cols"]');
+  var bankId = colsEl ? colsEl.id.replace(/-cols$/, '-bank') : null;
+  var chip = bankId ? classifySelected[bankId] : null;
+  if (!chip) return;
+  var tag = document.createElement('span');
+  tag.className = 'placed';
+  tag.textContent = chip.textContent;
+  tag.dataset.ans = chip.dataset.ans;
+  tag.dataset.chipRef = '1';
+  tag.onclick = function(e){ e.stopPropagation(); tag.remove(); chip.classList.remove('used'); };
+  col.appendChild(tag);
+  chip.classList.add('used'); chip.classList.remove('selected');
+  delete classifySelected[bankId];
+}
+function checkClassifySlide(prefix){
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.classify-col').forEach(function(col){
+    col.querySelectorAll('.placed').forEach(function(tag){
+      tag.classList.remove('correct','wrong');
+      if (tag.dataset.ans === col.dataset.target) tag.classList.add('correct');
+      else tag.classList.add('wrong');
+    });
+  });
+}
+function resetClassifySlide(prefix){
+  var bank = document.getElementById(prefix+'-bank');
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.placed').forEach(function(tag){ tag.remove(); });
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
+  classifySelected = {};
+}
+
+/* ===================== GENERIC: WORD BANK FILL ===================== */
+var wbSelected = {};
+function wbPick(tile){
+  if (tile.classList.contains('used')) return;
+  var bank = tile.parentElement;
+  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
+  tile.classList.add('selected');
+  wbSelected[closestSlideId(tile)] = tile;
+}
+function closestSlideId(el){ return el.closest('.slide').id; }
+function wbPlace(blank){
+  var sid = closestSlideId(blank);
+  if (blank.classList.contains('filled')) {
+    var tile = blank._tileRef;
+    if (tile) tile.classList.remove('used');
+    blank.textContent = '______';
+    blank.classList.remove('filled','correct','wrong');
+    blank._tileRef = null;
+    return;
+  }
+  var tile = wbSelected[sid];
+  if (!tile) return;
+  blank.textContent = tile.dataset.val;
+  blank.classList.add('filled');
+  blank._tileRef = tile;
+  tile.classList.add('used'); tile.classList.remove('selected');
+  delete wbSelected[sid];
+}
+function checkWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){
+    b.classList.remove('correct','wrong');
+    if (!b.classList.contains('filled')) return;
+    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+}
+function resetWbSlide(sid){
+  var box = document.getElementById(sid);
+  var slideEl = box.closest('.slide') || box;
+  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
+  slideEl.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
+  wbSelected = {};
+}
+
+/* ===================== GENERIC: TICK / CHECKBOX ===================== */
+function toggleTick(el){
+  el.classList.toggle('picked');
+}
+function checkTickSlide(sid, correctVals){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){
+    var val = item.dataset.val;
+    var isCorrect = correctVals.indexOf(val) > -1;
+    item.classList.remove('correct','wrong','missed');
+    if (item.classList.contains('picked') && isCorrect) item.classList.add('correct');
+    else if (item.classList.contains('picked') && !isCorrect) item.classList.add('wrong');
+    else if (!item.classList.contains('picked') && isCorrect) item.classList.add('missed');
+  });
+}
+function resetTickSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){ item.classList.remove('picked','correct','wrong','missed'); });
+}
+
+/* ===================== SUGGESTED ANSWER / ANSWER KEY TOGGLE ===================== */
+function toggleSuggested(id){
+  var box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+
+/* ===================== SHARED NO-REPEAT SHUFFLE BAG ===================== */
+var shuffleBags = {}, shuffleLast = {};
+function shuffleArray(arr){
+  var a = arr.slice();
+  for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function nextNoRepeat(key, size){
+  if (!shuffleBags[key] || shuffleBags[key].length === 0){
+    var idxs = []; for (var k=0;k<size;k++) idxs.push(k);
+    var bag = shuffleArray(idxs);
+    if (size > 1 && shuffleLast[key] !== undefined && bag[bag.length-1] === shuffleLast[key]){
+      var swapWith = Math.floor(Math.random()*(bag.length-1));
+      var tmp = bag[bag.length-1]; bag[bag.length-1] = bag[swapWith]; bag[swapWith] = tmp;
+    }
+    shuffleBags[key] = bag;
+  }
+  var n = shuffleBags[key].pop();
+  shuffleLast[key] = n;
+  return n;
+}
+
+/* ===================== SCORE SLIDER (Listening 1a) ===================== */
+function scorePick(el){
+  var row = el.parentElement;
+  row.querySelectorAll('.env-pill').forEach(function(p){ p.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+
+/* ===================== R-CHECK (Speaking interview) ===================== */
+function rPick(el){
+  el.classList.toggle('picked');
+  updateRSummary();
+}
+function updateRSummary(){
+  var all = document.querySelectorAll('.r-check');
+  var picked = document.querySelectorAll('.r-check.picked');
+  var box = document.getElementById('r-summary-text');
+  if (!box) return;
+  box.textContent = picked.length + ' out of ' + all.length + ' areas marked — the more you marked, the bigger risk-taker you are!';
+}
+
+/* ===================== PRINT LESSON ===================== */
+function printAll(){
+  saveNotes();
+  var injected = [];
+  slides.forEach(function(slide, i){
+    if (i === 0){
+      var linkEl = document.createElement('div');
+      linkEl.className = 'lesson-link-print';
+      linkEl.innerHTML = '<span class="lp-title">A Risky Business</span>' +
+        '<span class="lp-sub">Click on this link to access the lesson: ' +
+        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4B/index.html</a></span>';
+      slide.insertBefore(linkEl, slide.firstChild);
+      injected.push(linkEl);
+    }
+    var n = notesData[i] || '';
+    if (n.replace(/<[^>]*>/g,'').trim()){
+      var notesEl = document.createElement('div');
+      notesEl.className = 'slide-notes-print';
+      notesEl.innerHTML = '<div class="slide-notes-print-label">📝 Teacher Notes</div>' + n;
+      slide.appendChild(notesEl);
+      injected.push(notesEl);
+    }
+  });
+  document.body.classList.add('print-all');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-all');
+    injected.forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
+  }, 1500);
+}
+
+/* init */
+document.getElementById('counter').textContent = '1/'+slides.length;
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
