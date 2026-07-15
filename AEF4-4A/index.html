@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF4 4A — Stormy Weather</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
+  .slide {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+    transition:opacity .35s ease; overflow-y:auto; min-height:100vh;
+    display:flex; flex-direction:column; background:#fff;
+  }
+  .slide.active { opacity:1; pointer-events:auto; }
+
+  /* ===== COVER / HW COVER ===== */
+  #s1, #hw-cover {
+    background: linear-gradient(135deg, #071A14 0%, #0F2E24 28%, #123B2C 48%, #1B4A4A 70%, #1F5F72 100%);
+    align-items:center; justify-content:center;
+  }
+  .title-inner { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; }
+  .title-label { text-transform:uppercase; letter-spacing:.18em; font-size:1.1rem; font-weight:500; color:rgba(255,255,255,.65); margin-bottom:10px; }
+  .title-sub { font-size:1.15rem; font-weight:400; color:rgba(255,255,255,.75); margin-bottom:26px; }
+  .title-main { font-size:3.4rem; font-weight:900; color:#fff; line-height:1.1; text-align:center; max-width:900px; }
+  .title-accent { color:#FFC94D; text-shadow:0 0 28px rgba(255,201,77,.45); }
+  .hw-badge { background:rgba(255,255,255,.1); border-radius:8px; padding:7px 22px; font-size:1rem; letter-spacing:.15em; color:rgba(255,255,255,.85); text-transform:uppercase; font-weight:600; margin-bottom:32px; }
+
+  /* ===== BANNERS ===== */
+  .banner { width:100%; padding:13px 28px; font-size:1.1rem; font-weight:700; letter-spacing:.03em; display:flex; align-items:center; gap:10px; flex-shrink:0; color:#fff; }
+  .banner-leadin    { background:#C9822E; }
+  .banner-vocab     { background:#2F7A52; }
+  .banner-reading   { background:#6B3F86; }
+  .banner-listening { background:#1B6E96; }
+  .banner-speaking  { background:#B23A6B; }
+  .banner-grammar   { background:#3B4C99; }
+  .banner-pron      { background:#0E7A8A; }
+  .banner-review    { background:#2E2A6B; }
+  .banner-hw        { background:#1C2B3A; }
+
+  .slide-main { flex:1; overflow-y:auto; width:100%; display:flex; flex-direction:column; padding-bottom:60px; }
+  .content { padding:24px 48px 20px; flex:1; }
+  h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
+  .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .section-subhead { font-size:1.3rem; font-weight:800; color:#6B3F86; margin:24px 0 10px; }
+  .topics-card { background:#F4F8FA; border-radius:12px; padding:1.1rem 1.3rem; }
+  .topics-card h4 { margin:0 0 10px; color:#6B3F86; font-size:1.1rem; }
+  .topics-card ul { margin:0; padding-left:20px; line-height:1.9; font-size:1.05rem; color:#1C2B3A; }
+
+  /* ===== SPEAKING CARD DRAW + MODIFIERS BOX (slide: weather talk) ===== */
+  .card-draw-box { display:flex; flex-direction:column; align-items:center; gap:14px; background:linear-gradient(135deg,#F7EAF0 0%,#F1DCE7 100%); border-radius:16px; padding:22px 20px; margin-bottom:16px; }
+  .card-current { display:flex; flex-direction:column; align-items:center; gap:8px; min-height:90px; justify-content:center; text-align:center; }
+  .card-current-icon { font-size:2.4rem; }
+  .card-current-text { font-size:1.25rem; font-weight:700; color:#7A1F45; margin:0; max-width:520px; }
+  .card-used-box { background:#F4F8FA; border-radius:12px; padding:14px 18px; max-height:180px; overflow-y:auto; }
+  .card-used-label { font-weight:700; color:#1C2B3A; margin:0 0 8px; font-size:1.05rem; }
+  .card-used-list { margin:0; padding-left:20px; font-size:1.05rem; line-height:1.8; color:#555; }
+  .card-used-list li { margin-bottom:4px; }
+  .modifiers-box { position:sticky; top:10px; background:#fff; border:2px solid #F3D0B8; border-radius:16px; padding:18px 20px; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .modifiers-box h4 { margin:0 0 14px; font-size:1.15rem; color:#B23A6B; }
+  .mod-level { border-radius:10px; padding:10px 14px; margin-bottom:10px; }
+  .mod-level p { margin:0 0 4px; font-size:1.05rem; color:#1C2B3A; }
+  .mod-level .mod-ex { font-style:italic; color:#444; margin:0; }
+  .mod-tag { display:inline-block; font-size:.85rem; font-weight:800; color:#fff; padding:2px 10px; border-radius:12px; margin-bottom:6px; }
+  .mod-1 { background:#FFF3E0; } .mod-1 .mod-tag { background:#E8A33D; }
+  .mod-2 { background:#FFE0CC; } .mod-2 .mod-tag { background:#E8722E; }
+  .mod-3 { background:#FBD9D9; } .mod-3 .mod-tag { background:#C4392B; }
+  .mod-note { font-size:1.05rem; color:#7A5A1E; background:#FBF6E8; border-radius:8px; padding:8px 12px; margin:10px 0 0; }
+  .mod-note s { color:#C4392B; }
+  .predict-chip { background:#2F7A52; color:#fff; padding:9px 18px; border-radius:20px; font-weight:700; font-size:1.05rem; display:inline-block; }
+  .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
+  .discuss-list li { margin-bottom:10px; }
+  .write-blank { margin:4px 0 2px; }
+  .write-blank input { width:100%; border:none; border-bottom:2px solid #6B3F86; background:transparent; font-size:1.05rem; padding:4px 2px; font-family:inherit; color:#1C2B3A; }
+  .write-blank input:focus { outline:none; border-bottom-color:#2F7A52; }
+  .write-blank input::placeholder { color:#aaa; font-style:italic; }
+
+  /* ===== CARDS / EXERCISE CONTAINERS ===== */
+  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
+  .lead-img-wrap { text-align:center; margin-bottom:20px; }
+  .lead-img { width:100%; max-height:280px; object-fit:cover; border-radius:14px; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .lead-img-caption { font-size:1.08rem; font-style:italic; font-weight:700; color:#2F7A52; margin:12px 0 0; }
+  .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .book-placeholder .bp-note { font-weight:400; font-size:1.05rem; color:#9A7A2E; margin-top:6px; }
+
+  .ex-row { font-size:1.06rem; line-height:1.7; margin-bottom:10px; color:#1C2B3A; }
+  .conv-narrow { max-width:460px; font-size:1.06rem; line-height:1.85; color:#1C2B3A; }
+  .conv-narrow b { margin-right:4px; }
+  .conv-hint { color:#6a6a6a; margin-left:6px; font-weight:800; }
+  .conv-narrow .ans-input { width:150px; }
+  .conv-narrow sup { font-size:.72em; font-weight:800; color:#3B4C99; margin-right:1px; }
+  .ans-input { border:none; border-bottom:2px solid #3B4C99; background:transparent; font-size:1.05rem; font-weight:700; width:160px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
+  .ans-input.small { width:120px; }
+  .ans-input.wide { width:100%; margin-top:6px; }
+  .ans-input.half { width:50%; margin-top:6px; }
+  textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
+  .ans-input:focus { outline:none; border-bottom-color:#B23A6B; }
+  .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
+  .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
+  .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
+
+  .two-col { columns:2; column-gap:40px; }
+  .two-col .ex-row { break-inside:avoid; }
+  .fixed-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; align-items:start; }
+  .fixed-three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 28px; align-items:start; }
+
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  .btn-check { background:#3B4C99; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-suggest { background:#1B6E96; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  .suggest-box { display:none; background:#EAF4F6; border-left:4px solid #1B6E96; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .suggest-box.show { display:block; }
+  .suggest-box li { margin-bottom:6px; }
+
+  /* circle MC */
+  .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#3B4C99; margin-right:8px; font-size:.9rem; }
+  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt.picked { border-color:#3B4C99; background:#E7EAF7; font-weight:700; }
+  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .circ-opt.example-x { color:#aaa; text-decoration:line-through; cursor:default; border-color:#ddd; }
+  .example-badge { background:#2E7D32;color:#fff;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:800; margin-right:8px; font-size:.9rem; }
+
+  /* classify */
+  .classify-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .classify-chip { border:1.5px solid #3B4C99; color:#3B4C99; border-radius:20px; padding:6px 16px; cursor:pointer; font-weight:700; font-size:1.05rem; background:#fff; font-family:inherit; }
+  .classify-chip.selected { background:#3B4C99; color:#fff; }
+  .classify-chip.used { opacity:.35; cursor:default; border-style:dashed; }
+  .classify-cols { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .classify-col { background:#fff; border:2px solid #ddd; border-radius:10px; padding:14px; min-height:70px; cursor:pointer; }
+  .classify-col h4 { margin:0 0 8px; font-size:1.1rem; color:#3B4C99; }
+  .classify-col .placed { display:inline-block; background:#E7EAF7; border-radius:14px; padding:3px 10px; margin:3px; font-size:1.05rem; font-weight:700; }
+  .classify-col .placed.correct { background:#E3F5EA; color:#1A7A4A; }
+  .classify-col .placed.wrong { background:#FBEAE6; color:#C4614A; }
+  .classify-chip.inline-hl { padding:2px 10px; border-radius:14px; font-size:1rem; margin:0 2px; background:#FFF6D8; border-color:#C9A200; color:#7A6200; }
+  .classify-chip.inline-hl.selected { background:#3B4C99; color:#fff; border-color:#3B4C99; }
+  .classify-chip.inline-hl.used { background:#EFEFEF; color:#999; border-color:#ddd; }
+
+  /* infographic transcript scroll box */
+  .infographic-scroll { max-height:520px; overflow-y:auto; border:2px solid #2F7A52; border-radius:14px; padding:8px 20px; background:linear-gradient(180deg,#FAFDFB,#EFF7F1); box-shadow:inset 0 0 0 1px rgba(47,122,82,.08); }
+  .infographic-scroll::-webkit-scrollbar { width:10px; }
+  .infographic-scroll::-webkit-scrollbar-thumb { background:#2F7A52; border-radius:6px; }
+  .infographic-section { padding:14px 0; border-bottom:1px dashed rgba(47,122,82,.3); }
+  .infographic-section:last-child { border-bottom:none; }
+  .infographic-section h4 { margin:0 0 6px; font-size:1.05rem; color:#2F7A52; font-weight:800; }
+  .infographic-section p { margin:0; font-size:1.02rem; line-height:1.75; color:#1C2B3A; }
+
+  /* match colour pair */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; background:#F8FAFB; border-radius:14px; padding:1.3rem 1.4rem; }
+  .match-col-head { font-weight:800; font-size:1rem; letter-spacing:.02em; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #E0E6EC; }
+  .match-col-head.mc-left { color:#3B4C99; }
+  .match-col-head.mc-right { color:#7B2D8E; }
+  .match-item { padding:11px 14px; border-radius:8px; border:1.5px solid #ddd; margin-bottom:10px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; user-select:none; position:relative; transition:border-color .15s, box-shadow .15s, transform .15s; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:flex-start; }
+  .match-item:not(.example-pair):hover { box-shadow:0 3px 10px rgba(0,0,0,.14); transform:translateY(-1px); }
+  .match-item.example-pair { cursor:default; background:#EAF6EE !important; border-color:#2E7D32 !important; }
+  .hp-icon { width:102px; height:102px; object-fit:contain; flex-shrink:0; border-radius:9px; background:#F4F8FA; padding:5px; }
+  #hwpron1 .ex-row { display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
+  .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
+  .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
+  .match-item.c3 { border-color:#0E7A8A; border-width:3px; background:#E3F2F4; box-shadow:0 0 0 2px rgba(14,122,138,.25); }
+  .match-item.c4 { border-color:#B23A6B; border-width:3px; background:#F8E6EE; box-shadow:0 0 0 2px rgba(178,58,107,.25); }
+  .match-item.c5 { border-color:#8C7A1E; border-width:3px; background:#F5F1DD; box-shadow:0 0 0 2px rgba(140,122,30,.25); }
+  .match-item.c6 { border-color:#4A5A8C; border-width:3px; background:#E6E9F5; box-shadow:0 0 0 2px rgba(74,90,140,.25); }
+  .match-item.c7 { border-color:#3E8C5E; border-width:3px; background:#E6F5EC; box-shadow:0 0 0 2px rgba(62,140,94,.25); }
+  .match-item.picking { border-color:#3B4C99; border-width:3px; border-style:dashed; box-shadow:0 0 0 2px rgba(59,76,153,.2); }
+  .match-item.correctpair { outline:3px solid #1A7A4A; background:#1A7A4A !important; color:#fff; }
+  .match-item.wrongpair { outline:3px solid #C4614A; background:#C4614A !important; color:#fff; }
+
+  /* word bank tiles */
+  .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .wb-bank.book-style { border-top:3px double #333; border-bottom:1px solid #ccc; padding:12px 4px; }
+  .wb-tile { border:1.5px solid #B23A6B; color:#B23A6B; background:#fff; border-radius:18px; padding:6px 16px; cursor:pointer; font-weight:700; font-family:inherit; font-size:1.05rem; }
+  .wb-tile.used { opacity:.35; border-style:dashed; cursor:default; }
+  .wb-tile.selected { background:#B23A6B; color:#fff; }
+  .wb-tile.example-used { opacity:.5; border-style:dashed; cursor:default; text-decoration:line-through; }
+  .wb-blank { display:inline-block; min-width:90px; border-bottom:2px solid #B23A6B; padding:2px 8px; margin:0 3px; cursor:pointer; font-weight:700; color:#B23A6B; text-align:center; }
+  .wb-blank.filled { border-style:solid; }
+  .wb-blank.correct { color:#1A7A4A; border-color:#1A7A4A; }
+  .wb-blank.wrong { color:#C4614A; border-color:#C4614A; }
+
+  /* dice */
+  .dice-box { text-align:center; background:#F4F8FA; border-radius:14px; padding:30px; }
+  .die-face { font-size:3.5rem; margin-bottom:16px; }
+  .pred-wheel-wrap { display:flex; flex-direction:column; align-items:center; gap:6px; background:#F4F8FA; border-radius:14px; padding:20px; }
+  .pred-pointer { font-size:1.5rem; color:#2F7A52; line-height:1; margin-bottom:-6px; }
+  .pred-empty { display:flex; align-items:center; justify-content:center; min-height:90px; color:#aaa; font-size:.98rem; font-style:italic; background:#fff; border-radius:10px; border:2px dashed #D0E8D8; text-align:center; padding:14px; margin-top:10px; width:100%; box-sizing:border-box; }
+  .pred-result { display:none; background:#fff; border-left:4px solid #2F7A52; border-radius:0 10px 10px 0; padding:14px 16px; margin-top:10px; width:100%; box-sizing:border-box; }
+  .pred-result.show { display:block; }
+  .pred-sentence { font-size:1.08rem; font-weight:700; color:#1C2B3A; line-height:1.5; margin:0 0 8px; }
+  .certainty-funnel { width:46px; flex-shrink:0; background:linear-gradient(180deg,#1F5F72 0%,#8ED0E0 100%); clip-path:polygon(0 0, 100% 0, 50% 100%); }
+  .certainty-list { flex:1; margin:0; line-height:2.1; font-style:italic; color:#1C2B3A; }
+  .certainty-list b { font-style:normal; color:#1F5F72; }
+  .dice-prompt { font-size:1.15rem; font-weight:700; color:#1C2B3A; margin-top:16px; min-height:30px; }
+  .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
+
+  /* environmental score quiz */
+  .env-grid { display:grid; grid-template-columns:5fr 7fr; gap:18px; align-items:start; margin-bottom:16px; }
+  .env-grid .env-card { margin-bottom:0; }
+  .env-card { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+  .env-card h4 { margin:0 0 12px; font-size:1.15rem; color:#2F7A52; }
+  .env-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:8px 0; border-bottom:1px solid #e2e8e2; font-size:1.05rem; color:#1C2B3A; }
+  .env-row:last-child { border-bottom:none; }
+  .env-row .env-label { flex:1; }
+  .env-scale { display:flex; gap:6px; }
+  .env-pill { width:32px; height:32px; border-radius:50%; border:1.5px solid #2F7A52; color:#2F7A52; background:#fff; cursor:pointer; font-weight:700; font-size:.95rem; display:flex; align-items:center; justify-content:center; font-family:inherit; }
+  .env-pill.picked { background:#2F7A52; color:#fff; }
+  .env-statement { display:block; padding:8px 12px; border:1.5px solid #ccc; border-radius:8px; margin-bottom:8px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; }
+  .env-statement.picked { border-color:#2F7A52; background:#E7F3EC; font-weight:700; }
+  .env-result-box { display:none; background:#E7F3EC; border-left:4px solid #2F7A52; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.06rem; line-height:1.7; color:#1C2B3A; }
+  .env-result-box.show { display:block; }
+
+  /* audio */
+  .audio-box { background:#f0f4f8; border-radius:999px; padding:10px 18px; display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .audio-box audio { width:100%; }
+  .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
+
+  /* answer key toggle */
+  .akey-box { display:none; background:#F3EEF7; border-left:4px solid #6B3F86; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .akey-box.show { display:block; }
+  .akey-box li { margin-bottom:8px; }
+  .btn-akey { background:#6B3F86; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  /* grammar theory / form reference */
+  .gram-box { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; border-left:6px solid #3B4C99; }
+  .gram-box h3 { margin:0 0 8px; font-size:1.1rem; color:#3B4C99; }
+  .gram-box p { font-size:1.06rem; line-height:1.7; color:#1C2B3A; margin:0 0 8px; }
+  .gram-box .hl { font-weight:800; color:#3B4C99; }
+  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+
+  /* ===== MPF grammar cards (Meaning / Form / Pronunciation) ===== */
+  .mpf-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
+  .mpf-chip { display:inline-flex; align-items:center; gap:7px; padding:8px 18px; border-radius:20px; font-weight:800; font-size:1.05rem; color:#fff; }
+  .mpf-chip.fperf { background:#1F5F72; }
+  .mpf-chip.fcont { background:#C9822E; }
+  .mpf-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-bottom:20px; }
+  .mpf-card { border-radius:12px; padding:18px 20px; border-left:6px solid #ccc; background:#F4F8FA; }
+  .mpf-card.fperf { border-left-color:#1F5F72; background:#E8F1F3; }
+  .mpf-card.fcont { border-left-color:#C9822E; background:#FBEFE0; }
+  .mpf-card h3 { margin:0 0 10px; font-size:1.1rem; font-weight:800; color:#1C2B3A; display:flex; align-items:center; gap:8px; }
+  .mpf-meaning { font-size:1.05rem; color:#1C2B3A; margin:0 0 10px; line-height:1.6; }
+  .mpf-form { font-size:1.06rem; font-weight:700; color:#1C2B3A; margin:0 0 8px; line-height:1.6; }
+  .mpf-examples { font-size:1.03rem; line-height:1.85; color:#1C2B3A; margin:0; }
+  .mpf-card .hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; }
+  .mpf-card.fperf .hl { background:#1F5F72; }
+  .mpf-card.fcont .hl { background:#C9822E; }
+  .mpf-sub { font-size:1.02rem; color:#1C2B3A; margin-top:10px; padding-top:10px; border-top:1px dashed rgba(0,0,0,.15); line-height:1.6; }
+  .mpf-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .mpf-note b { color:#5A4212; }
+  .audio-tag { display:inline-flex; align-items:center; gap:4px; background:#2F7A52; color:#fff; font-size:.82rem; font-weight:700; padding:2px 9px; border-radius:10px; margin-left:6px; vertical-align:middle; }
+  .ccq-label { display:inline-block; background:#1C2B3A; color:#fff; font-size:.78rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:6px; margin:12px 0 8px; }
+  .ccq-block { margin-bottom:8px; }
+  .ccq-q { font-size:1.02rem; color:#1C2B3A; margin:0 0 6px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .btn-ccq { background:#fff; color:#1C2B3A; border:1.5px solid #1C2B3A; border-radius:16px; padding:4px 14px; font-size:.82rem; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; }
+  .btn-ccq:hover { background:#1C2B3A; color:#fff; }
+  .ccq-answer { display:none; background:#EAF4EC; border-left:3px solid #2F7A52; border-radius:6px; padding:8px 14px; margin:2px 0 10px; font-size:.98rem; color:#1A5030; font-weight:700; }
+  .ccq-answer.show { display:block; }
+  .fs-hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; background:#5A3E99; }
+  .fc-hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; background:#C9822E; }
+  .more-ex-box { display:none; margin-top:10px; padding-top:10px; border-top:1px dashed rgba(0,0,0,.15); font-size:1.02rem; line-height:1.85; color:#1C2B3A; }
+  .more-ex-box.show { display:block; }
+  .connect-wrap { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin:-10px 0 20px; }
+  .connect-note { position:relative; background:#FBEFE0; border:2px dashed #C9822E; border-radius:10px; padding:16px 18px 14px; font-size:1.02rem; color:#1C2B3A; line-height:1.6; }
+  .connect-note::before { content:"▲"; position:absolute; top:-15px; left:50%; transform:translateX(-50%); color:#C9822E; font-size:.9rem; background:#fff; }
+  .connect-note.arrow-right::before { content:"▶"; position:absolute; top:50%; left:auto; right:-15px; transform:translateY(-50%); color:#C9822E; font-size:.9rem; background:#fff; }
+  .connect-note b { color:#8a5a1e; }
+  .pc-hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; background:#C2185B; }
+  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.6; }
+  .ex-example-centered .ex-tag { display:block; font-style:normal; font-weight:800; letter-spacing:.06em; font-size:.78rem; text-transform:uppercase; color:#2F7A52; margin-bottom:6px; }
+
+  /* speaking flowchart / cards */
+  .quote-banner { background:#EEF1FA; border-radius:10px; padding:14px 20px; font-size:1.1rem; font-style:italic; color:#3B4C99; margin-bottom:18px; }
+  .weather-book-grid { border-top:3px double #333; border-bottom:1px solid #ccc; margin-top:4px; }
+  .wbg-row { display:grid; grid-template-columns:repeat(4,1fr); }
+  .wbg-cell { padding:10px 14px; border-right:1px solid #dcdcdc; min-height:1px; }
+  .wbg-row .wbg-cell:last-child { border-right:none; }
+  .wbg-cell p { margin:0 0 8px; font-size:1.05rem; line-height:1.5; }
+  .wbg-cell p:last-child { margin-bottom:0; }
+  .wbg-cell em { color:#666; font-style:italic; }
+  .wbg-head { padding:9px 14px; color:#fff; font-weight:700; font-size:1.05rem; letter-spacing:.2px; }
+  .wbg-head.cold { background:#3B3E78; }
+  .wbg-head.hot { background:#C2185B; }
+  .wbg-head.rain { background:#2E6B78; }
+  .wbg-head.wind { background:#5FA05A; }
+  .wbg-empty { background:transparent; }
+  .wbg-arrow-wrap { display:flex; align-items:stretch; gap:10px; }
+  .wbg-arrow { flex:0 0 30px; width:30px; align-self:stretch; background:linear-gradient(180deg,#D3EFDA 0%,#8FD1A0 100%); clip-path:polygon(32% 0%, 68% 0%, 68% 84%, 100% 84%, 50% 100%, 0% 84%, 32% 84%); }
+  .wbg-arrow-wrap .weather-book-grid { flex:1 1 auto; }
+
+  /* ===== SOUND BANK (PRONUNCIATION) ===== */
+  .sound-bank { display:flex; flex-wrap:wrap; gap:14px; border-top:3px double #333; border-bottom:1px solid #ccc; padding:14px 8px; margin-bottom:22px; }
+  .snd-tile { display:flex; flex-direction:column; align-items:center; gap:6px; width:116px; padding:6px; border-radius:10px; border:2px solid transparent; cursor:pointer; }
+  .snd-tile img { width:90px; height:90px; object-fit:contain; border-radius:8px; }
+  .snd-tile span { font-size:1.05rem; font-weight:700; color:#1C2B3A; text-align:center; }
+  .snd-tile.selected { border-color:#B23A6B; background:#FBEFF3; }
+  .snd-tile.example-used { opacity:.55; cursor:default; }
+  .snd-tile.example-used span { text-decoration:line-through; }
+  .sound-groups { display:flex; flex-direction:column; gap:13px; margin-bottom:18px; }
+  .sg-row { display:flex; align-items:center; gap:16px; font-size:1.08rem; flex-wrap:wrap; }
+  .sg-num { font-weight:800; color:#1C2B3A; width:22px; flex-shrink:0; }
+  .sg-ans-example { background:#1A5030; color:#fff; font-weight:800; padding:2px 10px; border-radius:5px; }
+  .sg-words { color:#1C2B3A; }
+  .snd-hl { color:#C2185B; font-weight:800; }
+
+  /* ===== SCROLLING STORY BOX / MAP MATCH (READING) ===== */
+  .scroll-box { max-height:480px; overflow-y:auto; padding-right:8px; }
+  .person-thumb { width:112px; height:112px; object-fit:cover; border-radius:50%; flex-shrink:0; box-shadow:0 2px 6px rgba(0,0,0,.15); }
+  .map-wrap { position:relative; }
+  .map-wrap img { width:100%; display:block; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .map-dot { position:absolute; transform:translate(-50%,-50%); width:32px; height:32px; border-radius:50%; border:3px solid #C2185B; background:rgba(194,24,91,.18); cursor:pointer; padding:0; min-height:0; }
+  .map-dot:hover { background:rgba(194,24,91,.38); }
+  .map-dot .placed { position:absolute; top:-38px; left:50%; transform:translateX(-50%); white-space:nowrap; margin:0; }
+
+  /* ===== NAV / NOTES / HOME ===== */
+  #notesBtn { position:fixed; top:14px; right:22px; z-index:1000; background:rgba(10,40,54,.88); color:#fff; border:none; padding:9px 20px; border-radius:22px; cursor:pointer; font-size:.92rem; font-weight:600; letter-spacing:.02em; transition:background .2s; backdrop-filter:blur(4px); }
+  #notesBtn:hover { background:rgba(10,40,54,1); }
+  #homeBtn { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:1000; display:none; background:rgba(10,40,54,.88); color:#fff; border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem; align-items:center; justify-content:center; transition:background .2s; backdrop-filter:blur(4px); }
+  #homeBtn:hover { background:rgba(20,96,122,.95); }
+  #notesPanel { position:fixed; top:54px; right:22px; z-index:999; width:360px; max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .25s ease; opacity:0; border-radius:14px; }
+  #notesPanel.open { max-height:320px; opacity:1; }
+  #notesPanel.cover { left:50%; right:auto; top:56px; transform:translateX(-50%); width:min(760px,94vw); max-height:calc(100vh - 110px) !important; display:flex; flex-direction:column; }
+  #notesPanel.cover #notesTA { min-height:calc(100vh - 210px) !important; max-height:calc(100vh - 210px) !important; overflow-y:auto; }
+  #notesToolbar { display:flex; gap:5px; padding:6px 10px; background:rgba(10,40,54,.7); border-radius:10px 10px 0 0; align-items:center; flex-wrap:wrap; }
+  #notesToolbar button { background:rgba(255,255,255,.12); border:none; border-radius:5px; color:#fff; font-size:.85rem; padding:3px 9px; cursor:pointer; font-family:inherit; transition:background .15s; }
+  #notesToolbar button:hover { background:rgba(255,255,255,.25); }
+  #notesTA { width:100%; min-height:220px; max-height:260px; padding:14px; border:none; border-radius:0 0 14px 14px; outline:none; font-size:1rem; line-height:1.55; background:rgba(10,40,54,.92); color:#fff; font-family:inherit; backdrop-filter:blur(6px); box-sizing:border-box; overflow-y:auto; }
+  #notesTA:empty::before { content:attr(data-placeholder); color:rgba(255,255,255,.4); pointer-events:none; }
+  #notesTA [style*="background-color"] { color:#1a1a1a !important; }
+  #nav { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(10,40,54,.96); z-index:500; display:flex; align-items:center; justify-content:center; gap:14px; }
+  #nav button { background:rgba(255,255,255,.12); color:#fff; border:none; border-radius:7px; padding:7px 16px; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #dots { display:flex; gap:5px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; }
+  .dot.active { background:#FFC94D; }
+  #counter { color:#fff; font-size:.9rem; min-width:54px; text-align:center; }
+
+  /* print */
+  .slide-notes-print { display:none; }
+  .lesson-link-print { display:none; }
+  @media print {
+    @page { margin:1.2cm; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { height:auto !important; overflow:visible !important; background:#fff !important; display:block !important; }
+    #deck { overflow:visible !important; height:auto !important; display:block !important; position:static !important; }
+    #notesBtn, #notesPanel, #nav, #homeBtn { display:none !important; }
+    body.print-all .slide { display:flex !important; flex-direction:column !important; position:relative !important; inset:auto !important; opacity:1 !important; padding:16px 24px !important; page-break-after:always; break-after:page; min-height:0 !important; height:auto !important; }
+    .slide * { flex:none !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+    .slide-main, .content { overflow:visible !important; }
+    img { max-height:240px !important; width:auto !important; max-width:100% !important; object-fit:contain !important; }
+    body.print-all .slide::before { content:"AEF4 4A \2014  Stormy Weather"; display:block !important; font-size:10px; color:#999; font-family:'Segoe UI', Arial, sans-serif; padding-bottom:5px; border-bottom:1px solid #ddd; margin-bottom:8px; }
+    body.print-all #s1::before { display:none !important; }
+    .lesson-link-print { display:block !important; padding:28px 32px; margin-bottom:20px; background:linear-gradient(135deg, #071A14 0%, #0F2E24 28%, #123B2C 48%, #1B4A4A 70%, #1F5F72 100%); border-radius:12px; text-align:center; font-family:'Segoe UI', Arial, sans-serif; }
+    .lesson-link-print .lp-title { display:block; font-size:30px; font-weight:900; color:#fff; margin-bottom:10px; letter-spacing:.01em; line-height:1.2; }
+    .lesson-link-print .lp-sub { display:block; font-size:20px; color:rgba(255,255,255,.88); font-weight:500; }
+    .lesson-link-print a { color:#FFC94D; font-weight:800; text-decoration:underline; font-size:20px; }
+    .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
+    .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
+  }
+</style>
+</head>
+<body>
+<button id="homeBtn" onclick="goTo(0)">🏠</button>
+<button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
+<div id="notesPanel">
+  <div id="notesToolbar">
+    <button onclick="notesFormat('bold')" title="Bold"><b>B</b></button>
+    <button onclick="notesFormat('underline')" title="Underline"><u>U</u></button>
+    <span style="display:flex;gap:3px;align-items:center;margin-left:6px;padding-left:6px;border-left:1px solid rgba(255,255,255,.2)">
+      <button onclick="notesHilite('#FFE600')" title="Yellow" style="background:#FFE600;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#90EE90')" title="Green"  style="background:#90EE90;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#FFB3C6')" title="Pink"   style="background:#FFB3C6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#ADD8E6')" title="Blue"   style="background:#ADD8E6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.78rem;padding:2px 7px;color:#ff9999;margin-left:2px;background:rgba(255,255,255,.1);border:none;border-radius:4px;cursor:pointer;">✕</button>
+    </span>
+  </div>
+  <div id="notesTA" contenteditable="true" data-placeholder="Your notes for this slide…" spellcheck="false" oninput="saveNotes()"></div>
+</div>
+
+<div id="deck">
+
+<!-- ============ COVER ============ -->
+<div class="slide active" id="s1">
+  <div class="title-inner">
+    <div class="title-label">Conversational English</div>
+    <div class="title-sub">with teacher Nanda</div>
+    <div class="title-main">Stormy <span class="title-accent">Weather</span></div>
+    <a href="../index.html" title="All AEF Courses" style="position:absolute;bottom:70px;left:32px;font-size:1.7rem;line-height:1;text-decoration:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));">🏠</a>
+    <div style="position:absolute;bottom:70px;right:32px;">
+      <button onclick="goToId('hw-cover')" style="background:#1C2B3A;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.03em;">📝 Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LEAD-IN: ENVIRONMENTALLY FRIENDLY? ============ -->
+<div class="slide" id="s-leadin">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>Are you as environmentally friendly as you think?</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <div class="card" style="background:linear-gradient(135deg,#EAF3EE 0%,#DCEEE3 100%);border-left:6px solid #2F7A52;">
+      <p style="font-size:1.2rem;line-height:1.7;color:#1C2B3A;margin:0 0 16px;">What do you understand by the expression <mark style="background:#2F7A52;color:#fff;padding:3px 10px;border-radius:6px;font-weight:800;box-decoration-break:clone;-webkit-box-decoration-break:clone;">environmentally friendly</mark>? Can you think of any synonyms?</p>
+      <p style="font-size:1.15rem;font-weight:800;color:#2F7A52;margin:0 0 12px;">On a scale of 1–10, how environmentally friendly do you think…</p>
+      <p style="font-size:1.12rem;color:#1C2B3A;margin:0 0 10px;display:flex;align-items:center;gap:10px;"><span class="example-badge" style="background:#2F7A52;">a</span> your friends and family are?</p>
+      <p style="font-size:1.12rem;color:#1C2B3A;margin:0;display:flex;align-items:center;gap:10px;"><span class="example-badge" style="background:#2F7A52;">b</span> people in your town are?</p>
+    </div>
+    <div class="lead-img-wrap">
+      <img src="Gemini_Generated_Image_n46a1n46a1n46a1n.png" alt="A lightbulb with a growing plant inside, surrounded by greenery" class="lead-img">
+      <p class="lead-img-caption">"Are you really as environmentally friendly as you think you are?"</p>
+    </div>
+    <p class="instruction">Complete the questionnaire below and figure out your score.</p>
+    <div class="env-grid">
+    <div class="env-card">
+      <h4>A. Your "values"</h4>
+      <p class="inst-light" style="margin-bottom:10px;">Click the statement that best describes your habits.</p>
+      <div id="env-values">
+        <div class="env-statement" data-val="1" onclick="envStatementPick(this)">1 — I don't really do anything environmentally friendly.</div>
+        <div class="env-statement" data-val="2" onclick="envStatementPick(this)">2 — I do one or two things that are environmentally friendly.</div>
+        <div class="env-statement" data-val="3" onclick="envStatementPick(this)">3 — I do quite a few things that are environmentally friendly.</div>
+        <div class="env-statement" data-val="4" onclick="envStatementPick(this)">4 — Most things I do are environmentally friendly.</div>
+        <div class="env-statement" data-val="5" onclick="envStatementPick(this)">5 — Everything I do is environmentally friendly.</div>
+      </div>
+    </div>
+    <div class="env-card">
+      <h4>B. Your "actions"</h4>
+      <p class="inst-light" style="margin-bottom:10px;">How often do you do each of the following? Score each action from 1 (never) to 5 (always).</p>
+      <div id="env-actions">
+        <div class="env-row"><span class="env-label">a. turn off lights when you leave a room</span><span class="env-scale" data-row="a">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">b. put on a sweater rather than turning up the heat</span><span class="env-scale" data-row="b">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">c. avoid buying something with a lot of packaging</span><span class="env-scale" data-row="c">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">d. take your own shopping bag</span><span class="env-scale" data-row="d">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">e. use public transportation instead of driving</span><span class="env-scale" data-row="e">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">f. walk or ride your bike</span><span class="env-scale" data-row="f">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">g. buy recycled toilet paper</span><span class="env-scale" data-row="g">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">h. avoid taking airline flights</span><span class="env-scale" data-row="h">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">i. avoid leaving your TV on when you're not watching it</span><span class="env-scale" data-row="i">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+        <div class="env-row"><span class="env-label">j. turn the faucet off when brushing your teeth</span><span class="env-scale" data-row="j">
+          <button class="env-pill" data-value="1" onclick="envPick(this)">1</button><button class="env-pill" data-value="2" onclick="envPick(this)">2</button><button class="env-pill" data-value="3" onclick="envPick(this)">3</button><button class="env-pill" data-value="4" onclick="envPick(this)">4</button><button class="env-pill" data-value="5" onclick="envPick(this)">5</button></span></div>
+      </div>
+    </div>
+    </div>
+    <p class="inst-light" style="margin:14px 0 0;font-style:italic;">First, figure out your "action" score: take the average of section B (add up and divide by 10) and write the number in the box. Then subtract your "value" score (A) from your "action" score (B).</p>
+    <div class="btn-row">
+      <button class="btn-check" onclick="calcEnvScore()">Calculate My Score</button>
+      <button class="btn-reset" onclick="resetEnvScore()">Reset</button>
+    </div>
+    <div class="env-result-box" id="env-result"></div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: INFOGRAPHIC TITLE + PREDICTIONS ============ -->
+<div class="slide" id="s-gram-read">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <div class="fixed-two-col">
+      <div>
+        <h2>Brainstorming</h2>
+        <p class="discuss-label">🔮 Predict before you read</p>
+        <div class="card" style="background:linear-gradient(135deg,#EAF3EE 0%,#DCEEE3 100%);border-left:6px solid #2F7A52;">
+          <p style="font-size:1.2rem;line-height:1.7;color:#1C2B3A;margin:0 0 16px;">Look at the title of an infographic.<br>What predictions do you think it will make about the things in the box?</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="predict-chip">energy</span>
+            <span class="predict-chip">waste</span>
+            <span class="predict-chip">transportation</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+            <span class="predict-chip">food and water</span>
+            <span class="predict-chip">the weather</span>
+          </div>
+        </div>
+      </div>
+      <div class="lead-img-wrap" style="margin:0;">
+        <img src="infographic_title.png" alt="Infographic title: How will we be living in 20 years?" class="lead-img" style="max-height:220px;object-fit:contain;background:#fff;">
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: READ INFOGRAPHIC + DISCUSS PREDICTIONS ============ -->
+<div class="slide" id="s-gram-predict">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <div class="fixed-two-col">
+      <div>
+        <h2>Reading practice</h2>
+        <p class="instruction">Now read the infographic. Choose one prediction for each of the following:</p>
+        <p class="discuss-label">💬 Share your thoughts</p>
+        <ol class="discuss-list">
+          <li>A prediction you think <mark style="background:#6B3F86;color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;">is likely to happen</mark> in the next 20 years.
+            <div class="write-blank"><input type="text"></div>
+          </li>
+          <li>A prediction you think <mark style="background:#6B3F86;color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;">will definitely happen</mark> in the next 20 years.
+            <div class="write-blank"><input type="text"></div>
+          </li>
+          <li>A prediction you think <mark style="background:#6B3F86;color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;">probably won't ever happen</mark>.
+            <div class="write-blank"><input type="text"></div>
+          </li>
+          <li>The prediction you would <mark style="background:#6B3F86;color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;">most and least like</mark> to come true.
+            <div class="write-blank"><input type="text"></div>
+          </li>
+        </ol>
+      </div>
+      <div class="lead-img-wrap" style="margin:0;">
+        <img src="infographic_full.png" alt="Infographic: How will we be living in 20 years?" style="width:100%;max-width:590px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;margin:0 auto;">
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MEANING (CLASSIFY HIGHLIGHTED VERBS) ============ -->
+<div class="slide" id="s-gram-classify">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Analyzing</h2>
+    <p class="instruction">Look at the <mark style="background:#3B4C99;color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;">highlighted</mark> verbs in the predictions. Which ones refer to…?</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="classify-cols" id="ginf-cols" style="grid-template-columns:1fr;">
+          <div class="classify-col" data-target="fp" onclick="classifyTarget(this)"><h4>a — an action or situation that <mark style="background:#1F5F72;color:#fff;padding:1px 7px;border-radius:5px;font-weight:800;">will be finished</mark> in the future</h4></div>
+          <div class="classify-col" data-target="fc" onclick="classifyTarget(this)"><h4>b — an action or situation that <mark style="background:#C9822E;color:#fff;padding:1px 7px;border-radius:5px;font-weight:800;">will be in progress</mark> in the future</h4></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkClassifySlide('ginf')">Check Answers</button>
+          <button class="btn-reset" onclick="resetClassifySlide('ginf')">Reset</button>
+        </div>
+      </div>
+      <div class="infographic-scroll" id="ginf-bank">
+        <div class="infographic-section">
+          <h4>🔋 Energy</h4>
+          <p>Fossil fuels, like coal and gas, will be very expensive. Most people <span class="classify-chip inline-hl" data-ans="fp" onclick="classifyPick(this)">will have installed</span> solar panels or wind turbines on their houses or apartment buildings to generate their electricity.</p>
+        </div>
+        <div class="infographic-section">
+          <h4>♻️ Waste</h4>
+          <p>People <span class="classify-chip inline-hl" data-ans="fc" onclick="classifyPick(this)">will be recycling</span> nearly 100% of their waste (and those who don't will have to pay a fine). All stores and cafés will have stopped using plastic bags and single-use containers, like to-go coffee cups.</p>
+        </div>
+        <div class="infographic-section">
+          <h4>🚌 Transportation</h4>
+          <p>Governments will have invested a lot of money in public transportation. Everyone <span class="classify-chip inline-hl" data-ans="fc" onclick="classifyPick(this)">will be riding</span> their bikes, walking, or using the bus and train more. Low-cost airlines will have disappeared and flights will be much more expensive.</p>
+        </div>
+        <div class="infographic-section">
+          <h4>🚰 Food and water</h4>
+          <p>Farmers will have stopped producing meat commercially and many kinds of fish <span class="classify-chip inline-hl" data-ans="fp" onclick="classifyPick(this)">will have died out</span>. Fresh water will be running out in many parts of the world, and we will be getting much of our water from the ocean (through desalination plants).</p>
+        </div>
+        <div class="infographic-section">
+          <h4>🌦️ The weather</h4>
+          <p>We will be having more extreme weather, and heatwaves, hurricanes, floods, etc., will be frequent occurrences. Many ski resorts will have closed because of a lack of winter snow, and some low-lying beaches and vacation resorts <span class="classify-chip inline-hl" data-ans="fp" onclick="classifyPick(this)">will have disappeared</span> completely.</p>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MPF — CCQs ============ -->
+<div class="slide" id="s-gram-mpf-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Finished, or still happening?</h2>
+    <p class="instruction">Read each example from the infographic, then answer the questions below it.</p>
+    <div class="mpf-legend">
+      <span class="mpf-chip fperf">⏱️ Future Perfect</span>
+      <span class="mpf-chip fcont">🔄 Future Continuous</span>
+    </div>
+    <div class="mpf-grid">
+      <div class="mpf-card fperf">
+        <h3>⏱️ Future Perfect</h3>
+        <p class="mpf-examples">The rain <span class="hl">will have stopped</span> by this afternoon.</p>
+        <div class="ccq-label">Check your understanding</div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>1.</b> Are we talking about a point before this afternoon, exactly this afternoon, or after? <button class="btn-ccq" onclick="toggleSuggested('ccq-fp-1')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fp-1">Before this afternoon — "by" means at the latest.</div>
+        </div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>2.</b> Do we know the exact time the rain stops? <button class="btn-ccq" onclick="toggleSuggested('ccq-fp-2')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fp-2">No — we only know it's finished by a certain point in time.</div>
+        </div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>3.</b> At that point in time, is the action finished or still happening? <button class="btn-ccq" onclick="toggleSuggested('ccq-fp-3')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fp-3">Finished — the rain has already stopped by then.</div>
+        </div>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn-ccq" onclick="toggleSuggested('fp-more-ex')">📖 Show more examples</button>
+        </div>
+        <div class="more-ex-box" id="fp-more-ex">
+          Some people think that sea levels <span class="hl">will have risen</span> by as much as 3 feet in 50 years.<br>
+          Laura <span class="hl">won't have arrived</span> before dinner, so I'll leave some food on the stove for her.<br>
+          When <span class="hl">will they have learned</span> enough English to be able to communicate fluently?
+        </div>
+      </div>
+      <div class="mpf-card fcont">
+        <h3>🔄 Future Continuous</h3>
+        <p class="mpf-examples">Don't call between 7:00 and 8:30 because we'<span class="hl">ll be having</span> dinner then.</p>
+        <div class="ccq-label">Check your understanding</div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>1.</b> Does dinner start before 7:00, at 7:00, or sometime between 7:00 and 8:30? <button class="btn-ccq" onclick="toggleSuggested('ccq-fc-1')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fc-1">Before — it's already started, and it's still going on during that time.</div>
+        </div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>2.</b> At any point between 7:00 and 8:30, is dinner finished or still happening? <button class="btn-ccq" onclick="toggleSuggested('ccq-fc-2')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fc-2">Still happening — it's in progress at that time.</div>
+        </div>
+        <div class="ccq-block">
+          <p class="ccq-q"><b>3.</b> Do we know exactly when dinner will finish? <button class="btn-ccq" onclick="toggleSuggested('ccq-fc-3')">Check</button></p>
+          <div class="ccq-answer" id="ccq-fc-3">No — we just know it's in progress at that time.</div>
+        </div>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn-ccq" onclick="toggleSuggested('fc-more-ex')">📖 Show more examples</button>
+        </div>
+        <div class="more-ex-box" id="fc-more-ex">
+          Good luck with your test tomorrow. I'<span class="hl">ll be thinking</span> of you.<br>
+          <span class="hl">Will</span> you <span class="hl">be waiting</span> for me when I get off the train?<br>
+          This time tomorrow, I'<span class="hl">ll be sitting</span> on the beach watching the sunset.
+        </div>
+      </div>
+    </div>
+    <div class="connect-wrap">
+      <div class="connect-note arrow-right">
+        <b>🔍 Compare: future simple vs. future continuous</b><br>
+        <i>Come at around 7:30.</i><br>
+        <span class="fs-hl">We'll have dinner</span> at 8:00. <i>(future simple — dinner starts at 8:00)</i><br>
+        <i>Don't call between 7:00 and 8:30 because</i><br>
+        <span class="fc-hl">we'll be having dinner</span>. <i>(future continuous — at 8:00, dinner is already in progress)</i>
+      </div>
+      <div class="connect-note"><b>🔗 Also like the <span class="pc-hl">present continuous</span>:</b><br>
+        we sometimes use the <span class="fc-hl">future continuous</span> to talk about things that are already planned or decided:<br>
+        <i>I'll be going to the supermarket later. Do you want anything?</i>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MPF — FORM ============ -->
+<div class="slide" id="s-gram-mpf-form">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Building the sentence</h2>
+    <div class="mpf-grid">
+      <div class="mpf-card fperf">
+        <h3>⏱️ Future Perfect</h3>
+        <p class="mpf-form"><span class="hl">will have</span> + past participle</p>
+        <p class="mpf-sub"><b>Negative:</b> won't have + past participle.</p>
+        <p class="mpf-sub"><b>Question:</b> invert the subject and will / won't.<br><i>Will they have finished?</i></p>
+        <p class="mpf-sub">Frequently used with time expressions like <b>by Saturday / March / 2030</b>, etc., or <b>in two weeks / months</b>, etc. (<i>by</i> + a time expression = at the latest.)</p>
+      </div>
+      <div class="mpf-card fcont">
+        <h3>🔄 Future Continuous</h3>
+        <p class="mpf-form"><span class="hl">will be</span> + verb + <span class="hl">-ing</span></p>
+        <p class="mpf-sub"><b>Negative:</b> won't be + verb + -ing.<br><i>You don't need to get up early.</i><br><i>We won't be leaving until about 9:30.</i></p>
+        <p class="mpf-sub"><b>Question:</b> invert the subject and will / won't.</p>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MPF — PRONUNCIATION ============ -->
+<div class="slide" id="s-gram-mpf-pron">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Natural Speech</h2>
+    <p class="inst-light">In fast, natural speech, both tenses are almost always contracted and linked. Listen for the stress falling on the main verb, not on <i>will</i>.</p>
+    <div class="mpf-grid">
+      <div class="mpf-card fperf">
+        <h3>⏱️ Future Perfect</h3>
+        <div style="background:#f0f4f8;border-radius:999px;padding:10px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+          <span style="font-size:.95rem;font-weight:600;color:#1C2B3A;white-space:nowrap;">🎧 Listen</span>
+          <audio controls src="AEF3e_Level_4_SB_4.01-.mp3" style="width:100%;height:36px;"></audio>
+        </div>
+        <p class="mpf-examples" style="font-style:italic;">The rain <span class="hl">'ll have stopped</span> by this afternoon.</p>
+        <p class="mpf-sub"><i>will have</i> contracts to <span class="hl">'ll have</span>, and the <i>h</i> in <i>have</i> often disappears completely. Stress falls on the past participle, not on <i>will</i>.</p>
+      </div>
+      <div class="mpf-card fcont">
+        <h3>🔄 Future Continuous</h3>
+        <div style="background:#f0f4f8;border-radius:999px;padding:10px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+          <span style="font-size:.95rem;font-weight:600;color:#1C2B3A;white-space:nowrap;">🎧 Listen</span>
+          <audio controls src="AEF3e_Level_4_SB_4.02-.mp3" style="width:100%;height:36px;"></audio>
+        </div>
+        <p class="mpf-examples" style="font-style:italic;">Don't call between 7:00 and 8:30 because we<span class="hl">'ll be having</span> dinner then.</p>
+        <p class="mpf-sub"><i>will be</i> contracts to <span class="hl">'ll be</span> and links smoothly into the <i>-ing</i> verb. Stress falls on the <i>-ing</i> verb, not on <i>will</i> or <i>be</i>.</p>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: CONTROLLED PRACTICE 1 ============ -->
+<div class="slide" id="s-gram-ex1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the sentence</h2>
+    <p class="instruction">Complete each sentence using the future perfect or future continuous form of the verb in parentheses.</p>
+    <div class="ex-example-centered"><span class="ex-tag">Example</span>The movie starts at 7:00, but I won't arrive until 7:15. When I arrive at the movie theater, the movie <span style="background:#1A5030;color:#fff;font-weight:800;padding:2px 9px;border-radius:5px;">will have started</span>. (start)</div>
+    <div class="fixed-two-col" id="gex1">
+      <div>
+        <div class="ex-row">1. The flight to Miami takes off at 9:00 and lands at 10:30. At 10:00 they<br><input class="ans-input half" data-ans="will be flying" data-alt="'ll be flying"> to Miami. (fly)</div>
+        <div class="ex-row">2. I usually save $200 a month. By the end of the year, I<br><input class="ans-input half" data-ans="will have saved" data-alt="'ll have saved"> $2,400. (save)</div>
+        <div class="ex-row">3. Rebecca leaves at 6:30. It takes her an hour to get to work. At 7:00 tomorrow, she<br><input class="ans-input half" data-ans="will be driving" data-alt="'ll be driving"> to work. (drive)</div>
+        <div class="ex-row">4. The meeting starts at 2:00 and finishes at 3:30. Don't call me at 2:30, because we<br><input class="ans-input half" data-ans="will be having" data-alt="'ll be having"> a meeting. (have)</div>
+      </div>
+      <div>
+        <div class="ex-row">5. Sam is paying for his car. The last payment is in May. By June, he<br><input class="ans-input half" data-ans="will have paid" data-alt="'ll have paid"> for his car. (pay)</div>
+        <div class="ex-row">6. Their last test is on May 31st. By the end of May, they<br><input class="ans-input half" data-ans="will have finished" data-alt="'ll have finished"> their tests. (finish)</div>
+        <div class="ex-row">7. She writes a chapter of her novel a week. This week she's on chapter five. By the end of this week, she <input class="ans-input half" data-ans="will have written" data-alt="'ll have written"> five chapters. (write)</div>
+        <div class="ex-row">8. Sonia is usually at the gym between 6:30 and 7:30. There's no point calling Sonia now. It's 7:00 and she <input class="ans-input half" data-ans="will be working out" data-alt="'ll be working out"> at the gym. (work out)</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('gex1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('gex1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: CONTROLLED PRACTICE 2 ============ -->
+<div class="slide" id="s-gram-ex2">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the conversation</h2>
+    <p class="instruction">Complete the conversation with the verbs in parentheses in the future perfect or future continuous.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
+    <div id="gex2" class="conv-narrow">
+      <p><b>A</b> Well, it looks like <span style="background:#1A5030;color:#fff;font-weight:800;padding:2px 9px;border-radius:5px;">we'll be having</span> very <span class="conv-hint">(have)</span><br>
+      different weather in the future if climate<br>
+      change continues.</p>
+      <p><b>B</b> What do you mean?</p>
+      <p><b>A</b> Well, they say <span style="background:#1A5030;color:#fff;font-weight:800;padding:2px 9px;border-radius:5px;">we'll be having</span> much <span class="conv-hint">(have)</span><br>
+      higher temperatures here in New York,<br>
+      as high as 96°. And remember, we<br>
+      <sup>1</sup><input class="ans-input" data-ans="won't be lying"> on the beach — we <span class="conv-hint">(not lie)</span><br>
+      <sup>2</sup><input class="ans-input" data-ans="will be working" data-alt="'ll be working"> in 96°, which is very <span class="conv-hint">(work)</span><br>
+      different. And islands like Puerto Rico<br>
+      <sup>3</sup><input class="ans-input" data-ans="will have disappeared"> by 2100 because <span class="conv-hint">(disappear)</span><br>
+      of the rise in sea levels. They say<br>
+      the number of storms and tsunamis<br>
+      <sup>4</sup><input class="ans-input" data-ans="will have doubled"> by the middle of <span class="conv-hint">(double)</span><br>
+      the century, too, so even more people<br>
+      <sup>5</sup><input class="ans-input" data-ans="will have moved"> to the cities by <span class="conv-hint">(move)</span><br>
+      then, looking for work. Big cities<br>
+      <sup>6</sup><input class="ans-input" data-ans="will have grown"> even bigger by <span class="conv-hint">(grow)</span><br>
+      then. Can you imagine the traffic?</p>
+      <p><b>B</b> I don't think there will be a problem<br>
+      with the traffic. Gas <sup>7</sup><input class="ans-input" data-ans="will have run out"> <span class="conv-hint">(run out)</span><br>
+      completely by then anyway, so<br>
+      nobody will have a car. Someone<br>
+      <sup>8</sup><input class="ans-input" data-ans="will have invented"> a new method of <span class="conv-hint">(invent)</span><br>
+      transportation, so we <sup>9</sup><input class="ans-input" data-ans="will be getting" data-alt="'ll be getting"> <span class="conv-hint">(get)</span><br>
+      around in flying taxis or something.</p>
+    </div>
+    <div class="lead-img-wrap" style="margin:0;">
+      <img src="hadija-9cgMKmZyhH0-unsplash.jpg" alt="A signpost pointing right to 'Future' and left to 'Past'" style="width:100%;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;">
+    </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('gex2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('gex2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: FUTURE PREDICTIONS ROLL ============ -->
+<div class="slide" id="s-speak-future">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>In 20 years…</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div>
+        <p class="instruction">Spin the wheel to land on a prediction. Do you agree or disagree? Why?</p>
+        <div class="pred-wheel-wrap">
+          <div class="pred-pointer">▼</div>
+          <canvas id="pred-wheel" width="190" height="190" onclick="spinPredWheel()" style="cursor:pointer;"></canvas>
+          <div style="font-size:.78rem;color:#888;margin-top:2px;">click to spin</div>
+          <div id="pred-empty" class="pred-empty">← Spin the wheel to get a prediction!</div>
+          <div id="pred-result" class="pred-result">
+            <p class="pred-sentence" id="pred-sentence"></p>
+            <p class="instruction" style="margin:0;">Do you agree or disagree? Why?</p>
+            <div style="text-align:right;margin-top:8px;">
+              <button class="btn-check" style="font-size:.85rem;padding:8px 16px;" onclick="spinPredWheel()">🎡 Spin again!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="instruction">Roll the die, then make a prediction about that topic using <i>definitely</i>, <i>probably</i>, or <i>likely / unlikely</i>.</p>
+        <div class="dice-box" id="dice-future" style="margin:0;">
+          <div class="die-face" id="dice-future-face">⚀</div>
+          <button class="btn-check" onclick="rollDie('dice-future')">🎲 Roll for a Topic</button>
+          <p class="dice-prompt" id="dice-future-prompt"></p>
+        </div>
+        <div class="card" style="margin-top:18px;background:linear-gradient(135deg,#EAF3EE 0%,#DCEEE3 100%);border-left:6px solid #2F7A52;">
+          <p style="font-weight:800;color:#2F7A52;font-size:1.1rem;margin:0 0 10px;">🔍 definitely, probably, and likely / unlikely</p>
+          <p style="margin:0 0 16px;">We often use verb + <i>definitely</i> or <i>probably</i>, and <i>be likely / unlikely</i> + infinitive when talking about the future, especially when making predictions.</p>
+          <p style="font-weight:800;font-style:italic;margin:0 0 8px;">I think…</p>
+          <div style="display:flex;align-items:stretch;gap:18px;">
+            <div class="certainty-funnel"></div>
+            <p class="certainty-list">
+              it'll <b>definitely</b> happen.<br>
+              it's (very) <b>likely</b> to happen.<br>
+              it'll <b>probably</b> happen.<br>
+              it <b>probably</b> won't happen.<br>
+              it's (very) <b>unlikely</b> to happen.<br>
+              it <b>definitely</b> won't happen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+<!-- ============ VOCABULARY: LEAD-IN (WEATHER PHOTOS) ============ -->
+<div class="slide" id="s-vocab-lead">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Weather events</h2>
+    <div class="lead-img-wrap" style="margin:0 0 18px;">
+      <img src="Gemini_Generated_Image_ux1u4wux1u4wux1u.png" alt="Four weather scenes: a lightning storm over the ocean, a windy storm with palm trees, a double rainbow over a valley, and a sunny beach" style="width:85%;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;margin:0 auto;">
+    </div>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <div class="card" style="background:linear-gradient(135deg,#EAF3EE 0%,#DCEEE3 100%);border-left:6px solid #2F7A52;">
+      <p style="font-size:1.2rem;line-height:1.7;color:#1C2B3A;margin:0;">Look at the photos. What kinds of weather events can you see?<br>When did you last see them where you live?</p>
+    </div>
+  </div></div>
+</div>
+<!-- ============ VOCABULARY: WHAT'S THE WEATHER LIKE? ============ -->
+<div class="slide" id="s-vocab1">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>What's the weather like?</h2>
+    <p class="instruction">Click a word in the bank, then click the blank where it belongs.</p>
+    <div class="wb-bank book-style" id="vw1-bank">
+      <span class="wb-tile" data-val="below zero" onclick="wbPick(this)">below zero</span>
+      <span class="wb-tile" data-val="boiling" onclick="wbPick(this)">boiling</span>
+      <span class="wb-tile" data-val="breeze" onclick="wbPick(this)">breeze</span>
+      <span class="wb-tile" data-val="chilly" onclick="wbPick(this)">chilly</span>
+      <span class="wb-tile example-used" data-val="cool">cool</span>
+      <span class="wb-tile" data-val="damp" onclick="wbPick(this)">damp</span>
+      <span class="wb-tile" data-val="drizzling" onclick="wbPick(this)">drizzling</span>
+      <span class="wb-tile" data-val="freezing" onclick="wbPick(this)">freezing</span>
+      <span class="wb-tile" data-val="humid" onclick="wbPick(this)">humid</span>
+      <span class="wb-tile" data-val="mild" onclick="wbPick(this)">mild</span>
+      <span class="wb-tile" data-val="pouring" onclick="wbPick(this)">pouring</span>
+      <span class="wb-tile" data-val="showers" onclick="wbPick(this)">showers</span>
+      <span class="wb-tile" data-val="warm" onclick="wbPick(this)">warm</span>
+    </div>
+    <div class="wbg-arrow-wrap">
+      <div class="wbg-arrow"></div>
+      <div class="weather-book-grid" id="vw1">
+        <div class="wbg-row wbg-top">
+          <div class="wbg-cell">
+            <p>1 It's <span style="background:#1A5030;color:#fff;font-weight:800;padding:2px 9px;border-radius:5px;">cool</span>. <em>(a little cold)</em></p>
+            <p>2 It's <span class="wb-blank" data-ans="chilly" onclick="wbPlace(this)">______</span>. <em>(unpleasantly cold)</em></p>
+          </div>
+          <div class="wbg-cell">
+            <p>5 It's <span class="wb-blank" data-ans="mild" onclick="wbPlace(this)">______</span>. <em>(pleasant, not cold)</em></p>
+            <p>6 It's <span class="wb-blank" data-ans="warm" onclick="wbPlace(this)">______</span>. <em>(a pleasantly high temperature)</em></p>
+          </div>
+          <div class="wbg-cell">
+            <p>8 It's <span class="wb-blank" data-ans="humid" onclick="wbPlace(this)">______</span>. <em>(warm & wet, not raining)</em></p>
+            <p>9 It's <span class="wb-blank" data-ans="damp" onclick="wbPlace(this)">______</span>. <em>(cold & slightly wet)</em></p>
+            <p>10 It's <span class="wb-blank" data-ans="drizzling" onclick="wbPlace(this)">______</span>. <em>(raining lightly)</em></p>
+          </div>
+          <div class="wbg-cell">
+            <p>13 There's a <span class="wb-blank" data-ans="breeze" onclick="wbPlace(this)">______</span>. <em>(a light wind)</em></p>
+          </div>
+        </div>
+        <div class="wbg-row wbg-header">
+          <div class="wbg-head cold">It's cold. ❄️</div>
+          <div class="wbg-head hot">It's hot. ☀️</div>
+          <div class="wbg-head rain">It's raining / wet. 💧</div>
+          <div class="wbg-head wind">It's windy. 🌬️</div>
+        </div>
+        <div class="wbg-row wbg-bottom">
+          <div class="wbg-cell">
+            <p>3 It's <span class="wb-blank" data-ans="freezing" onclick="wbPlace(this)">______</span>. <em>(very cold)</em></p>
+            <p>4 It's <span class="wb-blank" data-ans="below zero" onclick="wbPlace(this)">______</span>. <em>(−10°)</em></p>
+          </div>
+          <div class="wbg-cell">
+            <p>7 It's <span class="wb-blank" data-ans="boiling" onclick="wbPlace(this)">______</span> / scorching. <em>(unpleasantly hot)</em></p>
+          </div>
+          <div class="wbg-cell">
+            <p>11 There are <span class="wb-blank" data-ans="showers" onclick="wbPlace(this)">______</span>. <em>(raining intermittently)</em></p>
+            <p>12 It's <span class="wb-blank" data-ans="pouring" onclick="wbPlace(this)">______</span>. <em>(raining a lot)</em></p>
+          </div>
+          <div class="wbg-cell wbg-empty"></div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('vw1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('vw1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: ADJECTIVES TO DESCRIBE WEATHER ============ -->
+<div class="slide" id="s-vocab3">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Adjectives to describe weather</h2>
+    <p class="instruction">Click a word in the bank, then click the blank where it belongs to complete the weather forecast.</p>
+    <div class="wb-bank book-style" id="vadj1-bank">
+      <span class="wb-tile" data-val="bright" onclick="wbPick(this)">bright</span>
+      <span class="wb-tile" data-val="changeable" onclick="wbPick(this)">changeable</span>
+      <span class="wb-tile" data-val="clear" onclick="wbPick(this)">clear</span>
+      <span class="wb-tile" data-val="heavy" onclick="wbPick(this)">heavy</span>
+      <span class="wb-tile" data-val="icy" onclick="wbPick(this)">icy</span>
+      <span class="wb-tile" data-val="settled" onclick="wbPick(this)">settled</span>
+      <span class="wb-tile example-used" data-val="strong">strong</span>
+      <span class="wb-tile" data-val="sunny" onclick="wbPick(this)">sunny</span>
+      <span class="wb-tile" data-val="thick" onclick="wbPick(this)">thick</span>
+    </div>
+    <div class="card">
+      <p class="ex-row" id="vadj1" style="font-size:1.22rem;">In the western part of New York it will be very cold, with <span style="background:#1A5030;color:#fff;font-weight:800;padding:2px 9px;border-radius:5px;">strong</span> <em>(example)</em> winds and <span class="wb-blank" data-ans="heavy" onclick="wbPlace(this)">______</span> rain. There will also be <span class="wb-blank" data-ans="thick" onclick="wbPlace(this)">______</span> fog in the hills and valleys, though it should clear by midday. Driving will be dangerous because the roads will be <span class="wb-blank" data-ans="icy" onclick="wbPlace(this)">______</span>. However, the Hudson Valley and the Tri-state area will have <span class="wb-blank" data-ans="clear" onclick="wbPlace(this)">______</span> skies and it will be <span class="wb-blank" data-ans="bright" onclick="wbPlace(this)">______</span> and sunny, though the temperature will still be low. Over the next few days the weather will be <span class="wb-blank" data-ans="changeable" onclick="wbPlace(this)">______</span>, with some showers, but occasional <span class="wb-blank" data-ans="sunny" onclick="wbPlace(this)">______</span> periods. It should become more <span class="wb-blank" data-ans="settled" onclick="wbPlace(this)">______</span> over the weekend.</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('vadj1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('vadj1')">Reset</button>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#EAF3EE 0%,#DCEEE3 100%);border-left:6px solid #2F7A52;margin-top:20px;">
+      <p style="font-size:1.2rem;line-height:1.7;color:#1C2B3A;margin:0;">What kind of weather do you associate with the different seasons where you live?</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: VOWEL SOUNDS ============ -->
+<div class="slide" id="s-pron1">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Vowel sounds</h2>
+    <p class="instruction">Look at the groups of words. What is the common sound in each group? Click a picture in the sound bank, then click the number where it belongs (as in the example).</p>
+    <div class="sound-bank" id="pvow1-bank">
+      <div class="wb-tile snd-tile example-used" data-val="owl">
+        <img src="sound-owl.png" alt="owl">
+        <span>owl</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="bike" onclick="wbPick(this)">
+        <img src="sound-bike.png" alt="bike">
+        <span>bike</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="egg" onclick="wbPick(this)">
+        <img src="sound-egg.png" alt="egg">
+        <span>egg</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="horse" onclick="wbPick(this)">
+        <img src="sound-horse.png" alt="horse">
+        <span>horse</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="phone" onclick="wbPick(this)">
+        <img src="sound-phone.png" alt="phone">
+        <span>phone</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="ear" onclick="wbPick(this)">
+        <img src="sound-ear.png" alt="ear">
+        <span>ear</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="up" onclick="wbPick(this)">
+        <img src="sound-up.png" alt="up">
+        <span>up</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="boot" onclick="wbPick(this)">
+        <img src="sound-boot.png" alt="boot">
+        <span>boot</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="fish" onclick="wbPick(this)">
+        <img src="sound-fish.png" alt="fish">
+        <span>fish</span>
+      </div>
+      <div class="wb-tile snd-tile" data-val="tree" onclick="wbPick(this)">
+        <img src="sound-tree.png" alt="tree">
+        <span>tree</span>
+      </div>
+    </div>
+    <div class="sound-groups" id="pvow1">
+      <div class="sg-row">
+        <span class="sg-num">1</span>
+        <span class="sg-ans-example">owl</span>
+        <span class="sg-words"><em>(example)</em> sh<b class="snd-hl">ow</b>er, dr<b class="snd-hl">ou</b>ght</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">2</span>
+        <span class="wb-blank" data-ans="phone" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">bel<b class="snd-hl">ow</b>, sn<b class="snd-hl">ow</b></span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">3</span>
+        <span class="wb-blank" data-ans="boot" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">c<b class="snd-hl">oo</b>l, mons<b class="snd-hl">oo</b>n, typh<b class="snd-hl">oo</b>n</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">4</span>
+        <span class="wb-blank" data-ans="up" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">fl<b class="snd-hl">oo</b>d, th<b class="snd-hl">u</b>nder</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">5</span>
+        <span class="wb-blank" data-ans="egg" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">h<b class="snd-hl">ea</b>vy, w<b class="snd-hl">ea</b>ther</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">6</span>
+        <span class="wb-blank" data-ans="tree" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">h<b class="snd-hl">ea</b>t wave, br<b class="snd-hl">ee</b>ze, fr<b class="snd-hl">ee</b>zing</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">7</span>
+        <span class="wb-blank" data-ans="horse" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">p<b class="snd-hl">our</b>ing, st<b class="snd-hl">or</b>m, sc<b class="snd-hl">or</b>ching, w<b class="snd-hl">ar</b>m</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">8</span>
+        <span class="wb-blank" data-ans="fish" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">dr<b class="snd-hl">i</b>zzling, ch<b class="snd-hl">i</b>lly</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">9</span>
+        <span class="wb-blank" data-ans="bike" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">br<b class="snd-hl">igh</b>t, <b class="snd-hl">i</b>cy, l<b class="snd-hl">igh</b>tning, m<b class="snd-hl">i</b>ld</span>
+      </div>
+      <div class="sg-row">
+        <span class="sg-num">10</span>
+        <span class="wb-blank" data-ans="ear" onclick="wbPlace(this)">______</span>
+        <span class="sg-words">cl<b class="snd-hl">ear</b>, z<b class="snd-hl">er</b>o</span>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('pvow1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('pvow1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+<!-- ============ READING: CLIMATE STORIES PROJECT ============ -->
+<div class="slide" id="s-read1">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Climate Stories Project</h2>
+    <p class="instruction">Take a look at the picture. What is the project about?</p>
+    <div class="lead-img-wrap" style="margin:0 0 20px;">
+      <img src="climate-stories-intro.png" alt="The Climate Stories Project: people from around the world sharing their stories about climate change and its impact on our lives" style="width:100%;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;">
+    </div>
+    <p class="instruction">Now look at the photos and read what four people from different continents have to say about climate change. Then click a story, and click the country on the map where you think that person is from.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+      <div class="scroll-box" id="rmap-bank">
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-umberto.png" alt="Umberto" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;"><span class="classify-chip" data-ans="cuba" onclick="classifyPick(this)">Umberto Crespo Palmarito</span></p>
+              <p class="ex-row" style="margin:0;">Here, the rainy season used to start in March and the rain stopped in November. Now, the heavy rain only starts in June. Years ago, it would be pouring rain every day. And now there can be a week, 15 days, without any rain. My grandfather and my father lived their life according to the weather because it was like a clock: it was never wrong. We used to say that September 21st was the day the weather changed. And now people don't say it. It's completely different from before.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-nadine.png" alt="Nadine" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;"><span class="classify-chip" data-ans="canada" onclick="classifyPick(this)">Nadine Lefort</span></p>
+              <p class="ex-row" style="margin:0;">For many years, we had less snow in the winter, and then this past year we had an extreme winter — freezing, with terrible blizzards — so weather patterns are changing and it's less predictable. Another thing I notice is that the coasts seem to be eroding much more quickly than they were in the past. It's sad, because so many beautiful properties and parks are right on the coast and it will be a shame to see them gone. People are saying that they'd never buy or build in those places because they'll be gone in the future.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-harou.png" alt="Harou" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;"><span class="classify-chip" data-ans="niger" onclick="classifyPick(this)">Harou Abass Hadiza</span></p>
+              <p class="ex-row" style="margin:0;">When I was in elementary school, my friends and I used to go to the river. It was green, and the air was cool and fresh. Some of us were afraid to go far from the riverbank when we were swimming, because the river was deep and had a strong current. However, in the last few years, we've been experiencing increasingly hot weather — extreme heat. Now the river isn't so deep, and it's dusty and dirty. Air quality in my city has also declined. There is more dust, due to desertification.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-jordan.png" alt="Jordan" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;"><span class="classify-chip" data-ans="us" onclick="classifyPick(this)">Jordan Hamada</span></p>
+              <p class="ex-row" style="margin:0;">There hasn't been a big snowstorm here for over ten years. This area is known for its rain, and there hasn't been much for the past few months, and I'm pretty surprised, because it's been so dry this winter. It's definitely not something I think about all the time, but I've seen some articles recently talking about how Los Angeles and Manhattan will eventually be under water, possibly in our lifetime, or the next generation's lifetime, and that makes it seem very real — that's definitely a scary thought.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap" id="rmap-cols">
+        <img src="map-countries.png" alt="World map with marked locations">
+        <div class="classify-col map-dot" data-target="us" style="left:7.3%;top:30.6%;" onclick="classifyTarget(this)"></div>
+        <div class="classify-col map-dot" data-target="canada" style="left:28.4%;top:30.4%;" onclick="classifyTarget(this)"></div>
+        <div class="classify-col map-dot" data-target="cuba" style="left:17.4%;top:45.1%;" onclick="classifyTarget(this)"></div>
+        <div class="classify-col map-dot" data-target="niger" style="left:49.7%;top:51.0%;" onclick="classifyTarget(this)"></div>
+        <div class="classify-col map-dot" data-target="poland" style="left:55.9%;top:28.3%;" onclick="classifyTarget(this)"></div>
+        <div class="classify-col map-dot" data-target="philippines" style="left:96.5%;top:52.5%;" onclick="classifyTarget(this)"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('rmap')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('rmap')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: WHO MENTIONS...? ============ -->
+<div class="slide" id="s-read3">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Who said it?</h2>
+    <p class="instruction">Look at each topic on the right. Find out who mentioned it in their story, then read that person's story again. Report back to your partner what you remember — in your own words, as if you were telling a friend.</p>
+    <div style="display:grid;grid-template-columns:3fr 1fr;gap:24px;align-items:start;">
+      <div class="scroll-box">
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-umberto.png" alt="Umberto" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;">Umberto Crespo Palmarito</p>
+              <p class="ex-row" style="margin:0;">Here, the rainy season used to start in March and the rain stopped in November. Now, the heavy rain only starts in June. Years ago, it would be pouring rain every day. And now there can be a week, 15 days, without any rain. My grandfather and my father lived their life according to the weather because it was like a clock: it was never wrong. We used to say that September 21st was the day the weather changed. And now people don't say it. It's completely different from before.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-nadine.png" alt="Nadine" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;">Nadine Lefort</p>
+              <p class="ex-row" style="margin:0;">For many years, we had less snow in the winter, and then this past year we had an extreme winter — freezing, with terrible blizzards — so weather patterns are changing and it's less predictable. Another thing I notice is that the coasts seem to be eroding much more quickly than they were in the past. It's sad, because so many beautiful properties and parks are right on the coast and it will be a shame to see them gone. People are saying that they'd never buy or build in those places because they'll be gone in the future.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-harou.png" alt="Harou" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;">Harou Abass Hadiza</p>
+              <p class="ex-row" style="margin:0;">When I was in elementary school, my friends and I used to go to the river. It was green, and the air was cool and fresh. Some of us were afraid to go far from the riverbank when we were swimming, because the river was deep and had a strong current. However, in the last few years, we've been experiencing increasingly hot weather — extreme heat. Now the river isn't so deep, and it's dusty and dirty. Air quality in my city has also declined. There is more dust, due to desertification.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <img src="person-jordan.png" alt="Jordan" class="person-thumb">
+            <div>
+              <p style="font-weight:800;margin:0 0 6px;">Jordan Hamada</p>
+              <p class="ex-row" style="margin:0;">There hasn't been a big snowstorm here for over ten years. This area is known for its rain, and there hasn't been much for the past few months, and I'm pretty surprised, because it's been so dry this winter. It's definitely not something I think about all the time, but I've seen some articles recently talking about how Los Angeles and Manhattan will eventually be under water, possibly in our lifetime, or the next generation's lifetime, and that makes it seem very real — that's definitely a scary thought.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="topics-card">
+        <h4>Topics</h4>
+        <ul>
+          <li>September 21st</li>
+          <li>Los Angeles and Manhattan</li>
+          <li>the river</li>
+          <li>beautiful properties and parks</li>
+        </ul>
+      </div>
+    </div>
+    <h3 class="section-subhead">💬 Comprehension</h3>
+    <div class="card" style="background:linear-gradient(135deg,#F3EEF8 0%,#EAE0F3 100%);border-left:6px solid #6B3F86;">
+      <p style="font-size:1.15rem;line-height:1.7;color:#1C2B3A;margin:0;font-weight:700;">Which person mentions things that are also happening where you live?</p>
+    </div>
+  </div></div>
+</div>
+<!-- ============ SPEAKING: LET'S TALK ABOUT THE WEATHER ============ -->
+<div class="slide" id="s-speak2">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Let's talk about the weather</h2>
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start;">
+      <div>
+        <p class="instruction">🎴 Draw a card for your next discussion question — no repeats until you've seen them all!</p>
+        <div class="card-draw-box">
+          <div class="card-current" id="speak2-current">
+            <span class="card-current-icon">🎴</span>
+            <p class="card-current-text" id="speak2-current-text">Click below to draw your first question!</p>
+          </div>
+          <button class="btn-check" onclick="drawSpeakCard('speak2')">🎴 Draw a Question</button>
+        </div>
+        <div class="card-used-box">
+          <p class="card-used-label">✅ Already discussed</p>
+          <ul class="card-used-list" id="speak2-used"></ul>
+        </div>
+      </div>
+      <div class="modifiers-box">
+        <h4>🔥 Modifiers with Strong Adjectives</h4>
+        <div class="mod-level mod-1">
+          <span class="mod-tag">Level 1</span>
+          <p><b>very / really / extremely / incredibly / unbelievably</b> + normal adjective</p>
+          <p class="mod-ex">"It was <b>incredibly</b> cold."</p>
+        </div>
+        <div class="mod-level mod-2">
+          <span class="mod-tag">Level 2</span>
+          <p><b>Strong adjectives</b> (already extreme): <i>boiling, freezing, scorching, exhausted, terrified…</i></p>
+          <p class="mod-ex">"It's <b>freezing</b> today."</p>
+        </div>
+        <div class="mod-level mod-3">
+          <span class="mod-tag">Level 3</span>
+          <p><b>absolutely</b> + strong adjective</p>
+          <p class="mod-ex">"It was <b>absolutely</b> freezing."</p>
+        </div>
+        <p class="mod-note">⚠️ Strong adjectives already mean "very ___", so we don't say <s>very freezing</s> or <s>really boiling</s>.</p>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LESSON REVIEW ============ -->
+<div class="slide" id="s-review">
+  <div class="banner banner-review">⭐ Lesson Review</div>
+  <div class="slide-main"><div class="content">
+    <h2 style="margin-bottom:14px;">What have we learned?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:#EEF1FA;border-radius:12px;padding:16px 20px;border-left:5px solid #3B4C99;">
+          <p style="font-size:1.2rem;font-weight:800;color:#3B4C99;margin-bottom:10px;">📐 Grammar — Future Perfect &amp; Continuous</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+            <span style="background:#3B4C99;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">will have + past participle</span>
+            <span style="background:#1B6E96;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">will be + verb-ing</span>
+          </div>
+          <p style="font-size:1.05rem;color:#1C2B3A;margin:0;">Future perfect = finished by a future time. Future continuous = in progress at a future time.</p>
+        </div>
+        <div style="background:#EAF3EE;border-radius:12px;padding:16px 20px;border-left:5px solid #2F7A52;">
+          <p style="font-size:1.2rem;font-weight:800;color:#2F7A52;margin-bottom:10px;">📚 Vocabulary — Weather</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#2F7A52;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">chilly / freezing / boiling</span>
+            <span style="background:#2F7A52;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">damp / drizzling / showers</span>
+            <span style="background:#2F7A52;color:#fff;border-radius:14px;padding:4px 13px;font-size:1.05rem;">heavy / icy / changeable</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:#E3F2F4;border-radius:12px;padding:16px 20px;border-left:5px solid #0E7A8A;">
+          <p style="font-size:1.2rem;font-weight:800;color:#0E7A8A;margin-bottom:10px;">🔊 Pronunciation — Vowel Sounds</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;margin:0;">Same spelling, different sounds: <i>ow, ea, i, oo</i> can all be pronounced more than one way (e.g., <i>owl</i> vs. <i>snow</i>; <i>tree</i> vs. <i>weather</i>).</p>
+        </div>
+        <div style="background:#F8E9F0;border-radius:12px;padding:16px 20px;border-left:5px solid #B23A6B;">
+          <p style="font-size:1.2rem;font-weight:800;color:#B23A6B;margin-bottom:10px;">💬 Speaking &amp; Reading</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;margin:0;">Predictions about the future, modifiers with strong adjectives, and real climate change stories from around the world.</p>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+<!-- ============ HOMEWORK COVER ============ -->
+<div class="slide" id="hw-cover">
+  <div class="title-inner">
+    <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:7px 22px;font-size:1rem;letter-spacing:.15em;color:rgba(255,255,255,.85);text-transform:uppercase;font-weight:600;margin-bottom:32px;">📝 Homework</div>
+    <div class="title-main">Stormy <span class="title-accent">Weather</span></div>
+  </div>
+</div>
+
+<!-- ============ HW1: CIRCLE CORRECT FORM ============ -->
+<div class="slide" id="hw-gr1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW1 — Circle the correct form</h2>
+    <p class="instruction">Select the correct future perfect or future continuous form to complete each sentence.</p>
+    <div class="fixed-two-col" id="hwgr1">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Hopefully, we will be saving / <span style="color:#1A5030;font-weight:800;">will have saved ✓</span> enough money to go on vacation by the summer.</div>
+        <div class="ex-row">2. By this time tomorrow, <button class="circ-opt" data-group="hg1-2" data-correct="we will be traveling" onclick="circPick(this)">we will be traveling</button> / <button class="circ-opt" data-group="hg1-2" data-correct="we will be traveling" onclick="circPick(this)">we will have traveled</button> to Chicago — it's an eight-hour journey, so take something to do on the train.</div>
+        <div class="ex-row">3. I probably <button class="circ-opt" data-group="hg1-3" data-correct="won't have finished" onclick="circPick(this)">won't have finished</button> / <button class="circ-opt" data-group="hg1-3" data-correct="won't have finished" onclick="circPick(this)">won't be finishing</button> the report by Friday — can I give it to you on Monday morning?</div>
+        <div class="ex-row">4. Don't call between one and two o'clock because we <button class="circ-opt" data-group="hg1-4" data-correct="will be having" onclick="circPick(this)">will have had</button> / <button class="circ-opt" data-group="hg1-4" data-correct="will be having" onclick="circPick(this)">will be having</button> lunch.</div>
+      </div>
+      <div>
+        <div class="ex-row">5. We <button class="circ-opt" data-group="hg1-5" data-correct="will have had" onclick="circPick(this)">will have had</button> / <button class="circ-opt" data-group="hg1-5" data-correct="will have had" onclick="circPick(this)">will be having</button> five meetings by the end of today.</div>
+        <div class="ex-row">6. Jack <button class="circ-opt" data-group="hg1-6" data-correct="will be leaving" onclick="circPick(this)">will be leaving</button> / <button class="circ-opt" data-group="hg1-6" data-correct="will be leaving" onclick="circPick(this)">will have left</button> for Mexico on Saturday. I'm taking him to the airport.</div>
+        <div class="ex-row">7. I won't see my children tonight — they <button class="circ-opt" data-group="hg1-7" data-correct="will have gone" onclick="circPick(this)">will be going</button> / <button class="circ-opt" data-group="hg1-7" data-correct="will have gone" onclick="circPick(this)">will have gone</button> to bed by the time I get home.</div>
+        <div class="ex-row">8. I've planned a surprise party for Alex — when we get to the restaurant, all her friends <button class="circ-opt" data-group="hg1-8" data-correct="will be waiting" onclick="circPick(this)">will be waiting</button> / <button class="circ-opt" data-group="hg1-8" data-correct="will be waiting" onclick="circPick(this)">will have waited</button> for her!</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwgr1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwgr1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW2: COMPLETE THE SENTENCES ============ -->
+<div class="slide" id="hw-gr2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW2 — Complete the sentences</h2>
+    <p class="instruction">Complete each sentence with the future perfect or future continuous form of the verb in parentheses.</p>
+    <div class="fixed-two-col" id="hwgr2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> By the end of this month, we <span style="color:#1A5030;font-weight:700;">'ll have moved</span> to our new house, so you can visit us. (move)</div>
+        <div class="ex-row">2. By this time tomorrow, my parents<br><input class="ans-input half" data-ans="will be flying" data-alt="'ll be flying"> over the Pacific on their way to Tokyo. (fly)</div>
+        <div class="ex-row">3. My exams are in May, so I<br><input class="ans-input half" data-ans="will have taken" data-alt="'ll have taken"> them all by June 1st. (take)</div>
+        <div class="ex-row">4. Hopefully, you<br><input class="ans-input half" data-ans="will have read" data-alt="'ll have read"> the book I lent you by the next time I see you. (read)</div>
+        <div class="ex-row">5. If the game starts at 7:00 p.m., we<br><input class="ans-input half" data-ans="will be playing" data-alt="'ll be playing"> until 8:45 at least. (play)</div>
+      </div>
+      <div>
+        <div class="ex-row">6. In a year, they<br><input class="ans-input half" data-ans="will have built" data-alt="'ll have built"> the new road, and we'll be able to get to work much quicker. (build)</div>
+        <div class="ex-row">7. When do you think you<br><input class="ans-input half" data-ans="will have finished" data-alt="'ll have finished"> paying your mortgage? (finish)</div>
+        <div class="ex-row">8. Don't call me tomorrow morning because I<br><input class="ans-input half" data-ans="will be attending" data-alt="'ll be attending"> an important meeting. (attend)</div>
+        <div class="ex-row">9. It's been raining all morning, but hopefully it<br><input class="ans-input half" data-ans="will have stopped" data-alt="'ll have stopped"> by this afternoon. (stop)</div>
+        <div class="ex-row">10. <input class="ans-input half" data-ans="Will you be going"> to the supermarket later? (you go)</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwgr2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwgr2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW3: WRITE QUESTIONS ============ -->
+<div class="slide" id="hw-gr3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW3 — Write the questions</h2>
+    <p class="instruction">Write future perfect or future continuous questions from the prompts.</p>
+    <div class="fixed-two-col" id="hwgr3">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> when / you / take / your next vacation — <span style="color:#1A5030;font-weight:700;">When will you be taking your next vacation?</span></div>
+        <div class="ex-row">2. what / you / do / this time tomorrow<br><input class="ans-input wide" data-ans="What will you be doing this time tomorrow?"></div>
+        <div class="ex-row">3. what time / you / get up / tomorrow morning<br><input class="ans-input wide" data-ans="What time will you be getting up tomorrow morning?"></div>
+        <div class="ex-row">4. how much TV / you / watch / by the end of the week<br><input class="ans-input wide" data-ans="How much TV will you have watched by the end of the week?" data-alt="How much TV will you have watched by the end of this week?"></div>
+      </div>
+      <div>
+        <div class="ex-row">5. where / you / go / next weekend<br><input class="ans-input wide" data-ans="Where will you be going next weekend?"></div>
+        <div class="ex-row">6. when / you / finish / your English homework<br><input class="ans-input wide" data-ans="When will you have finished your English homework?"></div>
+        <div class="ex-row">7. how many times / you / look at your phone / by the end of today<br><input class="ans-input wide" data-ans="How many times will you have looked at your phone by the end of today?"></div>
+        <div class="ex-row">8. how many hours / you / spend / study English / by the end of the week<br><input class="ans-input wide" data-ans="How many hours will you have spent studying English by the end of the week?"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwgr3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwgr3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW4: ANSWER THE QUESTIONS ============ -->
+<div class="slide" id="hw-gr4">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW4 — Answer the questions</h2>
+    <p class="instruction">Answer the questions you wrote in HW3 about your own life.</p>
+    <div class="fixed-two-col" id="hwgr4">
+      <div>
+        <p class="ex-row">2. What will you be doing this time tomorrow?<br><textarea class="ans-input wide"></textarea></p>
+        <p class="ex-row">3. What time will you be getting up tomorrow morning?<br><textarea class="ans-input wide"></textarea></p>
+        <p class="ex-row">4. How much TV will you have watched by the end of the week?<br><textarea class="ans-input wide"></textarea></p>
+        <p class="ex-row">5. Where will you be going next weekend?<br><textarea class="ans-input wide"></textarea></p>
+      </div>
+      <div>
+        <p class="ex-row">6. When will you have finished your English homework?<br><textarea class="ans-input wide"></textarea></p>
+        <p class="ex-row">7. How many times will you have looked at your phone by the end of today?<br><textarea class="ans-input wide"></textarea></p>
+        <p class="ex-row">8. How many hours will you have spent studying English by the end of the week?<br><textarea class="ans-input wide"></textarea></p>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('hwgr4-tip')">💡 Writing Tip</button>
+      <button class="btn-reset" onclick="document.querySelectorAll('#hwgr4 textarea').forEach(function(t){t.value='';})">Reset</button>
+    </div>
+    <div class="suggest-box" id="hwgr4-tip">
+      Answer in a full sentence and try to use the future perfect or future continuous, e.g., "By the end of the week, I'll have watched about five hours of TV."
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW5: CIRCLE THE DIFFERENT WORD ============ -->
+<div class="slide" id="hw-voc1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW5 — Weather Vocabulary</h2>
+    <p class="instruction">In each group, select the word or phrase whose <u>meaning</u> doesn't belong with the others.</p>
+    <div class="fixed-two-col" id="hwvoc1">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> below zero · cold · cool · <span style="color:#1A5030;font-weight:800;">mild ✓</span></div>
+        <div class="ex-row">2. <button class="circ-opt" data-group="hv1-2" data-correct="drought" onclick="circPick(this)">damp</button> <button class="circ-opt" data-group="hv1-2" data-correct="drought" onclick="circPick(this)">drizzling</button> <button class="circ-opt" data-group="hv1-2" data-correct="drought" onclick="circPick(this)">drought</button> <button class="circ-opt" data-group="hv1-2" data-correct="drought" onclick="circPick(this)">humid</button></div>
+        <div class="ex-row">3. <button class="circ-opt" data-group="hv1-3" data-correct="freezing" onclick="circPick(this)">boiling</button> <button class="circ-opt" data-group="hv1-3" data-correct="freezing" onclick="circPick(this)">freezing</button> <button class="circ-opt" data-group="hv1-3" data-correct="freezing" onclick="circPick(this)">hot</button> <button class="circ-opt" data-group="hv1-3" data-correct="freezing" onclick="circPick(this)">scorching</button></div>
+      </div>
+      <div>
+        <div class="ex-row">4. <button class="circ-opt" data-group="hv1-4" data-correct="chilly" onclick="circPick(this)">breeze</button> <button class="circ-opt" data-group="hv1-4" data-correct="chilly" onclick="circPick(this)">chilly</button> <button class="circ-opt" data-group="hv1-4" data-correct="chilly" onclick="circPick(this)">hurricane</button> <button class="circ-opt" data-group="hv1-4" data-correct="chilly" onclick="circPick(this)">windy</button></div>
+        <div class="ex-row">5. <button class="circ-opt" data-group="hv1-5" data-correct="changeable" onclick="circPick(this)">bright</button> <button class="circ-opt" data-group="hv1-5" data-correct="changeable" onclick="circPick(this)">changeable</button> <button class="circ-opt" data-group="hv1-5" data-correct="changeable" onclick="circPick(this)">clear</button> <button class="circ-opt" data-group="hv1-5" data-correct="changeable" onclick="circPick(this)">sunny</button></div>
+        <div class="ex-row">6. <button class="circ-opt" data-group="hv1-6" data-correct="warm" onclick="circPick(this)">pouring</button> <button class="circ-opt" data-group="hv1-6" data-correct="warm" onclick="circPick(this)">showers</button> <button class="circ-opt" data-group="hv1-6" data-correct="warm" onclick="circPick(this)">warm</button> <button class="circ-opt" data-group="hv1-6" data-correct="warm" onclick="circPick(this)">wet</button></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwvoc1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwvoc1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW6: COMPLETE THE SENTENCES ============ -->
+<div class="slide" id="hw-voc2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW6 — Complete the sentences</h2>
+    <p class="instruction">Complete each sentence with the correct extreme-weather vocabulary word. The first letters of each word are given as a hint.</p>
+    <div class="fixed-two-col" id="hwvoc2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> We're having a <span style="color:#1A5030;font-weight:700;">heat wave</span>. It isn't usually so hot at this time of year.</div>
+        <div class="ex-row">2. Many drivers had to spend the night in their vehicles after they were caught in the <b>bl</b><input class="ans-input small" data-ans="izzard"> and their cars got stuck in the snow.</div>
+        <div class="ex-row">3. People say that there may be a <b>fl</b><input class="ans-input small" data-ans="ood"> if the river continues rising.</div>
+        <div class="ex-row">4. Coastal areas were evacuated as the powerful <b>ty</b><input class="ans-input small" data-ans="phoon"> approached, bringing intense winds and rain.</div>
+        <div class="ex-row">5. Last night there was a violent storm and the sound of <b>th</b><input class="ans-input small" data-ans="under"> woke me up.</div>
+      </div>
+      <div>
+        <div class="ex-row">6. The government wants us to save water because of the <b>dr</b><input class="ans-input small" data-ans="ought">.</div>
+        <div class="ex-row">7. In India, the <b>m</b><input class="ans-input small" data-ans="onsoon"> season usually lasts until October. The rain can be very heavy.</div>
+        <div class="ex-row">8. The <b>l</b><input class="ans-input small" data-ans="ightning"> lit up the sky during the thunderstorm.</div>
+        <div class="ex-row">9. Hundreds of trees blew down in the <b>h</b><input class="ans-input small" data-ans="urricane">, and several buildings were damaged.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwvoc2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwvoc2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW7: MATCH ============ -->
+<div class="slide" id="hw-voc3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW7 — Match the sentence halves</h2>
+    <p class="instruction">Match each numbered sentence beginning on the left to its lettered ending on the right.</p>
+    <div class="match-wrap" id="hwvoc3-match">
+      <div>
+        <div class="match-col-head mc-left">Sentence beginnings</div>
+        <div class="match-item example-pair" data-side="left" data-pair="1"><span class="example-badge">1</span>Everyone is hoping for clear <em>&nbsp;(example)</em></div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>They said the weather will be changeable,</div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>There were so few sunny</div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>The forecast is for heavy</div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>Planes can't take off in this thick</div>
+        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>Driving will be dangerous this morning because of the icy</div>
+        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>Most parts of the tri-state area will enjoy bright</div>
+        <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>Many trees were blown down by strong</div>
+        <div class="match-item" data-side="left" data-pair="9" onclick="matchPick(this)"><span class="circ-num">9</span>We hope the weather will be more settled</div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">Sentence endings</div>
+        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">a</span>roads, so drivers should take care.</div>
+        <div class="match-item" data-side="right" data-pair="9" onclick="matchPick(this)"><span class="circ-num">b</span>next week — we're going on a cruise.</div>
+        <div class="match-item example-pair" data-side="right" data-pair="1"><span class="example-badge">c</span>skies so that they can see the solar eclipse. <em>(example)</em></div>
+        <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">d</span>sunshine today, and it will be warm.</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">e</span>rain, so the barbecue has been canceled.</div>
+        <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">f</span>winds during last night's storm.</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">g</span>so I'm taking my sunglasses and an umbrella.</div>
+        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">h</span>fog, so several flights have been canceled.</div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">i</span>periods that we didn't spend much time at the beach.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('hwvoc3-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('hwvoc3-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW8: PRONUNCIATION — CIRCLE DIFFERENT SOUND ============ -->
+<div class="slide" id="hw-pron1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW8 — Circle the word with a different sound</h2>
+    <p class="instruction">Select the word whose highlighted sound is different from the others.</p>
+    <div class="fixed-two-col" id="hwpron1">
+      <div>
+        <div class="ex-row"><img class="hp-icon" src="sound-tree.png" alt="tree"><span class="example-badge">1</span><em>(example)</em> breeze · freezing · <span style="color:#1A5030;font-weight:800;">great ✓</span> · heat wave</div>
+        <div class="ex-row"><img class="hp-icon" src="sound-boot.png" alt="boot">2. <button class="circ-opt" data-group="hp1-2" data-correct="flood" onclick="circPick(this)">cool</button> <button class="circ-opt" data-group="hp1-2" data-correct="flood" onclick="circPick(this)">flood</button> <button class="circ-opt" data-group="hp1-2" data-correct="flood" onclick="circPick(this)">monsoon</button> <button class="circ-opt" data-group="hp1-2" data-correct="flood" onclick="circPick(this)">typhoon</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-bike.png" alt="bike">3. <button class="circ-opt" data-group="hp1-3" data-correct="chilly" onclick="circPick(this)">bright</button> <button class="circ-opt" data-group="hp1-3" data-correct="chilly" onclick="circPick(this)">chilly</button> <button class="circ-opt" data-group="hp1-3" data-correct="chilly" onclick="circPick(this)">icy</button> <button class="circ-opt" data-group="hp1-3" data-correct="chilly" onclick="circPick(this)">lightning</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-owl.png" alt="owl">4. <button class="circ-opt" data-group="hp1-4" data-correct="blow" onclick="circPick(this)">blow</button> <button class="circ-opt" data-group="hp1-4" data-correct="blow" onclick="circPick(this)">drought</button> <button class="circ-opt" data-group="hp1-4" data-correct="blow" onclick="circPick(this)">shower</button> <button class="circ-opt" data-group="hp1-4" data-correct="blow" onclick="circPick(this)">towel</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-fish.png" alt="fish">5. <button class="circ-opt" data-group="hp1-5" data-correct="mild" onclick="circPick(this)">blizzard</button> <button class="circ-opt" data-group="hp1-5" data-correct="mild" onclick="circPick(this)">drizzling</button> <button class="circ-opt" data-group="hp1-5" data-correct="mild" onclick="circPick(this)">chilly</button> <button class="circ-opt" data-group="hp1-5" data-correct="mild" onclick="circPick(this)">mild</button></div>
+      </div>
+      <div>
+        <div class="ex-row"><img class="hp-icon" src="sound-up.png" alt="up">6. <button class="circ-opt" data-group="hp1-6" data-correct="humid" onclick="circPick(this)">humid</button> <button class="circ-opt" data-group="hp1-6" data-correct="humid" onclick="circPick(this)">summer</button> <button class="circ-opt" data-group="hp1-6" data-correct="humid" onclick="circPick(this)">sunny</button> <button class="circ-opt" data-group="hp1-6" data-correct="humid" onclick="circPick(this)">thunder</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-ear.png" alt="ear">7. <button class="circ-opt" data-group="hp1-7" data-correct="wear" onclick="circPick(this)">clear</button> <button class="circ-opt" data-group="hp1-7" data-correct="wear" onclick="circPick(this)">here</button> <button class="circ-opt" data-group="hp1-7" data-correct="wear" onclick="circPick(this)">wear</button> <button class="circ-opt" data-group="hp1-7" data-correct="wear" onclick="circPick(this)">zero</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-egg.png" alt="egg">8. <button class="circ-opt" data-group="hp1-8" data-correct="heat" onclick="circPick(this)">heat</button> <button class="circ-opt" data-group="hp1-8" data-correct="heat" onclick="circPick(this)">heavy</button> <button class="circ-opt" data-group="hp1-8" data-correct="heat" onclick="circPick(this)">sweat</button> <button class="circ-opt" data-group="hp1-8" data-correct="heat" onclick="circPick(this)">weather</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-horse.png" alt="horse">9. <button class="circ-opt" data-group="hp1-9" data-correct="world" onclick="circPick(this)">scorching</button> <button class="circ-opt" data-group="hp1-9" data-correct="world" onclick="circPick(this)">storm</button> <button class="circ-opt" data-group="hp1-9" data-correct="world" onclick="circPick(this)">warm</button> <button class="circ-opt" data-group="hp1-9" data-correct="world" onclick="circPick(this)">world</button></div>
+        <div class="ex-row"><img class="hp-icon" src="sound-phone.png" alt="phone">10. <button class="circ-opt" data-group="hp1-10" data-correct="cloudy" onclick="circPick(this)">although</button> <button class="circ-opt" data-group="hp1-10" data-correct="cloudy" onclick="circPick(this)">below</button> <button class="circ-opt" data-group="hp1-10" data-correct="cloudy" onclick="circPick(this)">cloudy</button> <button class="circ-opt" data-group="hp1-10" data-correct="cloudy" onclick="circPick(this)">snow</button></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwpron1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwpron1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW9: WRITING ============ -->
+<div class="slide" id="hw-writing">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW9 — Write a paragraph about the weather</h2>
+    <p class="instruction">Write a paragraph about the weather in your country in January, April, July, and October.</p>
+    <textarea class="ans-input wide" id="wr1" style="min-height:180px;"></textarea>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('wr1box')">📄 Sample Answer</button>
+      <button class="btn-reset" onclick="document.getElementById('wr1').value=''">Reset</button>
+    </div>
+    <div class="suggest-box" id="wr1box">
+      <p style="margin:0;line-height:1.75;">In my country, the weather changes quite a lot throughout the year. In January, it's usually freezing, and some mornings it's actually below zero, especially in the mountains — the roads get icy, so people drive carefully. By April, the weather becomes much more changeable: we get bright, sunny mornings followed by sudden showers in the afternoon, and there's often a cool breeze blowing in from the coast. July is the hottest month — it's typically warm, sometimes even boiling in the cities, and the air can feel quite humid near the coast, though inland it stays fairly dry. We occasionally get a heat wave that lasts for several days. By October, things start to cool down again: mornings are often damp and drizzling, with thick fog rolling in from the hills, but there are still a few mild, settled afternoons before winter really begins.</p>
+    </div>
+  </div></div>
+</div>
+</div><!-- END #deck (temporary close for skeleton) -->
+
+<div id="nav">
+  <button id="prevBtn" onclick="goTo(current-1)">◀ Prev</button>
+  <div id="dots"></div>
+  <div id="counter">1/1</div>
+  <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
+  <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
+  <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+</div>
+
+<script>
+/* ===================== SLIDE NAV DATA ===================== */
+var slideIds = ["s1","s-leadin","s-gram-read","s-gram-predict","s-gram-classify","s-gram-mpf-meaning","s-gram-mpf-form","s-gram-mpf-pron","s-gram-ex1","s-gram-ex2","s-speak-future","s-vocab-lead","s-vocab1","s-vocab3","s-pron1","s-read1","s-read3","s-speak2","s-review","hw-cover","hw-gr1","hw-gr2","hw-gr3","hw-gr4","hw-voc1","hw-voc2","hw-voc3","hw-pron1","hw-writing"];
+var slideLabels = ["Cover","Lead-in – Environmentally Friendly?","Speaking – Brainstorming","Reading – Reading Practice","Grammar – Meaning (Classify Verbs)","Grammar – Finished or Still Happening? (CCQs)","Grammar – Building the Sentence","Grammar – MPF Pronunciation","Grammar – Complete the Sentence","Grammar – Complete the Conversation","Speaking – In 20 Years...","Vocabulary – Weather Events (Lead-in)","Vocabulary – What's the Weather Like?","Vocabulary – Adjectives to Describe Weather","Pronunciation – Vowel Sounds","Reading – Climate Stories Project","Reading – Who Said It?","Speaking – Let's Talk About the Weather","Lesson Review","Homework Cover","HW1 – Circle the Correct Form","HW2 – Complete the Sentences","HW3 – Write the Questions","HW4 – Answer the Questions","HW5 – Circle the Different Word","HW6 – Complete the Sentences","HW7 – Match the Sentence Halves","HW8 – Circle the Different Sound","HW9 – Write a Paragraph"];
+
+var slides = Array.from(document.querySelectorAll('.slide'));
+var current = 0;
+var notesData = {};
+var notesOpen = false;
+
+if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
+  console.warn('Slide count mismatch:', slides.length, 'slides,', slideIds.length, 'IDs,', slideLabels.length, 'labels');
+}
+
+/* build dots */
+var dotsWrap = document.getElementById('dots');
+slides.forEach(function(s, i){
+  var d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = function(){ goTo(i); };
+  dotsWrap.appendChild(d);
+});
+
+function goTo(n){
+  if (n < 0 || n >= slides.length) return;
+  saveNotes();
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  document.getElementById('counter').textContent = (current+1)+'/'+slides.length;
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===slides.length-1;
+  document.getElementById('homeBtn').style.display = current===0 ? 'none' : 'flex';
+  var panel = document.getElementById('notesPanel');
+  if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
+  else { panel.classList.remove('cover'); }
+  loadNotes(current);
+}
+function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.contentEditable === 'true') return;
+  if (e.key === 'ArrowRight') goTo(current+1);
+  if (e.key === 'ArrowLeft') goTo(current-1);
+});
+
+/* ===================== NOTES ===================== */
+function toggleNotes(){
+  notesOpen = !notesOpen;
+  var panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open', notesOpen);
+  if (current === 0) panel.classList.toggle('cover', notesOpen);
+  document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+}
+function notesFormat(cmd){
+  document.getElementById('notesTA').focus();
+  document.execCommand(cmd, false, null);
+  saveNotes();
+}
+function notesHilite(color){
+  var ta = document.getElementById('notesTA');
+  ta.focus();
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) return;
+  document.execCommand('styleWithCSS', false, true);
+  if (color !== 'remove'){
+    var cur = document.queryCommandValue('backColor');
+    var hex = color.replace('#','');
+    var r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+    if (cur === 'rgb('+r+', '+g+', '+b+')' || cur === 'rgb('+r+','+g+','+b+')') { color = 'remove'; }
+  }
+  if (color === 'remove'){
+    document.execCommand('hiliteColor', false, 'transparent');
+    Array.from(ta.querySelectorAll('[style*="background"]')).forEach(function(el){
+      var c = el.style.backgroundColor;
+      if (c === 'transparent' || c === 'rgba(0, 0, 0, 0)' || c === ''){
+        var p = el.parentNode;
+        if (!p) return;
+        while (el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+      }
+    });
+  } else {
+    document.execCommand('hiliteColor', false, color);
+  }
+  saveNotes();
+}
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function savePDF(){
+  saveNotes();
+  var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
+  if (!hasNotes){ alert('No notes to save yet!'); return; }
+  var win = window.open('', '_blank');
+  var cards = '';
+  slideIds.forEach(function(sid, idx){
+    var note = notesData[idx] || '';
+    if (!note.replace(/<[^>]*>/g,'').trim()) return;
+    cards += '<div class="card"><div class="card-header">Slide '+(idx+1)+' &mdash; '+slideLabels[idx]+'</div><div class="card-body">'+note+'</div></div>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF4 4A</title><style>'+
+    'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
+    '.header{border-bottom:2px solid #0B1929;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#0B1929}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#1B6E96}'+
+    '.date{font-size:.85rem;color:#666;margin:10px 0 24px}'+
+    '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid}'+
+    '.card-header{background:#0B1929;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem}'+
+    '.card-body{padding:12px 16px;font-size:.95rem;line-height:1.7}'+
+    'mark{background:#FFE066;color:#1a1a1a;padding:0 2px}'+
+    '[style*="background-color"]{color:#1a1a1a!important}'+
+    '.card-body,.card-body *{color:#1a1a1a!important}'+
+    '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
+    '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
+  '</style></head><body>'+
+  '<div class="header"><h1>AEF4 4A – Stormy Weather</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html</a></div></div>'+
+  '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
+  cards+'</body></html>');
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 400);
+}
+
+/* ===================== GENERIC: TYPED GAP-FILL ===================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’]+$/,'').replace(/\s+/g,' '); }
+function checkSlide(sid){
+  var box = document.getElementById(sid);
+  var inputs = box.querySelectorAll('.ans-input');
+  inputs.forEach(function(inp){
+    var val = norm(inp.value);
+    if (!val) { inp.classList.remove('correct','wrong'); inp.classList.add('empty-warn'); return; }
+    inp.classList.remove('empty-warn');
+    var ans = norm(inp.dataset.ans);
+    var alts = (inp.dataset.alt || '').split('|').map(norm).filter(Boolean);
+    if (val === ans || alts.indexOf(val) > -1) { inp.classList.add('correct'); inp.classList.remove('wrong'); }
+    else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+  });
+}
+function resetSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.ans-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== GENERIC: CIRCLE MC ===================== */
+function circPick(btn){
+  var group = btn.dataset.group;
+  var box = btn.closest('.slide');
+  box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
+  btn.classList.add('picked');
+}
+function checkCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var groups = {};
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  Object.keys(groups).forEach(function(g){
+    var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
+    groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
+    if (!picked) return;
+    if (picked.dataset.correct === picked.textContent.trim()) picked.classList.add('correct');
+    else picked.classList.add('wrong');
+  });
+}
+function resetCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
+}
+
+/* ===================== GENERIC: COLOUR-PAIR MATCH ===================== */
+var matchColours = ['c0','c1','c2','c3','c4','c5','c6','c7'];
+var matchPending = {};
+function matchPick(el){
+  var wrap = el.closest('.match-wrap');
+  var wid = wrap.id;
+
+  if (el._linked){
+    var partner = el._linked;
+    matchColours.forEach(function(c){ el.classList.remove(c); partner.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    partner.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null; partner._linked = null;
+    delete el.dataset.colour; delete partner.dataset.colour;
+    if (matchPending[wid] === el) matchPending[wid] = null;
+    return;
+  }
+
+  var pending = matchPending[wid];
+
+  if (pending && pending !== el && pending.dataset.side !== el.dataset.side){
+    var used = Array.from(wrap.querySelectorAll('.match-item')).map(function(x){ return x.dataset.colour; }).filter(Boolean);
+    var next = matchColours.find(function(c){ return used.indexOf(c) === -1; }) || matchColours[Math.floor(used.length/2) % matchColours.length];
+    pending.classList.remove('picking');
+    pending.classList.add(next); el.classList.add(next);
+    pending.dataset.colour = next; el.dataset.colour = next;
+    pending._linked = el; el._linked = pending;
+    matchPending[wid] = null;
+    return;
+  }
+
+  if (pending === el){
+    pending.classList.remove('picking');
+    matchPending[wid] = null;
+    return;
+  }
+
+  if (pending) pending.classList.remove('picking');
+  el.classList.add('picking');
+  matchPending[wid] = el;
+}
+function checkMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item[data-side="left"]').forEach(function(l){
+    l.classList.remove('correctpair','wrongpair');
+    if (l._linked) l._linked.classList.remove('correctpair','wrongpair');
+    if (!l._linked) return;
+    var r = l._linked;
+    if (r.dataset.pair === l.dataset.pair){ l.classList.add('correctpair'); r.classList.add('correctpair'); }
+    else { l.classList.add('wrongpair'); r.classList.add('wrongpair'); }
+  });
+}
+function resetMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item').forEach(function(el){
+    matchColours.forEach(function(c){ el.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null;
+    delete el.dataset.colour;
+  });
+  matchPending[id] = null;
+}
+
+/* ===================== GENERIC: CLASSIFY / SORT ===================== */
+var classifySelected = {};
+function classifyPick(chip){
+  if (chip.classList.contains('used')) return;
+  var bank = chip.closest('[id$="-bank"]') || chip.parentElement;
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  classifySelected[bank.id] = chip;
+}
+function classifyTarget(col){
+  var colsEl = col.closest('[id$="-cols"]');
+  var bankId = colsEl ? colsEl.id.replace(/-cols$/, '-bank') : null;
+  var chip = bankId ? classifySelected[bankId] : null;
+  if (!chip) return;
+  var tag = document.createElement('span');
+  tag.className = 'placed';
+  tag.textContent = chip.textContent;
+  tag.dataset.ans = chip.dataset.ans;
+  tag.dataset.chipRef = '1';
+  tag.onclick = function(e){ e.stopPropagation(); tag.remove(); chip.classList.remove('used'); };
+  col.appendChild(tag);
+  chip.classList.add('used'); chip.classList.remove('selected');
+  delete classifySelected[bankId];
+}
+function checkClassifySlide(prefix){
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.classify-col').forEach(function(col){
+    col.querySelectorAll('.placed').forEach(function(tag){
+      tag.classList.remove('correct','wrong');
+      if (tag.dataset.ans === col.dataset.target) tag.classList.add('correct');
+      else tag.classList.add('wrong');
+    });
+  });
+}
+function resetClassifySlide(prefix){
+  var bank = document.getElementById(prefix+'-bank');
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.placed').forEach(function(tag){ tag.remove(); });
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
+  classifySelected = {};
+}
+
+/* ===================== GENERIC: WORD BANK FILL ===================== */
+var wbSelected = {};
+function wbPick(tile){
+  if (tile.classList.contains('used')) return;
+  var bank = tile.parentElement;
+  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
+  tile.classList.add('selected');
+  wbSelected[closestSlideId(tile)] = tile;
+}
+function closestSlideId(el){ return el.closest('.slide').id; }
+function wbPlace(blank){
+  var sid = closestSlideId(blank);
+  if (blank.classList.contains('filled')) {
+    var tile = blank._tileRef;
+    if (tile) tile.classList.remove('used');
+    blank.textContent = '______';
+    blank.classList.remove('filled','correct','wrong');
+    blank._tileRef = null;
+    return;
+  }
+  var tile = wbSelected[sid];
+  if (!tile) return;
+  blank.textContent = tile.dataset.val;
+  blank.classList.add('filled');
+  blank._tileRef = tile;
+  tile.classList.add('used'); tile.classList.remove('selected');
+  delete wbSelected[sid];
+}
+function checkWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){
+    b.classList.remove('correct','wrong');
+    if (!b.classList.contains('filled')) return;
+    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+}
+function resetWbSlide(sid){
+  var box = document.getElementById(sid);
+  var slideEl = box.closest('.slide') || box;
+  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
+  slideEl.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
+  wbSelected = {};
+}
+
+/* ===================== SUGGESTED ANSWER / ANSWER KEY TOGGLE ===================== */
+function toggleSuggested(id){
+  var box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+
+/* ===================== SHARED NO-REPEAT SHUFFLE BAG ===================== */
+var shuffleBags = {}, shuffleLast = {};
+function shuffleArray(arr){
+  var a = arr.slice();
+  for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function nextNoRepeat(key, size){
+  if (!shuffleBags[key] || shuffleBags[key].length === 0){
+    var idxs = []; for (var k=0;k<size;k++) idxs.push(k);
+    var bag = shuffleArray(idxs);
+    if (size > 1 && shuffleLast[key] !== undefined && bag[bag.length-1] === shuffleLast[key]){
+      var swapWith = Math.floor(Math.random()*(bag.length-1));
+      var tmp = bag[bag.length-1]; bag[bag.length-1] = bag[swapWith]; bag[swapWith] = tmp;
+    }
+    shuffleBags[key] = bag;
+  }
+  var n = shuffleBags[key].pop();
+  shuffleLast[key] = n;
+  return n;
+}
+
+/* ===================== SPEAKING CARD DRAW ===================== */
+var speakCardPrompts = {
+  'speak2': [
+    "What's your favorite kind of weather? And your least favorite?",
+    "How does the weather affect your mood?",
+    "Do people complain much about the weather where you live? What kind of weather in particular?",
+    "In what ways has climate change affected the weather in your country?",
+    "Are you optimistic or pessimistic about climate change?",
+    "Have you, or has anyone you know, ever been somewhere when it poured rain for days and days?",
+    "Have you, or has anyone you know, ever been somewhere when there was a flood?",
+    "Have you, or has anyone you know, ever been somewhere when there was a hurricane or it was incredibly windy?",
+    "Have you, or has anyone you know, ever been somewhere when it was absolutely freezing?",
+    "Have you, or has anyone you know, ever been somewhere when it was very foggy, or there was bad smog?",
+    "Have you, or has anyone you know, ever been somewhere when there was a terrible heat wave?",
+    "Have you, or has anyone you know, ever been caught outside in a thunderstorm?"
+  ]
+};
+function drawSpeakCard(id){
+  var pool = speakCardPrompts[id];
+  var n = nextNoRepeat(id+'-cards', pool.length);
+  var text = pool[n];
+  document.getElementById(id+'-current-text').textContent = text;
+  var usedList = document.getElementById(id+'-used');
+  var li = document.createElement('li');
+  li.textContent = text;
+  usedList.insertBefore(li, usedList.firstChild);
+}
+
+/* ===================== DICE ROLLER ===================== */
+var diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+var dicePrompts = {
+  'dice-future': {
+    1: "What predictions do you have about fashion in 20 years?",
+    2: "What do you think health and medicine will be like in 20 years?",
+    3: "How do you think housing will change in 20 years?",
+    4: "What predictions do you have about politics in 20 years?",
+    5: "How do you think shopping will change in 20 years?",
+    6: "What do you think social media will be like in 20 years?"
+  }
+};
+function rollDie(id){
+  var face = document.getElementById(id+'-face');
+  var promptEl = document.getElementById(id+'-prompt');
+  var n = nextNoRepeat(id, 6);
+  var rolls = 0;
+  var spin = setInterval(function(){
+    face.textContent = diceFaces[Math.floor(Math.random()*6)];
+    rolls++;
+    if (rolls > 10){
+      clearInterval(spin);
+      face.textContent = diceFaces[n];
+      promptEl.textContent = dicePrompts[id][n+1];
+    }
+  }, 80);
+}
+
+/* ===================== PREDICTIONS WHEEL ===================== */
+var predSentences = [
+  "Everyone will be using their own reusable shopping bags, cups, and bottles.",
+  "Most people will have stopped eating any animal products and will be eating a vegan diet.",
+  "All private swimming pools and golf courses will have been banned.",
+  "People will be taking more vacations in their own country and fewer abroad.",
+  "Car companies will only be selling electric cars.",
+  "Most people in office jobs will be working from home."
+];
+var predColors = ['#2F7A52','#1F5F72','#C9822E','#5A3E99','#C2185B','#3B4C99'];
+var predAngle = 0, predSpinning = false;
+function drawPredWheel(rot){
+  var cv = document.getElementById('pred-wheel');
+  if (!cv) return;
+  var ctx = cv.getContext('2d'), cx = 95, cy = 95, r = 92, n = 6, seg = Math.PI*2/n;
+  ctx.clearRect(0,0,190,190);
+  for (var i=0;i<n;i++){
+    var a = rot + i*seg - Math.PI/2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,a,a+seg); ctx.closePath();
+    ctx.fillStyle = predColors[i]; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(a+seg/2);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px "Segoe UI",system-ui,sans-serif';
+    ctx.fillText(i+1, r-14, 6); ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(cx,cy,16,0,Math.PI*2);
+  ctx.fillStyle = '#fff'; ctx.fill();
+  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 2; ctx.stroke();
+}
+function spinPredWheel(){
+  if (predSpinning) return;
+  predSpinning = true;
+  document.getElementById('pred-result').classList.remove('show');
+  document.getElementById('pred-empty').style.display = 'flex';
+  var idx = nextNoRepeat('pred-wheel', predSentences.length);
+  var seg = Math.PI*2/predSentences.length;
+  var targetAngle = -(idx*seg + seg/2);
+  var spins = (5 + Math.floor(Math.random()*3)) * Math.PI*2;
+  var from = predAngle;
+  var to = from + spins + (targetAngle - (from % (Math.PI*2) + Math.PI*2) % (Math.PI*2));
+  var dur = 3000 + Math.random()*800, t0 = null;
+  function ease(t){ return 1 - Math.pow(1-t,4); }
+  function step(ts){
+    if (!t0) t0 = ts;
+    var p = Math.min((ts-t0)/dur,1), cur = from + (to-from)*ease(p);
+    predAngle = cur; drawPredWheel(cur);
+    if (p<1) requestAnimationFrame(step);
+    else { predSpinning = false; showPredSentence(idx); }
+  }
+  requestAnimationFrame(step);
+}
+function showPredSentence(idx){
+  document.getElementById('pred-sentence').textContent = predSentences[idx];
+  document.getElementById('pred-empty').style.display = 'none';
+  document.getElementById('pred-result').classList.add('show');
+}
+document.addEventListener('DOMContentLoaded', function(){ drawPredWheel(0); });
+
+/* ===================== ENVIRONMENTAL SCORE QUIZ ===================== */
+function envStatementPick(el){
+  var wrap = document.getElementById('env-values');
+  wrap.querySelectorAll('.env-statement').forEach(function(s){ s.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+function envPick(el){
+  var row = el.parentElement;
+  row.querySelectorAll('.env-pill').forEach(function(p){ p.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+function calcEnvScore(){
+  var valueEl = document.querySelector('#env-values .env-statement.picked');
+  var actionRows = document.querySelectorAll('#env-actions .env-scale');
+  var resultBox = document.getElementById('env-result');
+  if (!valueEl){ resultBox.classList.add('show'); resultBox.innerHTML = 'Please select your "values" statement (A) first.'; return; }
+  var total = 0, answered = 0;
+  actionRows.forEach(function(row){
+    var picked = row.querySelector('.env-pill.picked');
+    if (picked){ total += parseInt(picked.dataset.value,10); answered++; }
+  });
+  if (answered < actionRows.length){
+    resultBox.classList.add('show');
+    resultBox.innerHTML = 'Please rate all 10 actions in section B before calculating your score.';
+    return;
+  }
+  var valueScore = parseInt(valueEl.dataset.val,10);
+  var actionScore = Math.round((total/10)*10)/10;
+  var diff = Math.round((actionScore - valueScore)*10)/10;
+  var msg = '<b>Your value score (A):</b> '+valueScore+' &nbsp; <b>Your action score (B):</b> '+actionScore+' &nbsp; <b>Final number (action score − value score):</b> '+(diff>0?'+':'')+diff+'<br><br>';
+  if (diff <= 0) msg += 'If the final number is zero or minus, you live up to your environmentally friendly intentions.';
+  else msg += 'The bigger the difference between the two numbers, the greater your failure to live up to your green values.';
+  msg += '<br><br>Most people are not very successful. When these questions were put to 100,000 people in a survey, it turned out that, although most of us do easy things (like turning off faucets and TVs), few of us make real sacrifices.';
+  resultBox.classList.add('show');
+  resultBox.innerHTML = msg;
+}
+function resetEnvScore(){
+  document.querySelectorAll('#env-values .env-statement').forEach(function(s){ s.classList.remove('picked'); });
+  document.querySelectorAll('#env-actions .env-pill').forEach(function(p){ p.classList.remove('picked'); });
+  var resultBox = document.getElementById('env-result');
+  resultBox.classList.remove('show');
+  resultBox.innerHTML = '';
+}
+
+/* ===================== PRINT LESSON ===================== */
+function printAll(){
+  saveNotes();
+  var injected = [];
+  slides.forEach(function(slide, i){
+    if (i === 0){
+      var linkEl = document.createElement('div');
+      linkEl.className = 'lesson-link-print';
+      linkEl.innerHTML = '<span class="lp-title">Stormy Weather</span>' +
+        '<span class="lp-sub">Click on this link to access the lesson: ' +
+        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html</a></span>';
+      slide.insertBefore(linkEl, slide.firstChild);
+      injected.push(linkEl);
+    }
+    var n = notesData[i] || '';
+    if (n.replace(/<[^>]*>/g,'').trim()){
+      var notesEl = document.createElement('div');
+      notesEl.className = 'slide-notes-print';
+      notesEl.innerHTML = '<div class="slide-notes-print-label">📝 Teacher Notes</div>' + n;
+      slide.appendChild(notesEl);
+      injected.push(notesEl);
+    }
+  });
+  document.body.classList.add('print-all');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-all');
+    injected.forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
+  }, 1500);
+}
+
+/* init */
+document.getElementById('counter').textContent = '1/'+slides.length;
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
