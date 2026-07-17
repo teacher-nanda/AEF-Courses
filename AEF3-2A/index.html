@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF3 2A — Spending Money</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
+  .slide {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+    transition:opacity .35s ease; overflow-y:auto; min-height:100vh;
+    display:flex; flex-direction:column; background:#fff;
+  }
+  .slide.active { opacity:1; pointer-events:auto; }
+
+  /* ===== COVER / HW COVER ===== */
+  #s1, #hw-cover {
+    background: linear-gradient(135deg, #08201A 0%, #0F3D2C 30%, #176B44 55%, #1F8A54 78%, #2FA36B 100%);
+    align-items:center; justify-content:center;
+  }
+  .title-inner { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; }
+  .title-label { text-transform:uppercase; letter-spacing:.18em; font-size:1.1rem; font-weight:500; color:rgba(255,255,255,.65); margin-bottom:10px; }
+  .title-sub { font-size:1.15rem; font-weight:400; color:rgba(255,255,255,.75); margin-bottom:26px; }
+  .title-main { font-size:3.4rem; font-weight:900; color:#fff; line-height:1.1; text-align:center; max-width:900px; }
+  .title-accent { color:#E8B923; text-shadow:0 0 28px rgba(232,185,35,.5); }
+  .hw-badge { background:rgba(255,255,255,.1); border-radius:8px; padding:7px 22px; font-size:1rem; letter-spacing:.15em; color:rgba(255,255,255,.85); text-transform:uppercase; font-weight:600; margin-bottom:32px; }
+
+  /* ===== BANNERS ===== */
+  .banner { width:100%; padding:13px 28px; font-size:1.1rem; font-weight:700; letter-spacing:.03em; display:flex; align-items:center; gap:10px; flex-shrink:0; color:#fff; }
+  .banner-leadin    { background:#8A6A1E; }
+  .banner-vocab     { background:#1F7A4D; }
+  .banner-pron      { background:#0E7A6B; }
+  .banner-reading   { background:#2A6B42; }
+  .banner-grammar   { background:#5A3E8C; }
+  .banner-speaking  { background:#1E6B8C; }
+  .banner-listening { background:#0E7A8A; }
+  .banner-review    { background:#2E2A6B; }
+  .banner-hw        { background:#1C2B3A; }
+
+  .slide-main { flex:1; overflow-y:auto; width:100%; display:flex; flex-direction:column; padding-bottom:60px; }
+  .content { padding:24px 48px 20px; flex:1; }
+  h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
+  .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .section-subhead { font-size:1.3rem; font-weight:800; color:#1F7A4D; margin:24px 0 10px; }
+  .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
+  .discuss-list li { margin-bottom:10px; }
+
+  /* lead-in two-column with image */
+  .lead-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:24px; align-items:start; }
+  .lead-img-wrap { border-radius:14px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.14); }
+  .lead-img { width:100%; display:block; }
+
+  /* per-item why toggle (true/false etc.) */
+  .why-toggle { background:#EAF4F6; border:1.5px solid #1B6E96; color:#1B6E96; border-radius:14px; padding:3px 12px; margin-left:6px; font-size:1.05rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .why-toggle:hover { background:#D9ECEF; }
+  .why-box { display:none; background:#EAF4F6; border-left:4px solid #1B6E96; border-radius:8px; padding:10px 14px; margin:8px 0 4px; font-size:1.05rem; line-height:1.6; color:#1C2B3A; }
+  .why-box.show { display:block; }
+
+  /* money verbs: wordbank + context/target rows */
+  .mv-wordbank { background:#F0F7F2; border:1.5px solid #BFE0CC; border-radius:10px; padding:14px 18px; margin-bottom:16px; font-size:1.05rem; line-height:2; color:#1C2B3A; position:sticky; top:0; z-index:5; box-shadow:0 4px 10px rgba(0,0,0,.06); }
+  .mv-wordbank b { color:#1F7A4D; }
+  .mv-word { color:#1F7A4D; font-weight:700; cursor:pointer; padding:2px 4px; border-radius:5px; }
+  .mv-word:hover { background:#DCEFE2; }
+  .mv-word.used, .mv-wordbank .mv-used { color:#9AA5A0; text-decoration:line-through; font-weight:700; }
+  .mv-row { display:grid; grid-template-columns:1fr 26px 1fr; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid #EAEFE9; }
+  .mv-row:last-child { border-bottom:none; }
+  .mv-ctx { color:#5A6B60; font-size:1.05rem; line-height:1.5; }
+  .mv-arrow { color:#1F7A4D; font-size:1.2rem; text-align:center; }
+  .mv-tgt { font-size:1.05rem; color:#1C2B3A; line-height:1.5; }
+  .mv-tgt .ans-input { width:175px; }
+
+  /* ===== CARDS / EXERCISE CONTAINERS ===== */
+  .card { background:#F4F8F5; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
+  .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
+
+  .ex-row { font-size:1.06rem; line-height:1.7; margin-bottom:10px; color:#1C2B3A; }
+  .ans-input { border:none; border-bottom:2px solid #1F7A4D; background:transparent; font-size:1.05rem; font-weight:700; width:150px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
+  .ans-input.small { width:110px; }
+  .ans-input.wide { width:100%; margin-top:6px; }
+  #gram-ex2 .ans-input { width:260px; }
+  .ans-input.half { width:50%; margin-top:6px; }
+  textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
+  textarea.ans-input[rows="1"] { min-height:38px; height:38px; resize:none; padding-top:6px; }
+  .ans-input:focus { outline:none; border-bottom-color:#E8B923; }
+  .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
+  .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
+  .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
+
+  .two-col { columns:2; column-gap:40px; }
+  .two-col .ex-row { break-inside:avoid; }
+  .fixed-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; align-items:start; }
+  .fixed-three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 28px; align-items:start; }
+
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  .btn-check { background:#1F7A4D; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-suggest { background:#1B6E96; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-akey { background:#5A3E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  .suggest-box { display:none; background:#EAF4F6; border-left:4px solid #1B6E96; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .suggest-box.show { display:block; }
+  .suggest-box li { margin-bottom:6px; }
+  .akey-box { display:none; background:#F1EEF7; border-left:4px solid #5A3E8C; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .akey-box.show { display:block; }
+  .akey-box li { margin-bottom:8px; }
+
+  /* circle MC / True-False */
+  .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#1F7A4D; margin-right:8px; font-size:.9rem; }
+  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt.picked { border-color:#1F7A4D; background:#E7F3EC; font-weight:700; }
+  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .example-badge { background:#2E7D32;color:#fff;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:800; margin-right:8px; font-size:.9rem; }
+
+  /* classify */
+  .classify-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .classify-chip { border:1.5px solid #1F7A4D; color:#1F7A4D; border-radius:20px; padding:6px 16px; cursor:pointer; font-weight:700; font-size:1.05rem; background:#fff; font-family:inherit; }
+  .classify-chip.selected { background:#1F7A4D; color:#fff; }
+  .classify-chip.used { opacity:.35; cursor:default; border-style:dashed; }
+  .classify-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .classify-col { background:#fff; border:2px solid #ddd; border-radius:10px; padding:14px; min-height:70px; cursor:pointer; }
+  .classify-col h4 { margin:0 0 8px; font-size:1.05rem; color:#1F7A4D; text-align:center; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .classify-col h4 img { height:92px; width:auto; }
+  .o-hl { color:#E0177D; font-weight:800; }
+  .classify-col .placed { display:inline-block; background:#E7F3EC; border-radius:14px; padding:3px 10px; margin:3px; font-size:1.05rem; font-weight:700; }
+  .classify-col .placed.correct { background:#E3F5EA; color:#1A7A4A; }
+  .classify-col .placed.wrong { background:#FBEAE6; color:#C4614A; }
+
+  /* match colour pair */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; background:#F8FAF8; border-radius:14px; padding:1.3rem 1.4rem; }
+  .match-wrap.read-article-match { grid-template-columns:1.35fr 1fr; gap:24px; align-items:start; }
+  .match-col-head { font-weight:800; font-size:1rem; letter-spacing:.02em; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #E0E6E0; }
+  .match-col-head.mc-left { color:#1F7A4D; }
+  .match-col-head.mc-right { color:#A8571E; }
+  .match-item { padding:11px 14px; border-radius:8px; border:1.5px solid #ddd; margin-bottom:10px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; user-select:none; position:relative; transition:border-color .15s, box-shadow .15s, transform .15s; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:flex-start; }
+  .match-item:not(.example-pair):hover { box-shadow:0 3px 10px rgba(0,0,0,.14); transform:translateY(-1px); }
+  .match-item.example-pair { cursor:default; background:#EAF6EE !important; border-color:#2E7D32 !important; }
+  /* coin image hotspots */
+  .match-item.coin-spot { position:absolute; width:34px; height:34px; padding:0; margin:0; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,.35); transform:translate(-50%,-50%); border:2px solid #fff; background:rgba(31,122,77,.88); color:#fff; font-weight:800; font-size:1.05rem; display:flex; align-items:center; justify-content:center; text-shadow:0 0 3px rgba(0,0,0,.85), 0 1px 2px rgba(0,0,0,.85); }
+  .match-item.coin-spot:hover { box-shadow:0 0 0 5px rgba(31,122,77,.28); transform:translate(-50%,-50%); background:rgba(31,122,77,1); }
+  .ctry-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
+  .ctry-cols .match-item { flex-direction:column; align-items:flex-start; }
+  .match-item.ctry-extra { cursor:default; }
+  .match-item.ctry-extra:hover { box-shadow:none; transform:none; }
+  .ctry-hint { font-size:1.05rem; color:#8A9590; margin-top:2px; font-style:italic; }
+  .ctry-note { font-size:1.05rem; color:#A8A090; font-style:italic; }
+  /* paragraph-letter match badges, inline inside article text */
+  .match-item.para-letter-pick { display:inline-flex; width:24px; height:24px; padding:0; margin:0 8px 2px 0; border-radius:50%; align-items:center; justify-content:center; background:#1F7A4D; color:#fff; font-weight:800; font-size:.82rem; border:none; box-shadow:none; vertical-align:middle; }
+  .match-item.para-letter-pick:hover { box-shadow:0 0 0 4px rgba(31,122,77,.25); transform:none; }
+  .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
+  .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
+  .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
+  .match-item.c3 { border-color:#0E7A8A; border-width:3px; background:#E3F2F4; box-shadow:0 0 0 2px rgba(14,122,138,.25); }
+  .match-item.c4 { border-color:#B23A6B; border-width:3px; background:#F8E6EE; box-shadow:0 0 0 2px rgba(178,58,107,.25); }
+  .match-item.c5 { border-color:#8C7A1E; border-width:3px; background:#F5F1DD; box-shadow:0 0 0 2px rgba(140,122,30,.25); }
+  .match-item.c6 { border-color:#4A5A8C; border-width:3px; background:#E6E9F5; box-shadow:0 0 0 2px rgba(74,90,140,.25); }
+  .match-item.c7 { border-color:#3E8C5E; border-width:3px; background:#E6F5EC; box-shadow:0 0 0 2px rgba(62,140,94,.25); }
+  .match-item.picking { border-color:#1F7A4D; border-width:3px; border-style:dashed; box-shadow:0 0 0 2px rgba(31,122,77,.2); }
+  .match-item.correctpair { outline:3px solid #1A7A4A; background:#1A7A4A !important; color:#fff; }
+  .match-item.wrongpair { outline:3px solid #C4614A; background:#C4614A !important; color:#fff; }
+
+  /* word bank tiles */
+  .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .wb-bank.book-style { border-top:3px double #333; border-bottom:1px solid #ccc; padding:12px 4px; }
+  .wb-tile { border:1.5px solid #A8571E; color:#A8571E; background:#fff; border-radius:18px; padding:6px 16px; cursor:pointer; font-weight:700; font-family:inherit; font-size:1.05rem; }
+  .wb-tile.used { opacity:.35; border-style:dashed; cursor:default; }
+  .wb-tile.selected { background:#A8571E; color:#fff; }
+  .wb-tile.example-used { opacity:.5; border-style:dashed; cursor:default; text-decoration:line-through; }
+  .wb-tile.or-pick.correct { background:#DFF5E1; border-color:#2E9E4F; color:#1A7A4A; }
+  .wb-tile.or-pick.wrong { background:#FCE4E4; border-color:#D14343; color:#C4614A; }
+
+  /* click-the-words-in-a-sentence (compound nouns, etc.) */
+  .cn-sentence { font-size:1.06rem; line-height:2.2; color:#1C2B3A; margin-bottom:16px; }
+  .cn-word { cursor:pointer; padding:1px 3px; border-radius:4px; }
+  .cn-word:hover { background:#EDF6F0; }
+  .cn-word.selected { background:#A8571E; color:#fff; }
+  .cn-word.correct { background:#DFF5E1; color:#1A7A4A; font-weight:800; }
+  .cn-word.wrong { background:#FCE4E4; color:#C4614A; }
+  .cn-circle { background:radial-gradient(circle, #FCEAE1 0%, #FCEAE1 68%, transparent 100%); border-radius:50%; width:230px; height:230px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 16px; padding:26px; flex-shrink:0; }
+  .cn-circle span { font-size:1.1rem; font-weight:700; color:#4A3A32; }
+  .step-block { margin-bottom:26px; padding:20px 22px; background:#FAFBFA; border-radius:14px; border:1px solid #E8ECE8; }
+  .step-label { display:inline-block; background:#1F7A4D; color:#fff; font-weight:800; font-size:.95rem; padding:4px 16px; border-radius:999px; margin-bottom:12px; letter-spacing:.03em; }
+  .cn-exercise-layout { display:grid; grid-template-columns:260px 1fr; gap:28px; align-items:center; margin-top:6px; }
+  @media (max-width:800px) { .cn-exercise-layout { grid-template-columns:1fr; } }
+  .wb-blank { display:inline-block; min-width:90px; border-bottom:2px solid #A8571E; padding:2px 8px; margin:0 3px; cursor:pointer; font-weight:700; color:#A8571E; text-align:center; }
+  .wb-blank.filled { border-style:solid; }
+  .wb-blank.correct { color:#1A7A4A; border-color:#1A7A4A; }
+  .wb-blank.wrong { color:#C4614A; border-color:#C4614A; }
+
+  /* audio / video placeholders */
+  .audio-box { background:#f0f4f8; border-radius:999px; padding:10px 18px; display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .audio-box audio { width:100%; }
+  .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
+  .glossary-box { background:#F4F8F5; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .glossary-box h4 { margin:0 0 8px; font-size:1rem; color:#1F7A4D; }
+  .glossary-box p { margin:0 0 6px; font-size:1.02rem; line-height:1.6; color:#1C2B3A; }
+  .glossary-box b { color:#1C2B3A; }
+
+  /* grammar theory / form reference */
+  .gram-box { background:#F4F8F5; border-radius:12px; padding:18px 22px; margin-bottom:16px; border-left:6px solid #5A3E8C; }
+  .gram-box h3 { margin:0 0 8px; font-size:1.1rem; color:#5A3E8C; }
+  .gram-box p { font-size:1.06rem; line-height:1.7; color:#1C2B3A; margin:0 0 8px; }
+  .gram-box .hl { font-weight:800; color:#5A3E8C; }
+  .gram-box ul { margin:6px 0 0; padding-left:20px; font-size:1.05rem; line-height:1.8; color:#1C2B3A; }
+  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .gtk-title { font-weight:800; font-size:1.1rem; color:#8A6A1E; margin-bottom:10px; }
+  .gtk-row { padding:9px 0; border-top:1px dashed #E3CB80; }
+  .gtk-row:first-of-type { border-top:none; padding-top:0; }
+  .gtk-chip { background:#C9A227; color:#fff; font-weight:800; border-radius:6px; padding:2px 9px; }
+  .gtk-eq { color:#9A7A3E; font-style:italic; }
+  .pv-layout { display:grid; grid-template-columns:1.3fr 1fr; gap:26px; align-items:start; }
+  .pv-side .btn-suggest { width:100%; }
+  .pv-side .suggest-box { margin-top:12px; }
+  @media (max-width:800px) { .pv-layout { grid-template-columns:1fr; } }
+  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.6; }
+
+  /* CCQ box */
+  .ccq-box { background:#F4F8F5; border-radius:10px; padding:14px 18px; margin:14px 0; }
+  .ccq-label { font-weight:700; color:#1F7A4D; margin-bottom:8px; font-size:1.05rem; }
+  .ccq-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .ccq-list li { font-size:1.05rem; color:#1C2B3A; }
+  .ccq-list em { color:#1F7A4D; font-weight:700; font-style:normal; }
+  .ccq-reveal-btn { background:#1F7A4D; color:#fff; border:none; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700; cursor:pointer; margin-right:10px; }
+  .ccq-reveal-btn:hover { background:#2FA36B; }
+  .ccq-answer { display:none; color:#1A5030; font-weight:600; }
+  .ccq-answer.show { display:inline; }
+
+  /* speaking interview cards */
+  .interview-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:10px; }
+  .interview-card { background:#EDF6F0; border-radius:14px; padding:18px 20px; border-left:6px solid #1E6B8C; }
+  .interview-card h4 { margin:0 0 12px; font-size:1.15rem; color:#1E6B8C; }
+  .interview-q { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; font-size:1.03rem; line-height:1.6; color:#1C2B3A; }
+  .interview-q:last-child { margin-bottom:0; }
+  .r-check { flex-shrink:0; width:34px; height:34px; border-radius:8px; border:2px solid #1E6B8C; background:#fff; color:#1E6B8C; font-weight:800; font-size:.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit; margin-top:2px; }
+  .r-check.picked { background:#1E6B8C; color:#fff; }
+  .r-summary { background:#1C2B3A; color:#fff; border-radius:10px; padding:14px 20px; margin-top:14px; font-size:1.05rem; text-align:center; font-weight:700; }
+  .money-jar-wrap { text-align:center; padding:14px 20px 6px; }
+  .money-jar-coin { font-size:5rem; cursor:pointer; display:inline-block; transition:transform .15s; margin-bottom:8px; line-height:1; }
+  .money-jar-coin:hover { transform:scale(1.08) rotate(-6deg); }
+  .money-jar-coin.flip { animation:coinFlip .08s linear; }
+  @keyframes coinFlip { 0%{transform:rotateY(0deg);} 50%{transform:rotateY(180deg);} 100%{transform:rotateY(360deg);} }
+  .money-jar-card { background:#EDF6F0; border:2px solid #1F7A4D; border-radius:14px; padding:26px 30px; margin:18px auto; max-width:640px; font-size:1.25rem; font-weight:700; color:#1C2B3A; min-height:76px; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.5; }
+  .money-jar-counter { font-weight:800; color:#1E6B8C; margin-top:4px; }
+
+  /* image placeholder */
+  .img-placeholder { background:linear-gradient(135deg,#EAF4EC,#D6EBDC); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#2A6B42; font-size:.95rem; font-weight:600; border:2px dashed #7FBF9E; margin:8px 0; padding:24px; text-align:center; min-height:120px; }
+  .img-placeholder .ip-icon { font-size:1.8rem; margin-bottom:6px; }
+  .photo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:16px; }
+  .photo-item { position:relative; }
+  .photo-item .img-placeholder { min-height:140px; margin:0; }
+  .photo-num { position:absolute; top:8px; left:8px; background:#1C2B3A; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .photo-label { margin-top:6px; }
+
+  /* article */
+  .article-box { background:#FAFAF8; border-radius:12px; padding:20px 24px; margin-bottom:16px; border:1px solid #eee; }
+  .article-box.article-scroll { max-height:540px; overflow-y:auto; margin-bottom:0; }
+  .article-box h3 { font-size:1.3rem; font-weight:900; color:#1C2B3A; margin:0 0 4px; line-height:1.3; }
+  .article-box h3 .hl { background:#A8571E; color:#fff; padding:2px 8px; border-radius:4px; }
+  .article-box p { font-size:1.08rem; line-height:1.75; color:#1C2B3A; margin:0 0 14px; }
+  .article-box p:last-child { margin-bottom:0; }
+  .para-letter { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:#1F7A4D; color:#fff; font-weight:800; font-size:.82rem; margin-right:8px; }
+
+  /* checkbox tick list */
+  .tick-list { display:flex; flex-direction:column; gap:8px; margin:10px 0 18px; }
+  .tick-item { display:flex; align-items:center; gap:12px; padding:9px 14px; border:1.5px solid #ddd; border-radius:8px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; background:#fff; transition:all .15s; }
+  .tick-item:hover { border-color:#1F7A4D; }
+  .tick-box { width:22px; height:22px; border:2px solid #999; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:#fff; font-weight:800; }
+  .tick-item.picked { border-color:#1F7A4D; background:#E7F3EC; }
+  .tick-item.picked .tick-box { background:#1F7A4D; border-color:#1F7A4D; }
+  .tick-item.correct { border-color:#1A7A4A; background:#E3F5EA; }
+  .tick-item.correct .tick-box { background:#1A7A4A; border-color:#1A7A4A; }
+  .tick-item.wrong { border-color:#C4614A; background:#FBEAE6; }
+  .tick-item.wrong .tick-box { background:#C4614A; border-color:#C4614A; }
+  .tick-item.missed { border-color:#C98A1E; background:#FDF3D6; }
+
+  /* dice / wheel */
+  .dice-box { text-align:center; background:#F4F8F5; border-radius:14px; padding:30px; }
+  .die-face { font-size:3.5rem; margin-bottom:16px; }
+  .dice-prompt { font-size:1.15rem; font-weight:700; color:#1C2B3A; margin-top:16px; min-height:30px; }
+  .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
+
+  /* email / correction box */
+  .email-box { background:#FAFAF8; border:1px solid #ddd; border-radius:12px; padding:20px 24px; margin-bottom:16px; font-size:1.02rem; line-height:1.85; color:#1C2B3A; }
+  .email-box .email-subject { font-weight:800; margin-bottom:10px; }
+  .email-box .err-input { border:none; border-bottom:2px dashed #C4614A; background:#FDEBEA; font-size:.98rem; font-weight:700; width:120px; padding:1px 4px; text-align:center; font-family:inherit; color:#922B21; border-radius:3px; }
+  .email-box .err-input.correct { background:#E3F5EA; border-bottom-color:#1A7A4A; color:#1A5030; }
+  .email-box .err-input.wrong { background:#FBEAE6; border-bottom-color:#C4614A; }
+  .email-box .err-input.empty-warn { background:#FDF3D6; border-bottom-color:#C98A1E; }
+
+  /* virtual breakout */
+  .lock-row { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin:18px 0; }
+  .lock { background:#F4F8F5; border:2px solid #1F7A4D; border-radius:14px; padding:18px 22px; text-align:center; min-width:200px; transition:all .3s; }
+  .lock.unlocked { background:#E3F5EA; border-color:#1A7A4A; }
+  .lock-icon { font-size:2rem; display:block; margin-bottom:8px; }
+  .lock-clue { font-size:.95rem; color:#1C2B3A; margin-bottom:10px; line-height:1.5; }
+  .lock-input { border:2px solid #1F7A4D; border-radius:8px; padding:8px 12px; font-size:1.05rem; font-weight:700; text-align:center; width:140px; font-family:inherit; color:#1C2B3A; }
+  .lock.unlocked .lock-input { border-color:#1A7A4A; color:#1A7A4A; background:#fff; }
+  .breakout-success { display:none; background:#1F7A4D; color:#fff; border-radius:12px; padding:20px; text-align:center; font-size:1.15rem; font-weight:700; margin-top:18px; }
+  .breakout-success.show { display:block; }
+
+  /* score / scale */
+  .score-card { background:#F4F8F5; border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+
+  /* ===== NAV / NOTES / HOME ===== */
+  #notesBtn { position:fixed; top:14px; right:22px; z-index:1000; background:rgba(8,32,26,.88); color:#fff; border:none; padding:9px 20px; border-radius:22px; cursor:pointer; font-size:.92rem; font-weight:600; letter-spacing:.02em; transition:background .2s; backdrop-filter:blur(4px); }
+  #notesBtn:hover { background:rgba(8,32,26,1); }
+  #homeBtn { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:1000; display:none; background:rgba(8,32,26,.88); color:#fff; border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem; align-items:center; justify-content:center; transition:background .2s; backdrop-filter:blur(4px); }
+  #homeBtn:hover { background:rgba(20,96,74,.95); }
+  #notesPanel { position:fixed; top:54px; right:22px; z-index:999; width:360px; max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .25s ease; opacity:0; border-radius:14px; }
+  #notesPanel.open { max-height:320px; opacity:1; }
+  #notesPanel.cover { left:50%; right:auto; top:56px; transform:translateX(-50%); width:min(760px,94vw); max-height:calc(100vh - 110px) !important; display:flex; flex-direction:column; }
+  #notesPanel.cover #notesTA { min-height:calc(100vh - 210px) !important; max-height:calc(100vh - 210px) !important; overflow-y:auto; }
+  #notesToolbar { display:flex; gap:5px; padding:6px 10px; background:rgba(8,32,26,.7); border-radius:10px 10px 0 0; align-items:center; flex-wrap:wrap; }
+  #notesToolbar button { background:rgba(255,255,255,.12); border:none; border-radius:5px; color:#fff; font-size:.85rem; padding:3px 9px; cursor:pointer; font-family:inherit; transition:background .15s; }
+  #notesToolbar button:hover { background:rgba(255,255,255,.25); }
+  #notesTA { width:100%; min-height:220px; max-height:260px; padding:14px; border:none; border-radius:0 0 14px 14px; outline:none; font-size:1rem; line-height:1.55; background:rgba(8,32,26,.92); color:#fff; font-family:inherit; backdrop-filter:blur(6px); box-sizing:border-box; overflow-y:auto; }
+  #notesTA:empty::before { content:attr(data-placeholder); color:rgba(255,255,255,.4); pointer-events:none; }
+  #notesTA [style*="background-color"] { color:#1a1a1a !important; }
+  #nav { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(8,32,26,.96); z-index:500; display:flex; align-items:center; justify-content:center; gap:14px; }
+  #nav button { background:rgba(255,255,255,.12); color:#fff; border:none; border-radius:7px; padding:7px 16px; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #dots { display:flex; gap:5px; flex-wrap:wrap; max-width:360px; justify-content:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; }
+  .dot.active { background:#E8B923; }
+  #counter { color:#fff; font-size:.9rem; min-width:54px; text-align:center; }
+
+  /* print */
+  .slide-notes-print { display:none; }
+  .lesson-link-print { display:none; }
+  @media print {
+    @page { margin:1.2cm; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { height:auto !important; overflow:visible !important; background:#fff !important; display:block !important; }
+    #deck { overflow:visible !important; height:auto !important; display:block !important; position:static !important; }
+    #notesBtn, #notesPanel, #nav, #homeBtn { display:none !important; }
+    body.print-all .slide { display:flex !important; flex-direction:column !important; position:relative !important; inset:auto !important; opacity:1 !important; padding:16px 24px !important; page-break-after:always; break-after:page; min-height:0 !important; height:auto !important; }
+    .slide * { flex:none !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+    .slide-main, .content { overflow:visible !important; }
+    img { max-height:240px !important; width:auto !important; max-width:100% !important; object-fit:contain !important; }
+    body.print-all .slide::before { content:"AEF3 2A \2014  Spending Money"; display:block !important; font-size:10px; color:#999; font-family:'Segoe UI', Arial, sans-serif; padding-bottom:5px; border-bottom:1px solid #ddd; margin-bottom:8px; }
+    body.print-all #s1::before { display:none !important; }
+    .lesson-link-print { display:block !important; padding:28px 32px; margin-bottom:20px; background:linear-gradient(135deg, #08201A 0%, #0F3D2C 30%, #176B44 55%, #1F8A54 78%, #2FA36B 100%); border-radius:12px; text-align:center; font-family:'Segoe UI', Arial, sans-serif; }
+    .lesson-link-print .lp-title { display:block; font-size:30px; font-weight:900; color:#fff; margin-bottom:10px; letter-spacing:.01em; line-height:1.2; }
+    .lesson-link-print .lp-sub { display:block; font-size:16px; color:rgba(255,255,255,.88); font-weight:500; }
+    .lesson-link-print a { color:#E8B923; font-weight:800; text-decoration:underline; font-size:17px; }
+    .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
+    .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
+  }
+</style>
+</head>
+<body>
+<button id="homeBtn" onclick="goTo(0)">🏠</button>
+<button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
+<div id="notesPanel">
+  <div id="notesToolbar">
+    <button onclick="notesFormat('bold')" title="Bold"><b>B</b></button>
+    <button onclick="notesFormat('underline')" title="Underline"><u>U</u></button>
+    <span style="display:flex;gap:3px;align-items:center;margin-left:6px;padding-left:6px;border-left:1px solid rgba(255,255,255,.2)">
+      <button onclick="notesHilite('#FFE600')" title="Yellow" style="background:#FFE600;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#90EE90')" title="Green"  style="background:#90EE90;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#FFB3C6')" title="Pink"   style="background:#FFB3C6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#ADD8E6')" title="Blue"   style="background:#ADD8E6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.78rem;padding:2px 7px;color:#ff9999;margin-left:2px;background:rgba(255,255,255,.1);border:none;border-radius:4px;cursor:pointer;">✕</button>
+    </span>
+  </div>
+  <div id="notesTA" contenteditable="true" data-placeholder="Your notes for this slide…" spellcheck="false" oninput="saveNotes()"></div>
+</div>
+
+<div id="deck">
+
+<!-- ============ COVER ============ -->
+<div class="slide active" id="s1">
+  <div class="title-inner">
+    <div class="title-label">Conversational English</div>
+    <div class="title-sub">with teacher Nanda</div>
+    <div class="title-main"><span class="title-accent">Spending</span> Money</div>
+    <a href="../index.html" title="All AEF Courses" style="position:absolute;bottom:70px;left:32px;font-size:1.7rem;line-height:1;text-decoration:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));">🏠</a>
+    <div style="position:absolute;bottom:70px;right:32px;">
+      <button onclick="goToId('hw-cover')" style="background:#1C2B3A;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.03em;">📝 Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LEAD-IN: THE QUOTE ============ -->
+<div class="slide" id="s-leadin">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>To Think About...</h2>
+    <div class="lead-grid">
+      <div>
+        <p class="discuss-label">💬 Share your thoughts</p>
+        <div class="card" style="background:linear-gradient(135deg,#FBF6E8 0%,#F5E9C0 100%);border-left:6px solid #8A6A1E;">
+          <p style="font-size:1.25rem;line-height:1.6;color:#1C2B3A;margin:0 0 10px;font-style:italic;">"When a man tells you he got rich through hard work, ask him 'Whose?'"</p>
+          <p style="font-size:1.05rem;color:#5A4212;margin:0;font-weight:700;">— Don Marquis, US writer</p>
+        </div>
+        <ul class="discuss-list">
+          <li>What do you think Don Marquis meant by this?</li>
+          <li>Do you agree with it?</li>
+          <li>What's your own attitude to money — are you a saver or a spender?</li>
+        </ul>
+      </div>
+      <div class="lead-img-wrap">
+        <img src="thinkabout-money.jpg" alt="Money can be earned through hard labor, or simply taken by those who already have it" class="lead-img">
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: MONEY QUIZ (MATCH COINS) ============ -->
+<div class="slide" id="s-vocab1">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>The money quiz</h2>
+    <p class="instruction">Match the coins to the countries below. What currency are they?</p>
+    <div class="match-wrap" id="vocab1-match" style="grid-template-columns:1fr 1.1fr;">
+      <div>
+        <div class="match-col-head mc-left">🪙 Coins &mdash; tap a number</div>
+        <div style="position:relative;border-radius:10px;overflow:hidden;margin:0 auto 12px;max-width:330px;">
+          <img src="coins-top.jpg" alt="Four coins numbered 1 to 4" style="width:100%;display:block;">
+          <div class="match-item coin-spot" data-side="left" data-pair="1" onclick="matchPick(this)" style="left:8.0%;top:11.0%;" title="Coin 1">1</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="2" onclick="matchPick(this)" style="left:45.0%;top:10.2%;" title="Coin 2">2</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="3" onclick="matchPick(this)" style="left:93.9%;top:22.5%;" title="Coin 3">3</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="4" onclick="matchPick(this)" style="left:26.2%;top:69.3%;" title="Coin 4">4</div>
+        </div>
+        <div style="position:relative;border-radius:10px;overflow:hidden;margin:0 auto;max-width:330px;">
+          <img src="coins-bottom.jpg" alt="Four coins numbered 5 to 8" style="width:100%;display:block;">
+          <div class="match-item coin-spot" data-side="left" data-pair="5" onclick="matchPick(this)" style="left:19.6%;top:11.4%;" title="Coin 5">5</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="6" onclick="matchPick(this)" style="left:61.9%;top:11.4%;" title="Coin 6">6</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="7" onclick="matchPick(this)" style="left:6.5%;top:49.9%;" title="Coin 7">7</div>
+          <div class="match-item coin-spot" data-side="left" data-pair="8" onclick="matchPick(this)" style="left:43.0%;top:77.8%;" title="Coin 8">8</div>
+        </div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">🌍 Countries &mdash; tap to match</div>
+        <div class="ctry-cols">
+          <div>
+            <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)">🇧🇷 Brazil<div class="ctry-hint">real</div></div>
+            <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)">🇨🇳 China<div class="ctry-hint">yuan</div></div>
+            <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)">🇭🇺 Hungary<div class="ctry-hint">forint</div></div>
+            <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)">🇯🇵 Japan<div class="ctry-hint">yen</div></div>
+          </div>
+          <div>
+            <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)">🇲🇽 Mexico<div class="ctry-hint">peso</div></div>
+            <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)">🇵🇱 Poland<div class="ctry-hint">zloty</div></div>
+            <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)">🇷🇺 Russia<div class="ctry-hint">rouble</div></div>
+            <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)">🇨🇭 Switzerland<div class="ctry-hint">franc</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('vocab1-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('vocab1-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: TRUE OR FALSE ============ -->
+<div class="slide" id="s-vocab2">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>True or false?</h2>
+    <p class="instruction">Select True or False for each statement about money.</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">a. The first coins were made by the Peruvians.<br>
+          <button class="circ-opt" data-group="tf-a" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-a" data-correct="False" onclick="circPick(this)">False</button>
+          <button class="why-toggle" onclick="toggleSuggested('why-a')">🤔 Why?</button>
+          <div class="why-box" id="why-a">False &mdash; the first coins were made around 600 BC by the Lydians of Asia Minor, present-day Turkey, not the Peruvians.</div>
+        </div>
+        <div class="ex-row">b. The largest American bill is worth $100.<br>
+          <button class="circ-opt" data-group="tf-b" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-b" data-correct="True" onclick="circPick(this)">False</button>
+          <button class="why-toggle" onclick="toggleSuggested('why-b')">🤔 Why?</button>
+          <div class="why-box" id="why-b">True &mdash; today's largest bill is $100. Bigger bills like the $500 and $1,000 existed once but stopped being printed in 1969, so you won't get one from a bank anymore.</div>
+        </div>
+        <div class="ex-row">c. Bills are always made of paper.<br>
+          <button class="circ-opt" data-group="tf-c" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-c" data-correct="False" onclick="circPick(this)">False</button>
+          <button class="why-toggle" onclick="toggleSuggested('why-c')">🤔 Why?</button>
+          <div class="why-box" id="why-c">False &mdash; countries like Canada, Australia, and the UK print banknotes on polymer, a flexible, hard-to-tear plastic material.</div>
+        </div>
+      </div>
+      <div>
+        <div class="ex-row">d. The US penny costs 2.4 cents to make.<br>
+          <button class="circ-opt" data-group="tf-d" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-d" data-correct="True" onclick="circPick(this)">False</button>
+          <button class="why-toggle" onclick="toggleSuggested('why-d')">🤔 Why?</button>
+          <div class="why-box" id="why-d">True &mdash; the copper and zinc in each penny cost the US Mint more than twice its own value to produce, which is why some people think it should be discontinued.</div>
+        </div>
+        <div class="ex-row">e. The Japanese yen is the world's oldest currency still in use.<br>
+          <button class="circ-opt" data-group="tf-e" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-e" data-correct="False" onclick="circPick(this)">False</button>
+          <button class="why-toggle" onclick="toggleSuggested('why-e')">🤔 Why?</button>
+          <div class="why-box" id="why-e">False &mdash; the British pound is the world's oldest currency still in use, dating back over 1,200 years to Anglo-Saxon England.</div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('s-vocab2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('s-vocab2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: MONEY VERBS ============ -->
+<div class="slide" id="s-vocab3">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Money Verbs</h2>
+    <p class="instruction">Complete the sentences with a verb from the list in the correct form. Tap a word once you've used it.</p>
+    <div class="mv-wordbank">
+      <span class="mv-word" onclick="mvWordToggle(this)">be worth</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">borrow</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">can't afford</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">charge</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">cost</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">earn</span> &nbsp;&nbsp; <span class="mv-used" style="cursor:default;">inherit</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">invest</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">lend</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">owe</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">raise</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">save</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">waste</span>
+    </div>
+    <div id="vocab3">
+      <div class="mv-row">
+        <div class="mv-ctx"><span class="example-badge">1</span>My uncle died and left me $5,000.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I'm going to <span style="color:#1A5030;font-weight:800;">inherit</span> $5,000.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>2</b>&nbsp; I put some money aside every week for my next vacation.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I <input class="ans-input" data-ans="save"> money every week.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>3</b>&nbsp; My brother promised to give me $50.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">He promised to <input class="ans-input" data-ans="lend"> me $50.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>4</b>&nbsp; I need to ask my mom to give me $20.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I need to <input class="ans-input" data-ans="borrow"> $20 from my mom.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>5</b>&nbsp; I often spend money on stupid things.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I often <input class="ans-input" data-ans="waste"> money.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>6</b>&nbsp; I don't have enough money to buy that car.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I <input class="ans-input" data-ans="can't afford"> to buy that car.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>7</b>&nbsp; I usually have to pay the mechanic $400 to fix my car.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">The mechanic <input class="ans-input" data-ans="charges"> me $400.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>8</b>&nbsp; These shoes are very expensive. They are $200.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">They <input class="ans-input" data-ans="cost"> $200.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>9</b>&nbsp; Jim gave me $100. I haven't paid him back yet.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I <input class="ans-input" data-ans="owe"> Jim $100.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>10</b>&nbsp; I want to put money in a bank account. It'll give me 5% interest.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I want to <input class="ans-input" data-ans="invest"> some money.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>11</b>&nbsp; I work in a supermarket. They pay me $1,800 a month.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">I <input class="ans-input" data-ans="earn"> $1,800 a month.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>12</b>&nbsp; I could sell my house for about $350,000.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">My house <input class="ans-input" data-ans="is worth" data-alt="worth"> about $350,000.</div>
+      </div>
+      <div class="mv-row">
+        <div class="mv-ctx"><b>13</b>&nbsp; We need to get people to give money to build a new hospital.</div>
+        <div class="mv-arrow">&rarr;</div>
+        <div class="mv-tgt">We want to <input class="ans-input" data-ans="raise"> money for the new hospital.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('vocab3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('vocab3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: MONEY PREPOSITIONS ============ -->
+<div class="slide" id="s-vocab4">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Money Prepositions</h2>
+    <p class="instruction">Complete the Preposition column with a word from the list.</p>
+    <div class="wb-bank book-style" id="vocab4-bank">
+      <span class="wb-tile example-used">by</span>
+      <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
+      <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
+      <span class="wb-tile" data-val="from" onclick="wbPick(this)">from</span>
+      <span class="wb-tile" data-val="in" onclick="wbPick(this)">in</span>
+      <span class="wb-tile" data-val="into" onclick="wbPick(this)">into</span>
+      <span class="wb-tile" data-val="on" onclick="wbPick(this)">on</span>
+      <span class="wb-tile" data-val="to" onclick="wbPick(this)">to</span>
+    </div>
+    <div class="fixed-two-col" id="vocab4">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Would you like to <b>pay</b> cash or <span class="wb-blank filled correct" style="cursor:default;">by</span> credit card?</div>
+        <div class="ex-row">2. I <b>paid</b> <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> the dinner last night.</div>
+        <div class="ex-row">3. I <b>spent</b> $100 <span class="wb-blank" data-ans="on" onclick="wbPlace(this)">______</span> books yesterday.</div>
+        <div class="ex-row">4. My uncle <b>invested</b> all his money <span class="wb-blank" data-ans="in" onclick="wbPlace(this)">______</span> real estate.</div>
+      </div>
+      <div>
+        <div class="ex-row">5. I don't like <b>lending</b> money <span class="wb-blank" data-ans="to" onclick="wbPlace(this)">______</span> friends.</div>
+        <div class="ex-row">6. I <b>borrowed</b> a lot of money <span class="wb-blank" data-ans="from" onclick="wbPlace(this)">______</span> the bank.</div>
+        <div class="ex-row">7. They <b>charged</b> me $120 <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> a haircut!</div>
+        <div class="ex-row">8. I never <b>get</b> <span class="wb-blank" data-ans="into" onclick="wbPlace(this)">______</span> debt. I hate owing people money.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('vocab4')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('vocab4')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: MONEY NOUNS ============ -->
+<div class="slide" id="s-vocab5">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Money Nouns</h2>
+    <p class="instruction">Match the nouns and definitions. Click a word in the bank, then click the blank it belongs in.</p>
+    <div class="wb-bank book-style" id="vocab5-bank">
+      <span class="wb-tile example-used">bill</span>
+      <span class="wb-tile" data-val="budget" onclick="wbPick(this)">budget</span>
+      <span class="wb-tile" data-val="contactless payment" onclick="wbPick(this)">contactless payment</span>
+      <span class="wb-tile" data-val="insurance" onclick="wbPick(this)">insurance</span>
+      <span class="wb-tile" data-val="loan" onclick="wbPick(this)">loan</span>
+      <span class="wb-tile" data-val="mortgage" onclick="wbPick(this)">mortgage</span>
+      <span class="wb-tile" data-val="salary" onclick="wbPick(this)">salary</span>
+      <span class="wb-tile" data-val="tax" onclick="wbPick(this)">tax</span>
+    </div>
+    <div id="vocab5">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span class="wb-blank filled correct" style="cursor:default;">bill</span> — a piece of paper that shows how much money you have to pay for something</div>
+      <div class="ex-row">2. <span class="wb-blank" data-ans="salary" onclick="wbPlace(this)">______</span> — the money you get for the work you do</div>
+      <div class="ex-row">3. <span class="wb-blank" data-ans="tax" onclick="wbPlace(this)">______</span> — money that you pay to the government</div>
+      <div class="ex-row">4. <span class="wb-blank" data-ans="loan" onclick="wbPlace(this)">______</span> — money that somebody (or a bank) lends you</div>
+      <div class="ex-row">5. <span class="wb-blank" data-ans="budget" onclick="wbPlace(this)">______</span> — money that you have available and a plan of how to spend it, e.g., a vacation</div>
+      <div class="ex-row">6. <span class="wb-blank" data-ans="mortgage" onclick="wbPlace(this)">______</span> — money that you borrow from a bank to buy a house</div>
+      <div class="ex-row">7. <span class="wb-blank" data-ans="contactless payment" onclick="wbPlace(this)">______</span> — a fast way of paying where you hold your card or phone over a reader and don't use your PIN</div>
+      <div class="ex-row">8. <span class="wb-blank" data-ans="insurance" onclick="wbPlace(this)">______</span> — money that you pay to a company and then they pay if you are sick or injured, or if you lose or break something</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('vocab5')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('vocab5')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY: PHRASAL VERBS WITH MONEY ============ -->
+<div class="slide" id="s-vocab6">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Money Phrasal Verbs</h2>
+    <p class="instruction">Complete the phrasal verbs with a word from the list.</p>
+    <div class="pv-layout">
+      <div>
+        <div class="wb-bank book-style" id="vocab6-bank">
+          <span class="wb-tile" data-val="back" onclick="wbPick(this)">back</span>
+          <span class="wb-tile" data-val="off" onclick="wbPick(this)">off</span>
+          <span class="wb-tile" data-val="on" onclick="wbPick(this)">on</span>
+          <span class="wb-tile" data-val="out" onclick="wbPick(this)">out</span>
+        </div>
+        <div id="vocab6">
+          <div class="ex-row">1. I took <span class="wb-blank" data-ans="out" onclick="wbPlace(this)">______</span> $200 from an ATM.</div>
+          <div class="ex-row">2. When can you pay me <span class="wb-blank" data-ans="back" onclick="wbPlace(this)">______</span> the money I lent you?</div>
+          <div class="ex-row">3. I have to live <span class="wb-blank" data-ans="off" onclick="wbPlace(this)">______</span> my parents while I'm in college.</div>
+          <div class="ex-row">4. It's difficult for me and my wife to live <span class="wb-blank" data-ans="on" onclick="wbPlace(this)">______</span> only one salary.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkWbSlide('vocab6')">Check Answers</button>
+          <button class="btn-reset" onclick="resetWbSlide('vocab6')">Reset</button>
+        </div>
+      </div>
+      <div class="pv-side">
+        <button class="btn-suggest" onclick="toggleSuggested('vocab6-gtk')">💡 Good to Know</button>
+        <div class="suggest-box gram-note" id="vocab6-gtk" style="border-left-color:#C9A227;background:#FDF3D6;">
+          <div class="gtk-row"><span class="gtk-chip">take out</span> &mdash; to withdraw money from a bank or ATM.</div>
+          <div class="gtk-row"><span class="gtk-chip">pay back</span> &mdash; to return money you borrowed from someone.</div>
+          <div class="gtk-row"><span class="gtk-chip">live off</span> &mdash; to depend on someone else's money to survive, e.g., <i>live off your parents</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">live on</span> &mdash; to have just a certain amount of money to survive on, e.g., <i>live on $250 a week</i>.</div>
+          <div class="gtk-row"><b>Good to know:</b> <span class="gtk-chip">take out</span> and <span class="gtk-chip">pay back</span> are <b>separable</b> &mdash; you can also say <i>pay me the money back</i>.</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: THE LETTER O ============ -->
+<div class="slide" id="s-pron1">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>The sound of <span class="o-hl">O</span></h2>
+    <p class="instruction">Can you think of three words that rhyme with <i>money</i>?</p>
+    <div class="ccq-box">
+      <ul class="ccq-list">
+        <li>1. The weekend is going to be hot and s____. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">sunny</span></li>
+        <li>2. Somebody who makes you laugh is f____. <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">funny</span></li>
+        <li>3. Would you like jam or h____ on your toast? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">honey</span></li>
+      </ul>
+    </div>
+    <p class="instruction" style="margin-top:18px;">Look at some words with the letter <i>o</i>. Put them in the correct column.</p>
+    <div class="classify-bank" id="pron1-bank">
+      <span class="classify-chip used">b<span class="o-hl">o</span>rr<span class="o-hl">o</span>w</span>
+      <span class="classify-chip" data-ans="phone" onclick="classifyPick(this)">cl<span class="o-hl">o</span>thes</span>
+      <span class="classify-chip" data-ans="clock" onclick="classifyPick(this)">c<span class="o-hl">o</span>ntactless</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">d<span class="o-hl">o</span>ne</span>
+      <span class="classify-chip" data-ans="clock" onclick="classifyPick(this)">d<span class="o-hl">o</span>llar</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">fr<span class="o-hl">o</span>m</span>
+      <span class="classify-chip" data-ans="phone" onclick="classifyPick(this)">g<span class="o-hl">o</span></span>
+      <span class="classify-chip" data-ans="clock" onclick="classifyPick(this)">h<span class="o-hl">o</span>nest</span>
+      <span class="classify-chip" data-ans="phone" onclick="classifyPick(this)">l<span class="o-hl">o</span>an</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">m<span class="o-hl">o</span>ney</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">n<span class="o-hl">o</span>thing</span>
+      <span class="classify-chip" data-ans="phone" onclick="classifyPick(this)"><span class="o-hl">o</span>we</span>
+      <span class="classify-chip" data-ans="clock" onclick="classifyPick(this)">pr<span class="o-hl">o</span>mise</span>
+      <span class="classify-chip" data-ans="clock" onclick="classifyPick(this)">sh<span class="o-hl">o</span>pping</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">s<span class="o-hl">o</span>me</span>
+      <span class="classify-chip" data-ans="phone" onclick="classifyPick(this)">s<span class="o-hl">o</span>ld</span>
+      <span class="classify-chip" data-ans="up" onclick="classifyPick(this)">w<span class="o-hl">o</span>n</span>
+    </div>
+    <div class="classify-cols" id="pron1-cols">
+      <div class="classify-col" data-target="up" onclick="classifyTarget(this)">
+        <h4><img src="sound-up.png" alt="up"> up /&Lambda;/</h4>
+      </div>
+      <div class="classify-col" data-target="clock" onclick="classifyTarget(this)">
+        <h4><img src="sound-clock.png" alt="clock"> clock /&#593;/</h4>
+        <span class="placed example correct" data-ans="clock" style="cursor:default;">borrow</span>
+      </div>
+      <div class="classify-col" data-target="phone" onclick="classifyTarget(this)">
+        <h4><img src="sound-phone.png" alt="phone"> phone /o&#650;/</h4>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('pron1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('pron1')">Reset</button>
+    </div>
+    <p class="instruction" style="margin-top:18px;margin-bottom:10px;">Listen and check.</p>
+    <div class="audio-box" style="margin-bottom:0;">
+      <audio controls src="AEF3e_Level_3_SB_2.05.mp3" style="width:100%;"></audio>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION: THE LETTERS OR + DICTATION ============ -->
+<div class="slide" id="s-pron2">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>The sound of <span class="o-hl">OR</span></h2>
+    <p class="instruction">Look at some words with the letters <i>or</i>. How is <i>or</i> usually pronounced when it's stressed? Click the two words that are different.</p>
+    <div class="card" id="pron2-or-words" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      <span class="wb-tile or-pick" data-ans="no" onclick="orPickToggle(this)">aff<span class="o-hl">or</span>d</span>
+      <span class="wb-tile or-pick" data-ans="no" onclick="orPickToggle(this)">m<span class="o-hl">or</span>tgage</span>
+      <span class="wb-tile or-pick" data-ans="no" onclick="orPickToggle(this)"><span class="o-hl">or</span>der</span>
+      <span class="wb-tile or-pick" data-ans="yes" onclick="orPickToggle(this)">w<span class="o-hl">or</span>k</span>
+      <span class="wb-tile or-pick" data-ans="no" onclick="orPickToggle(this)"><span class="o-hl">or</span>ganized</span>
+      <span class="wb-tile or-pick" data-ans="no" onclick="orPickToggle(this)">st<span class="o-hl">or</span>e</span>
+      <span class="wb-tile or-pick" data-ans="yes" onclick="orPickToggle(this)">w<span class="o-hl">or</span>th</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkOrPick('pron2-or-words')">Check Answers</button>
+      <button class="btn-reset" onclick="resetOrPick('pron2-or-words')">Reset</button>
+    </div>
+    <p class="instruction" style="margin-top:14px;margin-bottom:10px;">Listen and check.</p>
+    <div class="audio-box" style="margin-bottom:0;">
+      <audio controls src="AEF3e_Level_3_SB_2.06.mp3" style="width:100%;"></audio>
+    </div>
+    <p class="instruction" style="margin-top:22px;margin-bottom:10px;">Listen and write the six sentences you hear. Then practice saying them.</p>
+    <div class="audio-box" style="margin-bottom:0;">
+      <audio controls src="AEF3e_Level_3_SB_2.07.mp3" style="width:100%;"></audio>
+    </div>
+    <div id="pron3" style="margin-top:14px;">
+      <div class="ex-row">1. <input type="text" class="ans-input" style="width:420px;" data-ans="let's go shopping for clothes"></div>
+      <div class="ex-row">2. <input type="text" class="ans-input" style="width:420px;" data-ans="can i borrow some money"></div>
+      <div class="ex-row">3. <input type="text" class="ans-input" style="width:420px;" data-ans="he won a million dollars"></div>
+      <div class="ex-row">4. <input type="text" class="ans-input" style="width:420px;" data-ans="i've done nothing wrong" data-alt="i have done nothing wrong"></div>
+      <div class="ex-row">5. <input type="text" class="ans-input" style="width:420px;" data-ans="they can't afford to pay the mortgage" data-alt="they cannot afford to pay the mortgage"></div>
+      <div class="ex-row">6. <input type="text" class="ans-input" style="width:420px;" data-ans="i work in a store"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('pron3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('pron3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: MONEY Q&A ============ -->
+<div class="slide" id="s-speak-money">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Money Q&amp;A</h2>
+    <p class="instruction">Click the jar to draw a question. Read it aloud, answer it, and ask a follow-up question if you can. If you don't want to answer, say <i>"I'm sorry, I'd rather not talk about that."</i></p>
+    <div class="money-jar-wrap">
+      <div class="money-jar-coin" id="money-jar-coin" onclick="drawMoneyQuestion()">🪙</div>
+      <div>
+        <button class="btn-check" onclick="drawMoneyQuestion()">Draw a Question</button>
+        <button class="btn-reset" onclick="resetMoneyJar()">🔄 Reshuffle</button>
+      </div>
+      <div class="money-jar-card" id="money-jar-question">Click the jar to draw your first question!</div>
+      <div class="money-jar-counter" id="money-jar-counter">0 / 14 questions drawn</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: PREDICTION ============ -->
+<div class="slide" id="s-read1">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>No-Spend Year</h2>
+    <p class="instruction">Read the title of the article.</p>
+    <div class="lead-grid">
+      <div class="lead-img-wrap">
+        <img src="ChatGPT Image Jul 16, 2026, 08_07_20 PM.png" alt="One woman's no-spend year, and how she survived" class="lead-img">
+      </div>
+      <div>
+        <p class="discuss-label">💬 Discuss</p>
+        <div class="card" style="background:linear-gradient(135deg,#EDF6F0 0%,#DCEFE1 100%);border-left:6px solid #1F7A4D;">
+          <ul class="discuss-list" style="margin:0;">
+            <li>Why do you think someone might decide to have a "no-spend year"?</li>
+            <li>What do you think it means?</li>
+            <li>Would you be able to do it?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: ARTICLE + PARAGRAPH MATCHING ============ -->
+<div class="slide" id="s-read1b">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>No-Spend Year</h2>
+    <p class="instruction">Read the article and match paragraphs A&ndash;G to topics 1&ndash;7. Use the words in <b>bold</b> to help you. Click a letter, then click the topic it matches.</p>
+    <div class="match-wrap read-article-match" id="read1b-match">
+      <div class="article-box article-scroll">
+        <h3>One woman's "no-spend year," and how she survived</h3>
+        <p style="font-weight:800;color:#8A1E1E;">She rode her bike 120 miles to a wedding, and her lunch budget was just 65¢ a day.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="2" onclick="matchPick(this)">A</span>Michelle McGagh, a 34-year-old journalist, had a mortgage of $290,000 that she wanted to reduce. Last November, she looked at her finances and she discovered that every year she spent a lot of money unnecessarily — for example, $2,000 hanging out with friends, $1,400 in restaurants, and $500 on coffees. So she made a radical plan — to stop spending money for a year. She continued to pay her internet, gas, and electricity bills, and allowed herself $40 a week to buy food and household essentials. But she couldn't spend money on anything else — no clothes, no buses or flights, no meals out, no coffees, and no cosmetics.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="6" onclick="matchPick(this)">B</span>She cooked large quantities of curry and bolognese sauce, which lasted her a week, which she ate with rice or pasta. It was cheap and healthy, but also "really boring." She also experimented with homemade cleaning products and beauty treatments, like using vinegar for cleaning or olive oil as moisturizer, but she decided that most of them didn't really work.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="3" onclick="matchPick(this)">C</span>At first, she tried to see her friends as often as before. She rode her bike 120 miles to be at a friend's wedding, and camped in their yard to avoid paying for a hotel room. The following weekend, she rode 60 miles to meet friends. But she couldn't join them for dinner in a restaurant, and when they went out, she drank tap water. In the end, she simply went out less, which made her feel more isolated.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="1" onclick="matchPick(this)">D</span>Of course, she couldn't afford to travel, so she missed a trip to the beach with friends. Her only vacation was a bike trip where again she camped. Here, for the first and only time in the year, she bought food that she had not cooked herself — French fries for $2.50.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="4" onclick="matchPick(this)">E</span>At the end of the year, she had saved $29,000. She was much slimmer and in better shape — over the year, she had ridden her bike 6,500 miles. She says she now feels freer and happier because she appreciates the simple things in life. She also gained confidence and a sense of adventure.</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="7" onclick="matchPick(this)">F</span>But she learned the hard way that you can't really socialize if you don't want to spend money. The evening after her year-long challenge ended, she celebrated by treating her friends to a night out. But she has not gone back to her past spending habits. She occasionally pays to socialize and go on vacation. She has even taken a taxi. But after buying some new clothes and some perfume, she insists, "I have absolutely no interest in buying anything else."</p>
+        <p><span class="match-item para-letter-pick" data-side="right" data-pair="5" onclick="matchPick(this)">G</span>So what's her key tip for those who want to save? "Whenever you open your wallet, think about whether what you are buying is something you need or something you want. We all say, 'I need to buy this.' Most of the time, we want to buy it. Maybe we don't know the difference between needing something and wanting something anymore."</p>
+        <p class="glossary-note">Adapted from The Times</p>
+      </div>
+      <div>
+        <div class="match-col-head mc-left">Topics</div>
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span> where she went <b>on vacation</b></div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span> <b>why</b> she decided to save money</div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span> how often she saw her <b>friends</b></div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span> what she <b>achieved</b></div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span> her <b>advice</b> for other people</div>
+        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span> how she saved money <b>at home</b></div>
+        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span> what she <b>discovered</b></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('read1b-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('read1b-match')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: TRUE OR FALSE ============ -->
+<div class="slide" id="s-read2">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>No-Spend Year</h2>
+    <p class="instruction">Select True or False. There's one sentence for each paragraph — try to correct the false ones.</p>
+    <div class="cn-layout" style="display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start;">
+      <div class="article-box article-scroll">
+        <h3>One woman's "no-spend year," and how she survived</h3>
+        <p style="font-weight:800;color:#8A1E1E;">She rode her bike 120 miles to a wedding, and her lunch budget was just 65¢ a day.</p>
+        <p><span class="para-letter">A</span>Michelle McGagh, a 34-year-old journalist, had a mortgage of $290,000 that she wanted to reduce. Last November, she looked at her finances and she discovered that every year she spent a lot of money unnecessarily — for example, $2,000 hanging out with friends, $1,400 in restaurants, and $500 on coffees. So she made a radical plan — to stop spending money for a year. She continued to pay her internet, gas, and electricity bills, and allowed herself $40 a week to buy food and household essentials. But she couldn't spend money on anything else — no clothes, no buses or flights, no meals out, no coffees, and no cosmetics.</p>
+        <p><span class="para-letter">B</span>She cooked large quantities of curry and bolognese sauce, which lasted her a week, which she ate with rice or pasta. It was cheap and healthy, but also "really boring." She also experimented with homemade cleaning products and beauty treatments, like using vinegar for cleaning or olive oil as moisturizer, but she decided that most of them didn't really work.</p>
+        <p><span class="para-letter">C</span>At first, she tried to see her friends as often as before. She rode her bike 120 miles to be at a friend's wedding, and camped in their yard to avoid paying for a hotel room. The following weekend, she rode 60 miles to meet friends. But she couldn't join them for dinner in a restaurant, and when they went out, she drank tap water. In the end, she simply went out less, which made her feel more isolated.</p>
+        <p><span class="para-letter">D</span>Of course, she couldn't afford to travel, so she missed a trip to the beach with friends. Her only vacation was a bike trip where again she camped. Here, for the first and only time in the year, she bought food that she had not cooked herself — French fries for $2.50.</p>
+        <p><span class="para-letter">E</span>At the end of the year, she had saved $29,000. She was much slimmer and in better shape — over the year, she had ridden her bike 6,500 miles. She says she now feels freer and happier because she appreciates the simple things in life. She also gained confidence and a sense of adventure.</p>
+        <p><span class="para-letter">F</span>But she learned the hard way that you can't really socialize if you don't want to spend money. The evening after her year-long challenge ended, she celebrated by treating her friends to a night out. But she has not gone back to her past spending habits. She occasionally pays to socialize and go on vacation. She has even taken a taxi. But after buying some new clothes and some perfume, she insists, "I have absolutely no interest in buying anything else."</p>
+        <p><span class="para-letter">G</span>So what's her key tip for those who want to save? "Whenever you open your wallet, think about whether what you are buying is something you need or something you want. We all say, 'I need to buy this.' Most of the time, we want to buy it. Maybe we don't know the difference between needing something and wanting something anymore."</p>
+        <p class="glossary-note">Adapted from The Times</p>
+      </div>
+      <div>
+        <div class="ex-row">1. Michelle could use public transportation during her "no-spend year."<br><button class="circ-opt" data-group="rtf-1" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-1" data-correct="False" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">2. She was often hungry because she couldn't afford to buy food.<br><button class="circ-opt" data-group="rtf-2" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-2" data-correct="False" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">3. At her friend's wedding, she slept in a tent.<br><button class="circ-opt" data-group="rtf-3" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-3" data-correct="True" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">4. She never had ready-made or take-out food.<br><button class="circ-opt" data-group="rtf-4" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-4" data-correct="False" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">5. She didn't lose any weight during the year.<br><button class="circ-opt" data-group="rtf-5" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-5" data-correct="False" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">6. Nowadays, she spends less than she used to.<br><button class="circ-opt" data-group="rtf-6" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-6" data-correct="True" onclick="circPick(this)">False</button></div>
+        <div class="ex-row">7. She thinks that when we buy something, we should ask ourselves why.<br><button class="circ-opt" data-group="rtf-7" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="rtf-7" data-correct="True" onclick="circPick(this)">False</button></div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkCircSlide('s-read2')">Check Answers</button>
+          <button class="btn-reset" onclick="resetCircSlide('s-read2')">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:26px;background:linear-gradient(135deg,#FBF6E8 0%,#F5E9C0 100%);border-left:6px solid #8A6A1E;">
+      <p class="discuss-label" style="margin-bottom:10px;">💬 Do you agree with the last sentence of the article? Why (not)?</p>
+      <p style="font-size:1.15rem;line-height:1.6;color:#1C2B3A;margin:0;font-style:italic;">"Whenever you open your wallet, think about whether what you are buying is something you need or something you want. We all say, 'I need to buy this.' Most of the time, we want to buy it. Maybe we don't know the difference between needing something and wanting something anymore."</p>
+      <p style="font-size:1.05rem;color:#5A4212;margin:10px 0 0;font-weight:700;">— Michelle McGagh</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING: COMPOUND NOUNS + DISCUSSION ============ -->
+<div class="slide" id="s-read3">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Compound Nouns</h2>
+
+    <div class="step-block">
+      <div class="step-label">Step 1</div>
+      <p class="instruction">Read the information about compound nouns.</p>
+      <div class="gram-note">
+        <b>Compound nouns</b> are two nouns together, where the first noun describes the second one, e.g., <i>credit card</i>. The stress is usually on the first noun.
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-label">Step 2</div>
+      <p class="instruction">Now search the text extracts. Mark six compound nouns that begin with the words in the circle.</p>
+      <div class="cn-exercise-layout">
+        <div class="cn-circle">
+          <span>olive</span><span>electricity</span><span>cleaning</span><span>bike</span><span>beauty</span><span>tap</span>
+        </div>
+        <div id="read3-cn-words">
+          <p class="cn-sentence"><span class="para-letter">B</span>She also experimented with homemade <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">cleaning</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">products</span> and <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">beauty</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">treatments</span>, like using vinegar for <span class="or-pick cn-word" data-ans="no" onclick="orPickToggle(this)">cleaning</span> or <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">olive</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">oil</span> as moisturizer.</p>
+          <p class="cn-sentence"><span class="para-letter">A</span>She continued to pay her internet, gas, and <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">electricity</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">bills</span>, and allowed herself $40 a week to buy food and household essentials.</p>
+          <p class="cn-sentence"><span class="para-letter">D</span>Her only vacation was a <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">bike</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">trip</span> where again she camped.</p>
+          <p class="cn-sentence"><span class="para-letter">C</span>But she couldn't join them for dinner in a restaurant, and when they went out, she drank <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">tap</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">water</span>.</p>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkOrPick('read3-cn-words')">Check Answers</button>
+        <button class="btn-reset" onclick="resetOrPick('read3-cn-words')">Reset</button>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: WHAT ABOUT YOU? ============ -->
+<div class="slide" id="s-speak-whatabout">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>What About You?</h2>
+    <p class="instruction">Could you do what Michelle did?</p>
+    <div class="lead-grid" style="grid-template-columns:1fr 1fr;">
+      <div>
+        <p class="discuss-label">💬 Discuss</p>
+        <ul class="discuss-list">
+          <li>What would you spend less on?</li>
+          <li>What would you eat?</li>
+          <li>How would you get around?</li>
+          <li>How would you socialize cheaply?</li>
+        </ul>
+      </div>
+      <div class="card" style="background:#fff;border:2px solid #C4614A;border-radius:12px;">
+        <p style="margin:0 0 10px;font-weight:800;font-style:italic;color:#C4614A;font-size:1.15rem;">🔍 <i>would</i> for imaginary situations</p>
+        <p style="margin:0;font-size:1.08rem;line-height:1.6;">We use <i>would</i> to talk about imaginary situations, e.g., <i>To save money, I'd spend less on clothes and I'd cook for myself at home.</i></p>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MEANING ============ -->
+<div class="slide" id="s-gram-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present perfect and simple past</h2>
+    <p class="instruction">Read the conversation. What are they arguing about?</p>
+    <div class="lead-grid" style="grid-template-columns:.9fr 1.2fr;">
+      <div class="lead-img-wrap">
+        <img src="ChatGPT Image Jul 16, 2026, 08_30_33 PM.png" alt="A woman looks annoyed thinking 'More new sneakers?' while a man smiles thinking 'She'll never notice my new sneakers.'" class="lead-img">
+      </div>
+      <div>
+        <div class="card" style="background:#F1EEF7;border-left:6px solid #5A3E8C;margin-bottom:14px;">
+          <p style="margin:0 0 8px;"><b>Keisha</b> I haven't seen those sneakers before. Are they new?</p>
+          <p style="margin:0 0 8px;"><b>Daniel</b> Yes. I bought them today. Do you like them?</p>
+          <p style="margin:0 0 8px;"><b>Keisha</b> They're OK. How much did they cost?</p>
+          <p style="margin:0;"><b>Daniel</b> Oh, not much. They were a bargain. Under $100.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn-suggest" onclick="toggleSuggested('gm-sugg')">💡 What are they arguing about?</button>
+        </div>
+        <div class="suggest-box" id="gm-sugg">They are arguing about money — Daniel spent money on new sneakers they can't really afford.</div>
+      </div>
+    </div>
+    <div class="ccq-box" style="margin-top:22px;">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>"I haven't seen those sneakers before." Does Keisha say exactly when? <em>(no — no specific time)</em></li>
+        <li>"I bought them today." Does Daniel say exactly when? <em>(yes — today)</em></li>
+        <li>Which tense do we use when we don't say exactly when something happened — present perfect or simple past? <em>(present perfect)</em></li>
+        <li>Which tense do we use when we say or know exactly when — present perfect or simple past? <em>(simple past)</em></li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: PRESENT PERFECT OR SIMPLE PAST? ============ -->
+<div class="slide" id="s-gram-ppsp">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present Perfect or Simple Past?</h2>
+    <p class="instruction">Read the conversation again. Do we use the present perfect (PP) or the simple past (SP)?</p>
+    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;">
+      <div class="card" style="background:#F1EEF7;border-left:6px solid #5A3E8C;margin-bottom:0;">
+        <p style="margin:0 0 8px;"><b>Keisha</b> I haven't seen those sneakers before. Are they new?</p>
+        <p style="margin:0 0 8px;"><b>Daniel</b> Yes. I bought them today. Do you like them?</p>
+        <p style="margin:0 0 8px;"><b>Keisha</b> They're OK. How much did they cost?</p>
+        <p style="margin:0;"><b>Daniel</b> Oh, not much. They were a bargain. Under $100.</p>
+      </div>
+      <div id="gram-ppsp">
+        <div class="ex-row">1. for a completed action in the past <input class="ans-input" style="width:90px;" data-ans="sp" data-alt="simple past"></div>
+        <div class="ex-row">2. for recent actions when we don't ask/say exactly when <input class="ans-input" style="width:90px;" data-ans="pp" data-alt="present perfect"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('gram-ppsp')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('gram-ppsp')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: FORM ============ -->
+<div class="slide" id="s-gram-form">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present Perfect vs. Simple Past — Form</h2>
+    <p class="instruction">Look at the examples below. Can you work out the rules yourself?</p>
+    <div class="gram-box">
+      <h3>Present perfect</h3>
+      <p><i>I<b>'ve</b> <u>inherited</u> some money, but I <b>haven't</b> <u>spent</u> it.</i></p>
+      <p><i>Sally <b>has</b> <span class="hl">never</span> <u>met</u> Bill's ex-wife.</i></p>
+      <p><i><b>Have</b> you <span class="hl">ever</span> <u>lost</u> your credit card?</i></p>
+      <p><i>I<b>'ve</b> <span class="hl">already</span> <u>seen</u> this movie twice. Can't we watch another one?</i></p>
+      <p><i>My brother <b>hasn't</b> <u>found</u> a new job <span class="hl">yet</span>. He's still looking.</i></p>
+      <div class="ccq-box">
+        <ul class="ccq-list">
+          <li>Present perfect = <b>have</b>/<b>has</b> + ___? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">the past participle (inherited, met, lost, seen, found).</span></li>
+          <li>Look at <i>ever</i> and <i>never</i> above — do they go before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
+          <li>Look at <i>already</i> in the <b>+</b> sentence — before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
+          <li>Look at <i>yet</i> in the <b>−</b> sentence — where in the sentence does it go? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">At the end of the sentence. (Same for questions with <i>yet</i>.)</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gram-box" style="border-left-color:#A8571E;">
+      <h3 style="color:#A8571E;">Simple past</h3>
+      <p><i>They <b>got</b> married last year.</i></p>
+      <p><i>I <b>didn't have</b> time to do my homework.</i></p>
+      <p><i>What time <b>did</b> you <b>wake up</b> this morning?</i></p>
+      <div class="ccq-box">
+        <ul class="ccq-list">
+          <li>Look at <i>got married</i> — is this a regular (-ed) or irregular past form? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Irregular — many common verbs are (see the Irregular Verbs list).</span></li>
+          <li>How do we make negatives and questions in the simple past? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>did/didn't</i> + the base form of the verb (not the past form) — e.g., <i>did you wake up</i>, not <i>did you woke up</i>.</span></li>
+          <li>Do these sentences say exactly when something happened? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Yes — <i>last year</i>, <i>this morning</i> — that's why it's simple past, not present perfect.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: PRONUNCIATION — THE WEAK FORM 'VE ============ -->
+<div class="slide" id="s-gram-pron">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present Perfect — Pronunciation</h2>
+    <p class="instruction">In connected speech, <i>have</i> often weakens to <i>'ve</i>. Click the weak form in each sentence, then practice saying it with your tutor.</p>
+    <div class="card" style="background:#FDF3D6;border-left:6px solid #C9A227;">
+      <div class="ex-row"><span class="cn-word or-pick" data-ans="no" onclick="orPickToggle(this)">I</span> <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">'ve</span> inherited some money, but I <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">haven't</span> spent it.</div>
+      <div class="ex-row">Sally <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">has</span> never met Bill's ex-wife.</div>
+      <div class="ex-row"><span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">Have</span> you ever lost your credit card?</div>
+      <div class="ex-row">I <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">'ve</span> already seen this movie twice.</div>
+      <div class="ex-row">My brother <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">hasn't</span> found a new job yet.</div>
+    </div>
+    <div class="ccq-box" style="margin-top:18px;">
+      <ul class="ccq-list">
+        <li>When we say these sentences naturally, is <i>have</i> stressed and pronounced in full, or does it weaken to a quick, unstressed sound? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">It weakens to a quick, unstressed /əv/ sound — that's why we usually write it as <b>'ve</b>. The main verb (the past participle) carries the stress instead, e.g., I've in<b>her</b>ited, not <b>I</b> have inherited.</span></li>
+      </ul>
+    </div>
+    <p class="inst-light" style="margin-top:18px;">🎙️ Practice: say each sentence with your tutor, letting <i>'ve</i>/<i>has</i> blend quickly into the words around it, and stressing the main verb instead.</p>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: CONTROLLED PRACTICE — DIALOGUE ============ -->
+<div class="slide" id="s-gram-ex1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the conversation</h2>
+    <p class="instruction">Put the verbs in the present perfect or the simple past. Then listen and check.</p>
+    <div class="audio-box">
+      <audio controls src="track_2_08.mp3" style="width:100%;"></audio>
+    </div>
+    <div id="gram-ex1">
+      <div class="ex-row"><b>Keisha</b> I <span class="example-badge">1</span><em>(example)</em> <em>haven't seen</em> (see) those sneakers before. Are they new?</div>
+      <div class="ex-row"><b>Daniel</b> Yes. I <input class="ans-input small" data-ans="bought"> (buy) them today. Do you like them?</div>
+      <div class="ex-row"><b>Keisha</b> They're OK. How much <input class="ans-input small" data-ans="did"> they <input class="ans-input small" data-ans="cost">? (cost)</div>
+      <div class="ex-row"><b>Daniel</b> Oh, not much. They <input class="ans-input small" data-ans="were"> (be) a bargain. Under $100.</div>
+      <div class="ex-row"><b>Keisha</b> You mean $99.99. That isn't cheap for a pair of sneakers. Anyway, we can't afford to buy new clothes right now.</div>
+      <div class="ex-row"><b>Daniel</b> Why not?</div>
+      <div class="ex-row"><b>Keisha</b> <input class="ans-input small" data-ans="Have"> you <input class="ans-input small" data-ans="seen"> this? (see)</div>
+      <div class="ex-row"><b>Daniel</b> No. What is it?</div>
+      <div class="ex-row"><b>Keisha</b> The electricity bill. It <input class="ans-input small" data-ans="came"> (come) this morning. And we <input class="ans-input" data-ans="haven't paid"> (not pay) the house insurance yet.</div>
+      <div class="ex-row"><b>Daniel</b> Well, what about the iPad you <input class="ans-input" data-ans="bought"> (buy) last week?</div>
+      <div class="ex-row"><b>Keisha</b> What about it?</div>
+      <div class="ex-row"><b>Daniel</b> You <input class="ans-input" data-ans="didn't need"> (not need) a new one. The old one <input class="ans-input small" data-ans="worked"> (work) just fine.</div>
+      <div class="ex-row"><b>Keisha</b> But I <input class="ans-input small" data-ans="needed"> (need) the new model.</div>
+      <div class="ex-row"><b>Daniel</b> Well, I <input class="ans-input small" data-ans="needed"> (need) some new sneakers.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('gram-ex1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('gram-ex1')">Reset</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('gram-ex1-sugg')">💭 PP or SP?</button>
+    </div>
+    <div class="suggest-box" id="gram-ex1-sugg">We use the <b>present perfect</b> for recent actions when we don't say exactly when (e.g., <i>Have you seen this?</i>). We use the <b>simple past</b> when a specific time is mentioned or understood (e.g., <i>How much did they cost?</i>).</div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: GRAMMAR BANK EX A ============ -->
+<div class="slide" id="s-gram-ex2">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Complete the conversations</h2>
+    <p class="instruction">Complete the conversations with the present perfect form of the verb in parentheses and an adverb from the list. You can use the adverbs more than once.</p>
+    <div class="card" style="text-align:center;font-weight:700;color:#5A3E8C;">already &nbsp; ever &nbsp; never &nbsp; yet</div>
+    <div class="fixed-two-col" id="gram-ex2" style="margin-top:16px;">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> A: <i>Have you played the lottery yet?</i> B: Yes! I won $50.</div>
+        <div class="ex-row">2. A: <input class="ans-input" data-ans="Have you ever booked" data-alt="have you ever booked"> a flight online? B: Yes, of course. I've done it many times.</div>
+        <div class="ex-row">3. A: When are you going to buy a motorcycle? B: Soon. I <input class="ans-input" data-ans="have already saved" data-alt="i've already saved|already saved"> $1,000.</div>
+        <div class="ex-row">4. A: <input class="ans-input" data-ans="Have you paid" data-alt="have you paid"> the phone bill yet? B: No, sorry. I forgot.</div>
+      </div>
+      <div>
+        <div class="ex-row">5. A: <input class="ans-input" data-ans="Have your parents ever lent" data-alt="have your parents ever lent"> you money? B: Yes, but I paid it back as soon as I could.</div>
+        <div class="ex-row">6. A: How does eBay work? B: I don't know. I <input class="ans-input" data-ans="have never used" data-alt="i've never used|never used"> it.</div>
+        <div class="ex-row">7. A: <input class="ans-input" data-ans="Have you ever been" data-alt="have you ever been"> to Thailand? B: No, I haven't. But I'd like to some day.</div>
+        <div class="ex-row">8. A: Do you like Michael B. Jordan? B: Yes, I <input class="ans-input" data-ans="have already seen" data-alt="i've already seen|already seen"> his new movie twice!</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('gram-ex2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('gram-ex2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: GRAMMAR BANK EX B ============ -->
+<div class="slide" id="s-gram-ex3">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Right or wrong?</h2>
+    <p class="instruction">Decide if the bold phrase is right or wrong. Then check your answers and reveal the corrections.</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I've never been in debt. <span style="color:#1A5030;font-weight:800;">✓</span></div>
+        <div class="ex-row">2. Dean <b>inherited</b> $5,000 from a relative.<br><button class="circ-opt" data-group="gb-2" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-2" data-correct="✓" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">3. <b>Did your sister pay</b> you back yet?<br><button class="circ-opt" data-group="gb-3" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-3" data-correct="✗" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">4. <b>We booked our vacation</b> online a month ago.<br><button class="circ-opt" data-group="gb-4" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-4" data-correct="✓" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">5. <b>When have you bought</b> that leather jacket?<br><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✗</button></div>
+      </div>
+      <div>
+        <div class="ex-row">6. <b>They've finished paying back</b> the loan last month.<br><button class="circ-opt" data-group="gb-6" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-6" data-correct="✗" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">7. <b>We haven't paid</b> the gas bill yet.<br><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">8. <b>Have you ever wasted</b> a lot of money on something?<br><button class="circ-opt" data-group="gb-8" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-8" data-correct="✓" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">9. I'm sure <b>I haven't borrowed</b> any money from you last week.<br><button class="circ-opt" data-group="gb-9" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-9" data-correct="✗" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">10. <b>I spent my salary</b> really quickly last month.<br><button class="circ-opt" data-group="gb-10" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-10" data-correct="✓" onclick="circPick(this)">✗</button></div>
+      </div>
+    </div>
+    <p class="ex-row" style="margin-top:6px;">11. <b>Have you seen</b> the Black Panther movie on TV yesterday?<br><button class="circ-opt" data-group="gb-11" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-11" data-correct="✗" onclick="circPick(this)">✗</button></p>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('s-gram-ex3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('s-gram-ex3')">Reset</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('gb-sugg')">💡 See the corrections</button>
+    </div>
+    <div class="suggest-box" id="gb-sugg" style="text-align:left;">
+      <ul>
+        <li><b>3.</b> Has your sister paid you back yet?</li>
+        <li><b>5.</b> When did you buy that leather jacket?</li>
+        <li><b>6.</b> They finished paying back the loan last month.</li>
+        <li><b>9.</b> I'm sure I didn't borrow any money from you last week.</li>
+        <li><b>11.</b> Did you see the Black Panther movie on TV yesterday?</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: HAVE YOU EVER...? ============ -->
+<div class="slide" id="s-speak-ever">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Have you ever…?</h2>
+    <p class="instruction">Your tutor will ask you these questions. If your answer is <i>yes</i>, give more information using the simple past, e.g., <i>How much was the deposit?</i></p>
+    <div class="ex-example-centered"><span class="ex-tag">example</span>Have you ever saved for something for a long time? — Yes, I saved for six months to make the down payment on my car. How much was the down payment?</div>
+    <div class="interview-grid">
+      <div class="interview-card">
+        <h4>💵 Saving &amp; lending</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…saved for something for a long time?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lent money to somebody who didn't pay you back?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…wasted money on something you've never used?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…bought something and immediately regretted it?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…inherited something from a relative?</span></div>
+      </div>
+      <div class="interview-card">
+        <h4>💳 Cards &amp; carelessness</h4>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lost your card in an ATM?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…won any money (e.g., in a lottery)?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…forgotten your PIN for a credit or debit card?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lost your wallet or bag?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…taken out a loan from the bank?</span></div>
+        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…bought or sold something on eBay or a similar site?</span></div>
+      </div>
+    </div>
+    <div class="r-summary" id="r-summary-text2">0 out of 11 questions marked — the more you marked yes, the bigger risk-taker with money you are!</div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING: SCAM DEFINITION ============ -->
+<div class="slide" id="s-listen1">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Scams</h2>
+    <div class="glossary-box">
+      <h4>Glossary</h4>
+      <p><b>scam</b> /skæm/ <i>n.</i> a dishonest and illegal way of making money by tricking people, e.g., selling a product online that doesn't exist</p>
+    </div>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <ul class="discuss-list">
+      <li>What kind of scams have you heard of?</li>
+    </ul>
+    <div class="email-box" style="margin-top:20px;">
+      <div class="email-subject">Subject: Businness opportunity</div>
+      <p>Dear Friend,</p>
+      <p>I know this message will be a surprise. I am Naomi Cooper and I work at the International Bank in Lagos, Nigeria. My parents have died last month and left 4.6 million US dollars in there account. I would like to transfer this money out of Nigeria and I am needing your help.</p>
+      <p>I can to transfer all the money to you in the US, and you can then keep 20% of the money for yourself (920,000 US dolars) and transfer the rest to an acount in Switzerland. It will be very quick and easy. I would be very grateful if you can do this for me — it's my parents' money and I want to keep him safe for my family.</p>
+      <p>Please reply to this email as fast as you can — I want organize everything in the next two days.</p>
+      <p>Thank you in advance for you help.</p>
+      <p>Naomi Cooper</p>
+    </div>
+    <p class="discuss-label">💬 What would you do if you got an email like this? Why?</p>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING: CORRECT THE EMAIL ============ -->
+<div class="slide" id="s-listen2">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Correct the email</h2>
+    <p class="instruction">Emails like this often have lots of mistakes, especially grammar and spelling. Correct the ten highlighted mistakes.</p>
+    <div class="email-box" id="listen2">
+      <div class="email-subject">Subject: <input class="err-input" data-ans="Business"> opportunity</div>
+      <p>Dear Friend,</p>
+      <p>I know this message will be a surprise. I am Naomi Cooper and I work at the International Bank in Lagos, Nigeria. My parents <input class="err-input" data-ans="died"> last month and left 4.6 million US dollars in <input class="err-input" data-ans="their"> account. I would like to transfer this money out of Nigeria and <input class="err-input" data-ans="I need"> your help.</p>
+      <p><input class="err-input" data-ans="I can transfer"> all the money to you in the US, and you can then keep 20% of the money for yourself (920,000 US <input class="err-input" data-ans="dollars">) and transfer the rest to an <input class="err-input" data-ans="account"> in Switzerland. It will be very quick and easy. I would be very grateful if you can do this for me — it's my parents' money and I want to keep <input class="err-input" data-ans="it"> safe for my family.</p>
+      <p>Please reply to this email as fast as you can — <input class="err-input wide" data-ans="I want to organize"> everything in the next two days.</p>
+      <p>Thank you in advance for <input class="err-input" data-ans="your"> help.</p>
+      <p>Naomi Cooper</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('listen2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('listen2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING: RADIO SHOW ============ -->
+<div class="slide" id="s-listen3">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Five-Minute Money</h2>
+    <p class="instruction">Listen to a radio show about scams. How much money did Tara, Max, and Zeke each lose? What's the most important advice the show gives?</p>
+    <div class="audio-box">
+      <audio controls src="track_2_12.mp3" style="width:100%;"></audio>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('listen3-sugg')">💡 Show the answer</button>
+    </div>
+    <div class="suggest-box" id="listen3-sugg">Tara lost over $3,000. Max lost about $300. Zeke didn't lose any money. Most important advice: never give your bank account or credit card details to anybody, either in an email or on the phone.</div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING: RADIO SHOW DETAIL ============ -->
+<div class="slide" id="s-listen3b">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Five-Minute Money — the details</h2>
+    <p class="instruction">Listen again and fill in the blanks with one or two words.</p>
+    <div class="audio-box">
+      <audio controls src="track_2_12.mp3" style="width:100%;"></audio>
+    </div>
+    <div id="listen3">
+      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;margin-bottom:12px;">Tara got an <input class="ans-input small" data-ans="email"> from a family member who was in South Africa. He said he'd lost his <input class="ans-input small" data-ans="backpack"> and needed money to get home. He asked her to send him her <input class="ans-input wide" data-ans="credit card"> number.</div>
+      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;margin-bottom:12px;">Max got an email that said he'd won a lot of <input class="ans-input small" data-ans="money"> in the Mega Millions lottery. He <input class="ans-input small" data-ans="believed"> it because he had bought a Mega Millions lottery ticket in the fall. They told him to send his <input class="ans-input wide" data-ans="bank"> details so they could send him the money.</div>
+      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;">Zeke got a <input class="ans-input wide" data-ans="phone call"> from a woman who said she was from his <input class="ans-input small" data-ans="bank">. She said the bank wanted to verify his credit card <input class="ans-input small" data-ans="number">. She was very polite, so he gave her all his credit card <input class="ans-input small" data-ans="information">.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('listen3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('listen3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING: PERSONAL DISCUSSION ============ -->
+<div class="slide" id="s-listen4">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Talk about it</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <ul class="discuss-list">
+      <li>Have you, or has anybody you know, ever been the victim of a scam? Explain what happened.</li>
+      <li>What's the golden rule for staying safe? (Think back to the radio show's advice.)</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ============ HOMEWORK COVER ============ -->
+<div class="slide" id="hw-cover">
+  <div class="title-inner">
+    <div class="hw-badge">📝 Homework</div>
+    <div class="title-main"><span class="title-accent">Spending</span> Money</div>
+  </div>
+</div>
+
+<!-- ============ HW1: VOCABULARY — CHOOSE THE VERB ============ -->
+<div class="slide" id="hw-voc1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW1 — Complete the sentences</h2>
+    <p class="instruction">Select the correct verb to complete each sentence.</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> My sister <span style="color:#1A5030;font-weight:800;">wastes ✓</span> / <span style="color:#aaa;text-decoration:line-through;">saves</span> a lot of money on clothes she never wears.</div>
+        <div class="ex-row">2. I can't <button class="circ-opt" data-group="hwv1-2" data-correct="afford" onclick="circPick(this)">pay</button> <button class="circ-opt" data-group="hwv1-2" data-correct="afford" onclick="circPick(this)">afford</button> to buy a house of my own.</div>
+        <div class="ex-row">3. You'll have to <button class="circ-opt" data-group="hwv1-3" data-correct="save" onclick="circPick(this)">save</button> <button class="circ-opt" data-group="hwv1-3" data-correct="save" onclick="circPick(this)">waste</button> a lot of money if you want to travel around the world next year.</div>
+        <div class="ex-row">4. We still <button class="circ-opt" data-group="hwv1-4" data-correct="owe" onclick="circPick(this)">owe</button> <button class="circ-opt" data-group="hwv1-4" data-correct="owe" onclick="circPick(this)">earn</button> the bank a lot of money.</div>
+        <div class="ex-row">5. Ji-sung <button class="circ-opt" data-group="hwv1-5" data-correct="earns" onclick="circPick(this)">raises</button> <button class="circ-opt" data-group="hwv1-5" data-correct="earns" onclick="circPick(this)">earns</button> about $2,000 a month at his new job.</div>
+        <div class="ex-row">6. That painting <button class="circ-opt" data-group="hwv1-6" data-correct="is worth" onclick="circPick(this)">charges</button> <button class="circ-opt" data-group="hwv1-6" data-correct="is worth" onclick="circPick(this)">is worth</button> a lot of money.</div>
+      </div>
+      <div>
+        <div class="ex-row">7. My uncle is doing a bike ride to <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">afford</button> <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">raise</button> money for charity.</div>
+        <div class="ex-row">8. I don't want to lose these earrings. They <button class="circ-opt" data-group="hwv1-8" data-correct="cost" onclick="circPick(this)">cost</button> <button class="circ-opt" data-group="hwv1-8" data-correct="cost" onclick="circPick(this)">owed</button> a fortune!</div>
+        <div class="ex-row">9. I'll have to <button class="circ-opt" data-group="hwv1-9" data-correct="borrow" onclick="circPick(this)">borrow</button> <button class="circ-opt" data-group="hwv1-9" data-correct="borrow" onclick="circPick(this)">lend</button> some money from the bank if I want to buy a new car.</div>
+        <div class="ex-row">10. Mary <button class="circ-opt" data-group="hwv1-10" data-correct="inherited" onclick="circPick(this)">inherited</button> <button class="circ-opt" data-group="hwv1-10" data-correct="inherited" onclick="circPick(this)">invested</button> $10,000 from her grandfather when he died.</div>
+        <div class="ex-row">11. I <button class="circ-opt" data-group="hwv1-11" data-correct="invested" onclick="circPick(this)">inherited</button> <button class="circ-opt" data-group="hwv1-11" data-correct="invested" onclick="circPick(this)">invested</button> $5,000 in a company, and I made a 5% profit.</div>
+        <div class="ex-row">12. The plumber <button class="circ-opt" data-group="hwv1-12" data-correct="charged" onclick="circPick(this)">cost</button> <button class="circ-opt" data-group="hwv1-12" data-correct="charged" onclick="circPick(this)">charged</button> me $300 to fix my shower.</div>
+        <div class="ex-row">13. Can you <button class="circ-opt" data-group="hwv1-13" data-correct="lend" onclick="circPick(this)">borrow</button> <button class="circ-opt" data-group="hwv1-13" data-correct="lend" onclick="circPick(this)">lend</button> me $200 until I get paid?</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hw-voc1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hw-voc1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW2: VOCABULARY — PREPOSITIONS ============ -->
+<div class="slide" id="hw-voc2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW2 — Complete with a preposition</h2>
+    <p class="instruction">Complete the sentences with the correct preposition.</p>
+    <div class="fixed-two-col" id="hwv2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I'll pay <span style="color:#1A5030;font-weight:800;">for</span> the meal if you get the drinks.</div>
+        <div class="ex-row">2. They charged us $10 <input class="ans-input small" data-ans="for"> a bottle of water.</div>
+        <div class="ex-row">3. My friends got <input class="ans-input small" data-ans="into"> debt when they bought their new house.</div>
+        <div class="ex-row">4. We borrowed some money <input class="ans-input small" data-ans="from"> my parents.</div>
+        <div class="ex-row">5. Rena puts all her extra money <input class="ans-input small" data-ans="into" data-alt="in"> the bank.</div>
+      </div>
+      <div>
+        <div class="ex-row">6. I don't mind lending money <input class="ans-input small" data-ans="to"> people in my family.</div>
+        <div class="ex-row">7. Andy and Sue spent a lot of money <input class="ans-input small" data-ans="on"> their son's education.</div>
+        <div class="ex-row">8. Can I pay <input class="ans-input small" data-ans="by"> credit card?</div>
+        <div class="ex-row">9. If I lend you some money, when can you pay me <input class="ans-input small" data-ans="back">?</div>
+        <div class="ex-row">10. Phil invested all his money <input class="ans-input small" data-ans="in"> his own company.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwv2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwv2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW3: VOCABULARY — BANK ADVERTISEMENT ============ -->
+<div class="slide" id="hw-voc3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW3 — Complete the advertisement</h2>
+    <p class="instruction">Click a word in the bank, then click the blank it belongs in.</p>
+    <div class="wb-bank book-style" id="hwv3-bank">
+      <span class="wb-tile example-used">bills</span>
+      <span class="wb-tile" data-val="budget" onclick="wbPick(this)">budget</span>
+      <span class="wb-tile" data-val="contactless payment" onclick="wbPick(this)">contactless payment</span>
+      <span class="wb-tile" data-val="loan" onclick="wbPick(this)">loan</span>
+      <span class="wb-tile" data-val="mortgage" onclick="wbPick(this)">mortgage</span>
+      <span class="wb-tile" data-val="salary" onclick="wbPick(this)">salary</span>
+      <span class="wb-tile" data-val="tax" onclick="wbPick(this)">tax</span>
+    </div>
+    <div class="article-box" id="hwv3">
+      <h3>What's so good about WIN-WIN Bank?</h3>
+      <p>WIN-WIN Bank provides all the traditional banking services while using the latest technology.</p>
+      <p><b>What's new</b><br>Use our WIN-WIN phone app to manage your money and pay your <span class="wb-blank filled correct" style="cursor:default;">bills</span>. For extra convenience, sign up for <span class="wb-blank" data-ans="contactless payment" onclick="wbPlace(this)">______</span> and you'll never have to carry cash with you again.</p>
+      <p><b>What hasn't changed</b><br>Need money for a car or a vacation? We'll give you a <span class="wb-blank" data-ans="loan" onclick="wbPlace(this)">______</span> of up to $10,000 for whatever you want to buy. If you're buying a house, we can give you a <span class="wb-blank" data-ans="mortgage" onclick="wbPlace(this)">______</span> at one of the lowest interest rates on the market.</p>
+      <p><b>Someone to talk to</b><br>Finding it hard to get to the end of the month? Our advisors can help you plan a <span class="wb-blank" data-ans="budget" onclick="wbPlace(this)">______</span> to make your money go farther. If you're working, they can give you advice on how to manage your <span class="wb-blank" data-ans="salary" onclick="wbPlace(this)">______</span> each month and how much <span class="wb-blank" data-ans="tax" onclick="wbPlace(this)">______</span> you should be paying.</p>
+      <p>So, if you're looking for a new bank, just remember: WIN-WIN has it all!</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('hwv3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('hwv3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW4: VOCABULARY — PHRASAL VERBS, PERSONALIZED ============ -->
+<div class="slide" id="hw-voc4">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW4 — Complete and answer</h2>
+    <p class="instruction">Complete the questions with a phrasal verb. Then write your answers to questions 2–4 below.</p>
+    <div id="hwv4">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> How often do you use an ATM? How much money do you usually <span style="color:#1A5030;font-weight:800;">take out</span>?</div>
+      <div class="ex-row">2. When was the last time you lent money to somebody? How long did it take them to <input class="ans-input small" data-ans="pay"> you <input class="ans-input small" data-ans="back">?</div>
+      <div class="ex-row">3. Why do young people sometimes <input class="ans-input small" data-ans="live"> <input class="ans-input small" data-ans="off"> their parents?</div>
+      <div class="ex-row">4. What's the smallest amount of money you think you could <input class="ans-input small" data-ans="live"> <input class="ans-input small" data-ans="on"> for a month? What would you spend it on?</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwv4')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwv4')">Reset</button>
+    </div>
+    <textarea class="ans-input wide" rows="4" style="margin-top:6px;"></textarea>
+  </div></div>
+</div>
+
+<!-- ============ HW5: PRONUNCIATION — DIFFERENT SOUND + SAME/DIFFERENT ============ -->
+<div class="slide" id="hw-pron1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW5 — Pronunciation: <i>o</i> and <i>or</i></h2>
+    <p class="instruction">Select the word with a different sound in each row. Then decide if the <i>or</i> pairs below have the same (S) or different (D) pronunciation.</p>
+    <div class="fixed-two-col">
+      <div>
+        <p class="section-subhead" style="font-size:1.1rem;">Different sound</p>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> money &nbsp; nothing &nbsp; <span style="color:#1A5030;font-weight:800;">sorry ✓</span> &nbsp; won</div>
+        <div class="ex-row">2. <button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">contactless</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">shopping</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">dollar</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">clothes</button></div>
+        <div class="ex-row">3. <button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">owe</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">done</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">sold</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">loan</button></div>
+      </div>
+      <div id="hwp1-typed">
+        <p class="section-subhead" style="font-size:1.1rem;">Same or different?</p>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> afford / organized — <span style="color:#1A5030;font-weight:800;">S</span></div>
+        <div class="ex-row">2. store / worse — <input class="ans-input small" data-ans="D"></div>
+        <div class="ex-row">3. mortgage / fork — <input class="ans-input small" data-ans="S"></div>
+        <div class="ex-row">4. short / work — <input class="ans-input small" data-ans="D"></div>
+        <div class="ex-row">5. world / worth — <input class="ans-input small" data-ans="S"></div>
+        <div class="ex-row">6. order / word — <input class="ans-input small" data-ans="D"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hw-pron1'); checkSlide('hwp1-typed');">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hw-pron1'); resetSlide('hwp1-typed');">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW6: GRAMMAR — CIRCLE THE CORRECT ANSWER ============ -->
+<div class="slide" id="hw-gram1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW6 — Select the correct answer</h2>
+    <p class="instruction">Select the correct form to complete each sentence.</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span style="color:#1A5030;font-weight:800;">I've never owed ✓</span> / <span style="color:#aaa;text-decoration:line-through;">never owed</span> any money to the bank in my life.</div>
+        <div class="ex-row">2. Rachel wants to buy a house, but she <button class="circ-opt" data-group="hwg1-2" data-correct="hasn't saved" onclick="circPick(this)">hasn't saved</button> <button class="circ-opt" data-group="hwg1-2" data-correct="hasn't saved" onclick="circPick(this)">didn't save</button> enough money yet.</div>
+        <div class="ex-row">3. They <button class="circ-opt" data-group="hwg1-3" data-correct="charged" onclick="circPick(this)">'ve charged</button> <button class="circ-opt" data-group="hwg1-3" data-correct="charged" onclick="circPick(this)">charged</button> us too much for our meal last night.</div>
+        <div class="ex-row">4. Paul <button class="circ-opt" data-group="hwg1-4" data-correct="didn't inherit" onclick="circPick(this)">hasn't inherited</button> <button class="circ-opt" data-group="hwg1-4" data-correct="didn't inherit" onclick="circPick(this)">didn't inherit</button> anything from his grandmother when she died.</div>
+        <div class="ex-row">5. I can't pay you back. I <button class="circ-opt" data-group="hwg1-5" data-correct="haven't been" onclick="circPick(this)">haven't been</button> <button class="circ-opt" data-group="hwg1-5" data-correct="haven't been" onclick="circPick(this)">didn't go</button> to the ATM yet.</div>
+      </div>
+      <div>
+        <div class="ex-row">6. <button class="circ-opt" data-group="hwg1-6" data-correct="I've never used" onclick="circPick(this)">I've never used</button> <button class="circ-opt" data-group="hwg1-6" data-correct="I've never used" onclick="circPick(this)">I never used</button> contactless payment, but I'd like to try it.</div>
+        <div class="ex-row">7. How much <button class="circ-opt" data-group="hwg1-7" data-correct="did your TV cost" onclick="circPick(this)">has your TV cost</button> <button class="circ-opt" data-group="hwg1-7" data-correct="did your TV cost" onclick="circPick(this)">did your TV cost</button>?</div>
+        <div class="ex-row">8. <button class="circ-opt" data-group="hwg1-8" data-correct="I haven't had" onclick="circPick(this)">I haven't had</button> <button class="circ-opt" data-group="hwg1-8" data-correct="I haven't had" onclick="circPick(this)">I didn't have</button> any coins, so I couldn't put any money in the parking meter.</div>
+        <div class="ex-row">9. I love your house — how long <button class="circ-opt" data-group="hwg1-9" data-correct="have you lived" onclick="circPick(this)">have you lived</button> <button class="circ-opt" data-group="hwg1-9" data-correct="have you lived" onclick="circPick(this)">did you live</button> in it?</div>
+        <div class="ex-row">10. My girlfriend has a really well-paid job. She <button class="circ-opt" data-group="hwg1-10" data-correct="earned" onclick="circPick(this)">has earned</button> <button class="circ-opt" data-group="hwg1-10" data-correct="earned" onclick="circPick(this)">earned</button> $85,000 last year.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hw-gram1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hw-gram1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW7: GRAMMAR — COMPLETE THE CONVERSATIONS ============ -->
+<div class="slide" id="hw-gram2">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW7 — Complete the conversations</h2>
+    <p class="instruction">Complete the conversations with the correct form of the verb in parentheses.</p>
+    <div class="fixed-two-col" id="hwg2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> A: When <span style="color:#1A5030;font-weight:800;">did</span> your son <span style="color:#1A5030;font-weight:800;">buy</span> his car? B: When he <input class="ans-input small" data-ans="passed"> his driver's test last month. (pass)</div>
+        <div class="ex-row">2. A: How much money <input class="ans-input small" data-ans="did"> you <input class="ans-input small" data-ans="borrow"> from your sister yesterday? B: About $100, but I <input class="ans-input small" data-ans="have"> <input class="ans-input small" data-ans="spent"> it already. (borrow / spend)</div>
+      </div>
+      <div>
+        <div class="ex-row">3. A: <input class="ans-input small" data-ans="Have"> you <input class="ans-input small" data-ans="found"> a new apartment yet? B: Yes, and the bank <input class="ans-input small" data-ans="has"> <input class="ans-input small" data-ans="agreed"> to give me a mortgage. (find / agree)</div>
+        <div class="ex-row">4. A: <input class="ans-input small" data-ans="Have"> you ever <input class="ans-input small" data-ans="lent"> any money to a friend? B: Only to my boyfriend when he <input class="ans-input small" data-ans="needed"> a new phone. (lend / need)</div>
+        <div class="ex-row">5. A: <input class="ans-input small" data-ans="Has"> your mother <input class="ans-input small" data-ans="made"> an appointment with the doctor yet? B: Yes, she <input class="ans-input small" data-ans="called"> him yesterday, and she's seeing him tomorrow. (make / call)</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwg2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwg2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW8: GRAMMAR — REORDER & ANSWER ============ -->
+<div class="slide" id="hw-gram3">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW8 — Write and answer the questions</h2>
+    <p class="instruction">Reorder the words to write present perfect and simple past questions. Then write your own answers to questions 2–6 below.</p>
+    <div id="hwg3">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> you / buy a house → <span style="color:#1A5030;font-weight:800;">Have you ever bought a house?</span> &nbsp; when / you / buy it → <span style="color:#1A5030;font-weight:800;">When did you buy it?</span></div>
+      <div class="ex-row">2a. you / find any money on the street<br><input class="ans-input wide" data-ans="Have you ever found any money on the street?" data-alt="have you ever found any money on the street"></div>
+      <div class="ex-row">2b. how much / you / find<br><input class="ans-input wide" data-ans="How much did you find?" data-alt="how much did you find"></div>
+      <div class="ex-row">3a. you / use contactless payment<br><input class="ans-input wide" data-ans="Have you ever used contactless payment?" data-alt="have you ever used contactless payment"></div>
+      <div class="ex-row">3b. where / you / use it<br><input class="ans-input wide" data-ans="Where did you use it?" data-alt="where did you use it"></div>
+      <div class="ex-row">4a. you / pay for a meal for a lot of people<br><input class="ans-input wide" data-ans="Have you ever paid for a meal for a lot of people?" data-alt="have you ever paid for a meal for a lot of people"></div>
+      <div class="ex-row">4b. why / you / pay for it<br><input class="ans-input wide" data-ans="Why did you pay for it?" data-alt="why did you pay for it"></div>
+      <div class="ex-row">5a. you / stay in an expensive hotel<br><input class="ans-input wide" data-ans="Have you ever stayed in an expensive hotel?" data-alt="have you ever stayed in an expensive hotel"></div>
+      <div class="ex-row">5b. who / you / stay there with<br><input class="ans-input wide" data-ans="Who did you stay there with?" data-alt="who did you stay there with"></div>
+      <div class="ex-row">6a. you / raise money for charity<br><input class="ans-input wide" data-ans="Have you ever raised money for charity?" data-alt="have you ever raised money for charity"></div>
+      <div class="ex-row">6b. how much / you / raise<br><input class="ans-input wide" data-ans="How much did you raise?" data-alt="how much did you raise"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hwg3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hwg3')">Reset</button>
+    </div>
+    <textarea class="ans-input wide" rows="5" style="margin-top:6px;"></textarea>
+  </div></div>
+</div>
+
+<!-- ============ REVIEW: VIRTUAL BREAKOUT ============ -->
+<div class="slide" id="s-review">
+  <div class="banner banner-review">✅ Lesson Review</div>
+  <div class="slide-main"><div class="content">
+    <h2>Unlock the vault 🔐</h2>
+    <p class="instruction">Think back through today's lesson. Type the correct number to unlock each lock. Unlock all three to open the vault!</p>
+    <div class="lock-row">
+      <div class="lock" data-code="29000">
+        <span class="lock-icon">🔒</span>
+        <p class="lock-clue">How many dollars had Michelle saved by the end of her "no-spend year"?</p>
+        <input class="lock-input" placeholder="Enter code…">
+        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
+      </div>
+      <div class="lock" data-code="120">
+        <span class="lock-icon">🔒</span>
+        <p class="lock-clue">How many miles did she ride her bike to get to a friend's wedding?</p>
+        <input class="lock-input" placeholder="Enter code…">
+        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
+      </div>
+      <div class="lock" data-code="40">
+        <span class="lock-icon">🔒</span>
+        <p class="lock-clue">How many dollars a week did she allow herself for food and household essentials?</p>
+        <input class="lock-input" placeholder="Enter code…">
+        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
+      </div>
+    </div>
+    <div class="breakout-success">🎉 You unlocked the vault! Great work reviewing today's lesson on money, scams, and the present perfect vs. simple past.</div>
+    <p class="discuss-label" style="margin-top:28px;">💬 One last thought</p>
+    <ul class="discuss-list">
+      <li>What's one thing from today's lesson you'll try to remember — about money, or about English?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- SLIDES_PLACEHOLDER -->
+
+</div><!-- END #deck -->
+
+<div id="nav">
+  <button id="prevBtn" onclick="goTo(current-1)">◀ Prev</button>
+  <div id="dots"></div>
+  <div id="counter">1/1</div>
+  <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
+  <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
+  <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+</div>
+
+<script>
+/* ===================== SLIDE NAV DATA ===================== */
+var slideIds = ["s1","s-leadin","s-vocab1","s-vocab2","s-vocab3","s-vocab4","s-vocab5","s-vocab6","s-pron1","s-pron2","s-speak-money","s-read1","s-read1b","s-read2","s-read3","s-speak-whatabout","s-gram-meaning","s-gram-ppsp","s-gram-form","s-gram-pron","s-gram-ex1","s-gram-ex2","s-gram-ex3","s-speak-ever","s-listen1","s-listen2","s-listen3","s-listen3b","s-listen4","hw-cover","hw-voc1","hw-voc2","hw-voc3","hw-voc4","hw-pron1","hw-gram1","hw-gram2","hw-gram3","s-review"];
+var slideLabels = ["Cover","Lead-in – Don Marquis Quote","Vocabulary – Money Quiz (Coins)","Vocabulary – True or False","Vocabulary – Money Verbs","Vocabulary – Money Prepositions","Vocabulary – Money Nouns","Vocabulary – Phrasal Verbs","Pronunciation – The Letter O","Pronunciation – The Letters OR & Dictation","Speaking – Money Q&A","Reading – No-Spend Year (Prediction)","Reading – No-Spend Year (Article + Matching)","Reading – True or False","Reading – Compound Nouns","Speaking – What About You?","Grammar – Present Perfect Meaning","Grammar – PP or SP Quiz","Grammar – Present Perfect Form","Grammar – Pronunciation (Weak 've)","Grammar – Dialogue Practice","Grammar – Grammar Bank Ex A","Grammar – Grammar Bank Ex B","Speaking – Have You Ever...?","Listening – Scam Definition & Email","Listening – Correct the Email","Listening – Radio Show (Gist)","Listening – Radio Show (Detail)","Listening – Personal Discussion","Homework Cover","HW1 – Choose the Verb","HW2 – Prepositions","HW3 – Bank Advertisement","HW4 – Phrasal Verbs Personalized","HW5 – Pronunciation O and OR","HW6 – Select the Correct Answer","HW7 – Complete the Conversations","HW8 – Reorder & Answer","Lesson Review – Virtual Breakout"];
+
+var slides = Array.from(document.querySelectorAll('.slide'));
+var current = 0;
+var notesData = {};
+var notesOpen = false;
+
+if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
+  console.warn('Slide count mismatch:', slides.length, 'slides,', slideIds.length, 'IDs,', slideLabels.length, 'labels');
+}
+
+var dotsWrap = document.getElementById('dots');
+slides.forEach(function(s, i){
+  var d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = function(){ goTo(i); };
+  dotsWrap.appendChild(d);
+});
+
+function goTo(n){
+  if (n < 0 || n >= slides.length) return;
+  saveNotes();
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  document.getElementById('counter').textContent = (current+1)+'/'+slides.length;
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===slides.length-1;
+  document.getElementById('homeBtn').style.display = current===0 ? 'none' : 'flex';
+  var panel = document.getElementById('notesPanel');
+  if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
+  else { panel.classList.remove('cover'); }
+  loadNotes(current);
+  if (slides[current].id === 's-spin' && typeof window.drawWheelFn === 'function') { setTimeout(window.drawWheelFn, 50); }
+}
+function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.contentEditable === 'true') return;
+  if (e.key === 'ArrowRight') goTo(current+1);
+  if (e.key === 'ArrowLeft') goTo(current-1);
+});
+
+/* ===================== NOTES ===================== */
+function toggleNotes(){
+  notesOpen = !notesOpen;
+  var panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open', notesOpen);
+  if (current === 0) panel.classList.toggle('cover', notesOpen);
+  document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+}
+function notesFormat(cmd){
+  document.getElementById('notesTA').focus();
+  document.execCommand(cmd, false, null);
+  saveNotes();
+}
+function notesHilite(color){
+  var ta = document.getElementById('notesTA');
+  ta.focus();
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) return;
+  document.execCommand('styleWithCSS', false, true);
+  if (color !== 'remove'){
+    var cur = document.queryCommandValue('backColor');
+    var hex = color.replace('#','');
+    var r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+    if (cur === 'rgb('+r+', '+g+', '+b+')' || cur === 'rgb('+r+','+g+','+b+')') { color = 'remove'; }
+  }
+  if (color === 'remove'){
+    document.execCommand('hiliteColor', false, 'transparent');
+    Array.from(ta.querySelectorAll('[style*="background"]')).forEach(function(el){
+      var c = el.style.backgroundColor;
+      if (c === 'transparent' || c === 'rgba(0, 0, 0, 0)' || c === ''){
+        var p = el.parentNode;
+        if (!p) return;
+        while (el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+      }
+    });
+  } else {
+    document.execCommand('hiliteColor', false, color);
+  }
+  saveNotes();
+}
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function savePDF(){
+  saveNotes();
+  var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
+  if (!hasNotes){ alert('No notes to save yet!'); return; }
+  var win = window.open('', '_blank');
+  var cards = '';
+  slideIds.forEach(function(sid, idx){
+    var note = notesData[idx] || '';
+    if (!note.replace(/<[^>]*>/g,'').trim()) return;
+    cards += '<div class="card"><div class="card-header">Slide '+(idx+1)+' &mdash; '+slideLabels[idx]+'</div><div class="card-body">'+note+'</div></div>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF3 2A</title><style>'+
+    'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
+    '.header{border-bottom:2px solid #0B1929;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#0B1929}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#1B6E96}'+
+    '.date{font-size:.85rem;color:#666;margin:10px 0 24px}'+
+    '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid}'+
+    '.card-header{background:#0B1929;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem}'+
+    '.card-body{padding:12px 16px;font-size:.95rem;line-height:1.7}'+
+    'mark{background:#FFE066;color:#1a1a1a;padding:0 2px}'+
+    '[style*="background-color"]{color:#1a1a1a!important}'+
+    '.card-body,.card-body *{color:#1a1a1a!important}'+
+    '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
+    '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
+  '</style></head><body>'+
+  '<div class="header"><h1>AEF3 2A – Spending Money</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-2A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-2A/index.html</a></div></div>'+
+  '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
+  cards+'</body></html>');
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 400);
+}
+
+/* ===================== GENERIC: TYPED GAP-FILL ===================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’]+$/,'').replace(/\s+/g,' '); }
+function checkSlide(sid){
+  var box = document.getElementById(sid);
+  var inputs = box.querySelectorAll('.ans-input, .err-input');
+  inputs.forEach(function(inp){
+    var val = norm(inp.value);
+    if (!val) { inp.classList.remove('correct','wrong'); inp.classList.add('empty-warn'); return; }
+    inp.classList.remove('empty-warn');
+    var ans = norm(inp.dataset.ans);
+    var alts = (inp.dataset.alt || '').split('|').map(norm).filter(Boolean);
+    if (val === ans || alts.indexOf(val) > -1) { inp.classList.add('correct'); inp.classList.remove('wrong'); }
+    else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+  });
+}
+function resetSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.ans-input, .err-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== GENERIC: CIRCLE MC / TRUE-FALSE ===================== */
+function circPick(btn){
+  var group = btn.dataset.group;
+  var box = btn.closest('.slide');
+  var wasPicked = btn.classList.contains('picked');
+  box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
+  if (!wasPicked) btn.classList.add('picked');
+}
+function checkCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var groups = {};
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  Object.keys(groups).forEach(function(g){
+    var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
+    groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
+    if (!picked) return;
+    if (picked.dataset.correct === picked.textContent.trim()) picked.classList.add('correct');
+    else picked.classList.add('wrong');
+  });
+}
+function resetCircSlide(sid){
+  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
+}
+
+/* ===================== GENERIC: COLOUR-PAIR MATCH ===================== */
+var matchColours = ['c0','c1','c2','c3','c4','c5','c6','c7'];
+var matchPending = {};
+function matchPick(el){
+  var wrap = el.closest('.match-wrap');
+  var wid = wrap.id;
+  if (el._linked){
+    var partner = el._linked;
+    matchColours.forEach(function(c){ el.classList.remove(c); partner.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    partner.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null; partner._linked = null;
+    delete el.dataset.colour; delete partner.dataset.colour;
+    if (matchPending[wid] === el) matchPending[wid] = null;
+    return;
+  }
+  var pending = matchPending[wid];
+  if (pending && pending !== el && pending.dataset.side !== el.dataset.side){
+    var used = Array.from(wrap.querySelectorAll('.match-item')).map(function(x){ return x.dataset.colour; }).filter(Boolean);
+    var next = matchColours.find(function(c){ return used.indexOf(c) === -1; }) || matchColours[Math.floor(used.length/2) % matchColours.length];
+    pending.classList.remove('picking');
+    pending.classList.add(next); el.classList.add(next);
+    pending.dataset.colour = next; el.dataset.colour = next;
+    pending._linked = el; el._linked = pending;
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending === el){
+    pending.classList.remove('picking');
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending) pending.classList.remove('picking');
+  el.classList.add('picking');
+  matchPending[wid] = el;
+}
+function checkMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item[data-side="left"]').forEach(function(l){
+    l.classList.remove('correctpair','wrongpair');
+    if (l._linked) l._linked.classList.remove('correctpair','wrongpair');
+    if (!l._linked) return;
+    var r = l._linked;
+    if (r.dataset.pair === l.dataset.pair){ l.classList.add('correctpair'); r.classList.add('correctpair'); }
+    else { l.classList.add('wrongpair'); r.classList.add('wrongpair'); }
+  });
+}
+function resetMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item').forEach(function(el){
+    matchColours.forEach(function(c){ el.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null;
+    delete el.dataset.colour;
+  });
+  matchPending[id] = null;
+}
+
+/* ===================== GENERIC: CLASSIFY / SORT ===================== */
+var classifySelected = {};
+function classifyPick(chip){
+  if (chip.classList.contains('used')) return;
+  var bank = chip.closest('[id$="-bank"]') || chip.parentElement;
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  classifySelected[bank.id] = chip;
+}
+function classifyTarget(col){
+  var colsEl = col.closest('[id$="-cols"]');
+  var bankId = colsEl ? colsEl.id.replace(/-cols$/, '-bank') : null;
+  var chip = bankId ? classifySelected[bankId] : null;
+  if (!chip) return;
+  var tag = document.createElement('span');
+  tag.className = 'placed';
+  tag.textContent = chip.textContent;
+  tag.dataset.ans = chip.dataset.ans;
+  tag.onclick = function(e){ e.stopPropagation(); tag.remove(); chip.classList.remove('used'); };
+  col.appendChild(tag);
+  chip.classList.add('used'); chip.classList.remove('selected');
+  delete classifySelected[bankId];
+}
+function checkClassifySlide(prefix){
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.classify-col').forEach(function(col){
+    col.querySelectorAll('.placed').forEach(function(tag){
+      if (tag.classList.contains('example')) return; // worked example is pre-graded, never touched
+      tag.classList.remove('correct','wrong');
+      if (tag.dataset.ans === col.dataset.target) tag.classList.add('correct');
+      else tag.classList.add('wrong');
+    });
+  });
+}
+function resetClassifySlide(prefix){
+  var bank = document.getElementById(prefix+'-bank');
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.placed').forEach(function(tag){
+    if (tag.classList.contains('example')) return; // worked example stays in place on reset
+    tag.remove();
+  });
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
+  classifySelected = {};
+}
+
+/* ===================== GENERIC: MULTI-SELECT "ODD ONE(S) OUT" WORD PICK ===================== */
+function orPickToggle(el){
+  el.classList.toggle('selected');
+  el.classList.remove('correct','wrong');
+}
+function checkOrPick(containerId){
+  var box = document.getElementById(containerId);
+  box.querySelectorAll('.or-pick').forEach(function(el){
+    var isSelected = el.classList.contains('selected');
+    var isAnswer = el.dataset.ans === 'yes';
+    el.classList.remove('correct','wrong');
+    if (isAnswer || isSelected) el.classList.add(isAnswer === isSelected ? 'correct' : 'wrong');
+  });
+}
+function resetOrPick(containerId){
+  var box = document.getElementById(containerId);
+  box.querySelectorAll('.or-pick').forEach(function(el){ el.classList.remove('selected','correct','wrong'); });
+}
+
+/* ===================== GENERIC: WORD BANK FILL ===================== */
+var wbSelected = {};
+function wbPick(tile){
+  if (tile.classList.contains('used')) return;
+  var bank = tile.parentElement;
+  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
+  tile.classList.add('selected');
+  wbSelected[closestSlideId(tile)] = tile;
+}
+function closestSlideId(el){ return el.closest('.slide').id; }
+function wbPlace(blank){
+  var sid = closestSlideId(blank);
+  if (blank.classList.contains('filled')) {
+    var tile = blank._tileRef;
+    if (tile) tile.classList.remove('used');
+    blank.textContent = '______';
+    blank.classList.remove('filled','correct','wrong');
+    blank._tileRef = null;
+    return;
+  }
+  var tile = wbSelected[sid];
+  if (!tile) return;
+  blank.textContent = tile.dataset.val;
+  blank.classList.add('filled');
+  blank._tileRef = tile;
+  tile.classList.add('used'); tile.classList.remove('selected');
+  delete wbSelected[sid];
+}
+function checkWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){
+    b.classList.remove('correct','wrong');
+    if (!b.classList.contains('filled')) return;
+    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+}
+function resetWbSlide(sid){
+  var box = document.getElementById(sid);
+  var slideEl = box.closest('.slide') || box;
+  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
+  slideEl.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
+  wbSelected = {};
+}
+
+/* ===================== GENERIC: TICK / CHECKBOX ===================== */
+function toggleTick(el){
+  el.classList.toggle('picked');
+}
+function checkTickSlide(sid, correctVals){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){
+    var val = item.dataset.val;
+    var isCorrect = correctVals.indexOf(val) > -1;
+    item.classList.remove('correct','wrong','missed');
+    if (item.classList.contains('picked') && isCorrect) item.classList.add('correct');
+    else if (item.classList.contains('picked') && !isCorrect) item.classList.add('wrong');
+    else if (!item.classList.contains('picked') && isCorrect) item.classList.add('missed');
+  });
+}
+function resetTickSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){ item.classList.remove('picked','correct','wrong','missed'); });
+}
+
+/* ===================== WORDBANK — click to mark used (reference only, not graded) ===================== */
+function mvWordToggle(el){
+  el.classList.toggle('used');
+}
+
+/* ===================== SUGGESTED ANSWER / ANSWER KEY TOGGLE ===================== */
+function toggleSuggested(id){
+  var box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+
+/* ===================== MONEY Q&A: DRAW-A-QUESTION JAR ===================== */
+var moneyQuestions = [
+  "What do you spend your money on apart from food, rent, etc.?",
+  "What kinds of things do you usually buy online? Why don't you buy them in a store?",
+  "Have you bought anything nice this week?",
+  "What's the most expensive thing you've ever bought? Was it worth it?",
+  "Is there anything you'd love to buy but can't afford right now?",
+  "How much allowance did you get when you were a child? Did you use to save it or spend it?",
+  "Do you know someone who has raised money for charity? Which one?",
+  "How much do you spend on food and drink each week?",
+  "Are you good at finding bargains online?",
+  "When do you prefer to pay cash and when do you prefer to pay by credit or debit card?",
+  "Do you spend much money on travel? What was the last trip you went on? Was it expensive?",
+  "Do you ever give money to charity?",
+  "Have you ever lent money to anyone? Why (not)? Have you ever borrowed money from your parents? What for?",
+  "Is the cost of living going up in your country? What kinds of things are getting more expensive?"
+];
+var moneyDrawn = [];
+var moneyJarSpin = null;
+function drawMoneyQuestion(){
+  if (moneyJarSpin) return;
+  var coin = document.getElementById('money-jar-coin');
+  var display = document.getElementById('money-jar-question');
+  var counter = document.getElementById('money-jar-counter');
+  if (moneyDrawn.length >= moneyQuestions.length){
+    display.textContent = "🎉 All 14 questions asked! Click Reshuffle to play again.";
+    return;
+  }
+  var remaining = moneyQuestions.map(function(q,i){ return i; }).filter(function(i){ return moneyDrawn.indexOf(i) === -1; });
+  var flashes = 0;
+  moneyJarSpin = setInterval(function(){
+    var randIdx = remaining[Math.floor(Math.random() * remaining.length)];
+    display.textContent = moneyQuestions[randIdx];
+    coin.classList.toggle('flip');
+    flashes++;
+    if (flashes > 10){
+      clearInterval(moneyJarSpin);
+      moneyJarSpin = null;
+      var chosen = remaining[Math.floor(Math.random() * remaining.length)];
+      moneyDrawn.push(chosen);
+      display.textContent = moneyQuestions[chosen];
+      counter.textContent = moneyDrawn.length + ' / ' + moneyQuestions.length + ' questions drawn';
+    }
+  }, 80);
+}
+function resetMoneyJar(){
+  moneyDrawn = [];
+  document.getElementById('money-jar-question').textContent = 'Click the jar to draw your first question!';
+  document.getElementById('money-jar-counter').textContent = '0 / ' + moneyQuestions.length + ' questions drawn';
+}
+
+/* ===================== R-CHECK (Speaking interview) ===================== */
+function rPick(el){
+  el.classList.toggle('picked');
+  var groupEl = el.closest('.slide');
+  var box = groupEl.querySelector('.r-summary');
+  if (!box) return;
+  var all = groupEl.querySelectorAll('.r-check');
+  var picked = groupEl.querySelectorAll('.r-check.picked');
+  box.textContent = picked.length + ' out of ' + all.length + ' — the more you marked, the bigger risk-taker with money you are!';
+}
+
+/* ===================== VIRTUAL BREAKOUT ===================== */
+function checkLock(lockEl){
+  var input = lockEl.querySelector('.lock-input');
+  var icon  = lockEl.querySelector('.lock-icon');
+  if (norm(input.value) === norm(lockEl.dataset.code)){
+    icon.textContent = '🔓';
+    lockEl.classList.add('unlocked');
+    var row = lockEl.closest('.lock-row');
+    var allUnlocked = Array.from(row.querySelectorAll('.lock')).every(function(l){ return l.classList.contains('unlocked'); });
+    if (allUnlocked){
+      var success = row.parentElement.querySelector('.breakout-success');
+      if (success) success.classList.add('show');
+    }
+  }
+}
+
+/* ===================== PRINT LESSON ===================== */
+function printAll(){
+  saveNotes();
+  var injected = [];
+  slides.forEach(function(slide, i){
+    if (i === 0){
+      var linkEl = document.createElement('div');
+      linkEl.className = 'lesson-link-print';
+      linkEl.innerHTML = '<span class="lp-title">Spending Money</span>' +
+        '<span class="lp-sub">Click on this link to access the lesson: ' +
+        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-2A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-2A/index.html</a></span>';
+      slide.insertBefore(linkEl, slide.firstChild);
+      injected.push(linkEl);
+    }
+    var n = notesData[i] || '';
+    if (n.replace(/<[^>]*>/g,'').trim()){
+      var notesEl = document.createElement('div');
+      notesEl.className = 'slide-notes-print';
+      notesEl.innerHTML = '<div class="slide-notes-print-label">📝 Teacher Notes</div>' + n;
+      slide.appendChild(notesEl);
+      injected.push(notesEl);
+    }
+  });
+  document.body.classList.add('print-all');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-all');
+    injected.forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
+  }, 1500);
+}
+
+/* init */
+document.getElementById('counter').textContent = '1/'+slides.length;
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
