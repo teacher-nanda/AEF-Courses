@@ -635,7 +635,7 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 
 
 /* ── PRACTICE SPEAKING (s-practice) ─────────── */
-.prac-layout{display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:start;margin-top:10px;}
+.prac-layout{display:grid;grid-template-columns:250px 1fr 230px;gap:20px;align-items:start;margin-top:10px;}
 .prac-wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
 .prac-pointer{font-size:1.6rem;color:#1E4D8C;line-height:1;margin-bottom:-4px;}
 .prac-right{display:flex;flex-direction:column;gap:0;}
@@ -645,6 +645,11 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 .prac-textarea{width:100%;box-sizing:border-box;border:2px solid #D0DCE8;border-radius:8px;padding:10px 12px;font-size:1.05rem;font-family:inherit;color:#1C2B3A;resize:vertical;min-height:58px;background:#fff;transition:border-color .15s;}
 .prac-textarea:focus{outline:none;border-color:#1E4D8C;}
 .btn-spin{background:#1E4D8C;color:#fff;border:none;padding:10px 22px;border-radius:22px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .15s;}
+.prac-used-wrap{background:#F4F8FA;border:1.5px solid #D0DCE8;border-radius:12px;padding:14px 16px;}
+.prac-used-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1E4D8C;margin-bottom:10px;}
+.prac-used-box{display:flex;flex-wrap:wrap;gap:8px;}
+.prac-used-box em{color:#aaa;font-style:italic;font-size:.95rem;}
+.prac-used-pill{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#1E4D8C;color:#fff;font-weight:700;font-size:.95rem;}
 .btn-spin:hover{background:#163875;}
 .btn-prac-next{background:#1A7A4A;color:#fff;border:none;padding:8px 18px;border-radius:18px;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .15s;}
 .btn-prac-next:hover{background:#145f39;}
@@ -1573,7 +1578,7 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 
 <div class="slide" id="s-practice">
   <div class="banner banner-speaking">&#128172; Speaking</div>
-  <div class="slide-main"><div class="content" style="max-width:860px;">
+  <div class="slide-main"><div class="content" style="max-width:1120px;">
     <h2>It&rsquo;s your turn!</h2>
     <p class="inst-light">Spin the wheel to get a question number. First, make a question using <strong>simple present</strong>. Share your thoughts. Then, make a question using <strong>present perfect simple or continuous</strong>.</p>
     <div class="prac-layout">
@@ -1599,6 +1604,10 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
             </div>
           </div>
         </div>
+      </div>
+      <div class="prac-used-wrap">
+        <div class="prac-used-title">&#128203; Used so far</div>
+        <div id="prac-used-box" class="prac-used-box"><em>None yet.</em></div>
       </div>
     </div>
   </div></div>
@@ -2925,7 +2934,7 @@ var pracPrompts=[
   ['/ be allergic to anything?','/ ever have a serious allergic reaction?']
 ];
 var pracColors=['#4A1A6A','#0E7A8A','#1E4D8C','#1A7A4A','#B04A1A','#E07B00','#2E2A6B','#C4614A'];
-var pracAngle=0,pracSpinning=false;
+var pracAngle=0,pracSpinning=false,pracUsed=[];
 
 function drawPracWheel(rot){
   var cv=document.getElementById('prac-wheel');
@@ -2980,6 +2989,15 @@ function showPracQuestion(idx){
   document.getElementById('prac-q2-block').style.display='block';
   document.getElementById('prac-empty').style.display='none';
   document.getElementById('prac-card').style.display='block';
+  if(pracUsed.indexOf(idx+1)===-1)pracUsed.push(idx+1);
+  updatePracUsedBox();
+}
+
+function updatePracUsedBox(){
+  var box=document.getElementById('prac-used-box');
+  if(!box)return;
+  if(pracUsed.length===0){box.innerHTML='<em>None yet.</em>';return;}
+  box.innerHTML=pracUsed.slice().sort(function(a,b){return a-b;}).map(function(n){return '<span class="prac-used-pill">'+n+'</span>';}).join('');
 }
 
 function showPracQ2(){

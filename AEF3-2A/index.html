@@ -82,11 +82,13 @@
   .ans-input { border:none; border-bottom:2px solid #1F7A4D; background:transparent; font-size:1.05rem; font-weight:700; width:150px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
   .ans-input.small { width:110px; }
   .ans-input.wide { width:100%; margin-top:6px; }
-  #gram-ex2 .ans-input { width:260px; }
+  #gram-ex2 .ans-input { width:120px; }
+  #gram-ex1 .ans-input { width:230px; }
   .ans-input.half { width:50%; margin-top:6px; }
   textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
   textarea.ans-input[rows="1"] { min-height:38px; height:38px; resize:none; padding-top:6px; }
   .ans-input:focus { outline:none; border-bottom-color:#E8B923; }
+  .text-blank { display:inline-block; width:110px; border-bottom:2px solid #9AA5AE; margin:0 2px; }
   .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
   .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
   .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
@@ -152,6 +154,8 @@
   /* paragraph-letter match badges, inline inside article text */
   .match-item.para-letter-pick { display:inline-flex; width:24px; height:24px; padding:0; margin:0 8px 2px 0; border-radius:50%; align-items:center; justify-content:center; background:#1F7A4D; color:#fff; font-weight:800; font-size:.82rem; border:none; box-shadow:none; vertical-align:middle; }
   .match-item.para-letter-pick:hover { box-shadow:0 0 0 4px rgba(31,122,77,.25); transform:none; }
+  .match-item.para-letter-pick.c0, .match-item.para-letter-pick.c1, .match-item.para-letter-pick.c2, .match-item.para-letter-pick.c3, .match-item.para-letter-pick.c4, .match-item.para-letter-pick.c5, .match-item.para-letter-pick.c6, .match-item.para-letter-pick.c7 { color:#1C2B3A; text-shadow:none; }
+  .match-item.para-letter-pick.correctpair, .match-item.para-letter-pick.wrongpair { color:#fff; }
   .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
   .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
   .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
@@ -176,7 +180,7 @@
 
   /* click-the-words-in-a-sentence (compound nouns, etc.) */
   .cn-sentence { font-size:1.06rem; line-height:2.2; color:#1C2B3A; margin-bottom:16px; }
-  .cn-word { cursor:pointer; padding:1px 3px; border-radius:4px; }
+  .cn-word { cursor:pointer; padding:0; border-radius:3px; }
   .cn-word:hover { background:#EDF6F0; }
   .cn-word.selected { background:#A8571E; color:#fff; }
   .cn-word.correct { background:#DFF5E1; color:#1A7A4A; font-weight:800; }
@@ -198,7 +202,7 @@
   .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
   .glossary-box { background:#F4F8F5; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
   .glossary-box h4 { margin:0 0 8px; font-size:1rem; color:#1F7A4D; }
-  .glossary-box p { margin:0 0 6px; font-size:1.02rem; line-height:1.6; color:#1C2B3A; }
+  .glossary-box p { margin:0 0 6px; font-size:1.06rem; line-height:1.6; color:#1C2B3A; }
   .glossary-box b { color:#1C2B3A; }
 
   /* grammar theory / form reference */
@@ -208,6 +212,7 @@
   .gram-box .hl { font-weight:800; color:#5A3E8C; }
   .gram-box ul { margin:6px 0 0; padding-left:20px; font-size:1.05rem; line-height:1.8; color:#1C2B3A; }
   .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .gram-note .hl-mark { background:#F0C24A; color:#3A2A05; padding:1px 7px; border-radius:5px; font-weight:800; }
   .gtk-title { font-weight:800; font-size:1.1rem; color:#8A6A1E; margin-bottom:10px; }
   .gtk-row { padding:9px 0; border-top:1px dashed #E3CB80; }
   .gtk-row:first-of-type { border-top:none; padding-top:0; }
@@ -221,6 +226,9 @@
 
   /* CCQ box */
   .ccq-box { background:#F4F8F5; border-radius:10px; padding:14px 18px; margin:14px 0; }
+  #s-gram-pp-meaning .ccq-list { gap:20px; }
+  #s-gram-pp-meaning .ccq-list li { line-height:1.8; }
+  #s-gram-pp-meaning .ccq-answer.show { display:inline-block; margin-top:6px; }
   .ccq-label { font-weight:700; color:#1F7A4D; margin-bottom:8px; font-size:1.05rem; }
   .ccq-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
   .ccq-list li { font-size:1.05rem; color:#1C2B3A; }
@@ -244,7 +252,9 @@
   .money-jar-coin:hover { transform:scale(1.08) rotate(-6deg); }
   .money-jar-coin.flip { animation:coinFlip .08s linear; }
   @keyframes coinFlip { 0%{transform:rotateY(0deg);} 50%{transform:rotateY(180deg);} 100%{transform:rotateY(360deg);} }
-  .money-jar-card { background:#EDF6F0; border:2px solid #1F7A4D; border-radius:14px; padding:26px 30px; margin:18px auto; max-width:640px; font-size:1.25rem; font-weight:700; color:#1C2B3A; min-height:76px; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.5; }
+  .money-jar-card { background:#EDF6F0; border:2px solid #1F7A4D; border-radius:14px; padding:26px 30px; margin:18px auto; max-width:640px; font-size:1.25rem; font-weight:700; color:#1C2B3A; min-height:76px; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.5; transition:border-color .2s, background .2s; }
+  .money-jar-card.ever-yes { border-color:#1A7A4A; background:#E3F5EA; }
+  .money-jar-card.ever-no { border-color:#C4614A; background:#FBEAE6; }
   .money-jar-counter { font-weight:800; color:#1E6B8C; margin-top:4px; }
 
   /* image placeholder */
@@ -285,12 +295,14 @@
   .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
 
   /* email / correction box */
-  .email-box { background:#FAFAF8; border:1px solid #ddd; border-radius:12px; padding:20px 24px; margin-bottom:16px; font-size:1.02rem; line-height:1.85; color:#1C2B3A; }
+  .email-box { background:#FAFAF8; border:1px solid #ddd; border-radius:12px; padding:20px 24px; margin-bottom:16px; font-size:1.06rem; line-height:1.85; color:#1C2B3A; }
   .email-box .email-subject { font-weight:800; margin-bottom:10px; }
-  .email-box .err-input { border:none; border-bottom:2px dashed #C4614A; background:#FDEBEA; font-size:.98rem; font-weight:700; width:120px; padding:1px 4px; text-align:center; font-family:inherit; color:#922B21; border-radius:3px; }
+  .email-box .err-input { border:none; border-bottom:2px dashed #C4614A; background:#FDEBEA; font-size:1.05rem; font-weight:700; width:120px; padding:1px 4px; text-align:left; font-family:inherit; color:#922B21; border-radius:3px; }
+  .email-box .err-input.wide { width:220px; }
   .email-box .err-input.correct { background:#E3F5EA; border-bottom-color:#1A7A4A; color:#1A5030; }
   .email-box .err-input.wrong { background:#FBEAE6; border-bottom-color:#C4614A; }
   .email-box .err-input.empty-warn { background:#FDF3D6; border-bottom-color:#C98A1E; }
+  .email-box .err-hl { background:#FFF3A0; padding:1px 5px; border-radius:3px; font-weight:600; }
 
   /* virtual breakout */
   .lock-row { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin:18px 0; }
@@ -298,7 +310,7 @@
   .lock.unlocked { background:#E3F5EA; border-color:#1A7A4A; }
   .lock-icon { font-size:2rem; display:block; margin-bottom:8px; }
   .lock-clue { font-size:.95rem; color:#1C2B3A; margin-bottom:10px; line-height:1.5; }
-  .lock-input { border:2px solid #1F7A4D; border-radius:8px; padding:8px 12px; font-size:1.05rem; font-weight:700; text-align:center; width:140px; font-family:inherit; color:#1C2B3A; }
+  .lock-input { border:2px solid #1F7A4D; border-radius:8px; padding:8px 12px; font-size:1.05rem; font-weight:700; text-align:left; width:140px; font-family:inherit; color:#1C2B3A; }
   .lock.unlocked .lock-input { border-color:#1A7A4A; color:#1A7A4A; background:#fff; }
   .breakout-success { display:none; background:#1F7A4D; color:#fff; border-radius:12px; padding:20px; text-align:center; font-size:1.15rem; font-weight:700; margin-top:18px; }
   .breakout-success.show { display:block; }
@@ -411,62 +423,16 @@
   </div></div>
 </div>
 
-<!-- ============ VOCABULARY: MONEY QUIZ (MATCH COINS) ============ -->
-<div class="slide" id="s-vocab1">
-  <div class="banner banner-vocab">📚 Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>The money quiz</h2>
-    <p class="instruction">Match the coins to the countries below. What currency are they?</p>
-    <div class="match-wrap" id="vocab1-match" style="grid-template-columns:1fr 1.1fr;">
-      <div>
-        <div class="match-col-head mc-left">🪙 Coins &mdash; tap a number</div>
-        <div style="position:relative;border-radius:10px;overflow:hidden;margin:0 auto 12px;max-width:330px;">
-          <img src="coins-top.jpg" alt="Four coins numbered 1 to 4" style="width:100%;display:block;">
-          <div class="match-item coin-spot" data-side="left" data-pair="1" onclick="matchPick(this)" style="left:8.0%;top:11.0%;" title="Coin 1">1</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="2" onclick="matchPick(this)" style="left:45.0%;top:10.2%;" title="Coin 2">2</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="3" onclick="matchPick(this)" style="left:93.9%;top:22.5%;" title="Coin 3">3</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="4" onclick="matchPick(this)" style="left:26.2%;top:69.3%;" title="Coin 4">4</div>
-        </div>
-        <div style="position:relative;border-radius:10px;overflow:hidden;margin:0 auto;max-width:330px;">
-          <img src="coins-bottom.jpg" alt="Four coins numbered 5 to 8" style="width:100%;display:block;">
-          <div class="match-item coin-spot" data-side="left" data-pair="5" onclick="matchPick(this)" style="left:19.6%;top:11.4%;" title="Coin 5">5</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="6" onclick="matchPick(this)" style="left:61.9%;top:11.4%;" title="Coin 6">6</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="7" onclick="matchPick(this)" style="left:6.5%;top:49.9%;" title="Coin 7">7</div>
-          <div class="match-item coin-spot" data-side="left" data-pair="8" onclick="matchPick(this)" style="left:43.0%;top:77.8%;" title="Coin 8">8</div>
-        </div>
-      </div>
-      <div>
-        <div class="match-col-head mc-right">🌍 Countries &mdash; tap to match</div>
-        <div class="ctry-cols">
-          <div>
-            <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)">🇧🇷 Brazil<div class="ctry-hint">real</div></div>
-            <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)">🇨🇳 China<div class="ctry-hint">yuan</div></div>
-            <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)">🇭🇺 Hungary<div class="ctry-hint">forint</div></div>
-            <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)">🇯🇵 Japan<div class="ctry-hint">yen</div></div>
-          </div>
-          <div>
-            <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)">🇲🇽 Mexico<div class="ctry-hint">peso</div></div>
-            <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)">🇵🇱 Poland<div class="ctry-hint">zloty</div></div>
-            <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)">🇷🇺 Russia<div class="ctry-hint">rouble</div></div>
-            <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)">🇨🇭 Switzerland<div class="ctry-hint">franc</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('vocab1-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('vocab1-match')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
 <!-- ============ VOCABULARY: TRUE OR FALSE ============ -->
 <div class="slide" id="s-vocab2">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>True or false?</h2>
     <p class="instruction">Select True or False for each statement about money.</p>
-    <div class="fixed-two-col">
+    <div class="cn-exercise-layout" style="grid-template-columns:.65fr 1.35fr;align-items:start;">
+      <div class="lead-img-wrap">
+        <img src="igor-omilaev-M7iMdnG4R_g-unsplash.jpg" alt="A stack of folded and crumpled hundred-dollar bills against an orange background" class="lead-img">
+      </div>
       <div>
         <div class="ex-row">a. The first coins were made by the Peruvians.<br>
           <button class="circ-opt" data-group="tf-a" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-a" data-correct="False" onclick="circPick(this)">False</button>
@@ -483,12 +449,10 @@
           <button class="why-toggle" onclick="toggleSuggested('why-c')">🤔 Why?</button>
           <div class="why-box" id="why-c">False &mdash; countries like Canada, Australia, and the UK print banknotes on polymer, a flexible, hard-to-tear plastic material.</div>
         </div>
-      </div>
-      <div>
-        <div class="ex-row">d. The US penny costs 2.4 cents to make.<br>
+        <div class="ex-row">d. The US stopped making pennies in 2025 because each one cost more than 3 cents to produce.<br>
           <button class="circ-opt" data-group="tf-d" data-correct="True" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-d" data-correct="True" onclick="circPick(this)">False</button>
           <button class="why-toggle" onclick="toggleSuggested('why-d')">🤔 Why?</button>
-          <div class="why-box" id="why-d">True &mdash; the copper and zinc in each penny cost the US Mint more than twice its own value to produce, which is why some people think it should be discontinued.</div>
+          <div class="why-box" id="why-d">True &mdash; by 2025 it cost the US Mint 3.69 cents to make a single penny, more than three times its own value. The US Mint struck its last circulating penny on November 12, 2025, though existing pennies are still legal tender.</div>
         </div>
         <div class="ex-row">e. The Japanese yen is the world's oldest currency still in use.<br>
           <button class="circ-opt" data-group="tf-e" data-correct="False" onclick="circPick(this)">True</button><button class="circ-opt" data-group="tf-e" data-correct="False" onclick="circPick(this)">False</button>
@@ -593,33 +557,51 @@
   <div class="slide-main"><div class="content">
     <h2>Money Prepositions</h2>
     <p class="instruction">Complete the Preposition column with a word from the list.</p>
-    <div class="wb-bank book-style" id="vocab4-bank">
-      <span class="wb-tile example-used">by</span>
-      <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
-      <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
-      <span class="wb-tile" data-val="from" onclick="wbPick(this)">from</span>
-      <span class="wb-tile" data-val="in" onclick="wbPick(this)">in</span>
-      <span class="wb-tile" data-val="into" onclick="wbPick(this)">into</span>
-      <span class="wb-tile" data-val="on" onclick="wbPick(this)">on</span>
-      <span class="wb-tile" data-val="to" onclick="wbPick(this)">to</span>
-    </div>
-    <div class="fixed-two-col" id="vocab4">
+    <div class="pv-layout">
       <div>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Would you like to <b>pay</b> cash or <span class="wb-blank filled correct" style="cursor:default;">by</span> credit card?</div>
-        <div class="ex-row">2. I <b>paid</b> <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> the dinner last night.</div>
-        <div class="ex-row">3. I <b>spent</b> $100 <span class="wb-blank" data-ans="on" onclick="wbPlace(this)">______</span> books yesterday.</div>
-        <div class="ex-row">4. My uncle <b>invested</b> all his money <span class="wb-blank" data-ans="in" onclick="wbPlace(this)">______</span> real estate.</div>
+        <div class="wb-bank book-style" id="vocab4-bank">
+          <span class="wb-tile example-used">by</span>
+          <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
+          <span class="wb-tile" data-val="for" onclick="wbPick(this)">for</span>
+          <span class="wb-tile" data-val="from" onclick="wbPick(this)">from</span>
+          <span class="wb-tile" data-val="in" onclick="wbPick(this)">in</span>
+          <span class="wb-tile" data-val="into" onclick="wbPick(this)">into</span>
+          <span class="wb-tile" data-val="on" onclick="wbPick(this)">on</span>
+          <span class="wb-tile" data-val="to" onclick="wbPick(this)">to</span>
+        </div>
+        <div class="fixed-two-col" id="vocab4">
+          <div>
+            <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> Would you like to <b>pay</b> cash or <span class="wb-blank filled correct" style="cursor:default;">by</span> credit card?</div>
+            <div class="ex-row">2. I <b>paid</b> <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> the dinner last night.</div>
+            <div class="ex-row">3. I <b>spent</b> $100 <span class="wb-blank" data-ans="on" onclick="wbPlace(this)">______</span> books yesterday.</div>
+            <div class="ex-row">4. My uncle <b>invested</b> all his money <span class="wb-blank" data-ans="in" onclick="wbPlace(this)">______</span> real estate.</div>
+          </div>
+          <div>
+            <div class="ex-row">5. I don't like <b>lending</b> money <span class="wb-blank" data-ans="to" onclick="wbPlace(this)">______</span> friends.</div>
+            <div class="ex-row">6. I <b>borrowed</b> a lot of money <span class="wb-blank" data-ans="from" onclick="wbPlace(this)">______</span> the bank.</div>
+            <div class="ex-row">7. They <b>charged</b> me $120 <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> a haircut!</div>
+            <div class="ex-row">8. I never <b>get</b> <span class="wb-blank" data-ans="into" onclick="wbPlace(this)">______</span> debt. I hate owing people money.</div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkWbSlide('vocab4')">Check Answers</button>
+          <button class="btn-reset" onclick="resetWbSlide('vocab4')">Reset</button>
+        </div>
       </div>
-      <div>
-        <div class="ex-row">5. I don't like <b>lending</b> money <span class="wb-blank" data-ans="to" onclick="wbPlace(this)">______</span> friends.</div>
-        <div class="ex-row">6. I <b>borrowed</b> a lot of money <span class="wb-blank" data-ans="from" onclick="wbPlace(this)">______</span> the bank.</div>
-        <div class="ex-row">7. They <b>charged</b> me $120 <span class="wb-blank" data-ans="for" onclick="wbPlace(this)">______</span> a haircut!</div>
-        <div class="ex-row">8. I never <b>get</b> <span class="wb-blank" data-ans="into" onclick="wbPlace(this)">______</span> debt. I hate owing people money.</div>
+      <div class="pv-side">
+        <button class="btn-suggest" onclick="toggleSuggested('vocab4-gtk')">💡 Good to Know</button>
+        <div class="suggest-box gram-note" id="vocab4-gtk" style="border-left-color:#C9A227;background:#FDF3D6;">
+          <div class="gtk-row"><b>Good to know:</b> there's no single rule &mdash; each verb just goes with its own preposition. Learn them as fixed pairs.</div>
+          <div class="gtk-row"><span class="gtk-chip">pay for</span> <span class="gtk-eq">what</span> you're paying for, e.g., <i>pay for the dinner</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">pay by</span> <span class="gtk-eq">how</span> you pay, e.g., <i>pay by card</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">spend on</span> <span class="gtk-eq">what</span> the money goes toward, e.g., <i>spend $100 on books</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">invest in</span> <span class="gtk-eq">where</span> the money grows, e.g., <i>invest in real estate</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">lend to</span> <span class="gtk-eq">who</span> receives it, e.g., <i>lend money to a friend</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">borrow from</span> <span class="gtk-eq">where</span> it comes from, e.g., <i>borrow from the bank</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">charge for</span> <span class="gtk-eq">what</span> you're being billed for, e.g., <i>charge $120 for a haircut</i>.</div>
+          <div class="gtk-row"><span class="gtk-chip">get into</span> (debt) &mdash; <i>into</i> shows movement into a state or situation.</div>
+        </div>
       </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkWbSlide('vocab4')">Check Answers</button>
-      <button class="btn-reset" onclick="resetWbSlide('vocab4')">Reset</button>
     </div>
   </div></div>
 </div>
@@ -630,29 +612,43 @@
   <div class="slide-main"><div class="content">
     <h2>Money Nouns</h2>
     <p class="instruction">Match the nouns and definitions. Click a word in the bank, then click the blank it belongs in.</p>
-    <div class="wb-bank book-style" id="vocab5-bank">
-      <span class="wb-tile example-used">bill</span>
-      <span class="wb-tile" data-val="budget" onclick="wbPick(this)">budget</span>
-      <span class="wb-tile" data-val="contactless payment" onclick="wbPick(this)">contactless payment</span>
-      <span class="wb-tile" data-val="insurance" onclick="wbPick(this)">insurance</span>
-      <span class="wb-tile" data-val="loan" onclick="wbPick(this)">loan</span>
-      <span class="wb-tile" data-val="mortgage" onclick="wbPick(this)">mortgage</span>
-      <span class="wb-tile" data-val="salary" onclick="wbPick(this)">salary</span>
-      <span class="wb-tile" data-val="tax" onclick="wbPick(this)">tax</span>
-    </div>
-    <div id="vocab5">
-      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span class="wb-blank filled correct" style="cursor:default;">bill</span> — a piece of paper that shows how much money you have to pay for something</div>
-      <div class="ex-row">2. <span class="wb-blank" data-ans="salary" onclick="wbPlace(this)">______</span> — the money you get for the work you do</div>
-      <div class="ex-row">3. <span class="wb-blank" data-ans="tax" onclick="wbPlace(this)">______</span> — money that you pay to the government</div>
-      <div class="ex-row">4. <span class="wb-blank" data-ans="loan" onclick="wbPlace(this)">______</span> — money that somebody (or a bank) lends you</div>
-      <div class="ex-row">5. <span class="wb-blank" data-ans="budget" onclick="wbPlace(this)">______</span> — money that you have available and a plan of how to spend it, e.g., a vacation</div>
-      <div class="ex-row">6. <span class="wb-blank" data-ans="mortgage" onclick="wbPlace(this)">______</span> — money that you borrow from a bank to buy a house</div>
-      <div class="ex-row">7. <span class="wb-blank" data-ans="contactless payment" onclick="wbPlace(this)">______</span> — a fast way of paying where you hold your card or phone over a reader and don't use your PIN</div>
-      <div class="ex-row">8. <span class="wb-blank" data-ans="insurance" onclick="wbPlace(this)">______</span> — money that you pay to a company and then they pay if you are sick or injured, or if you lose or break something</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkWbSlide('vocab5')">Check Answers</button>
-      <button class="btn-reset" onclick="resetWbSlide('vocab5')">Reset</button>
+    <div class="pv-layout">
+      <div>
+        <div class="wb-bank book-style" id="vocab5-bank">
+          <span class="wb-tile example-used">bill</span>
+          <span class="wb-tile" data-val="budget" onclick="wbPick(this)">budget</span>
+          <span class="wb-tile" data-val="contactless payment" onclick="wbPick(this)">contactless payment</span>
+          <span class="wb-tile" data-val="insurance" onclick="wbPick(this)">insurance</span>
+          <span class="wb-tile" data-val="loan" onclick="wbPick(this)">loan</span>
+          <span class="wb-tile" data-val="mortgage" onclick="wbPick(this)">mortgage</span>
+          <span class="wb-tile" data-val="salary" onclick="wbPick(this)">salary</span>
+          <span class="wb-tile" data-val="tax" onclick="wbPick(this)">tax</span>
+        </div>
+        <div id="vocab5">
+          <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span class="wb-blank filled correct" style="cursor:default;">bill</span> — a piece of paper that shows how much money you have to pay for something</div>
+          <div class="ex-row">2. <span class="wb-blank" data-ans="salary" onclick="wbPlace(this)">______</span> — the money you get for the work you do</div>
+          <div class="ex-row">3. <span class="wb-blank" data-ans="tax" onclick="wbPlace(this)">______</span> — money that you pay to the government</div>
+          <div class="ex-row">4. <span class="wb-blank" data-ans="loan" onclick="wbPlace(this)">______</span> — money that somebody (or a bank) lends you</div>
+          <div class="ex-row">5. <span class="wb-blank" data-ans="budget" onclick="wbPlace(this)">______</span> — money that you have available and a plan of how to spend it, e.g., a vacation</div>
+          <div class="ex-row">6. <span class="wb-blank" data-ans="mortgage" onclick="wbPlace(this)">______</span> — money that you borrow from a bank to buy a house</div>
+          <div class="ex-row">7. <span class="wb-blank" data-ans="contactless payment" onclick="wbPlace(this)">______</span> — a fast way of paying where you hold your card or phone over a reader and don't use your PIN</div>
+          <div class="ex-row">8. <span class="wb-blank" data-ans="insurance" onclick="wbPlace(this)">______</span> — money that you pay to a company and then they pay if you are sick or injured, or if you lose or break something</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkWbSlide('vocab5')">Check Answers</button>
+          <button class="btn-reset" onclick="resetWbSlide('vocab5')">Reset</button>
+        </div>
+      </div>
+      <div class="pv-side">
+        <button class="btn-suggest" onclick="toggleSuggested('vocab5-disc')">💬 Discussion Questions</button>
+        <div class="suggest-box" id="vocab5-disc">
+          <ul class="discuss-list" style="margin:0;">
+            <li>Do you have a monthly budget? What's it usually for?</li>
+            <li>Would you rather rent forever or take out a mortgage to buy a home? Why?</li>
+            <li>Do you use contactless payment often, or do you still prefer cash?</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div></div>
 </div>
@@ -799,14 +795,13 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Money Q&amp;A</h2>
-    <p class="instruction">Click the jar to draw a question. Read it aloud, answer it, and ask a follow-up question if you can. If you don't want to answer, say <i>"I'm sorry, I'd rather not talk about that."</i></p>
+    <p class="instruction">Click the coin to draw a question.<br>Read it aloud, answer it, and ask a follow-up question if you can.<br>If you don't want to answer, say <i>"I'm sorry, I'd rather not talk about that."</i></p>
     <div class="money-jar-wrap">
       <div class="money-jar-coin" id="money-jar-coin" onclick="drawMoneyQuestion()">🪙</div>
       <div>
-        <button class="btn-check" onclick="drawMoneyQuestion()">Draw a Question</button>
         <button class="btn-reset" onclick="resetMoneyJar()">🔄 Reshuffle</button>
       </div>
-      <div class="money-jar-card" id="money-jar-question">Click the jar to draw your first question!</div>
+      <div class="money-jar-card" id="money-jar-question">Click the coin to draw your first question!</div>
       <div class="money-jar-counter" id="money-jar-counter">0 / 14 questions drawn</div>
     </div>
   </div></div>
@@ -825,11 +820,7 @@
       <div>
         <p class="discuss-label">💬 Discuss</p>
         <div class="card" style="background:linear-gradient(135deg,#EDF6F0 0%,#DCEFE1 100%);border-left:6px solid #1F7A4D;">
-          <ul class="discuss-list" style="margin:0;">
-            <li>Why do you think someone might decide to have a "no-spend year"?</li>
-            <li>What do you think it means?</li>
-            <li>Would you be able to do it?</li>
-          </ul>
+          <p style="margin:0;font-size:1.15rem;line-height:1.6;color:#1C2B3A;">Why do you think someone might decide to have a "no-spend year"?</p>
         </div>
       </div>
     </div>
@@ -857,13 +848,13 @@
       </div>
       <div>
         <div class="match-col-head mc-left">Topics</div>
-        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span> where she went <b>on vacation</b></div>
-        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span> <b>why</b> she decided to save money</div>
-        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span> how often she saw her <b>friends</b></div>
-        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span> what she <b>achieved</b></div>
-        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span> her <b>advice</b> for other people</div>
-        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span> how she saved money <b>at home</b></div>
-        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span> what she <b>discovered</b></div>
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span><span>where she went <b>on vacation</b></span></div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span><span><b>why</b> she decided to save money</span></div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span><span>how often she saw her <b>friends</b></span></div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span><span>what she <b>achieved</b></span></div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span><span>her <b>advice</b> for other people</span></div>
+        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span><span>how she saved money <b>at home</b></span></div>
+        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span><span>what she <b>discovered</b></span></div>
       </div>
     </div>
     <div class="btn-row">
@@ -908,7 +899,7 @@
     </div>
     <div class="card" style="margin-top:26px;background:linear-gradient(135deg,#FBF6E8 0%,#F5E9C0 100%);border-left:6px solid #8A6A1E;">
       <p class="discuss-label" style="margin-bottom:10px;">💬 Do you agree with the last sentence of the article? Why (not)?</p>
-      <p style="font-size:1.15rem;line-height:1.6;color:#1C2B3A;margin:0;font-style:italic;">"Whenever you open your wallet, think about whether what you are buying is something you need or something you want. We all say, 'I need to buy this.' Most of the time, we want to buy it. Maybe we don't know the difference between needing something and wanting something anymore."</p>
+      <p style="font-size:1.15rem;line-height:1.6;color:#1C2B3A;margin:0;font-style:italic;">"Whenever you open your wallet, think about whether what you are buying is something you need or something you want. We all say, 'I need to buy this.' Most of the time, we want to buy it. <span style="background:#F0C24A;color:#3A2A05;padding:2px 8px;border-radius:5px;font-weight:800;box-decoration-break:clone;-webkit-box-decoration-break:clone;">Maybe we don't know the difference between needing something and wanting something anymore.</span>"</p>
       <p style="font-size:1.05rem;color:#5A4212;margin:10px 0 0;font-weight:700;">— Michelle McGagh</p>
     </div>
   </div></div>
@@ -924,7 +915,7 @@
       <div class="step-label">Step 1</div>
       <p class="instruction">Read the information about compound nouns.</p>
       <div class="gram-note">
-        <b>Compound nouns</b> are two nouns together, where the first noun describes the second one, e.g., <i>credit card</i>. The stress is usually on the first noun.
+        <b>Compound nouns</b> are <span class="hl-mark">two nouns together</span>, where the <b>first noun</b> describes the <b>second noun</b>, e.g., <span class="hl-mark">credit card</span>. The <b>stress</b> is usually on the <span class="hl-mark">first noun</span>.
       </div>
     </div>
 
@@ -936,10 +927,10 @@
           <span>olive</span><span>electricity</span><span>cleaning</span><span>bike</span><span>beauty</span><span>tap</span>
         </div>
         <div id="read3-cn-words">
-          <p class="cn-sentence"><span class="para-letter">B</span>She also experimented with homemade <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">cleaning</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">products</span> and <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">beauty</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">treatments</span>, like using vinegar for <span class="or-pick cn-word" data-ans="no" onclick="orPickToggle(this)">cleaning</span> or <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">olive</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">oil</span> as moisturizer.</p>
           <p class="cn-sentence"><span class="para-letter">A</span>She continued to pay her internet, gas, and <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">electricity</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">bills</span>, and allowed herself $40 a week to buy food and household essentials.</p>
-          <p class="cn-sentence"><span class="para-letter">D</span>Her only vacation was a <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">bike</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">trip</span> where again she camped.</p>
+          <p class="cn-sentence"><span class="para-letter">B</span>She also experimented with homemade <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">cleaning</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">products</span> and <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">beauty</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">treatments</span>, like using vinegar for cleaning or <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">olive</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">oil</span> as moisturizer.</p>
           <p class="cn-sentence"><span class="para-letter">C</span>But she couldn't join them for dinner in a restaurant, and when they went out, she drank <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">tap</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">water</span>.</p>
+          <p class="cn-sentence"><span class="para-letter">D</span>Her only vacation was a <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">bike</span> <span class="or-pick cn-word" data-ans="yes" onclick="orPickToggle(this)">trip</span> where again she camped.</p>
         </div>
       </div>
       <div class="btn-row">
@@ -957,7 +948,7 @@
   <div class="slide-main"><div class="content">
     <h2>What About You?</h2>
     <p class="instruction">Could you do what Michelle did?</p>
-    <div class="lead-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="lead-grid" style="grid-template-columns:1fr 1fr 1fr;">
       <div>
         <p class="discuss-label">💬 Discuss</p>
         <ul class="discuss-list">
@@ -971,66 +962,153 @@
         <p style="margin:0 0 10px;font-weight:800;font-style:italic;color:#C4614A;font-size:1.15rem;">🔍 <i>would</i> for imaginary situations</p>
         <p style="margin:0;font-size:1.08rem;line-height:1.6;">We use <i>would</i> to talk about imaginary situations, e.g., <i>To save money, I'd spend less on clothes and I'd cook for myself at home.</i></p>
       </div>
+      <div class="lead-img-wrap">
+        <img src="ChatGPT Image Jul 17, 2026, 08_39_58 PM.png" alt="A woman thinking between shopping (bags, shoes, coffee) or saving money (piggy bank, house, growing savings)" class="lead-img">
+      </div>
     </div>
   </div></div>
 </div>
 
-<!-- ============ GRAMMAR: MEANING ============ -->
+<!-- ============ GRAMMAR: ANALYZING ============ -->
 <div class="slide" id="s-gram-meaning">
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
-    <h2>Present perfect and simple past</h2>
-    <p class="instruction">Read the conversation. What are they arguing about?</p>
-    <div class="lead-grid" style="grid-template-columns:.9fr 1.2fr;">
+    <h2>Analyzing</h2>
+    <p class="instruction">Read the conversation ignoring the blanks. What are they arguing about?</p>
+    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;align-items:start;">
       <div class="lead-img-wrap">
         <img src="ChatGPT Image Jul 16, 2026, 08_30_33 PM.png" alt="A woman looks annoyed thinking 'More new sneakers?' while a man smiles thinking 'She'll never notice my new sneakers.'" class="lead-img">
       </div>
       <div>
-        <div class="card" style="background:#F1EEF7;border-left:6px solid #5A3E8C;margin-bottom:14px;">
-          <p style="margin:0 0 8px;"><b>Keisha</b> I haven't seen those sneakers before. Are they new?</p>
-          <p style="margin:0 0 8px;"><b>Daniel</b> Yes. I bought them today. Do you like them?</p>
-          <p style="margin:0 0 8px;"><b>Keisha</b> They're OK. How much did they cost?</p>
-          <p style="margin:0;"><b>Daniel</b> Oh, not much. They were a bargain. Under $100.</p>
+        <div style="max-height:460px;overflow-y:auto;padding-right:6px;">
+          <div class="ex-row"><b>Keisha</b> I <sup>1</sup><em>haven't seen</em> those sneakers before. Are they new?</div>
+          <div class="ex-row"><b>Daniel</b> Yes. I <sup>2</sup><span class="text-blank"></span> them today. Do you like them?</div>
+          <div class="ex-row"><b>Keisha</b> They're OK. How much <sup>3</sup><span class="text-blank"></span> they <span class="text-blank"></span>?</div>
+          <div class="ex-row"><b>Daniel</b> Oh, not much. They <sup>4</sup><span class="text-blank"></span> a bargain. Under $100.</div>
+          <div class="ex-row"><b>Keisha</b> You mean $99.99. That isn't cheap for a pair of sneakers. Anyway, we can't afford to buy new clothes right now.</div>
+          <div class="ex-row"><b>Daniel</b> Why not?</div>
+          <div class="ex-row"><b>Keisha</b> <sup>5</sup><span class="text-blank"></span> you <span class="text-blank"></span> this?</div>
+          <div class="ex-row"><b>Daniel</b> No. What is it?</div>
+          <div class="ex-row"><b>Keisha</b> The electricity bill. It <sup>6</sup><span class="text-blank"></span> this morning. And we <sup>7</sup><span class="text-blank"></span> the house insurance yet.</div>
+          <div class="ex-row"><b>Daniel</b> Well, what about the iPad you <sup>8</sup><span class="text-blank"></span> last week?</div>
+          <div class="ex-row"><b>Keisha</b> What about it?</div>
+          <div class="ex-row"><b>Daniel</b> You <sup>9</sup><span class="text-blank"></span> a new one. The old one <sup>10</sup><span class="text-blank"></span> just fine.</div>
+          <div class="ex-row"><b>Keisha</b> But I <sup>11</sup><span class="text-blank"></span> the new model.</div>
+          <div class="ex-row"><b>Daniel</b> Well, I <sup>12</sup><span class="text-blank"></span> some new sneakers.</div>
         </div>
         <div class="btn-row">
           <button class="btn-suggest" onclick="toggleSuggested('gm-sugg')">💡 What are they arguing about?</button>
         </div>
-        <div class="suggest-box" id="gm-sugg">They are arguing about money — Daniel spent money on new sneakers they can't really afford.</div>
+        <div class="suggest-box" id="gm-sugg">They are arguing about money — Daniel spent money on new sneakers, and neither of them can agree on what counts as a necessary expense (the electricity bill and house insurance vs. the iPad and the new sneakers).</div>
       </div>
-    </div>
-    <div class="ccq-box" style="margin-top:22px;">
-      <p class="ccq-label">💭 Check your understanding</p>
-      <ul class="ccq-list">
-        <li>"I haven't seen those sneakers before." Does Keisha say exactly when? <em>(no — no specific time)</em></li>
-        <li>"I bought them today." Does Daniel say exactly when? <em>(yes — today)</em></li>
-        <li>Which tense do we use when we don't say exactly when something happened — present perfect or simple past? <em>(present perfect)</em></li>
-        <li>Which tense do we use when we say or know exactly when — present perfect or simple past? <em>(simple past)</em></li>
-      </ul>
     </div>
   </div></div>
 </div>
 
-<!-- ============ GRAMMAR: PRESENT PERFECT OR SIMPLE PAST? ============ -->
+<!-- ============ GRAMMAR: COMPLETE THE CONVERSATION ============ -->
 <div class="slide" id="s-gram-ppsp">
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
-    <h2>Present Perfect or Simple Past?</h2>
-    <p class="instruction">Read the conversation again. Do we use the present perfect (PP) or the simple past (SP)?</p>
-    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;">
-      <div class="card" style="background:#F1EEF7;border-left:6px solid #5A3E8C;margin-bottom:0;">
-        <p style="margin:0 0 8px;"><b>Keisha</b> I haven't seen those sneakers before. Are they new?</p>
-        <p style="margin:0 0 8px;"><b>Daniel</b> Yes. I bought them today. Do you like them?</p>
-        <p style="margin:0 0 8px;"><b>Keisha</b> They're OK. How much did they cost?</p>
-        <p style="margin:0;"><b>Daniel</b> Oh, not much. They were a bargain. Under $100.</p>
+    <h2>Complete the Conversation</h2>
+    <p class="instruction">Read the conversation again and put the verbs in the present perfect or the simple past. Then listen and check.</p>
+    <div class="cn-exercise-layout" style="grid-template-columns:.55fr 1.45fr;align-items:start;">
+      <div class="lead-img-wrap">
+        <img src="ChatGPT Image Jul 16, 2026, 08_30_33 PM.png" alt="A woman looks annoyed thinking 'More new sneakers?' while a man smiles thinking 'She'll never notice my new sneakers.'" class="lead-img">
       </div>
-      <div id="gram-ppsp">
-        <div class="ex-row">1. for a completed action in the past <input class="ans-input" style="width:90px;" data-ans="sp" data-alt="simple past"></div>
-        <div class="ex-row">2. for recent actions when we don't ask/say exactly when <input class="ans-input" style="width:90px;" data-ans="pp" data-alt="present perfect"></div>
+      <div>
+        <div id="gram-ex1">
+          <div class="ex-row"><b>Keisha</b> I <sup>1</sup><span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">haven't seen</span> (see) those sneakers before. Are they new?</div>
+          <div class="ex-row"><b>Daniel</b> Yes. I <sup>2</sup><input class="ans-input" data-ans="bought"> (buy) them today. Do you like them?</div>
+          <div class="ex-row"><b>Keisha</b> They're OK. How much <sup>3</sup><input class="ans-input" data-ans="did"> they <input class="ans-input" data-ans="cost">? (cost)</div>
+          <div class="ex-row"><b>Daniel</b> Oh, not much. They <sup>4</sup><input class="ans-input" data-ans="were"> (be) a bargain. Under $100.</div>
+          <div class="ex-row"><b>Keisha</b> You mean $99.99. That isn't cheap for a pair of sneakers. Anyway, we can't afford to buy new clothes right now.</div>
+          <div class="ex-row"><b>Daniel</b> Why not?</div>
+          <div class="ex-row"><b>Keisha</b> <sup>5</sup><input class="ans-input" data-ans="Have"> you <input class="ans-input" data-ans="seen"> this? (see)</div>
+          <div class="ex-row"><b>Daniel</b> No. What is it?</div>
+          <div class="ex-row"><b>Keisha</b> The electricity bill. It <sup>6</sup><input class="ans-input" data-ans="came"> (come) this morning. And we <sup>7</sup><input class="ans-input" data-ans="haven't paid"> (not pay) the house insurance yet.</div>
+          <div class="ex-row"><b>Daniel</b> Well, what about the iPad you <sup>8</sup><input class="ans-input" data-ans="bought"> (buy) last week?</div>
+          <div class="ex-row"><b>Keisha</b> What about it?</div>
+          <div class="ex-row"><b>Daniel</b> You <sup>9</sup><input class="ans-input" data-ans="didn't need"> (not need) a new one. The old one <sup>10</sup><input class="ans-input" data-ans="worked"> (work) just fine.</div>
+          <div class="ex-row"><b>Keisha</b> But I <sup>11</sup><input class="ans-input" data-ans="needed"> (need) the new model.</div>
+          <div class="ex-row"><b>Daniel</b> Well, I <sup>12</sup><input class="ans-input" data-ans="needed"> (need) some new sneakers.</div>
+        </div>
+        <div class="audio-box" style="margin-top:14px;">
+          <audio controls src="AEF3e_Level_3_SB_2.08.mp3" style="width:100%;"></audio>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkSlide('gram-ex1')">Check Answers</button>
+          <button class="btn-reset" onclick="resetSlide('gram-ex1')">Reset</button>
+        </div>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('gram-ppsp')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('gram-ppsp')">Reset</button>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR: MEANING (MPF) ============ -->
+<div class="slide" id="s-gram-pp-meaning">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present Perfect or Simple Past? — Meaning</h2>
+    <p class="instruction">Look at the examples below.</p>
+
+    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;align-items:start;">
+      <div class="step-block" style="margin-bottom:0;">
+        <span class="step-label">Step 1 · Past experiences</span>
+        <div class="card" style="background:#EDF6F0;border-left:6px solid #1F7A4D;">
+          <p style="margin:0 0 6px;"><i>I<b>'ve</b> inherited some money, but I <b>haven't</b> spent it.</i></p>
+          <p style="margin:0 0 6px;"><i>Sally <b>has</b> never met Bill's ex-wife.</i></p>
+          <p style="margin:0;"><i><b>Have</b> you ever lost your credit card?</i></p>
+        </div>
+        <div class="ccq-box" style="margin-top:12px;">
+          <ul class="ccq-list">
+            <li>Do these sentences tell us exactly <b>when</b> these things happened? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">No — we don't know when Sally met people, or when the credit card was lost.</span></li>
+            <li>So do we use the present perfect for a specific past moment, or for past <b>experiences</b> with no specific time? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">For past experiences, with no specific time mentioned.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-block" style="margin-bottom:0;">
+        <span class="step-label">Step 2 · Finished actions, specific time</span>
+        <div class="card" style="background:#FDF0EC;border-left:6px solid #A8571E;">
+          <p style="margin:0 0 6px;"><i>They <b>got</b> married <span class="hl-mark">last year</span>.</i></p>
+          <p style="margin:0 0 6px;"><i>I <b>didn't have</b> time to do my homework.</i></p>
+          <p style="margin:0;"><i>What time <b>did</b> you <b>wake up</b> <span class="hl-mark">this morning</span>?</i></p>
+        </div>
+        <div class="ccq-box" style="margin-top:12px;">
+          <ul class="ccq-list">
+            <li>Do <i>last year</i> and <i>this morning</i> tell us exactly <b>when</b>? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Yes — both give a specific, known time.</span></li>
+            <li>So do we use the simple past for experiences with no time, or for finished actions when we know/say exactly when? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">For finished actions, when the time is mentioned or understood.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <span class="step-label">Step 3 · Compare them</span>
+      <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;">
+        <div class="card" style="background:#EDF6F0;border-left:6px solid #1F7A4D;margin-bottom:0;">
+          <p style="margin:0;"><i>I<b>'ve been</b> to Miami twice.</i></p>
+          <p class="inst-light" style="margin:6px 0 0;">(= in my life up to now — no specific time)</p>
+        </div>
+        <div class="card" style="background:#FDF0EC;border-left:6px solid #A8571E;margin-bottom:0;">
+          <p style="margin:0;"><i>I <b>went</b> there in 2010 and 2016.</i></p>
+          <p class="inst-light" style="margin:6px 0 0;">(= on two specific occasions)</p>
+        </div>
+      </div>
+      <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;margin-top:14px;">
+        <div class="card" style="background:#EDF6F0;border-left:6px solid #1F7A4D;margin-bottom:0;">
+          <p style="margin:0;"><i>I<b>'ve bought</b> a new computer.</i></p>
+          <p class="inst-light" style="margin:6px 0 0;">(= I don't say exactly when, where, etc.)</p>
+        </div>
+        <div class="card" style="background:#FDF0EC;border-left:6px solid #A8571E;margin-bottom:0;">
+          <p style="margin:0;"><i>I <b>bought</b> it last Saturday.</i></p>
+          <p class="inst-light" style="margin:6px 0 0;">(= I say when)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gram-note" style="margin-top:6px;">
+      <b>Rule:</b> use the <span class="hl-mark">present perfect</span> for past experiences and recent actions <b>when we don't say exactly when</b>. Use the <span class="hl-mark">simple past</span> to ask or talk about finished actions <b>when the time is mentioned or understood</b> (e.g., <i>yesterday</i>, <i>last week</i>).
     </div>
   </div></div>
 </div>
@@ -1040,34 +1118,60 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Present Perfect vs. Simple Past — Form</h2>
-    <p class="instruction">Look at the examples below. Can you work out the rules yourself?</p>
-    <div class="gram-box">
-      <h3>Present perfect</h3>
-      <p><i>I<b>'ve</b> <u>inherited</u> some money, but I <b>haven't</b> <u>spent</u> it.</i></p>
-      <p><i>Sally <b>has</b> <span class="hl">never</span> <u>met</u> Bill's ex-wife.</i></p>
-      <p><i><b>Have</b> you <span class="hl">ever</span> <u>lost</u> your credit card?</i></p>
-      <p><i>I<b>'ve</b> <span class="hl">already</span> <u>seen</u> this movie twice. Can't we watch another one?</i></p>
-      <p><i>My brother <b>hasn't</b> <u>found</u> a new job <span class="hl">yet</span>. He's still looking.</i></p>
-      <div class="ccq-box">
-        <ul class="ccq-list">
-          <li>Present perfect = <b>have</b>/<b>has</b> + ___? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">the past participle (inherited, met, lost, seen, found).</span></li>
-          <li>Look at <i>ever</i> and <i>never</i> above — do they go before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
-          <li>Look at <i>already</i> in the <b>+</b> sentence — before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
-          <li>Look at <i>yet</i> in the <b>−</b> sentence — where in the sentence does it go? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">At the end of the sentence. (Same for questions with <i>yet</i>.)</span></li>
-        </ul>
+    <p class="instruction">Look at each example, then work out the rule before moving to the next one.</p>
+    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1fr;align-items:start;">
+      <div class="gram-box" style="margin-bottom:0;">
+        <h3>Present perfect</h3>
+
+        <p style="margin:0 0 4px;"><i>I<b>'ve</b> <u>inherited</u> some money, but I <b>haven't</b> <u>spent</u> it.</i></p>
+        <div class="ccq-box" style="margin:0 0 14px;">
+          <ul class="ccq-list">
+            <li>Present perfect = <b>have</b>/<b>has</b> + ___? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">the past participle (inherited, spent).</span></li>
+          </ul>
+        </div>
+
+        <p style="margin:0 0 4px;"><i>Sally <b>has</b> <span class="hl">never</span> <u>met</u> Bill's ex-wife.</i></p>
+        <p style="margin:0 0 4px;"><i><b>Have</b> you <span class="hl">ever</span> <u>lost</u> your credit card?</i></p>
+        <div class="ccq-box" style="margin:0 0 14px;">
+          <ul class="ccq-list">
+            <li>Look at <i>ever</i> and <i>never</i> above — do they go before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
+          </ul>
+        </div>
+
+        <p style="margin:0 0 4px;"><i>I<b>'ve</b> <span class="hl">already</span> <u>seen</u> this movie twice. Can't we watch another one?</i></p>
+        <div class="ccq-box" style="margin:0 0 14px;">
+          <ul class="ccq-list">
+            <li>Look at <i>already</i> in this <b>+</b> sentence — before or after the main verb? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Before the main verb.</span></li>
+          </ul>
+        </div>
+
+        <p style="margin:0 0 4px;"><i>My brother <b>hasn't</b> <u>found</u> a new job <span class="hl">yet</span>. He's still looking.</i></p>
+        <div class="ccq-box" style="margin:0;">
+          <ul class="ccq-list">
+            <li>Look at <i>yet</i> in this <b>−</b> sentence — where does it go? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">At the end of the sentence. (Same for questions with <i>yet</i>.)</span></li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="gram-box" style="border-left-color:#A8571E;">
-      <h3 style="color:#A8571E;">Simple past</h3>
-      <p><i>They <b>got</b> married last year.</i></p>
-      <p><i>I <b>didn't have</b> time to do my homework.</i></p>
-      <p><i>What time <b>did</b> you <b>wake up</b> this morning?</i></p>
-      <div class="ccq-box">
-        <ul class="ccq-list">
-          <li>Look at <i>got married</i> — is this a regular (-ed) or irregular past form? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Irregular — many common verbs are (see the Irregular Verbs list).</span></li>
-          <li>How do we make negatives and questions in the simple past? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>did/didn't</i> + the base form of the verb (not the past form) — e.g., <i>did you wake up</i>, not <i>did you woke up</i>.</span></li>
-          <li>Do these sentences say exactly when something happened? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Yes — <i>last year</i>, <i>this morning</i> — that's why it's simple past, not present perfect.</span></li>
-        </ul>
+
+      <div class="gram-box" style="border-left-color:#A8571E;margin-bottom:0;">
+        <h3 style="color:#A8571E;">Simple past</h3>
+
+        <p style="margin:0 0 4px;"><i>They <b>got</b> married last year.</i></p>
+        <div class="ccq-box" style="margin:0 0 14px;">
+          <ul class="ccq-list">
+            <li>Is <i>got married</i> a regular (-ed) or irregular past form? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Irregular — <i>get</i> → <i>got</i>, not <i>getted</i>. Many common verbs have irregular past forms like this.</span></li>
+          </ul>
+        </div>
+
+        <p style="margin:0 0 4px;"><i>I <b>didn't have</b> time to do my homework.</i></p>
+        <p style="margin:0 0 4px;"><i>What time <b>did</b> you <b>wake up</b> this morning?</i></p>
+        <div class="ccq-box" style="margin:0 0 14px;">
+          <ul class="ccq-list">
+            <li>How do we make negatives and questions in the simple past? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>did/didn't</i> + the base form of the verb (not the past form) — e.g., <i>did you wake up</i>, not <i>did you woke up</i>.</span></li>
+          </ul>
+        </div>
+
+        <p class="inst-light" style="margin:0;">💭 Notice: <i>last year</i> and <i>this morning</i> tell us exactly when — that's why these are simple past, not present perfect.</p>
       </div>
     </div>
   </div></div>
@@ -1078,56 +1182,20 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Present Perfect — Pronunciation</h2>
-    <p class="instruction">In connected speech, <i>have</i> often weakens to <i>'ve</i>. Click the weak form in each sentence, then practice saying it with your tutor.</p>
-    <div class="card" style="background:#FDF3D6;border-left:6px solid #C9A227;">
-      <div class="ex-row"><span class="cn-word or-pick" data-ans="no" onclick="orPickToggle(this)">I</span> <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">'ve</span> inherited some money, but I <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">haven't</span> spent it.</div>
-      <div class="ex-row">Sally <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">has</span> never met Bill's ex-wife.</div>
-      <div class="ex-row"><span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">Have</span> you ever lost your credit card?</div>
-      <div class="ex-row">I <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">'ve</span> already seen this movie twice.</div>
-      <div class="ex-row">My brother <span class="cn-word or-pick" data-ans="yes" onclick="orPickToggle(this)">hasn't</span> found a new job yet.</div>
+    <p class="instruction">Listen and repeat each sentence.</p>
+    <div class="card" style="background:#FDF3D6;border-left:6px solid #C9A227;font-size:1.06rem;line-height:1.7;">
+      <p style="margin:0 0 6px;"><span style="color:#2E6FB0;font-weight:800;">1</span> <b>past experiences</b></p>
+      <p style="margin:0 0 6px;"><i>I<b>'ve</b> inherited some money, but I <b>haven't</b> spent it.</i></p>
+      <p style="margin:0 0 6px;"><i>Sally <b>has</b> never met Bill's ex-wife.</i></p>
+      <p style="margin:0 0 16px;"><i><b>Have</b> you ever lost your credit card?</i></p>
+      <p style="margin:0 0 6px;"><span style="color:#2E6FB0;font-weight:800;">2</span> <b>with <i>yet</i> and <i>already</i></b> (for emphasis)</p>
+      <p style="margin:0 0 6px;"><i>I<b>'ve</b> already seen this movie twice. Can't we watch another one?</i></p>
+      <p style="margin:0 0 6px;"><i>My brother <b>hasn't</b> found a new job yet. He's still looking.</i></p>
+      <p style="margin:0;"><i>"<b>Have</b> you finished your homework yet?" "No, not yet."</i></p>
     </div>
-    <div class="ccq-box" style="margin-top:18px;">
-      <ul class="ccq-list">
-        <li>When we say these sentences naturally, is <i>have</i> stressed and pronounced in full, or does it weaken to a quick, unstressed sound? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">It weakens to a quick, unstressed /əv/ sound — that's why we usually write it as <b>'ve</b>. The main verb (the past participle) carries the stress instead, e.g., I've in<b>her</b>ited, not <b>I</b> have inherited.</span></li>
-      </ul>
+    <div class="audio-box" style="margin-top:16px;">
+      <audio controls src="AEF3e_Level_3_SB_2.09.mp3" style="width:100%;"></audio>
     </div>
-    <p class="inst-light" style="margin-top:18px;">🎙️ Practice: say each sentence with your tutor, letting <i>'ve</i>/<i>has</i> blend quickly into the words around it, and stressing the main verb instead.</p>
-  </div></div>
-</div>
-
-<!-- ============ GRAMMAR: CONTROLLED PRACTICE — DIALOGUE ============ -->
-<div class="slide" id="s-gram-ex1">
-  <div class="banner banner-grammar">📐 Grammar</div>
-  <div class="slide-main"><div class="content">
-    <h2>Complete the conversation</h2>
-    <p class="instruction">Put the verbs in the present perfect or the simple past. Then listen and check.</p>
-    <div class="audio-box">
-      <audio controls src="track_2_08.mp3" style="width:100%;"></audio>
-    </div>
-    <div id="gram-ex1">
-      <div class="ex-row"><b>Keisha</b> I <span class="example-badge">1</span><em>(example)</em> <em>haven't seen</em> (see) those sneakers before. Are they new?</div>
-      <div class="ex-row"><b>Daniel</b> Yes. I <input class="ans-input small" data-ans="bought"> (buy) them today. Do you like them?</div>
-      <div class="ex-row"><b>Keisha</b> They're OK. How much <input class="ans-input small" data-ans="did"> they <input class="ans-input small" data-ans="cost">? (cost)</div>
-      <div class="ex-row"><b>Daniel</b> Oh, not much. They <input class="ans-input small" data-ans="were"> (be) a bargain. Under $100.</div>
-      <div class="ex-row"><b>Keisha</b> You mean $99.99. That isn't cheap for a pair of sneakers. Anyway, we can't afford to buy new clothes right now.</div>
-      <div class="ex-row"><b>Daniel</b> Why not?</div>
-      <div class="ex-row"><b>Keisha</b> <input class="ans-input small" data-ans="Have"> you <input class="ans-input small" data-ans="seen"> this? (see)</div>
-      <div class="ex-row"><b>Daniel</b> No. What is it?</div>
-      <div class="ex-row"><b>Keisha</b> The electricity bill. It <input class="ans-input small" data-ans="came"> (come) this morning. And we <input class="ans-input" data-ans="haven't paid"> (not pay) the house insurance yet.</div>
-      <div class="ex-row"><b>Daniel</b> Well, what about the iPad you <input class="ans-input" data-ans="bought"> (buy) last week?</div>
-      <div class="ex-row"><b>Keisha</b> What about it?</div>
-      <div class="ex-row"><b>Daniel</b> You <input class="ans-input" data-ans="didn't need"> (not need) a new one. The old one <input class="ans-input small" data-ans="worked"> (work) just fine.</div>
-      <div class="ex-row"><b>Keisha</b> But I <input class="ans-input small" data-ans="needed"> (need) the new model.</div>
-      <div class="ex-row"><b>Daniel</b> Well, I <input class="ans-input small" data-ans="needed"> (need) some new sneakers.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('gram-ex1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('gram-ex1')">Reset</button>
-    </div>
-    <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('gram-ex1-sugg')">💭 PP or SP?</button>
-    </div>
-    <div class="suggest-box" id="gram-ex1-sugg">We use the <b>present perfect</b> for recent actions when we don't say exactly when (e.g., <i>Have you seen this?</i>). We use the <b>simple past</b> when a specific time is mentioned or understood (e.g., <i>How much did they cost?</i>).</div>
   </div></div>
 </div>
 
@@ -1137,19 +1205,24 @@
   <div class="slide-main"><div class="content">
     <h2>Complete the conversations</h2>
     <p class="instruction">Complete the conversations with the present perfect form of the verb in parentheses and an adverb from the list. You can use the adverbs more than once.</p>
-    <div class="card" style="text-align:center;font-weight:700;color:#5A3E8C;">already &nbsp; ever &nbsp; never &nbsp; yet</div>
-    <div class="fixed-two-col" id="gram-ex2" style="margin-top:16px;">
+    <div class="card" style="text-align:center;font-weight:700;color:#5A3E8C;position:sticky;top:0;z-index:5;box-shadow:0 4px 10px rgba(0,0,0,.06);">already &nbsp; ever &nbsp; never &nbsp; yet</div>
+    <div class="ex-row" style="text-align:center;margin:18px 0 22px;">
+      <em style="color:#7B8794;font-weight:700;">example</em><br>
+      <b>A:</b> <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Have</span> you <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">played</span> the lottery <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">yet</span>? (play)<br>
+      <b>B:</b> Yes! I won $50.
+    </div>
+    <div class="fixed-two-col" id="gram-ex2">
       <div>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> A: <i>Have you played the lottery yet?</i> B: Yes! I won $50.</div>
-        <div class="ex-row">2. A: <input class="ans-input" data-ans="Have you ever booked" data-alt="have you ever booked"> a flight online? B: Yes, of course. I've done it many times.</div>
-        <div class="ex-row">3. A: When are you going to buy a motorcycle? B: Soon. I <input class="ans-input" data-ans="have already saved" data-alt="i've already saved|already saved"> $1,000.</div>
-        <div class="ex-row">4. A: <input class="ans-input" data-ans="Have you paid" data-alt="have you paid"> the phone bill yet? B: No, sorry. I forgot.</div>
+        <div class="ex-row">1.<br><b>A:</b> <input class="ans-input" data-ans="Have"> you <input class="ans-input" data-ans="ever"> <input class="ans-input" data-ans="booked"> a flight online? (book)<br><b>B:</b> Yes, of course. I've done it many times.</div>
+        <div class="ex-row">2.<br><b>A:</b> When are you going to buy a motorcycle?<br><b>B:</b> Soon. I <input class="ans-input" data-ans="have" data-alt="'ve"> <input class="ans-input" data-ans="already"> <input class="ans-input" data-ans="saved"> $1,000. (save)</div>
+        <div class="ex-row">3.<br><b>A:</b> <input class="ans-input" data-ans="Have"> you <input class="ans-input" data-ans="paid"> the phone bill <input class="ans-input" data-ans="yet">? (pay)<br><b>B:</b> No, sorry. I forgot.</div>
+        <div class="ex-row">4.<br><b>A:</b> <input class="ans-input" data-ans="Have"> your parents <input class="ans-input" data-ans="ever"> <input class="ans-input" data-ans="lent"> you money? (lend)<br><b>B:</b> Yes, but I paid it back as soon as I could.</div>
       </div>
       <div>
-        <div class="ex-row">5. A: <input class="ans-input" data-ans="Have your parents ever lent" data-alt="have your parents ever lent"> you money? B: Yes, but I paid it back as soon as I could.</div>
-        <div class="ex-row">6. A: How does eBay work? B: I don't know. I <input class="ans-input" data-ans="have never used" data-alt="i've never used|never used"> it.</div>
-        <div class="ex-row">7. A: <input class="ans-input" data-ans="Have you ever been" data-alt="have you ever been"> to Thailand? B: No, I haven't. But I'd like to some day.</div>
-        <div class="ex-row">8. A: Do you like Michael B. Jordan? B: Yes, I <input class="ans-input" data-ans="have already seen" data-alt="i've already seen|already seen"> his new movie twice!</div>
+        <div class="ex-row">5.<br><b>A:</b> How does eBay work?<br><b>B:</b> I don't know. I <input class="ans-input" data-ans="have" data-alt="'ve"> <input class="ans-input" data-ans="never"> <input class="ans-input" data-ans="used"> it. (use)</div>
+        <div class="ex-row">6.<br><b>A:</b> <input class="ans-input" data-ans="Have"> you <input class="ans-input" data-ans="ever"> <input class="ans-input" data-ans="been"> to Thailand? (be)<br><b>B:</b> No, I haven't. But I'd like to some day.</div>
+        <div class="ex-row">7.<br><b>A:</b> Why don't you have any money?<br><b>B:</b> I <input class="ans-input" data-ans="have" data-alt="'ve"> <input class="ans-input" data-ans="already"> <input class="ans-input" data-ans="spent"> my salary. I bought a new phone last week. (spend)</div>
+        <div class="ex-row">8.<br><b>A:</b> Do you like Michael B. Jordan?<br><b>B:</b> Yes, I <input class="ans-input" data-ans="have" data-alt="'ve"> <input class="ans-input" data-ans="already"> <input class="ans-input" data-ans="seen"> his new movie twice! (see)</div>
       </div>
     </div>
     <div class="btn-row">
@@ -1164,38 +1237,52 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Right or wrong?</h2>
-    <p class="instruction">Decide if the bold phrase is right or wrong. Then check your answers and reveal the corrections.</p>
+    <p class="instruction">Decide if the bold phrase is right or wrong. Correct the wrong sentences.</p>
+    <div style="display:flex;align-items:stretch;gap:20px;margin-bottom:16px;">
+      <div class="ex-row" style="margin:0;flex:0 0 auto;">
+        <em style="color:#7B8794;font-weight:700;">example</em><br>
+        I<b>'ve never been</b> in debt. <span style="color:#1A5030;font-weight:800;">(✓)</span><br>
+        How much <b>has your new camera cost</b>? <span style="color:#C4614A;font-weight:800;">(✗)</span><br>
+        <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">How much did your new camera cost?</span>
+      </div>
+      <div class="ccq-box" style="margin:0;flex:1;display:flex;flex-direction:column;justify-content:center;font-size:1.05rem;line-height:1.6;">
+        <p style="margin:0 0 6px;"><b style="color:#1A7A4A;">✓</b> present perfect — a life experience, no specific time given.</p>
+        <p style="margin:0;"><b style="color:#C4614A;">✗</b> "how much...cost" asks about one specific moment (when it was bought), so it needs the simple past.</p>
+      </div>
+    </div>
+    <div id="gram-ex3-corr">
     <div class="fixed-two-col">
       <div>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I've never been in debt. <span style="color:#1A5030;font-weight:800;">✓</span></div>
-        <div class="ex-row">2. Dean <b>inherited</b> $5,000 from a relative.<br><button class="circ-opt" data-group="gb-2" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-2" data-correct="✓" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">3. <b>Did your sister pay</b> you back yet?<br><button class="circ-opt" data-group="gb-3" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-3" data-correct="✗" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">4. <b>We booked our vacation</b> online a month ago.<br><button class="circ-opt" data-group="gb-4" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-4" data-correct="✓" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">5. <b>When have you bought</b> that leather jacket?<br><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">1. Dean <b>inherited</b> $5,000 from a relative.<br><button class="circ-opt" data-group="gb-1" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-1" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="Dean has inherited $5,000 from a relative"></div>
+        <div class="ex-row">2. <b>Did your sister pay</b> you back yet?<br><button class="circ-opt" data-group="gb-2" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-2" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="Has your sister paid you back yet"></div>
+        <div class="ex-row">3. <b>We booked our vacation</b> online a month ago.<br><button class="circ-opt" data-group="gb-3" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-3" data-correct="✓" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="no correction needed" data-alt="no change|correct|none|ok|already correct|-"></div>
+        <div class="ex-row">4. <b>When have you bought</b> that leather jacket?<br><button class="circ-opt" data-group="gb-4" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-4" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="When did you buy that leather jacket"></div>
+        <div class="ex-row">5. <b>They've finished paying back</b> the loan last month.<br><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-5" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="They finished paying back the loan last month"></div>
       </div>
       <div>
-        <div class="ex-row">6. <b>They've finished paying back</b> the loan last month.<br><button class="circ-opt" data-group="gb-6" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-6" data-correct="✗" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">7. <b>We haven't paid</b> the gas bill yet.<br><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">8. <b>Have you ever wasted</b> a lot of money on something?<br><button class="circ-opt" data-group="gb-8" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-8" data-correct="✓" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">9. I'm sure <b>I haven't borrowed</b> any money from you last week.<br><button class="circ-opt" data-group="gb-9" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-9" data-correct="✗" onclick="circPick(this)">✗</button></div>
-        <div class="ex-row">10. <b>I spent my salary</b> really quickly last month.<br><button class="circ-opt" data-group="gb-10" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-10" data-correct="✓" onclick="circPick(this)">✗</button></div>
+        <div class="ex-row">6. <b>We haven't paid</b> the gas bill yet.<br><button class="circ-opt" data-group="gb-6" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-6" data-correct="✓" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="no correction needed" data-alt="no change|correct|none|ok|already correct|-"></div>
+        <div class="ex-row">7. <b>Have you ever wasted</b> a lot of money on something?<br><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-7" data-correct="✓" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="no correction needed" data-alt="no change|correct|none|ok|already correct|-"></div>
+        <div class="ex-row">8. I'm sure <b>I haven't borrowed</b> any money from you last week.<br><button class="circ-opt" data-group="gb-8" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-8" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="I'm sure I didn't borrow any money from you last week"></div>
+        <div class="ex-row">9. <b>I spent my salary</b> really quickly last month.<br><button class="circ-opt" data-group="gb-9" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-9" data-correct="✓" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="no correction needed" data-alt="no change|correct|none|ok|already correct|-"></div>
+        <div class="ex-row">10. <b>Have you seen</b> the Black Panther movie on TV yesterday?<br><button class="circ-opt" data-group="gb-10" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-10" data-correct="✗" onclick="circPick(this)">✗</button><br><span class="inst-light">Correction:</span> <input class="ans-input wide" data-ans="Did you see the Black Panther movie on TV yesterday"></div>
       </div>
     </div>
-    <p class="ex-row" style="margin-top:6px;">11. <b>Have you seen</b> the Black Panther movie on TV yesterday?<br><button class="circ-opt" data-group="gb-11" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="gb-11" data-correct="✗" onclick="circPick(this)">✗</button></p>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('s-gram-ex3')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('s-gram-ex3')">Reset</button>
     </div>
     <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('gb-sugg')">💡 See the corrections</button>
+      <button class="btn-check" onclick="checkCircSlide('s-gram-ex3'); checkSlide('gram-ex3-corr');">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('s-gram-ex3'); resetSlide('gram-ex3-corr');">Reset</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('gb-sugg')">💡 Answer key</button>
     </div>
     <div class="suggest-box" id="gb-sugg" style="text-align:left;">
       <ul>
-        <li><b>3.</b> Has your sister paid you back yet?</li>
-        <li><b>5.</b> When did you buy that leather jacket?</li>
-        <li><b>6.</b> They finished paying back the loan last month.</li>
-        <li><b>9.</b> I'm sure I didn't borrow any money from you last week.</li>
-        <li><b>11.</b> Did you see the Black Panther movie on TV yesterday?</li>
+        <li><b>1.</b> Dean has inherited $5,000 from a relative.</li>
+        <li><b>2.</b> Has your sister paid you back yet?</li>
+        <li><b>4.</b> When did you buy that leather jacket?</li>
+        <li><b>5.</b> They finished paying back the loan last month.</li>
+        <li><b>8.</b> I'm sure I didn't borrow any money from you last week.</li>
+        <li><b>10.</b> Did you see the Black Panther movie on TV yesterday?</li>
       </ul>
     </div>
   </div></div>
@@ -1206,45 +1293,66 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Have you ever…?</h2>
-    <p class="instruction">Your tutor will ask you these questions. If your answer is <i>yes</i>, give more information using the simple past, e.g., <i>How much was the deposit?</i></p>
-    <div class="ex-example-centered"><span class="ex-tag">example</span>Have you ever saved for something for a long time? — Yes, I saved for six months to make the down payment on my car. How much was the down payment?</div>
-    <div class="interview-grid">
-      <div class="interview-card">
-        <h4>💵 Saving &amp; lending</h4>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…saved for something for a long time?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lent money to somebody who didn't pay you back?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…wasted money on something you've never used?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…bought something and immediately regretted it?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…inherited something from a relative?</span></div>
+    <p class="instruction">Click the piggy bank to draw a question. Answer it — if your answer is <i>yes</i>, give more information using the simple past.</p>
+    <div class="card" style="background:#FDF3EC;border-left:6px solid #C4614A;font-size:1.06rem;line-height:1.6;margin-bottom:20px;">
+      <p style="margin:0 0 2px;"><em style="color:#7B8794;font-weight:700;font-style:italic;">example</em></p>
+      <p style="margin:0 0 4px;"><i style="color:#C4614A;font-weight:700;">Have you ever saved for something for a long time?</i></p>
+      <p style="margin:0 0 16px;padding-left:20px;">Yes, I saved for six months to make the down payment on my car.<br><i style="color:#C4614A;font-weight:700;">How much was the down payment?</i></p>
+      <p style="margin:0 0 4px;"><i style="color:#C4614A;font-weight:700;">Have you ever lent money to somebody who didn't pay you back?</i></p>
+      <p style="margin:0;padding-left:20px;">No, I haven't. But my brother lent me some money last week and I haven't paid him back yet.</p>
+    </div>
+    <div class="cn-exercise-layout" style="grid-template-columns:1fr 1.3fr;align-items:center;">
+      <div style="text-align:center;">
+        <div class="money-jar-coin" id="ever-piggy" onclick="drawEverQuestion()">🐷</div>
+        <div>
+          <button class="btn-reset" onclick="resetEverJar()">🔄 Reshuffle</button>
+        </div>
+        <div class="money-jar-counter" id="ever-counter">0 / 11 questions drawn</div>
       </div>
-      <div class="interview-card">
-        <h4>💳 Cards &amp; carelessness</h4>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lost your card in an ATM?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…won any money (e.g., in a lottery)?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…forgotten your PIN for a credit or debit card?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…lost your wallet or bag?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…taken out a loan from the bank?</span></div>
-        <div class="interview-q"><button class="r-check" onclick="rPick(this)">R</button><span>…bought or sold something on eBay or a similar site?</span></div>
+      <div>
+        <div class="money-jar-card" id="ever-question">Click the piggy bank to draw your first question!</div>
+        <div class="btn-row" id="ever-markrow" style="display:none;">
+          <button class="btn-check" onclick="markEver('yes')">✓ Yes</button>
+          <button class="btn-reset" onclick="markEver('no')">✗ No</button>
+        </div>
       </div>
     </div>
-    <div class="r-summary" id="r-summary-text2">0 out of 11 questions marked — the more you marked yes, the bigger risk-taker with money you are!</div>
   </div></div>
 </div>
 
-<!-- ============ LISTENING: SCAM DEFINITION ============ -->
-<div class="slide" id="s-listen1">
-  <div class="banner banner-listening">🎧 Listening</div>
+<!-- ============ SPEAKING: WHAT'S A SCAM? ============ -->
+<div class="slide" id="s-listen-scam">
+  <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>Scams</h2>
-    <div class="glossary-box">
-      <h4>Glossary</h4>
-      <p><b>scam</b> /skæm/ <i>n.</i> a dishonest and illegal way of making money by tricking people, e.g., selling a product online that doesn't exist</p>
+    <h2>What's a Scam?</h2>
+    <p class="instruction">Read the definition of a scam.</p>
+    <div class="lead-grid">
+      <div>
+        <div class="glossary-box">
+          <h4>Glossary</h4>
+          <p><b>scam</b> /skæm/ <i>n.</i> a dishonest and illegal way of making money by tricking people, e.g., selling a product online that doesn't exist</p>
+        </div>
+        <p class="discuss-label" style="margin-top:18px;">💬 Discuss</p>
+        <ul class="discuss-list">
+          <li>What kind of scams have you heard of?</li>
+          <li>Why do you think people fall for scams, even smart, careful people?</li>
+          <li>What's a warning sign that a message or call might be a scam?</li>
+        </ul>
+      </div>
+      <div class="lead-img-wrap">
+        <img src="markus-winkler-FjyseC7iV3k-unsplash.jpg" alt="Wooden Scrabble tiles spelling the word SCAM on a table" class="lead-img">
+      </div>
     </div>
-    <p class="discuss-label">💬 Share your thoughts</p>
-    <ul class="discuss-list">
-      <li>What kind of scams have you heard of?</li>
-    </ul>
-    <div class="email-box" style="margin-top:20px;">
+  </div></div>
+</div>
+
+<!-- ============ READING: THE SCAM EMAIL ============ -->
+<div class="slide" id="s-listen-email">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>A Scam Email</h2>
+    <p class="instruction">Read the email. What would you do if you got an email like this? Why?</p>
+    <div class="email-box">
       <div class="email-subject">Subject: Businness opportunity</div>
       <p>Dear Friend,</p>
       <p>I know this message will be a surprise. I am Naomi Cooper and I work at the International Bank in Lagos, Nigeria. My parents have died last month and left 4.6 million US dollars in there account. I would like to transfer this money out of Nigeria and I am needing your help.</p>
@@ -1253,23 +1361,22 @@
       <p>Thank you in advance for you help.</p>
       <p>Naomi Cooper</p>
     </div>
-    <p class="discuss-label">💬 What would you do if you got an email like this? Why?</p>
   </div></div>
 </div>
 
-<!-- ============ LISTENING: CORRECT THE EMAIL ============ -->
+<!-- ============ READING: CORRECT THE EMAIL ============ -->
 <div class="slide" id="s-listen2">
-  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
     <h2>Correct the email</h2>
     <p class="instruction">Emails like this often have lots of mistakes, especially grammar and spelling. Correct the ten highlighted mistakes.</p>
     <div class="email-box" id="listen2">
-      <div class="email-subject">Subject: <input class="err-input" data-ans="Business"> opportunity</div>
+      <div class="email-subject">Subject: <span class="err-hl">Businness</span> <input class="err-input" data-ans="Business"> opportunity</div>
       <p>Dear Friend,</p>
-      <p>I know this message will be a surprise. I am Naomi Cooper and I work at the International Bank in Lagos, Nigeria. My parents <input class="err-input" data-ans="died"> last month and left 4.6 million US dollars in <input class="err-input" data-ans="their"> account. I would like to transfer this money out of Nigeria and <input class="err-input" data-ans="I need"> your help.</p>
-      <p><input class="err-input" data-ans="I can transfer"> all the money to you in the US, and you can then keep 20% of the money for yourself (920,000 US <input class="err-input" data-ans="dollars">) and transfer the rest to an <input class="err-input" data-ans="account"> in Switzerland. It will be very quick and easy. I would be very grateful if you can do this for me — it's my parents' money and I want to keep <input class="err-input" data-ans="it"> safe for my family.</p>
-      <p>Please reply to this email as fast as you can — <input class="err-input wide" data-ans="I want to organize"> everything in the next two days.</p>
-      <p>Thank you in advance for <input class="err-input" data-ans="your"> help.</p>
+      <p>I know this message will be a surprise. I am Naomi Cooper and I work at the International Bank in Lagos, Nigeria. My parents <span class="err-hl">have died</span> <input class="err-input" data-ans="died"> last month and left 4.6 million US dollars in <span class="err-hl">there</span> <input class="err-input" data-ans="their"> account. I would like to transfer this money out of Nigeria and <span class="err-hl">I am needing</span> <input class="err-input wide" data-ans="I need"> your help.</p>
+      <p><span class="err-hl">I can to transfer</span> <input class="err-input wide" data-ans="I can transfer"> all the money to you in the US, and you can then keep 20% of the money for yourself (920,000 US <span class="err-hl">dolars</span> <input class="err-input" data-ans="dollars">) and transfer the rest to an <span class="err-hl">acount</span> <input class="err-input" data-ans="account"> in Switzerland. It will be very quick and easy. I would be very grateful if you can do this for me — it's my parents' money and I want to keep <span class="err-hl">him</span> <input class="err-input" data-ans="it"> safe for my family.</p>
+      <p>Please reply to this email as fast as you can — <span class="err-hl">I want organize</span> <input class="err-input wide" data-ans="I want to organize"> everything in the next two days.</p>
+      <p>Thank you in advance for <span class="err-hl">you</span> <input class="err-input" data-ans="your"> help.</p>
       <p>Naomi Cooper</p>
     </div>
     <div class="btn-row">
@@ -1279,53 +1386,33 @@
   </div></div>
 </div>
 
-<!-- ============ LISTENING: RADIO SHOW ============ -->
-<div class="slide" id="s-listen3">
-  <div class="banner banner-listening">🎧 Listening</div>
-  <div class="slide-main"><div class="content">
-    <h2>Five-Minute Money</h2>
-    <p class="instruction">Listen to a radio show about scams. How much money did Tara, Max, and Zeke each lose? What's the most important advice the show gives?</p>
-    <div class="audio-box">
-      <audio controls src="track_2_12.mp3" style="width:100%;"></audio>
+<!-- ============ SPEAKING: SPIN & SPEAK (LESSON REVIEW) ============ -->
+<div class="slide" id="s-spin">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content" style="display:flex;flex-direction:column;align-items:center;padding:6px 16px;">
+    <h2 style="text-align:center;margin-bottom:4px;">Spin &amp; Speak!</h2>
+    <p class="inst-light" style="text-align:center;margin-bottom:10px;">Click the wheel to get a prompt. Answer using the present perfect or the simple past, where it fits.</p>
+    <div style="display:flex;gap:20px;align-items:flex-start;justify-content:center;flex-wrap:wrap;width:100%;">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <canvas id="spinWheel" width="340" height="340" style="cursor:pointer;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.18);" onclick="spinWheelFn()"></canvas>
+      </div>
+      <div style="max-width:320px;display:flex;flex-direction:column;gap:10px;padding-top:10px;">
+        <div id="spin-prompt" style="background:#EDF6F0;border:2px solid #1F7A4D;border-radius:12px;padding:16px 18px;font-size:1.06rem;font-weight:600;color:#1A5030;line-height:1.6;min-height:80px;display:flex;align-items:center;justify-content:center;text-align:center;">Click the wheel to get your first prompt!</div>
+        <div id="spin-hint-wrap" style="display:none;">
+          <button onclick="toggleSpinHint()" id="spin-hint-btn" style="width:100%;background:#FDF3D6;border:1.5px solid #C9A227;border-radius:8px;padding:7px 14px;font-size:1.05rem;font-weight:700;color:#7A5A1E;cursor:pointer;font-family:inherit;text-align:left;">💡 Show example</button>
+          <div id="spin-hint" style="display:none;background:#FFFBF0;border:1.5px solid #D4A800;border-radius:8px;padding:10px 14px;font-size:1.05rem;color:#4A3800;line-height:1.7;margin-top:4px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+          <span id="spin-status" style="font-size:1.05rem;color:#5A6B60;font-weight:600;">8 prompts remaining</span>
+        </div>
+      </div>
     </div>
-    <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('listen3-sugg')">💡 Show the answer</button>
+    <div style="width:100%;max-width:680px;margin-top:16px;">
+      <button onclick="toggleSpinUsed()" style="width:100%;background:#F0EAFF;border:1.5px solid #9A6ABB;border-radius:8px;padding:7px 14px;font-size:1.05rem;font-weight:700;color:#4A1A6A;cursor:pointer;font-family:inherit;text-align:left;">📋 Used so far</button>
+      <div id="spin-used-box" style="display:none;background:#F8F5FF;border:1.5px solid #C0A8E8;border-radius:10px;padding:10px 14px;font-size:1.05rem;color:#333;line-height:1.7;margin-top:8px;">
+        <em style="color:#999;">None yet.</em>
+      </div>
     </div>
-    <div class="suggest-box" id="listen3-sugg">Tara lost over $3,000. Max lost about $300. Zeke didn't lose any money. Most important advice: never give your bank account or credit card details to anybody, either in an email or on the phone.</div>
-  </div></div>
-</div>
-
-<!-- ============ LISTENING: RADIO SHOW DETAIL ============ -->
-<div class="slide" id="s-listen3b">
-  <div class="banner banner-listening">🎧 Listening</div>
-  <div class="slide-main"><div class="content">
-    <h2>Five-Minute Money — the details</h2>
-    <p class="instruction">Listen again and fill in the blanks with one or two words.</p>
-    <div class="audio-box">
-      <audio controls src="track_2_12.mp3" style="width:100%;"></audio>
-    </div>
-    <div id="listen3">
-      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;margin-bottom:12px;">Tara got an <input class="ans-input small" data-ans="email"> from a family member who was in South Africa. He said he'd lost his <input class="ans-input small" data-ans="backpack"> and needed money to get home. He asked her to send him her <input class="ans-input wide" data-ans="credit card"> number.</div>
-      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;margin-bottom:12px;">Max got an email that said he'd won a lot of <input class="ans-input small" data-ans="money"> in the Mega Millions lottery. He <input class="ans-input small" data-ans="believed"> it because he had bought a Mega Millions lottery ticket in the fall. They told him to send his <input class="ans-input wide" data-ans="bank"> details so they could send him the money.</div>
-      <div class="ex-row" style="background:#F4F8F5;border-radius:10px;padding:14px 18px;">Zeke got a <input class="ans-input wide" data-ans="phone call"> from a woman who said she was from his <input class="ans-input small" data-ans="bank">. She said the bank wanted to verify his credit card <input class="ans-input small" data-ans="number">. She was very polite, so he gave her all his credit card <input class="ans-input small" data-ans="information">.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('listen3')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('listen3')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ LISTENING: PERSONAL DISCUSSION ============ -->
-<div class="slide" id="s-listen4">
-  <div class="banner banner-listening">🎧 Listening</div>
-  <div class="slide-main"><div class="content">
-    <h2>Talk about it</h2>
-    <p class="discuss-label">💬 Share your thoughts</p>
-    <ul class="discuss-list">
-      <li>Have you, or has anybody you know, ever been the victim of a scam? Explain what happened.</li>
-      <li>What's the golden rule for staying safe? (Think back to the radio show's advice.)</li>
-    </ul>
   </div></div>
 </div>
 
@@ -1351,9 +1438,9 @@
         <div class="ex-row">4. We still <button class="circ-opt" data-group="hwv1-4" data-correct="owe" onclick="circPick(this)">owe</button> <button class="circ-opt" data-group="hwv1-4" data-correct="owe" onclick="circPick(this)">earn</button> the bank a lot of money.</div>
         <div class="ex-row">5. Ji-sung <button class="circ-opt" data-group="hwv1-5" data-correct="earns" onclick="circPick(this)">raises</button> <button class="circ-opt" data-group="hwv1-5" data-correct="earns" onclick="circPick(this)">earns</button> about $2,000 a month at his new job.</div>
         <div class="ex-row">6. That painting <button class="circ-opt" data-group="hwv1-6" data-correct="is worth" onclick="circPick(this)">charges</button> <button class="circ-opt" data-group="hwv1-6" data-correct="is worth" onclick="circPick(this)">is worth</button> a lot of money.</div>
+        <div class="ex-row">7. My uncle is doing a bike ride to <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">afford</button> <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">raise</button> money for charity.</div>
       </div>
       <div>
-        <div class="ex-row">7. My uncle is doing a bike ride to <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">afford</button> <button class="circ-opt" data-group="hwv1-7" data-correct="raise" onclick="circPick(this)">raise</button> money for charity.</div>
         <div class="ex-row">8. I don't want to lose these earrings. They <button class="circ-opt" data-group="hwv1-8" data-correct="cost" onclick="circPick(this)">cost</button> <button class="circ-opt" data-group="hwv1-8" data-correct="cost" onclick="circPick(this)">owed</button> a fortune!</div>
         <div class="ex-row">9. I'll have to <button class="circ-opt" data-group="hwv1-9" data-correct="borrow" onclick="circPick(this)">borrow</button> <button class="circ-opt" data-group="hwv1-9" data-correct="borrow" onclick="circPick(this)">lend</button> some money from the bank if I want to buy a new car.</div>
         <div class="ex-row">10. Mary <button class="circ-opt" data-group="hwv1-10" data-correct="inherited" onclick="circPick(this)">inherited</button> <button class="circ-opt" data-group="hwv1-10" data-correct="inherited" onclick="circPick(this)">invested</button> $10,000 from her grandfather when he died.</div>
@@ -1404,7 +1491,7 @@
   <div class="slide-main"><div class="content">
     <h2>HW3 — Complete the advertisement</h2>
     <p class="instruction">Click a word in the bank, then click the blank it belongs in.</p>
-    <div class="wb-bank book-style" id="hwv3-bank">
+    <div class="wb-bank book-style" id="hwv3-bank" style="position:sticky;top:0;z-index:5;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.06);">
       <span class="wb-tile example-used">bills</span>
       <span class="wb-tile" data-val="budget" onclick="wbPick(this)">budget</span>
       <span class="wb-tile" data-val="contactless payment" onclick="wbPick(this)">contactless payment</span>
@@ -1433,18 +1520,32 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW4 — Complete and answer</h2>
-    <p class="instruction">Complete the questions with a phrasal verb. Then write your answers to questions 2–4 below.</p>
+    <p class="instruction">Complete the questions with a phrasal verb from the list.</p>
+    <div class="mv-wordbank" style="position:static;box-shadow:none;">
+      <span class="mv-word" onclick="mvWordToggle(this)">live off</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">live on</span> &nbsp;&nbsp; <span class="mv-word" onclick="mvWordToggle(this)">pay back</span> &nbsp;&nbsp; <span class="mv-used" style="cursor:default;">take out</span>
+    </div>
     <div id="hwv4">
       <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> How often do you use an ATM? How much money do you usually <span style="color:#1A5030;font-weight:800;">take out</span>?</div>
       <div class="ex-row">2. When was the last time you lent money to somebody? How long did it take them to <input class="ans-input small" data-ans="pay"> you <input class="ans-input small" data-ans="back">?</div>
-      <div class="ex-row">3. Why do young people sometimes <input class="ans-input small" data-ans="live"> <input class="ans-input small" data-ans="off"> their parents?</div>
-      <div class="ex-row">4. What's the smallest amount of money you think you could <input class="ans-input small" data-ans="live"> <input class="ans-input small" data-ans="on"> for a month? What would you spend it on?</div>
+      <div class="ex-row">3. Why do young people sometimes <input class="ans-input" data-ans="live off"> their parents?</div>
+      <div class="ex-row">4. What's the smallest amount of money you think you could <input class="ans-input" data-ans="live on"> for a month? What would you spend it on?</div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('hwv4')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('hwv4')">Reset</button>
     </div>
-    <textarea class="ans-input wide" rows="4" style="margin-top:6px;"></textarea>
+    <p class="instruction" style="margin-top:20px;">Now, answer the questions about you.</p>
+    <div style="margin-top:6px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><span style="font-weight:700;color:#5A3E8C;">1</span><input type="text" class="ans-input" style="border:none;border-bottom:2px solid #0E5A8A;background:transparent;width:50%;"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><span style="font-weight:700;color:#5A3E8C;">2</span><input type="text" class="ans-input" style="border:none;border-bottom:2px solid #0E5A8A;background:transparent;width:50%;"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><span style="font-weight:700;color:#5A3E8C;">3</span><input type="text" class="ans-input" style="border:none;border-bottom:2px solid #0E5A8A;background:transparent;width:50%;"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><span style="font-weight:700;color:#5A3E8C;">4</span><input type="text" class="ans-input" style="border:none;border-bottom:2px solid #0E5A8A;background:transparent;width:50%;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('hwv4-sugg')">💡 Suggested Answer</button>
+      <button class="btn-reset" onclick="document.querySelectorAll('#hw-voc4 .content > div input[type=text]').forEach(i=>i.value='')">Reset</button>
+    </div>
+    <div class="suggest-box" id="hwv4-sugg">I usually take out about $40 at a time. I sometimes live off my parents when money is tight between paychecks. I think I could live on about $500 a month if I had to — I'd spend it mostly on rent and food.</div>
   </div></div>
 </div>
 
@@ -1453,20 +1554,33 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW5 — Pronunciation: <i>o</i> and <i>or</i></h2>
-    <p class="instruction">Select the word with a different sound in each row. Then decide if the <i>or</i> pairs below have the same (S) or different (D) pronunciation.</p>
-    <div class="fixed-two-col">
-      <div>
-        <p class="section-subhead" style="font-size:1.1rem;">Different sound</p>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> money &nbsp; nothing &nbsp; <span style="color:#1A5030;font-weight:800;">sorry ✓</span> &nbsp; won</div>
-        <div class="ex-row">2. <button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">contactless</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">shopping</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">dollar</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">clothes</button></div>
-        <div class="ex-row">3. <button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">owe</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">done</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">sold</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">loan</button></div>
+    <p class="instruction">Choose the word with a different sound.</p>
+    <div style="border:1.5px solid #E0E6E0;border-radius:12px;overflow:hidden;margin-bottom:22px;">
+      <div style="display:grid;grid-template-columns:160px 1fr;column-gap:36px;border-bottom:1px solid #E8ECE8;align-items:center;">
+        <div style="text-align:center;padding:12px;background:#FAFBFA;border-right:1px solid #E8ECE8;"><img src="sound-up.png" alt="up" style="height:88px;max-width:100%;"><div style="font-size:1.05rem;font-weight:700;color:#1C2B3A;margin-top:2px;">up</div></div>
+        <div style="padding:12px 18px 12px 4px;font-size:1.06rem;line-height:1.7;"><span class="example-badge">1</span><em style="color:#7B8794;font-weight:700;">(example)</em> money &nbsp; nothing &nbsp; <span style="color:#1A5030;font-weight:800;">sorry ✓</span> &nbsp; won</div>
       </div>
-      <div id="hwp1-typed">
-        <p class="section-subhead" style="font-size:1.1rem;">Same or different?</p>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> afford / organized — <span style="color:#1A5030;font-weight:800;">S</span></div>
-        <div class="ex-row">2. store / worse — <input class="ans-input small" data-ans="D"></div>
+      <div style="display:grid;grid-template-columns:160px 1fr;column-gap:36px;border-bottom:1px solid #E8ECE8;align-items:center;">
+        <div style="text-align:center;padding:12px;background:#FAFBFA;border-right:1px solid #E8ECE8;"><img src="sound-clock.png" alt="clock" style="height:88px;max-width:100%;"><div style="font-size:1.05rem;font-weight:700;color:#1C2B3A;margin-top:2px;">clock</div></div>
+        <div style="padding:12px 18px 12px 4px;font-size:1.06rem;">2. <button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">contactless</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">shopping</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">dollar</button><button class="circ-opt" data-group="hwp-2" data-correct="clothes" onclick="circPick(this)">clothes</button></div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr;column-gap:36px;align-items:center;">
+        <div style="text-align:center;padding:12px;background:#FAFBFA;border-right:1px solid #E8ECE8;"><img src="sound-phone.png" alt="phone" style="height:88px;max-width:100%;"><div style="font-size:1.05rem;font-weight:700;color:#1C2B3A;margin-top:2px;">phone</div></div>
+        <div style="padding:12px 18px 12px 4px;font-size:1.06rem;">3. <button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">owe</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">done</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">sold</button><button class="circ-opt" data-group="hwp-3" data-correct="done" onclick="circPick(this)">loan</button></div>
+      </div>
+    </div>
+    <p class="instruction">Decide if the <i>or</i> pairs below have the same (S) or different (D) pronunciation.</p>
+    <div class="card" style="text-align:center;margin-bottom:14px;">
+      <span class="example-badge">1</span><em style="color:#7B8794;font-weight:700;">(example)</em> afford / organized — <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">S</span>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="example-badge">2</span><em style="color:#7B8794;font-weight:700;">(example)</em> store / worse — <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">D</span>
+    </div>
+    <div id="hwp1-typed" class="fixed-two-col">
+      <div>
         <div class="ex-row">3. mortgage / fork — <input class="ans-input small" data-ans="S"></div>
         <div class="ex-row">4. short / work — <input class="ans-input small" data-ans="D"></div>
+      </div>
+      <div>
         <div class="ex-row">5. world / worth — <input class="ans-input small" data-ans="S"></div>
         <div class="ex-row">6. order / word — <input class="ans-input small" data-ans="D"></div>
       </div>
@@ -1515,13 +1629,13 @@
     <p class="instruction">Complete the conversations with the correct form of the verb in parentheses.</p>
     <div class="fixed-two-col" id="hwg2">
       <div>
-        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> A: When <span style="color:#1A5030;font-weight:800;">did</span> your son <span style="color:#1A5030;font-weight:800;">buy</span> his car? B: When he <input class="ans-input small" data-ans="passed"> his driver's test last month. (pass)</div>
-        <div class="ex-row">2. A: How much money <input class="ans-input small" data-ans="did"> you <input class="ans-input small" data-ans="borrow"> from your sister yesterday? B: About $100, but I <input class="ans-input small" data-ans="have"> <input class="ans-input small" data-ans="spent"> it already. (borrow / spend)</div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em><br><b>A:</b> When <span style="color:#1A5030;font-weight:800;">did</span> your son <span style="color:#1A5030;font-weight:800;">buy</span> his car?<br><b>B:</b> When he <span style="color:#1A5030;font-weight:800;">passed</span> his driver's test last month. (pass)</div>
+        <div class="ex-row">2.<br><b>A:</b> How much money <input class="ans-input small" data-ans="did"> you <input class="ans-input small" data-ans="borrow"> from your sister yesterday?<br><b>B:</b> About $100, but I <input class="ans-input small" data-ans="have"> <input class="ans-input small" data-ans="spent"> it already. (borrow / spend)</div>
+        <div class="ex-row">3.<br><b>A:</b> <input class="ans-input small" data-ans="Have"> you <input class="ans-input small" data-ans="found"> a new apartment yet?<br><b>B:</b> Yes, and the bank <input class="ans-input small" data-ans="has"> <input class="ans-input small" data-ans="agreed"> to give me a mortgage. (find / agree)</div>
       </div>
       <div>
-        <div class="ex-row">3. A: <input class="ans-input small" data-ans="Have"> you <input class="ans-input small" data-ans="found"> a new apartment yet? B: Yes, and the bank <input class="ans-input small" data-ans="has"> <input class="ans-input small" data-ans="agreed"> to give me a mortgage. (find / agree)</div>
-        <div class="ex-row">4. A: <input class="ans-input small" data-ans="Have"> you ever <input class="ans-input small" data-ans="lent"> any money to a friend? B: Only to my boyfriend when he <input class="ans-input small" data-ans="needed"> a new phone. (lend / need)</div>
-        <div class="ex-row">5. A: <input class="ans-input small" data-ans="Has"> your mother <input class="ans-input small" data-ans="made"> an appointment with the doctor yet? B: Yes, she <input class="ans-input small" data-ans="called"> him yesterday, and she's seeing him tomorrow. (make / call)</div>
+        <div class="ex-row">4.<br><b>A:</b> <input class="ans-input small" data-ans="Have"> you ever <input class="ans-input small" data-ans="lent"> any money to a friend?<br><b>B:</b> Only to my boyfriend when he <input class="ans-input small" data-ans="needed"> a new phone. (lend / need)</div>
+        <div class="ex-row">5.<br><b>A:</b> <input class="ans-input small" data-ans="Has"> your mother <input class="ans-input small" data-ans="made"> an appointment with the doctor yet?<br><b>B:</b> Yes, she <input class="ans-input small" data-ans="called"> him yesterday, and she's seeing him tomorrow. (make / call)</div>
       </div>
     </div>
     <div class="btn-row">
@@ -1535,63 +1649,48 @@
 <div class="slide" id="hw-gram3">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW8 — Write and answer the questions</h2>
-    <p class="instruction">Reorder the words to write present perfect and simple past questions. Then write your own answers to questions 2–6 below.</p>
+    <h2>HW8 — Reorder the words to write questions</h2>
+    <p class="instruction">Reorder the words to write present perfect and simple past questions.</p>
     <div id="hwg3">
-      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> you / buy a house → <span style="color:#1A5030;font-weight:800;">Have you ever bought a house?</span> &nbsp; when / you / buy it → <span style="color:#1A5030;font-weight:800;">When did you buy it?</span></div>
-      <div class="ex-row">2a. you / find any money on the street<br><input class="ans-input wide" data-ans="Have you ever found any money on the street?" data-alt="have you ever found any money on the street"></div>
-      <div class="ex-row">2b. how much / you / find<br><input class="ans-input wide" data-ans="How much did you find?" data-alt="how much did you find"></div>
-      <div class="ex-row">3a. you / use contactless payment<br><input class="ans-input wide" data-ans="Have you ever used contactless payment?" data-alt="have you ever used contactless payment"></div>
-      <div class="ex-row">3b. where / you / use it<br><input class="ans-input wide" data-ans="Where did you use it?" data-alt="where did you use it"></div>
-      <div class="ex-row">4a. you / pay for a meal for a lot of people<br><input class="ans-input wide" data-ans="Have you ever paid for a meal for a lot of people?" data-alt="have you ever paid for a meal for a lot of people"></div>
-      <div class="ex-row">4b. why / you / pay for it<br><input class="ans-input wide" data-ans="Why did you pay for it?" data-alt="why did you pay for it"></div>
-      <div class="ex-row">5a. you / stay in an expensive hotel<br><input class="ans-input wide" data-ans="Have you ever stayed in an expensive hotel?" data-alt="have you ever stayed in an expensive hotel"></div>
-      <div class="ex-row">5b. who / you / stay there with<br><input class="ans-input wide" data-ans="Who did you stay there with?" data-alt="who did you stay there with"></div>
-      <div class="ex-row">6a. you / raise money for charity<br><input class="ans-input wide" data-ans="Have you ever raised money for charity?" data-alt="have you ever raised money for charity"></div>
-      <div class="ex-row">6b. how much / you / raise<br><input class="ans-input wide" data-ans="How much did you raise?" data-alt="how much did you raise"></div>
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em><br>
+        <b>a</b> you / buy a house<br><span style="color:#1A5030;font-weight:800;font-style:italic;">Have you ever bought a house?</span><br>
+        <b>b</b> when / you / buy it<br><span style="color:#1A5030;font-weight:800;font-style:italic;">When did you buy it?</span>
+      </div>
+      <div class="fixed-two-col">
+        <div>
+          <div class="ex-row">
+            <b>2 a</b> you / find any money on the street<br><input class="ans-input half" data-ans="Have you ever found any money on the street?" data-alt="have you ever found any money on the street">
+            <br><b>b</b> how much / you / find<br><input class="ans-input half" data-ans="How much did you find?" data-alt="how much did you find">
+          </div>
+          <div class="ex-row">
+            <b>3 a</b> you / use contactless payment<br><input class="ans-input half" data-ans="Have you ever used contactless payment?" data-alt="have you ever used contactless payment">
+            <br><b>b</b> where / you / use it<br><input class="ans-input half" data-ans="Where did you use it?" data-alt="where did you use it">
+          </div>
+          <div class="ex-row">
+            <b>4 a</b> you / pay for a meal for a lot of people<br><input class="ans-input half" data-ans="Have you ever paid for a meal for a lot of people?" data-alt="have you ever paid for a meal for a lot of people">
+            <br><b>b</b> why / you / pay for it<br><input class="ans-input half" data-ans="Why did you pay for it?" data-alt="why did you pay for it">
+          </div>
+        </div>
+        <div>
+          <div class="ex-row">
+            <b>5 a</b> you / stay in an expensive hotel<br><input class="ans-input half" data-ans="Have you ever stayed in an expensive hotel?" data-alt="have you ever stayed in an expensive hotel">
+            <br><b>b</b> who / you / stay there with<br><input class="ans-input half" data-ans="Who did you stay there with?" data-alt="who did you stay there with">
+          </div>
+          <div class="ex-row">
+            <b>6 a</b> you / raise money for charity<br><input class="ans-input half" data-ans="Have you ever raised money for charity?" data-alt="have you ever raised money for charity">
+            <br><b>b</b> how much / you / raise<br><input class="ans-input half" data-ans="How much did you raise?" data-alt="how much did you raise">
+          </div>
+        </div>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('hwg3')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('hwg3')">Reset</button>
     </div>
-    <textarea class="ans-input wide" rows="5" style="margin-top:6px;"></textarea>
   </div></div>
 </div>
 
 <!-- ============ REVIEW: VIRTUAL BREAKOUT ============ -->
-<div class="slide" id="s-review">
-  <div class="banner banner-review">✅ Lesson Review</div>
-  <div class="slide-main"><div class="content">
-    <h2>Unlock the vault 🔐</h2>
-    <p class="instruction">Think back through today's lesson. Type the correct number to unlock each lock. Unlock all three to open the vault!</p>
-    <div class="lock-row">
-      <div class="lock" data-code="29000">
-        <span class="lock-icon">🔒</span>
-        <p class="lock-clue">How many dollars had Michelle saved by the end of her "no-spend year"?</p>
-        <input class="lock-input" placeholder="Enter code…">
-        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
-      </div>
-      <div class="lock" data-code="120">
-        <span class="lock-icon">🔒</span>
-        <p class="lock-clue">How many miles did she ride her bike to get to a friend's wedding?</p>
-        <input class="lock-input" placeholder="Enter code…">
-        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
-      </div>
-      <div class="lock" data-code="40">
-        <span class="lock-icon">🔒</span>
-        <p class="lock-clue">How many dollars a week did she allow herself for food and household essentials?</p>
-        <input class="lock-input" placeholder="Enter code…">
-        <div class="btn-row" style="margin-top:10px;"><button class="btn-check" onclick="checkLock(this.closest('.lock'))">Unlock</button></div>
-      </div>
-    </div>
-    <div class="breakout-success">🎉 You unlocked the vault! Great work reviewing today's lesson on money, scams, and the present perfect vs. simple past.</div>
-    <p class="discuss-label" style="margin-top:28px;">💬 One last thought</p>
-    <ul class="discuss-list">
-      <li>What's one thing from today's lesson you'll try to remember — about money, or about English?</li>
-    </ul>
-  </div></div>
-</div>
-
 <!-- SLIDES_PLACEHOLDER -->
 
 </div><!-- END #deck -->
@@ -1607,8 +1706,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1","s-leadin","s-vocab1","s-vocab2","s-vocab3","s-vocab4","s-vocab5","s-vocab6","s-pron1","s-pron2","s-speak-money","s-read1","s-read1b","s-read2","s-read3","s-speak-whatabout","s-gram-meaning","s-gram-ppsp","s-gram-form","s-gram-pron","s-gram-ex1","s-gram-ex2","s-gram-ex3","s-speak-ever","s-listen1","s-listen2","s-listen3","s-listen3b","s-listen4","hw-cover","hw-voc1","hw-voc2","hw-voc3","hw-voc4","hw-pron1","hw-gram1","hw-gram2","hw-gram3","s-review"];
-var slideLabels = ["Cover","Lead-in – Don Marquis Quote","Vocabulary – Money Quiz (Coins)","Vocabulary – True or False","Vocabulary – Money Verbs","Vocabulary – Money Prepositions","Vocabulary – Money Nouns","Vocabulary – Phrasal Verbs","Pronunciation – The Letter O","Pronunciation – The Letters OR & Dictation","Speaking – Money Q&A","Reading – No-Spend Year (Prediction)","Reading – No-Spend Year (Article + Matching)","Reading – True or False","Reading – Compound Nouns","Speaking – What About You?","Grammar – Present Perfect Meaning","Grammar – PP or SP Quiz","Grammar – Present Perfect Form","Grammar – Pronunciation (Weak 've)","Grammar – Dialogue Practice","Grammar – Grammar Bank Ex A","Grammar – Grammar Bank Ex B","Speaking – Have You Ever...?","Listening – Scam Definition & Email","Listening – Correct the Email","Listening – Radio Show (Gist)","Listening – Radio Show (Detail)","Listening – Personal Discussion","Homework Cover","HW1 – Choose the Verb","HW2 – Prepositions","HW3 – Bank Advertisement","HW4 – Phrasal Verbs Personalized","HW5 – Pronunciation O and OR","HW6 – Select the Correct Answer","HW7 – Complete the Conversations","HW8 – Reorder & Answer","Lesson Review – Virtual Breakout"];
+var slideIds = ["s1","s-leadin","s-vocab2","s-vocab3","s-vocab4","s-vocab5","s-vocab6","s-pron1","s-pron2","s-speak-money","s-read1","s-read1b","s-read2","s-read3","s-speak-whatabout","s-gram-meaning","s-gram-ppsp","s-gram-pp-meaning","s-gram-form","s-gram-pron","s-gram-ex2","s-gram-ex3","s-speak-ever","s-listen-scam","s-listen-email","s-listen2","s-spin","hw-cover","hw-voc1","hw-voc2","hw-voc3","hw-voc4","hw-pron1","hw-gram1","hw-gram2","hw-gram3"];
+var slideLabels = ["Cover","Lead-in – Don Marquis Quote","Vocabulary – True or False","Vocabulary – Money Verbs","Vocabulary – Money Prepositions","Vocabulary – Money Nouns","Vocabulary – Phrasal Verbs","Pronunciation – The Letter O","Pronunciation – The Letters OR & Dictation","Speaking – Money Q&A","Reading – No-Spend Year (Prediction)","Reading – No-Spend Year (Article + Matching)","Reading – True or False","Reading – Compound Nouns","Speaking – What About You?","Grammar – Analyzing","Grammar – Complete the Conversation","Grammar – PP vs SP Meaning","Grammar – Present Perfect Form","Grammar – Pronunciation (Weak 've)","Grammar – Grammar Bank Ex A","Grammar – Grammar Bank Ex B","Speaking – Have You Ever...?","Speaking – What's a Scam?","Reading – A Scam Email","Reading – Correct the Email","Speaking – Spin & Speak (Review)","Homework Cover","HW1 – Choose the Verb","HW2 – Prepositions","HW3 – Bank Advertisement","HW4 – Phrasal Verbs Personalized","HW5 – Pronunciation O and OR","HW6 – Select the Correct Answer","HW7 – Complete the Conversations","HW8 – Reorder the Questions"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2018,9 +2117,206 @@ function drawMoneyQuestion(){
 }
 function resetMoneyJar(){
   moneyDrawn = [];
-  document.getElementById('money-jar-question').textContent = 'Click the jar to draw your first question!';
+  document.getElementById('money-jar-question').textContent = 'Click the coin to draw your first question!';
   document.getElementById('money-jar-counter').textContent = '0 / ' + moneyQuestions.length + ' questions drawn';
 }
+
+/* ===================== SPEAKING: HAVE YOU EVER...? — PIGGY BANK DRAW ===================== */
+var everQuestions = [
+  "Have you ever saved for something for a long time?",
+  "Have you ever lent money to somebody who didn't pay you back?",
+  "Have you ever wasted money on something you've never used?",
+  "Have you ever bought something and immediately regretted it?",
+  "Have you ever inherited something from a relative?",
+  "Have you ever lost your card in an ATM?",
+  "Have you ever won any money (e.g., in a lottery)?",
+  "Have you ever forgotten your PIN for a credit or debit card?",
+  "Have you ever lost your wallet or bag?",
+  "Have you ever taken out a loan from the bank?",
+  "Have you ever bought or sold something on eBay or a similar site?"
+];
+var everDrawn = [];
+var everSpin = null;
+function drawEverQuestion(){
+  if (everSpin) return;
+  var piggy = document.getElementById('ever-piggy');
+  var display = document.getElementById('ever-question');
+  var counter = document.getElementById('ever-counter');
+  var markrow = document.getElementById('ever-markrow');
+  if (everDrawn.length >= everQuestions.length){
+    display.textContent = "🎉 All 11 questions asked! Click Reshuffle to play again.";
+    markrow.style.display = 'none';
+    return;
+  }
+  markrow.style.display = 'none';
+  display.classList.remove('ever-yes','ever-no');
+  var remaining = everQuestions.map(function(q,i){ return i; }).filter(function(i){ return everDrawn.indexOf(i) === -1; });
+  var flashes = 0;
+  everSpin = setInterval(function(){
+    var randIdx = remaining[Math.floor(Math.random() * remaining.length)];
+    display.textContent = everQuestions[randIdx];
+    piggy.classList.toggle('flip');
+    flashes++;
+    if (flashes > 8){
+      clearInterval(everSpin);
+      everSpin = null;
+      var chosen = remaining[Math.floor(Math.random() * remaining.length)];
+      everDrawn.push(chosen);
+      display.textContent = everQuestions[chosen];
+      counter.textContent = everDrawn.length + ' / ' + everQuestions.length + ' questions drawn';
+      markrow.style.display = 'flex';
+    }
+  }, 70);
+}
+function markEver(val){
+  var display = document.getElementById('ever-question');
+  display.classList.remove('ever-yes','ever-no');
+  display.classList.add(val === 'yes' ? 'ever-yes' : 'ever-no');
+}
+function resetEverJar(){
+  everDrawn = [];
+  var display = document.getElementById('ever-question');
+  display.textContent = 'Click the piggy bank to draw your first question!';
+  display.classList.remove('ever-yes','ever-no');
+  document.getElementById('ever-counter').textContent = '0 / ' + everQuestions.length + ' questions drawn';
+  document.getElementById('ever-markrow').style.display = 'none';
+}
+
+/* ===================== SPIN & SPEAK — LESSON REVIEW WHEEL ===================== */
+(function(){
+  var prompts = [
+    "Talk about something you've saved up for.\nUse the present perfect, then give details in the simple past.",
+    "Have you ever lent or borrowed money?\nWhat happened? Did they pay it back?",
+    "Describe the best bargain you've ever found.\nHow much did you pay for it?",
+    "Talk about a bill or expense you weren't expecting.\nWhat did you do about it?",
+    "Have you ever almost fallen for a scam?\nWhat happened, or how did you spot it?",
+    "If you tried a ‘no-spend year’ like Michelle in our reading,\nwhat would be hardest for you to give up? Why?",
+    "Talk about something you've inherited or been given.\nWhen did you get it?",
+    "Describe your money habits.\nAre you more of a saver or a spender? Give examples."
+  ];
+  var hints = [
+    "“I've saved up for a new laptop. I started saving six months ago, and I finally bought it last week.”",
+    "“Yes, I lent my brother $200 last year. It took him almost six months to pay me back!”",
+    "“I once found a jacket that was 70% off. I paid only $25 for something that normally costs $80.”",
+    "“My car needed new tires last month — I definitely wasn't expecting to spend $400 that week.”",
+    "“I once got an email saying I'd won a prize, but I never entered any contest, so I knew it was a scam.”",
+    "“I think giving up eating out would be hardest for me — I love trying new restaurants.”",
+    "“I inherited my grandmother's ring when she passed away a few years ago.”",
+    "“I'm definitely more of a saver — I always put some money aside before I spend on anything else.”"
+  ];
+  var colors = ['#1F7A4D','#1E6B8C','#5A3E8C','#A8571E','#0E7A8A','#C4614A','#2E7D32','#4A5A8C'];
+  var arc = 2*Math.PI/prompts.length;
+  var currentAngle = 0;
+  var spinning = false;
+  var usedIndices = [];
+  var remainingIndices = prompts.map(function(_,i){ return i; });
+
+  function updateSpinStatus(){
+    var el = document.getElementById('spin-status');
+    if (el) el.textContent = remainingIndices.length + ' prompt' + (remainingIndices.length===1?'':'s') + ' remaining';
+  }
+  function updateSpinUsedList(){
+    var box = document.getElementById('spin-used-box');
+    if (!box) return;
+    if (usedIndices.length === 0){ box.innerHTML = '<em style="color:#999;">None yet.</em>'; return; }
+    box.innerHTML = usedIndices.map(function(i,n){
+      return '<div style="padding:3px 0;border-bottom:1px solid #E8E0F8;"><strong style="color:#4A1A6A;">'+(n+1)+'.</strong> '+prompts[i].replace(/\n/g,' ')+'</div>';
+    }).join('');
+  }
+  window.toggleSpinUsed = function(){
+    var box = document.getElementById('spin-used-box');
+    if (box) box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  };
+  window.toggleSpinHint = function(){
+    var hint = document.getElementById('spin-hint');
+    var btn = document.getElementById('spin-hint-btn');
+    if (!hint) return;
+    var showing = hint.style.display !== 'none';
+    hint.style.display = showing ? 'none' : 'block';
+    btn.textContent = showing ? '💡 Show example' : '💡 Hide example';
+  };
+  function drawWheel(){
+    var canvas = document.getElementById('spinWheel');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var cx = canvas.width/2, cy = canvas.height/2, r = canvas.width/2-6;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for (var i=0;i<prompts.length;i++){
+      var isUsed = usedIndices.indexOf(i) > -1;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,currentAngle+i*arc,currentAngle+(i+1)*arc);
+      ctx.closePath();
+      ctx.fillStyle = isUsed ? '#bbb' : colors[i];
+      ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.rotate(currentAngle+i*arc+arc/2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = isUsed ? '#888' : '#fff';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(i+1, r-10, 6);
+      ctx.restore();
+    }
+    ctx.beginPath(); ctx.arc(cx,cy,24,0,2*Math.PI);
+    ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.strokeStyle = '#ccc'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx+r-2,cy-10);
+    ctx.lineTo(cx+r+12,cy);
+    ctx.lineTo(cx+r-2,cy+10);
+    ctx.closePath();
+    ctx.fillStyle = '#E8B923'; ctx.fill();
+  }
+  window.drawWheelFn = drawWheel;
+  function spinWheel(){
+    if (spinning) return;
+    if (remainingIndices.length === 0){
+      usedIndices = [];
+      remainingIndices = prompts.map(function(_,i){ return i; });
+      updateSpinStatus();
+      updateSpinUsedList();
+    }
+    spinning = true;
+    var pickIdx = Math.floor(Math.random()*remainingIndices.length);
+    var randomSlice = remainingIndices[pickIdx];
+    var extra = 2*Math.PI*(5+Math.random()*5);
+    var sliceCenter = randomSlice*arc+arc/2;
+    var targetAngle = currentAngle+extra+sliceCenter;
+    var start = null;
+    var duration = 3500;
+    var startAngle = currentAngle;
+    function animate(ts){
+      if (!start) start = ts;
+      var elapsed = ts-start;
+      var t = Math.min(elapsed/duration,1);
+      var ease = t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+      currentAngle = startAngle+ease*(targetAngle-startAngle);
+      drawWheel();
+      if (t<1){ requestAnimationFrame(animate); }
+      else {
+        currentAngle = targetAngle % (2*Math.PI);
+        var p = document.getElementById('spin-prompt');
+        if (p){ p.innerHTML = prompts[randomSlice].replace(/\n/g,'<br>'); }
+        var hw = document.getElementById('spin-hint-wrap');
+        var hb = document.getElementById('spin-hint');
+        var hbtn = document.getElementById('spin-hint-btn');
+        if (hw) hw.style.display = 'block';
+        if (hb){ hb.style.display = 'none'; hb.textContent = hints[randomSlice]; }
+        if (hbtn) hbtn.textContent = '💡 Show example';
+        usedIndices.push(randomSlice);
+        remainingIndices.splice(pickIdx,1);
+        updateSpinStatus();
+        updateSpinUsedList();
+        spinning = false;
+        drawWheel();
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  window.spinWheelFn = spinWheel;
+})();
 
 /* ===================== R-CHECK (Speaking interview) ===================== */
 function rPick(el){
