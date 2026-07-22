@@ -1177,31 +1177,6 @@ Some Flippity activity types are built for classrooms/multiple students and don'
 
 ---
 
-## 🎬 Warm-Up Standards — be creative, never default to a quote
-
-The Warm-Up is the first thing the student sees, so it must earn its place. A book quote followed by three discussion questions is the **fallback, not the format** — it should never be the whole warm-up.
-
-**Every warm-up must include at least one active, interactive element** from the list below, chosen to fit the lesson's topic:
-
-- **🧠 Myth or Fact?** — 4–6 surprising statements about the topic; student clicks Myth/Fact, graded green/red, then a 🔑 reveal explaining the real story with a memorable detail.
-- **🔢 Guess the number / year** — surprising statistics or dates hidden behind Reveal buttons; the student guesses out loud first.
-- **😅 What's wrong with this picture?** — a meme-style or staged image placeholder containing several deliberate mistakes; the student spots and describes them.
-- **📖 Funny short story or anecdote** — a 4–6 line true or true-ish story with a twist, followed by reaction questions.
-- **🗳️ Would you rather…** — two awkward options; the student picks one and justifies it.
-- **🎲 Dice roll / spin the wheel** — a random personal question to open the lesson (see Speaking Activities).
-
-**Rules for warm-ups:**
-
-- **Point it at the target language.** Wherever possible the warm-up should make the student *use* (or at least hear) the lesson's grammar or vocabulary before it's formally taught — e.g., a "how long has X been around?" guessing game before a present perfect lesson.
-- **Facts must be true and checkable.** Prefer well-established facts; hedge where a figure is an estimate ("it's commonly estimated that…"). Never invent a statistic to make a warm-up sound good.
-- **Keep the book's quote if there is one** — but demote it: put it *after* the interactive element, as a lead-in to the personal questions, not as the opening.
-- **Images are placeholders**, described specifically enough that the teacher knows exactly what to source (see the image placeholder standard).
-- **Vary the format between lessons.** Don't use Myth or Fact three lessons in a row — rotate through the list so the student never knows what's coming.
-
-> Reference implementations: **AEF4 5A** (survival Myth or Fact), **AEF3 2B** (how-long-have-they-been-around guessing game, which rehearses the target grammar), **AEF3 3A** (driving Myth or Fact + what's-wrong-with-this-picture).
-
----
-
 ## 🗂 Typical Lesson Slide Order
 
 Most lessons follow this sequence (not all sections appear in every lesson):
@@ -1295,7 +1270,6 @@ Before considering a lesson complete, verify:
 - [ ] Wordbank exercises use the correct click pattern — Case A (click-tile-to-place) if every word is used unchanged, Case B (typed blank + click-to-mark-used) if any word changes form
 - [ ] Non-homework example numbering verified against the actual book page (never assumed); example answer words use the green highlight chip, not blue italic/underline; example placement follows the odd/even centering logic (see 🟢 Example Presentation Standards)
 - [ ] Arrow keys don't trigger navigation while typing in inputs or notes
-- [ ] Warm-Up includes at least one active/interactive element (Myth or Fact, guess-the-number, what's-wrong-with-this-picture, story, would-you-rather, dice/wheel) — not just a quote + questions; and the format differs from the previous lesson (see 🎬 Warm-Up Standards)
 - [ ] Spin the Wheel redraws on slide entry (if present)
 - [ ] Multi-column exercises follow the top-to-bottom, left-to-right column order rule
 - [ ] Homework slides: no book-reference letters/track numbers anywhere visible (see Homework Exercise Standards)
@@ -1334,7 +1308,7 @@ Claude will build the lesson matching all standards above exactly, without askin
 The teacher does not need to repeat any of the points below in their prompt — they are permanent standing behavior for every new lesson:
 
 - **Check every single rule in this file** — not just the sections that seem obviously relevant to the lesson at hand. Go through structure, banners, column-order, homework rules, cover/homework-cover spec, notes system, print/PDF setup, backups, and American English spelling before considering the lesson done.
-- **Be creative** — don't default to the plainest possible exercise type. Reach for the Speaking Activities / gamified mechanics (dice, wheel, MadLibs, bingo, breakout, timelines, CCQs) wherever they fit, without being asked. **This applies to the Warm-Up above all — see 🎬 Warm-Up Standards.**
+- **Be creative** — don't default to the plainest possible exercise type. Reach for the Speaking Activities / gamified mechanics (dice, wheel, MadLibs, bingo, breakout, timelines, CCQs) wherever they fit, without being asked.
 - **When in doubt, check a previous lesson before asking the teacher** — AEF4-3A is the reference implementation; if a convention isn't crystal clear from this file, see how an existing lesson actually handled that same situation and match it, rather than guessing or interrupting with a question. **Never invent a new "standard" by copying a pattern from a different lesson file without first verifying it against the current lesson's own book page** — this has caused real errors (see 🟢 Example Presentation Standards).
 - **Leave clearly labeled placeholders for any image or audio file not yet provided** — never invent content or silently skip a media slot. A styled placeholder `<div>` (images) or asking the teacher for the expected filename (audio) is correct; leaving the spot blank or inventing a fake file is not.
 - **Copy from the book as much as possible** — exercise wording, sentence order, and the answer key should match the textbook exactly. Only the interaction mechanic changes to fit an on-screen click/type format (see Exercise Type Reference) — never paraphrase or invent book content.

@@ -515,6 +515,19 @@ var chkCorrect={1:false,2:true,3:false,4:true,5:false,6:false,7:true,8:true};
     text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:block;
   }
 }
+
+  /* ===== aef-scenery : layered scenery cover ===== */
+  #s1::after, #hw-cover::after {
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201440%20320'%20preserveAspectRatio='none'%3E%3Cpath%20fill='black'%20fill-opacity='.20'%20d='M0%20168L120%20120L250%20172L390%20104L520%20164L660%2096L800%20158L940%20112L1080%20170L1220%20124L1340%20166L1440%20140L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.38'%20d='M0%20220L160%20186L320%20228L480%20182L640%20224L800%20188L960%20230L1120%20192L1280%20228L1440%20202L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.56'%20d='M0%20268L180%20248L360%20274L540%20250L720%20276L900%20252L1080%20278L1260%20254L1440%20272L1440%20320L0%20320Z'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 36%, rgba(74,207,232,.38) 0%, rgba(74,207,232,.12) 42%, rgba(74,207,232,0) 68%);
+    background-repeat:no-repeat,no-repeat;
+    background-position:bottom center,center;
+    background-size:100% 46%,140% 110%;
+  }
+  #s1 .title-inner, #hw-cover .title-inner { position:relative; z-index:2; }
+  @media print { #s1::after, #hw-cover::after { display:none !important; } }
 </style>
 </head>
 <body>
@@ -2470,11 +2483,11 @@ function resetCheckEx() {
 function wpToggle(el){ el.classList.toggle("wp-used"); }
 
 /* ── DOWNLOAD NOTES ── */
-var slideIds = ["s1", "s2", "s3", "s5", "s-spin", "s7", "s7b", "s8", "s9", "s9b", "s-comm", "s-review", "hw-cover", "hw1", "hw2", "hw3"];
+var slideIds = ["s1", "s2", "s3", "s5", "s-spin", "s7", "s7b", "s8", "s9", "s9b", "s-comm", "s-review", "hw-cover", "hw1", "hw2", "hw3", "s-bonus-read"];
 function downloadNotes() {
   saveNotes();
-  var slideIds = ["s1", "s2", "s3", "s5", "s-spin", "s7", "s7b", "s8", "s9", "s9b", "s-comm", "s-review", "hw-cover", "hw1", "hw2", "hw3"];
-  var slideLabels = ["Cover", "Lead-in – Who is she?", "Reading – Interview with Simone Biles", "Reading – Reading Comprehension", "Speaking – Spin the Wheel!", "Listening – Interviewing an Actress", "Grammar – Analyzing", "Grammar – Question Types", "Grammar – Word Order in Questions", "Grammar – Question Word Order", "Speaking – Communication Practice", "Lesson Review", "Homework Cover", "HW1 – Question Formation", "HW2 – Indirect Questions", "HW3 – Writing Questions"];
+  var slideIds = ["s1", "s2", "s3", "s5", "s-spin", "s7", "s7b", "s8", "s9", "s9b", "s-comm", "s-review", "hw-cover", "hw1", "hw2", "hw3", "s-bonus-read"];
+  var slideLabels = ["Cover", "Lead-in – Who is she?", "Reading – Interview with Simone Biles", "Reading – Reading Comprehension", "Speaking – Spin the Wheel!", "Listening – Interviewing an Actress", "Grammar – Analyzing", "Grammar – Question Types", "Grammar – Word Order in Questions", "Grammar – Question Word Order", "Speaking – Communication Practice", "Lesson Review", "Homework Cover", "HW1 – Question Formation", "HW2 – Indirect Questions", "HW3 – Writing Questions", "Free Reading – She Balanced on Furniture Before She Could Fly"];
   var hasAny = false;
   var cards = '';
   slideIds.forEach(function(sid, idx) {

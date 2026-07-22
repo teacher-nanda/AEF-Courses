@@ -85,6 +85,14 @@
   #gram-ex2 .ans-input { width:120px; }
   #gram-ex1 .ans-input { width:230px; }
   .ans-input.half { width:50%; margin-top:6px; }
+
+  /* word-order question items: number / prompt / answer line, stacked */
+  .q-item { margin-bottom:22px; }
+  .q-num { font-weight:800; font-size:1.1rem; color:#1C2B3A; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .q-num em { font-style:italic; font-weight:400; font-size:1.05rem; color:#5A6B7A; }
+  .q-part { font-size:1.06rem; line-height:1.6; margin:8px 0 0; color:#1C2B3A; }
+  .ans-input.qline { display:block; width:60%; margin-top:5px; }
+  .q-ans-ex { display:inline-block; margin-top:5px; color:#1A7A4A; font-weight:800; background:#E3F5EA; padding:1px 7px; border-radius:5px; font-size:1.05rem; }
   textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
   textarea.ans-input[rows="1"] { min-height:38px; height:38px; resize:none; padding-top:6px; }
   .ans-input:focus { outline:none; border-bottom-color:#E8B923; }
@@ -363,6 +371,19 @@
     .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
     .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
   }
+
+  /* ===== aef-scenery : layered scenery cover ===== */
+  #s1::after, #hw-cover::after {
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201440%20320'%20preserveAspectRatio='none'%3E%3Cpath%20fill='black'%20fill-opacity='.20'%20d='M0%20168L120%20120L250%20172L390%20104L520%20164L660%2096L800%20158L940%20112L1080%20170L1220%20124L1340%20166L1440%20140L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.38'%20d='M0%20220L160%20186L320%20228L480%20182L640%20224L800%20188L960%20230L1120%20192L1280%20228L1440%20202L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.56'%20d='M0%20268L180%20248L360%20274L540%20250L720%20276L900%20252L1080%20278L1260%20254L1440%20272L1440%20320L0%20320Z'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 36%, rgba(232,185,35,.38) 0%, rgba(232,185,35,.12) 42%, rgba(232,185,35,0) 68%);
+    background-repeat:no-repeat,no-repeat;
+    background-position:bottom center,center;
+    background-size:100% 46%,140% 110%;
+  }
+  #s1 .title-inner, #hw-cover .title-inner { position:relative; z-index:2; }
+  @media print { #s1::after, #hw-cover::after { display:none !important; } }
 </style>
 </head>
 <body>
@@ -1652,33 +1673,51 @@
     <h2>HW8 — Reorder the words to write questions</h2>
     <p class="instruction">Reorder the words to write present perfect and simple past questions.</p>
     <div id="hwg3">
-      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em><br>
-        <b>a</b> you / buy a house<br><span style="color:#1A5030;font-weight:800;font-style:italic;">Have you ever bought a house?</span><br>
-        <b>b</b> when / you / buy it<br><span style="color:#1A5030;font-weight:800;font-style:italic;">When did you buy it?</span>
-      </div>
       <div class="fixed-two-col">
         <div>
-          <div class="ex-row">
-            <b>2 a</b> you / find any money on the street<br><input class="ans-input half" data-ans="Have you ever found any money on the street?" data-alt="have you ever found any money on the street">
-            <br><b>b</b> how much / you / find<br><input class="ans-input half" data-ans="How much did you find?" data-alt="how much did you find">
+          <div class="q-item">
+            <div class="q-num"><span class="example-badge">1</span><em>(example)</em></div>
+            <div class="q-part"><b>a</b> you / buy a house</div>
+            <div class="q-ans-ex">Have you ever bought a house?</div>
+            <div class="q-part"><b>b</b> when / you / buy it</div>
+            <div class="q-ans-ex">When did you buy it?</div>
           </div>
-          <div class="ex-row">
-            <b>3 a</b> you / use contactless payment<br><input class="ans-input half" data-ans="Have you ever used contactless payment?" data-alt="have you ever used contactless payment">
-            <br><b>b</b> where / you / use it<br><input class="ans-input half" data-ans="Where did you use it?" data-alt="where did you use it">
+          <div class="q-item">
+            <div class="q-num">2</div>
+            <div class="q-part"><b>a</b> you / find any money on the street</div>
+            <input class="ans-input qline" data-ans="Have you ever found any money on the street?" data-alt="have you ever found any money on the street">
+            <div class="q-part"><b>b</b> how much / you / find</div>
+            <input class="ans-input qline" data-ans="How much did you find?" data-alt="how much did you find">
           </div>
-          <div class="ex-row">
-            <b>4 a</b> you / pay for a meal for a lot of people<br><input class="ans-input half" data-ans="Have you ever paid for a meal for a lot of people?" data-alt="have you ever paid for a meal for a lot of people">
-            <br><b>b</b> why / you / pay for it<br><input class="ans-input half" data-ans="Why did you pay for it?" data-alt="why did you pay for it">
+          <div class="q-item">
+            <div class="q-num">3</div>
+            <div class="q-part"><b>a</b> you / use contactless payment</div>
+            <input class="ans-input qline" data-ans="Have you ever used contactless payment?" data-alt="have you ever used contactless payment">
+            <div class="q-part"><b>b</b> where / you / use it</div>
+            <input class="ans-input qline" data-ans="Where did you use it?" data-alt="where did you use it">
           </div>
         </div>
         <div>
-          <div class="ex-row">
-            <b>5 a</b> you / stay in an expensive hotel<br><input class="ans-input half" data-ans="Have you ever stayed in an expensive hotel?" data-alt="have you ever stayed in an expensive hotel">
-            <br><b>b</b> who / you / stay there with<br><input class="ans-input half" data-ans="Who did you stay there with?" data-alt="who did you stay there with">
+          <div class="q-item">
+            <div class="q-num">4</div>
+            <div class="q-part"><b>a</b> you / pay for a meal for a lot of people</div>
+            <input class="ans-input qline" data-ans="Have you ever paid for a meal for a lot of people?" data-alt="have you ever paid for a meal for a lot of people">
+            <div class="q-part"><b>b</b> why / you / pay for it</div>
+            <input class="ans-input qline" data-ans="Why did you pay for it?" data-alt="why did you pay for it">
           </div>
-          <div class="ex-row">
-            <b>6 a</b> you / raise money for charity<br><input class="ans-input half" data-ans="Have you ever raised money for charity?" data-alt="have you ever raised money for charity">
-            <br><b>b</b> how much / you / raise<br><input class="ans-input half" data-ans="How much did you raise?" data-alt="how much did you raise">
+          <div class="q-item">
+            <div class="q-num">5</div>
+            <div class="q-part"><b>a</b> you / stay in an expensive hotel</div>
+            <input class="ans-input qline" data-ans="Have you ever stayed in an expensive hotel?" data-alt="have you ever stayed in an expensive hotel">
+            <div class="q-part"><b>b</b> who / you / stay there with</div>
+            <input class="ans-input qline" data-ans="Who did you stay there with?" data-alt="who did you stay there with">
+          </div>
+          <div class="q-item">
+            <div class="q-num">6</div>
+            <div class="q-part"><b>a</b> you / raise money for charity</div>
+            <input class="ans-input qline" data-ans="Have you ever raised money for charity?" data-alt="have you ever raised money for charity">
+            <div class="q-part"><b>b</b> how much / you / raise</div>
+            <input class="ans-input qline" data-ans="How much did you raise?" data-alt="how much did you raise">
           </div>
         </div>
       </div>
@@ -1855,10 +1894,16 @@ function circPick(btn){
   box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
   if (!wasPicked) btn.classList.add('picked');
 }
+function circScope(sid){
+  var el = document.getElementById(sid);
+  if (!el) return null;
+  if (el.querySelector('.circ-opt[data-group]')) return el;   /* scope to this exercise */
+  return el.closest('.slide') || el;                           /* legacy fallback */
+}
 function checkCircSlide(sid){
-  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var box = circScope(sid);
   var groups = {};
-  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  box.querySelectorAll('.circ-opt[data-group][data-correct]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
   Object.keys(groups).forEach(function(g){
     var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
     groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
@@ -1868,7 +1913,7 @@ function checkCircSlide(sid){
   });
 }
 function resetCircSlide(sid){
-  var box = document.getElementById(sid).closest('.slide') || document.getElementById(sid);
+  var box = circScope(sid);
   box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
 }
 

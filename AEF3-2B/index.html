@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEF3 2B — Changing Lives</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
+  .slide {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+    transition:opacity .35s ease; overflow-y:auto; min-height:100vh;
+    display:flex; flex-direction:column; background:#fff;
+  }
+  .slide.active { opacity:1; pointer-events:auto; }
+
+  /* ===== COVER / HW COVER ===== */
+  #s1, #hw-cover {
+    background: linear-gradient(135deg, #0B1F2A 0%, #123B3F 28%, #1A5A4A 52%, #2E8B57 76%, #E0A836 100%);
+    align-items:center; justify-content:center;
+  }
+  .title-inner { position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; }
+  .title-label { text-transform:uppercase; letter-spacing:.18em; font-size:1.1rem; font-weight:500; color:rgba(255,255,255,.65); margin-bottom:10px; }
+  .title-sub { font-size:1.15rem; font-weight:400; color:rgba(255,255,255,.75); margin-bottom:26px; }
+  .title-main { font-size:3.4rem; font-weight:900; color:#fff; line-height:1.1; text-align:center; max-width:900px; }
+  .title-accent { color:#F5B841; text-shadow:0 0 28px rgba(245,184,65,.5); }
+  .hw-badge { background:rgba(255,255,255,.1); border-radius:8px; padding:7px 22px; font-size:1rem; letter-spacing:.15em; color:rgba(255,255,255,.85); text-transform:uppercase; font-weight:600; margin-bottom:32px; }
+
+  /* ===== BANNERS ===== */
+  .banner { width:100%; padding:13px 28px; font-size:1.1rem; font-weight:700; letter-spacing:.03em; display:flex; align-items:center; gap:10px; flex-shrink:0; color:#fff; }
+  .banner-leadin    { background:#D35400; }
+  .banner-listening { background:#0E7A8A; }
+  .banner-speaking  { background:#B23A6B; }
+  .banner-grammar   { background:#5A2E8C; }
+  .banner-pron      { background:#A8571E; }
+  .banner-reading   { background:#2A6B42; }
+  .banner-vocab     { background:#1E7A5F; }
+  .banner-video     { background:#A83232; }
+  .banner-review    { background:#2E2A6B; }
+  .banner-hw        { background:#14342A; }
+  .banner-writing   { background:#8C5A2B; }
+
+  /* syllable stress marking */
+  .syl-word { display:inline-flex; align-items:center; margin:6px 10px 6px 0; border:1.5px solid #ccc; border-radius:10px; overflow:hidden; background:#fff; font-size:1.06rem; font-weight:700; }
+  .syl { padding:8px 12px; cursor:pointer; color:#1C2B3A; border-right:1px solid #eee; }
+  .syl:last-child { border-right:none; }
+  .syl:hover { background:#F4F8FA; }
+  .syl.picked { background:#EEE7F7; color:#5A2E8C; }
+  .syl.correct { background:#E3F5EA; color:#1A7A4A; }
+  .syl.wrong { background:#FBEAE6; color:#C4614A; }
+
+  .slide-main { flex:1; overflow-y:auto; width:100%; display:flex; flex-direction:column; padding-bottom:60px; }
+  .content { padding:24px 48px 20px; flex:1; }
+  h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
+  .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .section-subhead { font-size:1.3rem; font-weight:800; color:#5A2E8C; margin:24px 0 10px; }
+  .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
+  .discuss-list li { margin-bottom:10px; }
+
+  /* ===== CARDS / EXERCISE CONTAINERS ===== */
+  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
+  .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
+  .book-placeholder .bp-note { font-weight:400; font-size:1.05rem; color:#9A7A2E; margin-top:6px; }
+  .lead-img-wrap { text-align:center; margin-bottom:20px; }
+  .lead-img { width:100%; max-height:280px; object-fit:cover; border-radius:14px; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .lead-img-caption { font-size:1.08rem; font-style:italic; font-weight:700; color:#8B3A1E; margin:12px 0 0; }
+
+  .ex-row { font-size:1.06rem; line-height:1.7; margin-bottom:10px; color:#1C2B3A; }
+  .ans-input { border:none; border-bottom:2px solid #5A2E8C; background:transparent; font-size:1.05rem; font-weight:700; width:160px; padding:2px 4px; text-align:left; font-family:inherit; color:#1C2B3A; }
+  .ans-input.small { width:120px; }
+  .ans-input.wide { width:100%; margin-top:6px; }
+  .ans-input.half { width:50%; margin-top:6px; }
+  textarea.ans-input { display:block; min-height:70px; resize:vertical; text-align:left; }
+  .ans-input:focus { outline:none; border-bottom-color:#B23A6B; }
+  .ans-input.correct { color:#1A7A4A; border-bottom-color:#1A7A4A; }
+  .ans-input.wrong { color:#C4614A; border-bottom-color:#C4614A; }
+  .ans-input.empty-warn { color:#C98A1E; border-bottom-color:#C98A1E; }
+
+  .two-col { columns:2; column-gap:40px; }
+  .two-col .ex-row { break-inside:avoid; }
+  .fixed-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; align-items:start; }
+  .fixed-three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 28px; align-items:start; }
+
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  .btn-check { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-suggest { background:#1B6E96; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  .suggest-box { display:none; background:#EAF4F6; border-left:4px solid #1B6E96; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .suggest-box.show { display:block; }
+  .suggest-box li { margin-bottom:6px; }
+
+  /* circle MC */
+  .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#5A2E8C; margin-right:8px; font-size:.9rem; }
+  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt.picked { border-color:#5A2E8C; background:#EEE7F7; font-weight:700; }
+  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
+  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
+  .example-badge { background:#2E7D32;color:#fff;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:800; margin-right:8px; font-size:.9rem; }
+
+  /* classify */
+  .classify-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .classify-chip { border:1.5px solid #5A2E8C; color:#5A2E8C; border-radius:20px; padding:6px 16px; cursor:pointer; font-weight:700; font-size:1.05rem; background:#fff; font-family:inherit; }
+  .classify-chip.selected { background:#5A2E8C; color:#fff; }
+  .classify-chip.used { opacity:.35; cursor:default; border-style:dashed; }
+  .classify-cols { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .classify-col { background:#fff; border:2px solid #ddd; border-radius:10px; padding:14px; min-height:70px; cursor:pointer; }
+  .classify-col h4 { margin:0 0 8px; font-size:1.1rem; color:#5A2E8C; }
+  .classify-col .placed { display:inline-block; background:#EEE7F7; border-radius:14px; padding:3px 10px; margin:3px; font-size:1.05rem; font-weight:700; }
+  .classify-col .placed.correct { background:#E3F5EA; color:#1A7A4A; }
+  .classify-col .placed.wrong { background:#FBEAE6; color:#C4614A; }
+
+  /* match colour pair */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; background:#F8FAFB; border-radius:14px; padding:1.3rem 1.4rem; }
+  .match-col-head { font-weight:800; font-size:1.05rem; letter-spacing:.02em; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #E0E6EC; }
+  .match-col-head.mc-left { color:#5A2E8C; }
+  .match-col-head.mc-right { color:#A8571E; }
+  .match-item { padding:11px 14px; border-radius:8px; border:1.5px solid #ddd; margin-bottom:10px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; user-select:none; position:relative; transition:border-color .15s, box-shadow .15s, transform .15s; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:flex-start; }
+  .match-item:not(.example-pair):hover { box-shadow:0 3px 10px rgba(0,0,0,.14); transform:translateY(-1px); }
+  .match-item.example-pair { cursor:default; background:#EAF6EE !important; border-color:#2E7D32 !important; }
+  .match-item.c0 { border-color:#7B2D8E; border-width:3px; background:#F3E6F7; box-shadow:0 0 0 2px rgba(123,45,142,.25); }
+  .match-item.c1 { border-color:#C9822E; border-width:3px; background:#FBEFE0; box-shadow:0 0 0 2px rgba(201,130,46,.25); }
+  .match-item.c2 { border-color:#2A5A9E; border-width:3px; background:#E3EBFA; box-shadow:0 0 0 2px rgba(42,90,158,.25); }
+  .match-item.c3 { border-color:#0E7A8A; border-width:3px; background:#E3F2F4; box-shadow:0 0 0 2px rgba(14,122,138,.25); }
+  .match-item.c4 { border-color:#B23A6B; border-width:3px; background:#F8E6EE; box-shadow:0 0 0 2px rgba(178,58,107,.25); }
+  .match-item.c5 { border-color:#8C7A1E; border-width:3px; background:#F5F1DD; box-shadow:0 0 0 2px rgba(140,122,30,.25); }
+  .match-item.c6 { border-color:#4A5A8C; border-width:3px; background:#E6E9F5; box-shadow:0 0 0 2px rgba(74,90,140,.25); }
+  .match-item.c7 { border-color:#3E8C5E; border-width:3px; background:#E6F5EC; box-shadow:0 0 0 2px rgba(62,140,94,.25); }
+  .match-item.picking { border-color:#5A2E8C; border-width:3px; border-style:dashed; box-shadow:0 0 0 2px rgba(90,46,140,.2); }
+  .match-item.correctpair { outline:3px solid #1A7A4A; background:#1A7A4A !important; color:#fff; }
+  .match-item.wrongpair { outline:3px solid #C4614A; background:#C4614A !important; color:#fff; }
+
+  /* word bank tiles */
+  .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .wb-bank.book-style { border-top:3px double #333; border-bottom:1px solid #ccc; padding:12px 4px; }
+  .wb-tile { border:1.5px solid #A8571E; color:#A8571E; background:#fff; border-radius:18px; padding:6px 16px; cursor:pointer; font-weight:700; font-family:inherit; font-size:1.05rem; }
+  .wb-tile.used { opacity:.35; border-style:dashed; cursor:default; }
+  .wb-tile.selected { background:#A8571E; color:#fff; }
+  .wb-tile.example-used { opacity:.5; border-style:dashed; cursor:default; text-decoration:line-through; }
+  .wb-blank { display:inline-block; min-width:90px; border-bottom:2px solid #A8571E; padding:2px 8px; margin:0 3px; cursor:pointer; font-weight:700; color:#A8571E; text-align:center; }
+  .wb-blank.filled { border-style:solid; }
+  .wb-blank.correct { color:#1A7A4A; border-color:#1A7A4A; }
+  .wb-blank.wrong { color:#C4614A; border-color:#C4614A; }
+
+  /* audio / video placeholders */
+  .audio-box { background:#f0f4f8; border-radius:999px; padding:10px 18px; display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .audio-box audio { width:100%; }
+  .video-box { background:#1C2B3A; border-radius:14px; padding:16px 20px; margin-bottom:18px; }
+  .video-box video { width:100%; border-radius:8px; display:block; }
+  .video-box p { color:#fff; font-size:1.05rem; margin:0 0 10px; font-weight:700; letter-spacing:.02em; }
+  .glossary-note { font-size:1.05rem; color:#666; font-style:italic; margin-top:10px; }
+  .glossary-box { background:#F4F8FA; border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .glossary-box h4 { margin:0 0 8px; font-size:1rem; color:#5A2E8C; }
+  .glossary-box p { margin:0 0 6px; font-size:1.05rem; line-height:1.6; color:#1C2B3A; }
+  .glossary-box b { color:#1C2B3A; }
+
+  /* answer key toggle */
+  .akey-box { display:none; background:#F3EEF7; border-left:4px solid #5A2E8C; border-radius:8px; padding:16px 20px; margin-top:16px; font-size:1.05rem; line-height:1.7; color:#1C2B3A; }
+  .akey-box.show { display:block; }
+  .akey-box li { margin-bottom:8px; }
+  .btn-akey { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  /* grammar theory / form reference */
+  .gram-box { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; border-left:6px solid #5A2E8C; }
+  .gram-box h3 { margin:0 0 8px; font-size:1.1rem; color:#5A2E8C; }
+  .gram-box p { font-size:1.06rem; line-height:1.7; color:#1C2B3A; margin:0 0 8px; }
+  .gram-box .hl { font-weight:800; color:#5A2E8C; }
+  .gram-box ul { margin:6px 0 0; padding-left:20px; font-size:1.05rem; line-height:1.8; color:#1C2B3A; }
+  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .gram-mistake { background:#FDEBEA; border-left:4px solid #C4614A; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A2A1E; margin-top:10px; line-height:1.6; }
+  .gram-mistake s { color:#922B21; }
+  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.6; }
+  .ex-example-centered .ex-tag { display:block; font-style:normal; font-weight:800; letter-spacing:.06em; font-size:.78rem; text-transform:uppercase; color:#2F7A52; margin-bottom:6px; }
+
+  /* CCQ box */
+  .ccq-box { background:#F4F8FA; border-radius:10px; padding:14px 18px; margin:14px 0; }
+  .ccq-label { font-weight:700; color:#5A2E8C; margin-bottom:8px; font-size:1.05rem; }
+  .ccq-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .ccq-list li { font-size:1.05rem; color:#1C2B3A; }
+  .ccq-list em { color:#5A2E8C; font-weight:700; font-style:normal; }
+  .ccq-reveal-btn { background:#5A2E8C; color:#fff; border:none; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700; cursor:pointer; margin-right:10px; }
+  .ccq-reveal-btn:hover { background:#7A45B5; }
+  .ccq-answer { display:none; color:#1A5030; font-weight:600; }
+  .ccq-answer.show { display:inline; }
+
+  /* speaking interview cards */
+  .interview-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:10px; }
+  .interview-card { background:#F8F0F4; border-radius:14px; padding:18px 20px; border-left:6px solid #B23A6B; }
+  .interview-card h4 { margin:0 0 12px; font-size:1.15rem; color:#B23A6B; }
+  .interview-q { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; font-size:1.05rem; line-height:1.6; color:#1C2B3A; }
+  .interview-q:last-child { margin-bottom:0; }
+  .r-check { flex-shrink:0; width:34px; height:34px; border-radius:8px; border:2px solid #B23A6B; background:#fff; color:#B23A6B; font-weight:800; font-size:.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit; margin-top:2px; }
+  .r-check.picked { background:#B23A6B; color:#fff; }
+  .r-summary { background:#1C2B3A; color:#fff; border-radius:10px; padding:14px 20px; margin-top:14px; font-size:1.05rem; text-align:center; font-weight:700; }
+
+  /* image placeholder */
+  .img-placeholder { background:linear-gradient(135deg,#FBEFE0,#F5DCC0); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8B5A1E; font-size:.95rem; font-weight:600; border:2px dashed #D9B36C; margin:8px 0; padding:24px; text-align:center; min-height:120px; }
+  .img-placeholder .ip-icon { font-size:1.8rem; margin-bottom:6px; }
+  .photo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:16px; }
+  .photo-item { position:relative; }
+  .photo-item .img-placeholder { min-height:140px; margin:0; }
+  .photo-num { position:absolute; top:8px; left:8px; background:#1C2B3A; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .photo-label { margin-top:6px; }
+  .photo-label .wb-blank { display:block; width:100%; text-align:center; }
+
+  /* article */
+  .article-box { background:#FAFAF8; border-radius:12px; padding:20px 24px; margin-bottom:16px; border:1px solid #eee; }
+  .article-box h3 { font-size:1.3rem; font-weight:900; color:#1C2B3A; margin:0 0 4px; line-height:1.3; }
+  .article-box h3 .hl { background:#A83232; color:#fff; padding:2px 8px; border-radius:4px; }
+  .article-box p { font-size:1.05rem; line-height:1.75; color:#1C2B3A; margin:0 0 14px; }
+  .article-box p:last-child { margin-bottom:0; }
+
+  /* checkbox tick list */
+  .tick-list { display:flex; flex-direction:column; gap:8px; margin:10px 0 18px; }
+  .tick-item { display:flex; align-items:center; gap:12px; padding:9px 14px; border:1.5px solid #ddd; border-radius:8px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; background:#fff; transition:all .15s; }
+  .tick-item:hover { border-color:#2A6B42; }
+  .tick-box { width:22px; height:22px; border:2px solid #999; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:#fff; font-weight:800; }
+  .tick-item.picked { border-color:#2A6B42; background:#EAF6EE; }
+  .tick-item.picked .tick-box { background:#2A6B42; border-color:#2A6B42; }
+  .tick-item.correct { border-color:#1A7A4A; background:#E3F5EA; }
+  .tick-item.correct .tick-box { background:#1A7A4A; border-color:#1A7A4A; }
+  .tick-item.wrong { border-color:#C4614A; background:#FBEAE6; }
+  .tick-item.wrong .tick-box { background:#C4614A; border-color:#C4614A; }
+  .tick-item.missed { border-color:#C98A1E; background:#FDF3D6; }
+
+  /* dice */
+  .dice-box { text-align:center; background:#F4F8FA; border-radius:14px; padding:30px; }
+  .die-face { font-size:3.5rem; margin-bottom:16px; }
+  .dice-prompt { font-size:1.15rem; font-weight:700; color:#1C2B3A; margin-top:16px; min-height:30px; }
+  .book-hl { background:#D9D9D9; padding:1px 5px; border-radius:3px; }
+
+  /* review */
+  .review-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:10px 0; }
+
+  /* score scale (Listening 1a) */
+  .score-card { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+  .env-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:9px 0; border-bottom:1px solid #e2e8e2; font-size:1.05rem; color:#1C2B3A; }
+  .env-row:last-child { border-bottom:none; }
+  .env-row .env-label { flex:1; }
+  .env-scale { display:flex; gap:6px; }
+  .env-pill { width:32px; height:32px; border-radius:50%; border:1.5px solid #0E7A8A; color:#0E7A8A; background:#fff; cursor:pointer; font-weight:700; font-size:.95rem; display:flex; align-items:center; justify-content:center; font-family:inherit; }
+  .env-pill.picked { background:#0E7A8A; color:#fff; }
+  .score-legend { display:flex; justify-content:space-between; font-size:.85rem; color:#888; margin-top:6px; font-style:italic; }
+
+  /* ===== NAV / NOTES / HOME ===== */
+  #notesBtn { position:fixed; top:14px; right:22px; z-index:1000; background:rgba(10,40,54,.88); color:#fff; border:none; padding:9px 20px; border-radius:22px; cursor:pointer; font-size:.92rem; font-weight:600; letter-spacing:.02em; transition:background .2s; backdrop-filter:blur(4px); }
+  #notesBtn:hover { background:rgba(10,40,54,1); }
+  #homeBtn { position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:1000; display:none; background:rgba(10,40,54,.88); color:#fff; border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:1.1rem; align-items:center; justify-content:center; transition:background .2s; backdrop-filter:blur(4px); }
+  #homeBtn:hover { background:rgba(20,96,122,.95); }
+  #notesPanel { position:fixed; top:54px; right:22px; z-index:999; width:360px; max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .25s ease; opacity:0; border-radius:14px; }
+  #notesPanel.open { max-height:320px; opacity:1; }
+  #notesPanel.cover { left:50%; right:auto; top:56px; transform:translateX(-50%); width:min(760px,94vw); max-height:calc(100vh - 110px) !important; display:flex; flex-direction:column; }
+  #notesPanel.cover #notesTA { min-height:calc(100vh - 210px) !important; max-height:calc(100vh - 210px) !important; overflow-y:auto; }
+  #notesToolbar { display:flex; gap:5px; padding:6px 10px; background:rgba(10,40,54,.7); border-radius:10px 10px 0 0; align-items:center; flex-wrap:wrap; }
+  #notesToolbar button { background:rgba(255,255,255,.12); border:none; border-radius:5px; color:#fff; font-size:.85rem; padding:3px 9px; cursor:pointer; font-family:inherit; transition:background .15s; }
+  #notesToolbar button:hover { background:rgba(255,255,255,.25); }
+  #notesTA { width:100%; min-height:220px; max-height:260px; padding:14px; border:none; border-radius:0 0 14px 14px; outline:none; font-size:1rem; line-height:1.55; background:rgba(10,40,54,.92); color:#fff; font-family:inherit; backdrop-filter:blur(6px); box-sizing:border-box; overflow-y:auto; }
+  #notesTA:empty::before { content:attr(data-placeholder); color:rgba(255,255,255,.4); pointer-events:none; }
+  #notesTA [style*="background-color"] { color:#1a1a1a !important; }
+  #nav { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(10,40,54,.96); z-index:500; display:flex; align-items:center; justify-content:center; gap:14px; }
+  #nav button { background:rgba(255,255,255,.12); color:#fff; border:none; border-radius:7px; padding:7px 16px; font-size:.95rem; cursor:pointer; font-family:inherit; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #dots { display:flex; gap:5px; flex-wrap:wrap; max-width:360px; justify-content:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; }
+  .dot.active { background:#F5B841; }
+  #counter { color:#fff; font-size:.9rem; min-width:54px; text-align:center; }
+
+  /* print */
+  .slide-notes-print { display:none; }
+  .lesson-link-print { display:none; }
+  @media print {
+    @page { margin:1.2cm; }
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { height:auto !important; overflow:visible !important; background:#fff !important; display:block !important; }
+    #deck { overflow:visible !important; height:auto !important; display:block !important; position:static !important; }
+    #notesBtn, #notesPanel, #nav, #homeBtn { display:none !important; }
+    body.print-all .slide { display:flex !important; flex-direction:column !important; position:relative !important; inset:auto !important; opacity:1 !important; padding:16px 24px !important; page-break-after:always; break-after:page; min-height:0 !important; height:auto !important; }
+    .slide * { flex:none !important; height:auto !important; min-height:0 !important; max-height:none !important; }
+    .slide-main, .content { overflow:visible !important; }
+    img, video { max-height:240px !important; width:auto !important; max-width:100% !important; object-fit:contain !important; }
+    body.print-all .slide::before { content:"AEF3 2B \2014  Changing Lives"; display:block !important; font-size:10px; color:#999; font-family:'Segoe UI', Arial, sans-serif; padding-bottom:5px; border-bottom:1px solid #ddd; margin-bottom:8px; }
+    body.print-all #s1::before { display:none !important; }
+    .lesson-link-print { display:block !important; padding:28px 32px; margin-bottom:20px; background:linear-gradient(135deg, #0B1F2A 0%, #123B3F 28%, #1A5A4A 52%, #2E8B57 76%, #E0A836 100%); border-radius:12px; text-align:center; font-family:'Segoe UI', Arial, sans-serif; }
+    .lesson-link-print .lp-title { display:block; font-size:30px; font-weight:900; color:#fff; margin-bottom:10px; letter-spacing:.01em; line-height:1.2; }
+    .lesson-link-print .lp-sub { display:block; font-size:20px; color:rgba(255,255,255,.88); font-weight:500; }
+    .lesson-link-print a { color:#F5B841; font-weight:800; text-decoration:underline; font-size:20px; }
+    .slide-notes-print { display:block !important; margin-top:12px; padding:10px 14px; border-top:2px solid #0E5A8A; background:#E3F2FD; border-radius:6px; font-size:12px; line-height:1.6; color:#1A1A2E; }
+    .slide-notes-print-label { font-size:10px; font-weight:800; color:#0E5A8A; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; display:block; }
+    .card-body, .card-body * { color:#1a1a1a !important; }
+  }
+
+  /* ===== aef-scenery : layered scenery cover ===== */
+  #s1::after, #hw-cover::after {
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201440%20320'%20preserveAspectRatio='none'%3E%3Cpath%20fill='black'%20fill-opacity='.20'%20d='M0%20168L120%20120L250%20172L390%20104L520%20164L660%2096L800%20158L940%20112L1080%20170L1220%20124L1340%20166L1440%20140L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.38'%20d='M0%20220L160%20186L320%20228L480%20182L640%20224L800%20188L960%20230L1120%20192L1280%20228L1440%20202L1440%20320L0%20320Z'/%3E%3Cpath%20fill='black'%20fill-opacity='.56'%20d='M0%20268L180%20248L360%20274L540%20250L720%20276L900%20252L1080%20278L1260%20254L1440%20272L1440%20320L0%20320Z'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 36%, rgba(245,184,65,.38) 0%, rgba(245,184,65,.12) 42%, rgba(245,184,65,0) 68%);
+    background-repeat:no-repeat,no-repeat;
+    background-position:bottom center,center;
+    background-size:100% 46%,140% 110%;
+  }
+  #s1 .title-inner, #hw-cover .title-inner { position:relative; z-index:2; }
+  @media print { #s1::after, #hw-cover::after { display:none !important; } }
+</style>
+</head>
+<body>
+<button id="homeBtn" onclick="goTo(0)">🏠</button>
+<button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
+<div id="notesPanel">
+  <div id="notesToolbar">
+    <button onclick="notesFormat('bold')" title="Bold"><b>B</b></button>
+    <button onclick="notesFormat('underline')" title="Underline"><u>U</u></button>
+    <span style="display:flex;gap:3px;align-items:center;margin-left:6px;padding-left:6px;border-left:1px solid rgba(255,255,255,.2)">
+      <button onclick="notesHilite('#FFE600')" title="Yellow" style="background:#FFE600;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#90EE90')" title="Green"  style="background:#90EE90;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#FFB3C6')" title="Pink"   style="background:#FFB3C6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('#ADD8E6')" title="Blue"   style="background:#ADD8E6;width:20px;height:20px;padding:0;border-radius:4px;border:none;cursor:pointer;"></button>
+      <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.78rem;padding:2px 7px;color:#ff9999;margin-left:2px;background:rgba(255,255,255,.1);border:none;border-radius:4px;cursor:pointer;">✕</button>
+    </span>
+  </div>
+  <div id="notesTA" contenteditable="true" data-placeholder="Your notes for this slide…" spellcheck="false" oninput="saveNotes()"></div>
+</div>
+
+<div id="deck">
+<!-- ============ COVER ============ -->
+<div class="slide active" id="s1">
+  <div class="title-inner">
+    <div class="title-label">Conversational English</div>
+    <div class="title-sub">with teacher Nanda</div>
+    <div class="title-main">Changing <span class="title-accent">Lives</span></div>
+    <a href="../index.html" title="All AEF Courses" style="position:absolute;bottom:70px;left:32px;font-size:1.7rem;line-height:1;text-decoration:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));">🏠</a>
+    <div style="position:absolute;bottom:70px;right:32px;">
+      <button onclick="goToId('hw-cover')" style="background:#14342A;color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.03em;">📝 Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WARM-UP ============ -->
+<div class="slide" id="s-leadin">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>How long have they been around?</h2>
+    <p class="instruction">Guess the year each of these started. Say your guess out loud in a full sentence, then reveal the answer — were you close?</p>
+    <div class="card" style="background:#F4F8FA;">
+      <div class="ex-row"><b>🥤 Coca-Cola</b> has been on sale since… <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer"><b>1886</b> — it was invented by a pharmacist in Atlanta and originally sold as a medicine at a soda fountain.</span></div>
+      <div class="ex-row"><b>🚇 The London Underground</b> has been running since… <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer"><b>1863</b> — the world's first underground railway. The early trains were pulled by steam engines, so the tunnels were full of smoke.</span></div>
+      <div class="ex-row"><b>🏅 The modern Olympic Games</b> have been taking place since… <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer"><b>1896</b> — the first modern Games were held in Athens, with about 240 athletes from 14 countries.</span></div>
+      <div class="ex-row"><b>📚 Wikipedia</b> has been online since… <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer"><b>2001</b> — it now has millions of articles, written and edited almost entirely by volunteers.</span></div>
+      <div class="ex-row"><b>▶️ YouTube</b> has been around since… <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer"><b>2005</b> — the very first video was 19 seconds long and was filmed at a zoo.</span></div>
+    </div>
+    <div class="gram-note"><b>💡 Say it two ways</b> — <i>Wikipedia has been online <b>since</b> 2001.</i> = <i>Wikipedia has been online <b>for</b> about 25 years.</i> We use <b>since</b> with a point in time and <b>for</b> with a period of time. Which of the five surprised you most?</div>
+
+    <div class="card" style="background:linear-gradient(135deg,#FDF3D6 0%,#F7E4B0 100%);border-left:6px solid #E0A836;margin-top:22px;">
+      <p style="font-size:1.25rem;line-height:1.6;color:#1C2B3A;margin:0 0 10px;font-style:italic;">"Only I can change my life. No one else can do it for me."</p>
+      <p style="font-size:1.05rem;color:#7A5A1E;margin:0;font-weight:700;">— Carol Burnett, US actress and comedienne</p>
+    </div>
+    <p class="discuss-label" style="margin-top:18px;">💬 Now you</p>
+    <ul class="discuss-list">
+      <li>How long have you been studying English? And how long have you known your best friend?</li>
+      <li>What's the longest you've ever done anything — a job, a hobby, living in one place?</li>
+      <li>Do you support, or have you ever supported, a charity? What does it do?</li>
+    </ul>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 1: PART 1 ============ -->
+<!-- SB p.20, ex 1a; audio 2.13 -->
+<div class="slide" id="s-listen1">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>The charity Adelante Africa</h2>
+    <p class="instruction">Listen to Part 1 of a show about the charity Adelante Africa and answer the questions.</p>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 2.13<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">1. When was Adelante Africa started?</div>
+        <div class="ex-row">2. Why were the tourists in Uganda?</div>
+        <div class="ex-row">3. What happened to their truck in Igayaza?</div>
+        <div class="ex-row">4. What was the building where the tourists took shelter?</div>
+        <div class="ex-row">5. What condition was the building in?</div>
+      </div>
+      <div>
+        <div class="ex-row">6. What did one of the tourists do with the children?</div>
+        <div class="ex-row">7. What did the principal tell them they needed?</div>
+        <div class="ex-row">8. What did the tourists decide to do when they got home?</div>
+        <div class="ex-row">9. When did the new school open?</div>
+      </div>
+    </div>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-akey" onclick="toggleSuggested('l1-key')">🔑 Show Answer Key</button>
+    </div>
+    <div class="akey-box" id="l1-key">
+      <ul>
+        <li>1. In 2008.</li>
+        <li>2. They were on safari to see the mountain gorillas.</li>
+        <li>3. It broke down.</li>
+        <li>4. A school for orphans.</li>
+        <li>5. It was in a terrible shape — the walls were falling down, the blackboards were broken, and there weren't many desks.</li>
+        <li>6. She started teaching them English songs.</li>
+        <li>7. A new school.</li>
+        <li>8. To set up a charity to raise money to rebuild the school.</li>
+        <li>9. On March 14, 2010.</li>
+      </ul>
+    </div>
+    <div class="glossary-box" style="margin-top:18px;">
+      <h4>Glossary</h4>
+      <p><b>orphan</b> a child without a mother or father</p>
+      <p><b>malnutrition</b> not having enough to eat</p>
+      <p><b>seeds</b> the small, hard part of a plant, from which a new plant can grow</p>
+      <p><b>FAL</b> Functional Adult Literacy</p>
+      <p><b>AIDS</b> an illness that attacks the body's immune system</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 2: ORDER THE PHOTOS ============ -->
+<!-- SB p.20, ex 1b; audio 2.14 -->
+<div class="slide" id="s-listen2">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Jane Cadwallader's interview</h2>
+    <p class="instruction">Listen to Part 2, an interview with Jane Cadwallader, the secretary of Adelante Africa. Number the photos 1–8 in the order she mentions them.</p>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 2.14<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="photo-grid" id="l2" style="grid-template-columns:repeat(4,1fr);">
+      <div class="photo-item">
+        <div class="photo-num">A</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A man working in a vegetable garden</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="2"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">B</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A group of children outside the school</div>
+        <div class="photo-label"><span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:3px 12px;border-radius:5px;display:inline-block;">1 (example)</span></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">C</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A young man in a red shirt (John Muzzei)</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="7"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">D</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A woman with bottles of sunflower oil</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="4"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">E</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A water tank collecting rainwater</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="3"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">F</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Schoolchildren sitting at a desk</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="6"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">G</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>A small girl (Baby Rose)</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="8"></div>
+      </div>
+      <div class="photo-item">
+        <div class="photo-num">H</div>
+        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Adults in a FAL literacy class</div>
+        <div class="photo-label"><input class="ans-input" style="width:70px;text-align:left" data-ans="5"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('l2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('l2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ LISTENING 3: CORRECT THE INFORMATION ============ -->
+<!-- SB p.20, ex 1c; audio 2.14 -->
+<div class="slide" id="s-listen3">
+  <div class="banner banner-listening">🎧 Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>Correct the information</h2>
+    <p class="instruction">Listen again. Each sentence has one mistake — type the correction in the box.</p>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 2.14<div class="bp-note">Add the audio file for this track</div></div>
+    <div id="l3">
+      <div class="ex-row">1. There are <b>47</b> children living in the children's home. → <input class="ans-input" style="width:190px" data-ans="57"></div>
+      <div class="ex-row">2. People in Uganda <b>eat a lot of</b> vegetables. → <input class="ans-input" style="width:190px" data-ans="don't eat" data-alt="do not eat|very few|eat very few|don't eat a lot of"></div>
+      <div class="ex-row">3. They are building tanks to <b>store gas</b>. → <input class="ans-input" style="width:190px" data-ans="collect rainwater"></div>
+      <div class="ex-row">4. In the factory, they make <b>palm</b> oil. → <input class="ans-input" style="width:190px" data-ans="sunflower"></div>
+      <div class="ex-row">5. In the FAL groups, <b>children</b> learn to read and write. → <input class="ans-input" style="width:190px" data-ans="adults"></div>
+      <div class="ex-row">6. They need to raise money to <b>pay for more teachers</b>. → <input class="ans-input" style="width:190px" data-ans="finish the buildings" data-alt="finish the school buildings|finish the buildings"></div>
+      <div class="ex-row">7. Most of the volunteers are from <b>Europe</b>. → <input class="ans-input" style="width:190px" data-ans="Uganda"></div>
+      <div class="ex-row">8. John Muzzei is now studying to be a <b>teacher</b>. → <input class="ans-input" style="width:190px" data-ans="nurse"></div>
+      <div class="ex-row">9. When Rose first arrived at the children's home, she never <b>spoke</b>. → <input class="ans-input" style="width:190px" data-ans="smiled"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('l3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('l3')">Reset</button>
+    </div>
+    <p class="discuss-label" style="margin-top:22px;">💬 Do you know anybody like Jane who does volunteer work for a charity? What do they do?</p>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 1: COMPLETE THE SENTENCES ============ -->
+<!-- SB p.21, ex 2a; audio 2.15 -->
+<div class="slide" id="s-gram1">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Sentences from the interview</h2>
+    <p class="instruction">Click a word in the bank, then click the blank where it belongs. Then listen and check.</p>
+    <div class="wb-bank book-style" id="g1-bank">
+      <span class="wb-tile example-used" data-val="working">working</span>
+      <span class="wb-tile" data-val="building" onclick="wbPick(this)">building</span>
+      <span class="wb-tile" data-val="changed" onclick="wbPick(this)">changed</span>
+      <span class="wb-tile" data-val="doing" onclick="wbPick(this)">doing</span>
+      <span class="wb-tile" data-val="running" onclick="wbPick(this)">running</span>
+      <span class="wb-tile" data-val="started" onclick="wbPick(this)">started</span>
+    </div>
+    <div id="g1">
+      <div class="ex-row"><span class="circ-num">1</span><em>(example)</em> Jane, how long have you been <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">working</span> with Adelante Africa?</div>
+      <div class="ex-row"><span class="circ-num">2</span>Tell us what Adelante Africa has been <span class="wb-blank" data-ans="doing" onclick="wbPlace(this)">______</span> since 2010.</div>
+      <div class="ex-row"><span class="circ-num">3</span>The children's home has been <span class="wb-blank" data-ans="running" onclick="wbPlace(this)">______</span> since 2012.</div>
+      <div class="ex-row"><span class="circ-num">4</span>We've also been <span class="wb-blank" data-ans="building" onclick="wbPlace(this)">______</span> water tanks to collect rainwater.</div>
+      <div class="ex-row"><span class="circ-num">5</span>Since then, we've <span class="wb-blank" data-ans="started" onclick="wbPlace(this)">______</span> eleven more FAL groups.</div>
+      <div class="ex-row"><span class="circ-num">6</span>Since she came here, she's <span class="wb-blank" data-ans="changed" onclick="wbPlace(this)">______</span> completely.</div>
+    </div>
+    <div class="book-placeholder" style="margin-top:16px;"><span class="bp-icon">🎧</span>Audio 2.15<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('g1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('g1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 2: ANALYZE THE FORM ============ -->
+<!-- SB p.21, ex 2b -->
+<div class="slide" id="s-gram2">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Look more closely</h2>
+    <p class="instruction">Look again at the six sentences you just completed, then answer the questions.</p>
+    <div id="g2">
+      <div class="ex-row" style="margin-bottom:6px;"><b>1. Are the sentences about…?</b></div>
+      <div class="ex-row" style="margin-left:10px;"><button class="circ-opt" data-group="g2-1" data-correct="b" onclick="circPick(this)">a</button> a period of time in the past</div>
+      <div class="ex-row" style="margin-left:10px;"><button class="circ-opt" data-group="g2-1" data-correct="b" onclick="circPick(this)">b</button> a period of time from the past until now</div>
+      <div class="ex-row" style="margin-left:10px;"><button class="circ-opt" data-group="g2-1" data-correct="b" onclick="circPick(this)">c</button> a period of time in the present</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('g2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('g2')">Reset</button>
+    </div>
+    <div class="ccq-box" style="margin-top:20px;">
+      <p class="ccq-label">💭 What's the difference in form between the verbs in sentences 1–4 and in 5 and 6? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer">Sentences 1–4 use the <b>present perfect continuous</b> (<i>have / has + been + -ing</i> form). Sentences 5 and 6 use the <b>present perfect simple</b> (<i>have / has + past participle</i>).</span></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 3: PRESENT PERFECT + FOR/SINCE ============ -->
+<!-- Grammar Bank 2B, SB p.135 -->
+<div class="slide" id="s-gram3">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present perfect + <i>for</i> / <i>since</i></h2>
+    <p class="inst-light">Study how the present perfect is used with <i>for</i> and <i>since</i>.</p>
+    <div class="gram-box">
+      <p><i>They<span class="hl">'ve known</span> each other <span class="hl">for</span> ten years.</i></p>
+      <p><i>Julia<span class="hl">'s had</span> that bag <span class="hl">since</span> she was in college.</i></p>
+      <p><i><b>A</b> How long <span class="hl">have</span> you <span class="hl">worked</span> here? <b>B</b> Since 2010.</i></p>
+      <p><i><b>A</b> How long <span class="hl">has</span> your brother <span class="hl">had</span> his motorcycle? <b>B</b> For about a year.</i></p>
+      <ul>
+        <li>We use the present perfect + <i>for</i> or <i>since</i> to talk about something that <span class="hl">started in the past and is still true now</span>.</li>
+        <li>We use <i>How long…?</i> + present perfect to ask about an <span class="hl">unfinished</span> period of time (from the past until now).</li>
+        <li>We use <span class="hl">for</span> + a period of time (<i>for two weeks</i>), and <span class="hl">since</span> + a point in time (<i>since 2016</i>).</li>
+      </ul>
+    </div>
+    <div class="gram-mistake">
+      <b>⚠️ Typical mistake</b> — don't use the simple present with <i>for</i> / <i>since</i>.
+      <p style="margin:8px 0 0;"><s>They know each other for a long time.</s> → They've known each other for a long time.</p>
+    </div>
+    <div class="ccq-box">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>"They've known each other for ten years." Do they know each other now? <em>(yes)</em></li>
+        <li>When did they meet? <em>(ten years ago)</em></li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 4: PRESENT PERFECT CONTINUOUS ============ -->
+<div class="slide" id="s-gram4">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Present perfect continuous</h2>
+    <p class="inst-light">Study how the present perfect continuous is formed and used.</p>
+    <div class="gram-box">
+      <h3>have / has been + verb + -ing</h3>
+      <p><i>How long <span class="hl">have</span> you <span class="hl">been learning</span> English?</i></p>
+      <p><i>Nick <span class="hl">has been working</span> here since April.</i></p>
+      <p><i>They<span class="hl">'ve been going</span> out together for about three years.</i></p>
+      <p><i><b>A</b> Your eyes are red. <span class="hl">Have</span> you <span class="hl">been crying</span>? <b>B</b> No, I<span class="hl">'ve been</span> chopping onions.</i></p>
+      <ul>
+        <li>We use the present perfect continuous with <i>for</i> and <i>since</i> with <span class="hl">action verbs</span> (learn, work, go) for actions that started in the past and are still true now.</li>
+        <li>With <span class="hl">nonaction verbs</span> (be, have, know) we use the present perfect simple, NOT the continuous.</li>
+        <li>We also use it for continuous or repeated actions that have been happening <span class="hl">very recently</span> — usually just finished, or with visibly present results.</li>
+      </ul>
+    </div>
+    <div class="gram-mistake">
+      <b>⚠️ Typical mistakes</b>
+      <p style="margin:8px 0 0;"><s>They've been knowing each other for ten years.</s> → They've known each other for ten years.</p>
+      <p style="margin:4px 0 0;"><s>I am working here for two years.</s> → I've been working here for two years.</p>
+      <p style="margin:4px 0 0;"><s>How long have you learning English?</s> → How long have you <b>been</b> learning English?</p>
+    </div>
+    <div class="gram-box" style="border-left-color:#E0A836;">
+      <h3 style="color:#B8860B;">live and work</h3>
+      <p style="margin:0;"><i>live</i> and <i>work</i> are often used in either the present perfect or present perfect continuous with the same meaning: <i>I've lived here since 2010.</i> = <i>I've been living here since 2010.</i></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 5: GRAMMAR BANK A ============ -->
+<!-- Grammar Bank 2B, ex a -->
+<div class="slide" id="s-gram5">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Write the sentences</h2>
+    <p class="instruction">Write the sentences in the present perfect continuous.</p>
+    <p class="ex-example-centered"><span class="ex-tag">Example</span>How long / you / work here? → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">How long have you been working here?</span></p>
+    <div id="g5">
+      <div class="ex-row">1. She / study English for three years.<br><input class="ans-input wide" data-ans="She's been studying English for three years." data-alt="she has been studying english for three years"></div>
+      <div class="ex-row">2. How long / they / watching TV?<br><input class="ans-input wide" data-ans="How long have they been watching TV?"></div>
+      <div class="ex-row">3. It / rain / since lunchtime.<br><input class="ans-input wide" data-ans="It's been raining since lunchtime." data-alt="it has been raining since lunchtime"></div>
+      <div class="ex-row">4. I / not live / here for very long.<br><input class="ans-input wide" data-ans="I haven't been living here for very long." data-alt="i have not been living here for very long"></div>
+      <div class="ex-row">5. How long / you / learn to drive?<br><input class="ans-input wide" data-ans="How long have you been learning to drive?"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('g5')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('g5')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 6: GRAMMAR BANK B ============ -->
+<!-- Grammar Bank 2B, ex b -->
+<div class="slide" id="s-gram6">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Choose the correct form</h2>
+    <p class="instruction">Select the correct form — or select <b>both</b> if both forms are possible.</p>
+    <p class="ex-example-centered"><span class="ex-tag">Example</span>Harry <span style="color:#aaa;text-decoration:line-through;">is</span> / <span style="color:#1A7A4A;font-weight:800;">has been</span> unemployed since last year.</p>
+    <div id="g6">
+      <div class="ex-row">1. We've had our new apartment <button class="circ-opt" data-group="g6-1" data-correct="for" onclick="circPick(this)">for</button> <button class="circ-opt" data-group="g6-1" data-correct="for" onclick="circPick(this)">since</button> <button class="circ-opt" data-group="g6-1" data-correct="for" onclick="circPick(this)">both</button> six months.</div>
+      <div class="ex-row">2. Hi, Jackie! How are you? I <button class="circ-opt" data-group="g6-2" data-correct="haven't seen" onclick="circPick(this)">haven't seen</button> <button class="circ-opt" data-group="g6-2" data-correct="haven't seen" onclick="circPick(this)">haven't been seeing</button> <button class="circ-opt" data-group="g6-2" data-correct="haven't seen" onclick="circPick(this)">both</button> you for a long time!</div>
+      <div class="ex-row">3. How long <button class="circ-opt" data-group="g6-3" data-correct="have you known" onclick="circPick(this)">have you known</button> <button class="circ-opt" data-group="g6-3" data-correct="have you known" onclick="circPick(this)">do you know</button> <button class="circ-opt" data-group="g6-3" data-correct="have you known" onclick="circPick(this)">both</button> your husband?</div>
+      <div class="ex-row">4. I've <button class="circ-opt" data-group="g6-4" data-correct="both" onclick="circPick(this)">worked</button> <button class="circ-opt" data-group="g6-4" data-correct="both" onclick="circPick(this)">been working</button> <button class="circ-opt" data-group="g6-4" data-correct="both" onclick="circPick(this)">both</button> as a teacher for five years.</div>
+      <div class="ex-row">5. I'm exhausted! <button class="circ-opt" data-group="g6-5" data-correct="I've been cleaning" onclick="circPick(this)">I'm cleaning</button> <button class="circ-opt" data-group="g6-5" data-correct="I've been cleaning" onclick="circPick(this)">I've been cleaning</button> <button class="circ-opt" data-group="g6-5" data-correct="I've been cleaning" onclick="circPick(this)">both</button> the kitchen for two hours.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('g6')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('g6')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR 7: GRAMMAR BANK C ============ -->
+<!-- Grammar Bank 2B, ex c -->
+<div class="slide" id="s-gram7">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Make present perfect sentences</h2>
+    <p class="instruction">Make present perfect sentences, adding <i>for</i> or <i>since</i> if necessary. Use the continuous form if possible.</p>
+    <p class="ex-example-centered"><span class="ex-tag">Example</span>I / work for a charity / eight years → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">I've been working for a charity for eight years.</span></p>
+    <div id="g7">
+      <div class="ex-row">1. we / know each other / we were children<br><input class="ans-input wide" data-ans="We've known each other since we were children." data-alt="we have known each other since we were children"></div>
+      <div class="ex-row">2. the children / play computer games / two hours<br><input class="ans-input wide" data-ans="The children have been playing computer games for two hours."></div>
+      <div class="ex-row">3. your sister / have that hairstyle / a long time?<br><input class="ans-input wide" data-ans="Has your sister had that hairstyle for a long time?"></div>
+      <div class="ex-row">4. I / love her / the first day we met<br><input class="ans-input wide" data-ans="I've loved her since the first day we met." data-alt="i have loved her since the first day we met"></div>
+      <div class="ex-row">5. my internet connection / not work / yesterday<br><input class="ans-input wide" data-ans="My internet connection hasn't been working since yesterday." data-alt="my internet connection has not been working since yesterday"></div>
+      <div class="ex-row">6. how long / you / wait?<br><input class="ans-input wide" data-ans="How long have you been waiting?"></div>
+      <div class="ex-row">7. I / be a teacher / three years<br><input class="ans-input wide" data-ans="I've been a teacher for three years." data-alt="i have been a teacher for three years"></div>
+      <div class="ex-row">8. it / snow / 5:00 this morning<br><input class="ans-input wide" data-ans="It's been snowing since 5:00 this morning." data-alt="it has been snowing since 5:00 this morning"></div>
+      <div class="ex-row">9. Sam / not study enough recently<br><input class="ans-input wide" data-ans="Sam hasn't been studying enough recently." data-alt="sam has not been studying enough recently"></div>
+      <div class="ex-row">10. you / live in Chicago / a long time?<br><input class="ans-input wide" data-ans="Have you been living in Chicago for a long time?" data-alt="have you lived in chicago for a long time"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('g7')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('g7')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION 1: SENTENCE STRESS ============ -->
+<!-- SB p.21, ex 3a/3b; audio 2.18 -->
+<div class="slide" id="s-pron1">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Sentence stress</h2>
+    <p class="instruction">Listen to four sentences and write the <b>stressed</b> words in the blanks. The other words are unstressed.</p>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 2.18<div class="bp-note">Add the audio file for this track</div></div>
+    <div id="p1">
+      <div class="ex-row">1. How long have you been <input class="ans-input" style="width:150px" data-ans="learning"> <input class="ans-input" style="width:150px" data-ans="French">?</div>
+      <div class="ex-row">2. I've been <input class="ans-input" style="width:150px" data-ans="learning"> <input class="ans-input" style="width:150px" data-ans="French"> for <input class="ans-input" style="width:150px" data-ans="three"> <input class="ans-input" style="width:150px" data-ans="years">.</div>
+      <div class="ex-row">3. <input class="ans-input" style="width:150px" data-ans="How"> <input class="ans-input" style="width:150px" data-ans="long"> has it been <input class="ans-input" style="width:150px" data-ans="raining">?</div>
+      <div class="ex-row">4. It's been <input class="ans-input" style="width:150px" data-ans="raining"> since <input class="ans-input" style="width:150px" data-ans="lunchtime">.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('p1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('p1')">Reset</button>
+    </div>
+    <div class="gram-note" style="margin-top:18px;"><b>💡 Rhythm</b> — the stressed words carry the important information (verbs, nouns, adjectives). The other words are said less strongly and often get shortened, e.g., <i>for</i> becomes /fər/. Listen again and repeat, copying the rhythm.</div>
+  </div></div>
+</div>
+
+<!-- ============ PRONUNCIATION 2: MAKE QUESTIONS ============ -->
+<!-- SB p.21, ex 3d; audio 2.19 -->
+<div class="slide" id="s-pron2">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Make questions</h2>
+    <p class="instruction">Make a <i>How long…?</i> question for each sentence, then say it out loud with the correct rhythm.</p>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 2.19<div class="bp-note">Add the audio file for this track</div></div>
+    <p class="ex-example-centered"><span class="ex-tag">Example</span>It's snowing. → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">How long has it been snowing?</span></p>
+    <div class="fixed-two-col" id="p2">
+      <div>
+        <div class="ex-row">1. I'm learning Chinese.<br><input class="ans-input wide" data-ans="How long have you been learning Chinese?"></div>
+        <div class="ex-row">2. Jessie is working in Argentina.<br><input class="ans-input wide" data-ans="How long has Jessie been working in Argentina?"></div>
+        <div class="ex-row">3. John is looking for a job.<br><input class="ans-input wide" data-ans="How long has John been looking for a job?"></div>
+        <div class="ex-row">4. They're living with Maria's parents.<br><input class="ans-input wide" data-ans="How long have they been living with Maria's parents?"></div>
+      </div>
+      <div>
+        <div class="ex-row">5. I'm going to salsa classes.<br><input class="ans-input wide" data-ans="How long have you been going to salsa classes?"></div>
+        <div class="ex-row">6. It's raining.<br><input class="ans-input wide" data-ans="How long has it been raining?"></div>
+        <div class="ex-row">7. Kenji is going out with Emily.<br><input class="ans-input wide" data-ans="How long has Kenji been going out with Emily?"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('p2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('p2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING ============ -->
+<!-- SB p.21, ex 4 -->
+<div class="slide" id="s-speak1">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>How long have you…?</h2>
+    <p class="instruction">Write something true in as many squares as you can. Then talk about each one — the first question is always <i>How long have you…?</i></p>
+    <div id="sp1" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a charity you support</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a friend you know very well</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a social media site you use regularly</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a sport or a kind of exercise you do regularly</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">the car, motorcycle, or bike you have</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">the place where you live</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a coffee shop or restaurant you often go to</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">a possession that is very important for you</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">an organization, club, or gym you are a member of</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+      <div class="card" style="margin:0;padding:14px 16px;"><b style="color:#1E5F4F;">something you're learning (to do)</b><input class="ans-input" style="width:100%;margin-top:6px;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('sp1-sugg')">💡 Suggested Answer</button>
+      <button class="btn-reset" onclick="resetSlide('sp1')">Reset</button>
+    </div>
+    <div class="suggest-box" id="sp1-sugg">
+      <p style="margin:0 0 6px;"><i>How long have you been supporting Adelante Africa? — Have you ever been to Uganda?</i></p>
+      <p style="margin:0;"><i>How long have you known Sofia? — How often do you see her?</i></p>
+      <p style="margin:8px 0 0;"><b>Remember:</b> use the continuous with action verbs (<i>How long have you been going to that gym?</i>), but the simple form with nonaction verbs like <i>know</i>, <i>have</i>, <i>be</i> (<i>How long have you known her?</i> NOT <s>been knowing</s>).</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING 1: INTRODUCTION ============ -->
+<!-- SB p.22, ex 6a/6b -->
+<div class="slide" id="s-read1">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>The polar challenge</h2>
+    <p class="discuss-label">💬 Share your thoughts</p>
+    <ul class="discuss-list">
+      <li>In your country, are there charity events to raise money for a good cause? Have you ever taken part in one? What did you do? How much money did you raise?</li>
+    </ul>
+    <p class="instruction" style="margin-top:18px;">Now read the introduction to a blog by TV host Helen Skelton and answer the questions.</p>
+    <div class="article-box">
+      <h3>The polar challenge</h3>
+      <p>TV host <b>Helen Skelton</b> has never been afraid of a charity challenge. She has run the 78-mile Ultra Marathon in Namibia, and she has kayaked 1,198 miles down the Amazon, from Nauta, in Peru, to Almeirim, in Brazil, for the charity Sport Relief, which helps poor and disadvantaged people. Now she has decided to leave the heat of Africa and South America to take part in a polar challenge, a 500-mile ski, kite-ski, and bike journey to the South Pole, the bottom of the world. During the challenge, Helen is writing a blog.</p>
+    </div>
+    <ul class="discuss-list">
+      <li>1. What has Helen done for charity before?</li>
+      <li>2. What is her most recent challenge, and how is it different?</li>
+    </ul>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-akey" onclick="toggleSuggested('r1-key')">🔑 Show Answer Key</button>
+    </div>
+    <div class="akey-box" id="r1-key">
+      <ul>
+        <li>1. She's run an ultra marathon in Namibia and she's kayaked down the Amazon.</li>
+        <li>2. A polar challenge — a 500-mile journey to the South Pole. It's different because the cold, rather than the heat, might be a problem.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING 2: ORDER THE BLOG ============ -->
+<!-- SB p.22, ex 6c -->
+<div class="slide" id="s-read2">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>Put the blog in order</h2>
+    <p class="instruction">Read Helen's blog entries and number them in order, 1–9. Use the highlighted time phrases to help you.</p>
+    <div class="fixed-two-col" id="r2">
+      <div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>A</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="8"><br><span style="font-size:1.05rem;line-height:1.6;"><b>It's over a month since we arrived in Antarctica</b>, and if everything goes according to plan, we should reach the South Pole late tonight. We've been here for so long it's almost become a routine. We camp, get up, ski, camp, get up, ski. I'm wearing a face mask because of the wind and sun. I may look like Darth Vader, but it will help me get there.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>B</b> <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:3px 12px;border-radius:5px;">1 (example)</span><br><span style="font-size:1.05rem;line-height:1.6;"><b>My first night in Antarctica.</b> It's summer here, and the 24-hour daylight is weird. The plan, until January 3rd, is to train before starting our trek. Today was my first full day on cross-country skis, pulling a sled full of my food, tent, and supplies. It was a nightmare! Still, the scenery was incredible. I'm now going to try out the ice bike for the first time, and we're also going to practice kite-skiing.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>C</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="4"><br><span style="font-size:1.05rem;line-height:1.6;"><b>The first day of the trek is over!</b> We managed to make the bikes work! But we need to do a minimum of 25 miles a day, and we only managed 15 miles today. After nine hours of ice-bike riding (and a lot of pushing), we had to stop because I was completely exhausted.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>D</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="2"><br><span style="font-size:1.05rem;line-height:1.6;"><b>We've only been in Antarctica for four days</b>, but there's been a huge snowstorm for the past 48 hours. It's freezing outside, so we can't train — we've had to stay in the tent. The winds are 70 miles per hour, with a temperature of -15°C and lots of snow. The visibility is terrible, too. However, we're staying warm and morale is still good.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>E</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="5"><br><span style="font-size:1.05rem;line-height:1.6;"><b>This morning, the second day of our trek</b>, we set off on the kite-skis, and right away we were traveling fast. In the first hour, we'd gone eight miles. I thought we could do 60 miles today, but late this afternoon the wind dropped, so we decided to stop and set up camp. But we'd traveled 41 miles — I'm very proud of that. I've only kited a few times before. But I'm trying to complete my challenge in 20 days, and there's still a long way to go…</span></div>
+      </div>
+      <div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>F</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="7"><br><span style="font-size:1.05rem;line-height:1.6;"><b>We're now only 150 miles from our destination.</b> For the last few days, we've only been using bikes and cross-country skis, not kite-skis. We had a ten-hour day yesterday with the bikes. The morning went well, but then we hit some soft snow and we ended up pushing the bikes for the last six miles. Today, we decided to use skis, but progress has been slow.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>G</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="9"><br><span style="font-size:1.05rem;line-height:1.6;"><b>We've completed our 500-mile journey in 18 days!</b> When I talked to Dad on the phone, saying we've done it, I cried. This is the biggest thing I have ever been part of.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>H</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="6"><br><span style="font-size:1.05rem;line-height:1.6;"><b>We're on our way to the halfway checkpoint today</b>, where we can have some rest…and I've been promised lots of hot water so I can have a good wash — my second one since arriving in Antarctica. I have to admit it, I smell awful…and my hair is absolutely filthy.</span></div>
+        <div class="ex-row" style="margin-bottom:16px;"><b>I</b> <input class="ans-input" style="width:70px;text-align:left" data-ans="3"><br><span style="font-size:1.05rem;line-height:1.6;"><b>The training is over and we're starting our 500-mile journey today!</b> We've been bike riding, walking, and kiting for ten days. I washed and changed my clothes. I'm not going to get clean clothes again for three weeks!</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('r2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('r2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ READING 3: WHICH ENTRY? ============ -->
+<!-- SB p.23, ex 6d -->
+<div class="slide" id="s-read3">
+  <div class="banner banner-reading">📖 Reading</div>
+  <div class="slide-main"><div class="content">
+    <h2>In which entry…?</h2>
+    <p class="instruction">Read the blog again. In which entry does Helen mention each of these? Write the letter A–I.</p>
+    <div class="fixed-two-col" id="r3">
+      <div>
+        <div class="ex-row">1. feeling very emotional <input class="ans-input" style="width:70px;text-align:left" data-ans="G"></div>
+        <div class="ex-row">2. how beautiful Antarctica is <input class="ans-input" style="width:70px;text-align:left" data-ans="B"></div>
+        <div class="ex-row">3. looking forward to a wash <input class="ans-input" style="width:70px;text-align:left" data-ans="H"></div>
+        <div class="ex-row">4. looking like a science fiction character <input class="ans-input" style="width:70px;text-align:left" data-ans="A"></div>
+        <div class="ex-row">5. not being able to go outside <input class="ans-input" style="width:70px;text-align:left" data-ans="D"></div>
+      </div>
+      <div>
+        <div class="ex-row">6. stopping bike riding because she was very tired <input class="ans-input" style="width:70px;text-align:left" data-ans="C"></div>
+        <div class="ex-row">7. stopping using one method of transportation <input class="ans-input" style="width:70px;text-align:left" data-ans="F"></div>
+        <div class="ex-row">8. having to wear the same clothes every day <input class="ans-input" style="width:70px;text-align:left" data-ans="I"></div>
+        <div class="ex-row">9. traveling quickly for the first time <input class="ans-input" style="width:70px;text-align:left" data-ans="E"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('r3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('r3')">Reset</button>
+    </div>
+    <p class="discuss-label" style="margin-top:22px;">💬 Tell me about an adventure sport you've done, or an exciting experience you've had. Was it a positive experience? Why (not)? How did you feel?</p>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY 1: STRONG ADJECTIVES FROM THE BLOG ============ -->
+<!-- SB p.23, ex 7a -->
+<div class="slide" id="s-vocab1">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Strong adjectives</h2>
+    <p class="instruction">Complete these three sentences from Helen's blog with an adjective. What do you think they mean?</p>
+    <div id="v1">
+      <div class="ex-row">1. After nine hours of ice-bike riding, I was completely <input class="ans-input" style="width:160px" data-ans="exhausted">.</div>
+      <div class="ex-row">2. It's <input class="ans-input" style="width:160px" data-ans="freezing"> outside… -15°C and lots of snow.</div>
+      <div class="ex-row">3. I smell awful…and my hair is absolutely <input class="ans-input" style="width:160px" data-ans="filthy">.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('v1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('v1')">Reset</button>
+    </div>
+    <div class="gram-box" style="margin-top:20px;border-left-color:#E0A836;">
+      <h3 style="color:#B8860B;">Strong adjectives</h3>
+      <p style="margin:0;">With strong adjectives like <i>exhausted</i>, you can use <span class="hl">absolutely, completely, really,</span> or <span class="hl">totally</span> — but <b>not</b> <i>very</i> (NOT <s>very exhausted</s>). We often give strong adjectives extra stress.</p>
+    </div>
+    <div class="ccq-box">
+      <p class="ccq-label">💭 What do they mean? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show answer</button><span class="ccq-answer"><i>exhausted</i> = very tired · <i>freezing</i> = very cold · <i>filthy</i> = very dirty</span></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY 2: REGULAR ADJECTIVES ============ -->
+<!-- SB p.23, ex 7b; audio 2.20 -->
+<div class="slide" id="s-vocab2">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Regular and strong adjectives</h2>
+    <p class="instruction">Complete each question with the <b>regular</b> adjective that matches the strong adjective in the answer.</p>
+    <div class="fixed-two-col" id="v2">
+      <div>
+        <div class="ex-row"><span class="circ-num">1</span><em>(example)</em> <b>A</b> Was Lisa's father <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">angry</span> about the car accident? <b>B</b> Yes, he was <b>furious</b>!</div>
+        <div class="ex-row"><span class="circ-num">2</span><b>A</b> Is Omar's apartment <input class="ans-input" style="width:150px" data-ans="small">? <b>B</b> Yes, it's really <b>tiny</b> — just a bedroom and a living room.</div>
+        <div class="ex-row"><span class="circ-num">3</span><b>A</b> Are you <input class="ans-input" style="width:150px" data-ans="afraid" data-alt="scared"> of flying? <b>B</b> Yes, I'm <b>terrified</b>! I never fly anywhere.</div>
+        <div class="ex-row"><span class="circ-num">4</span><b>A</b> There was an <input class="ans-input" style="width:150px" data-ans="interesting"> documentary about whales on TV last night. <b>B</b> Yes, I thought it was <b>fascinating</b>.</div>
+        <div class="ex-row"><span class="circ-num">5</span><b>A</b> Are you very <input class="ans-input" style="width:150px" data-ans="hungry">? <b>B</b> I'm <b>starving</b>! I haven't eaten all day.</div>
+        <div class="ex-row"><span class="circ-num">6</span><b>A</b> Is your parents' house <input class="ans-input" style="width:150px" data-ans="big">? <b>B</b> It's <b>huge</b> (or <b>enormous</b>). It has seven bedrooms.</div>
+      </div>
+      <div>
+        <div class="ex-row"><span class="circ-num">7</span><b>A</b> Was it <input class="ans-input" style="width:150px" data-ans="hot"> in Dubai? <b>B</b> It was <b>boiling</b>! 110 degrees.</div>
+        <div class="ex-row"><span class="circ-num">8</span><b>A</b> Was Jack's kitchen <input class="ans-input" style="width:150px" data-ans="dirty">? <b>B</b> It was <b>filthy</b>. It took us three hours to clean it.</div>
+        <div class="ex-row"><span class="circ-num">9</span><b>A</b> Are your parents <input class="ans-input" style="width:150px" data-ans="happy" data-alt="pleased"> about the wedding? <b>B</b> They're <b>delighted</b>. In fact, they want to pay for everything!</div>
+        <div class="ex-row"><span class="circ-num">10</span><b>A</b> Was the movie <input class="ans-input" style="width:150px" data-ans="funny">? <b>B</b> It was <b>hilarious</b>. We laughed all the way through.</div>
+        <div class="ex-row"><span class="circ-num">11</span><b>A</b> Are you <input class="ans-input" style="width:150px" data-ans="sure"> you locked the door? <b>B</b> I'm <b>positive</b>. I remember turning the key.</div>
+        <div class="ex-row"><span class="circ-num">12</span><b>A</b> Were you <input class="ans-input" style="width:150px" data-ans="surprised"> to hear that Tyler and Kimiko have broken up? <b>B</b> I was absolutely <b>amazed</b>! I never thought it would happen.</div>
+      </div>
+    </div>
+    <div class="book-placeholder" style="margin-top:16px;"><span class="bp-icon">🎧</span>Audio 2.20<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('v2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('v2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY 3: SPEAKING WITH STRONG ADJECTIVES ============ -->
+<!-- SB p.23, ex 7e -->
+<div class="slide" id="s-vocab3">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Use a strong adjective</h2>
+    <p class="instruction">Answer each question using a strong adjective, and give as much detail as you can.</p>
+    <ul class="discuss-list">
+      <li>1. Have you ever been swimming in a place where the water was very cold?</li>
+      <li>2. Is there anything that makes you angry about drivers or cyclists in your country?</li>
+      <li>3. Are you afraid of any animals or insects?</li>
+      <li>4. What's the hottest place you've been to?</li>
+      <li>5. Is there a comedy series on TV in your country that you think is really funny?</li>
+    </ul>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-suggest" onclick="toggleSuggested('v3-sugg')">💡 Suggested Answer</button>
+    </div>
+    <div class="suggest-box" id="v3-sugg">
+      <p style="margin:0 0 6px;"><i>Yes! I swam in a lake in the mountains last summer and the water was absolutely <b>freezing</b>.</i></p>
+      <p style="margin:0;">Useful strong adjectives: <i>freezing, furious, terrified, boiling, hilarious, exhausted, starving, filthy, amazed, delighted, huge, tiny, fascinating, positive</i>.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ VIDEO LISTENING ============ -->
+<!-- SB p.23, ex 8 -->
+<div class="slide" id="s-video">
+  <div class="banner banner-video">🎥 Video Listening</div>
+  <div class="slide-main"><div class="content">
+    <h2>The Great OUP Bake Sale</h2>
+    <p class="instruction">Watch the documentary about a charity bake sale. Which cake 1–5 was the winner? Do you agree that it looks the best?</p>
+    <div class="video-box">
+      <p>🎥 The Great OUP Bake Sale — video file needed</p>
+      <div class="img-placeholder" style="background:linear-gradient(135deg,#2A2A2A,#444);color:#ddd;border-color:#666;">
+        <span class="ip-icon">🎬</span>Video placeholder — add "The Great OUP Bake Sale" video file here
+      </div>
+    </div>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-suggest" onclick="toggleSuggested('vid-sugg')">💡 Suggested Answer</button>
+    </div>
+    <div class="suggest-box" id="vid-sugg">The winning cake is number 2, the Neapolitan cake.</div>
+
+    <h3 class="section-subhead" style="margin-top:26px;">Watch again — why are these mentioned?</h3>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">1. the New York Marathon</div>
+        <div class="ex-row">2. <i>The Great British Baking Show</i></div>
+        <div class="ex-row">3. Macmillan Cancer Support and Adelante Africa</div>
+        <div class="ex-row">4. Daisy Watt</div>
+        <div class="ex-row">5. Viennese Whirls</div>
+      </div>
+      <div>
+        <div class="ex-row">6. a stress-reliever</div>
+        <div class="ex-row">7. a sponge cake with blueberries</div>
+        <div class="ex-row">8. baking with kids</div>
+        <div class="ex-row">9. the decoration</div>
+        <div class="ex-row">10. £270</div>
+      </div>
+    </div>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-akey" onclick="toggleSuggested('vid-key')">🔑 Show Answer Key</button>
+    </div>
+    <div class="akey-box" id="vid-key">
+      <ul>
+        <li>1. An example of one of the ways people raise money for charity — it raises about $40 million every year.</li>
+        <li>2. A television show that has made baking and bake sales very popular.</li>
+        <li>3. The two charities the OUP bake sale is raising money for.</li>
+        <li>4. A chef and one of the judges of the baking competition.</li>
+        <li>5. The cookies that Emma is making.</li>
+        <li>6. Emma says baking is a stress-reliever for her — she enjoys baking and listening to music in the kitchen.</li>
+        <li>7. James is making a sponge cake with blueberries.</li>
+        <li>8. James says that when he bakes, it's usually with his kids, and they make something easy.</li>
+        <li>9. One of the things Daisy is looking for — she wants to see that the bakers made a real effort with the decoration.</li>
+        <li>10. The OUP bake sale raised over £270 for the two charities.</li>
+      </ul>
+    </div>
+    <p class="discuss-label" style="margin-top:22px;">💬 Do you like baking? What kinds of things do you make? Do people do bake sales for charity in your country?</p>
+  </div></div>
+</div>
+
+<!-- ============ WRITING ============ -->
+<!-- SB p.21, ex 5; Writing Bank p.116 -->
+<div class="slide" id="s-writing">
+  <div class="banner banner-writing">✍️ Writing</div>
+  <div class="slide-main"><div class="content">
+    <h2>An informal email</h2>
+    <p class="instruction">Imagine you have friends in the US and you stayed with them for a week last month. Write an email to say thank you, using the plan below.</p>
+    <div class="card">
+      <p style="margin:0 0 8px;font-weight:700;color:#1E5F4F;">Your plan — one paragraph for each:</p>
+      <ol style="margin:0;padding-left:22px;line-height:1.9;font-size:1.06rem;color:#1C2B3A;">
+        <li>Apologize for not writing before.</li>
+        <li>Thank them for your stay.</li>
+        <li>Talk about the nice things you did together.</li>
+        <li>Talk about what you've been doing recently.</li>
+        <li>Thank them again and invite them to stay.</li>
+        <li>Send greetings to another member of the family.</li>
+      </ol>
+    </div>
+    <div class="gram-note"><b>💡 Informal email language</b> — <i>Hi …, Thanks so much for…, I had a great time, I really miss…, I hope…, Best wishes, I've attached a photo…</i></div>
+    <textarea class="ans-input wide" id="wr-txt" rows="8" style="margin-top:6px;"></textarea>
+    <div class="btn-row">
+      <button class="btn-suggest" onclick="toggleSuggested('wr-sugg')">💡 Suggested Answer</button>
+      <button class="btn-reset" onclick="document.getElementById('wr-txt').value='';document.getElementById('wr-sugg').classList.remove('show');">Reset</button>
+    </div>
+    <div class="suggest-box" id="wr-sugg">
+      <p style="margin:0;">Hi Angela,<br><br>I'm so sorry I haven't written before — things have been really busy here! Thanks so much for having me last month. I had a great time with you all.<br><br>I loved the day we spent at the lake, and I still think about that dinner you cooked on my last night. Since I got back, I've been studying for my exams and I've also been taking a photography course, which I'm really enjoying.<br><br>Thank you again for everything. You're very welcome to stay with us any time — it would be great to see you here.<br><br>Say hi to Tom for me!<br><br>Best wishes,<br>Nanda</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HOMEWORK COVER ============ -->
+<div class="slide" id="hw-cover">
+  <div class="title-inner">
+    <div class="hw-badge">📝 Homework</div>
+    <div class="title-main">Changing <span class="title-accent">Lives</span></div>
+  </div>
+</div>
+
+<!-- ============ HW1: FOR OR SINCE ============ -->
+<!-- WB 2B 1a -->
+<div class="slide" id="hw-gr1-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW1 — <i>for</i> or <i>since</i>?</h2>
+    <p class="instruction">Click a time expression, then click the column it belongs in.</p>
+    <div class="classify-bank" id="hw-gr1-bank">
+      <span class="classify-chip used" data-ans="since" style="text-decoration:line-through;">2015</span>
+      <span class="classify-chip" data-ans="for" onclick="classifyPick(this)">a long time</span>
+      <span class="classify-chip" data-ans="since" onclick="classifyPick(this)">December</span>
+      <span class="classify-chip" data-ans="since" onclick="classifyPick(this)">I was very young</span>
+      <span class="classify-chip" data-ans="since" onclick="classifyPick(this)">lunchtime</span>
+      <span class="classify-chip" data-ans="for" onclick="classifyPick(this)">six months</span>
+      <span class="classify-chip" data-ans="for" onclick="classifyPick(this)">two weeks</span>
+      <span class="classify-chip" data-ans="for" onclick="classifyPick(this)">three days</span>
+      <span class="classify-chip" data-ans="since" onclick="classifyPick(this)">Tuesday</span>
+      <span class="classify-chip" data-ans="for" onclick="classifyPick(this)">years</span>
+    </div>
+    <div class="classify-cols" id="hw-gr1-cols">
+      <div class="classify-col" data-target="for" onclick="classifyTarget(this)"><h4>for</h4></div>
+      <div class="classify-col" data-target="since" onclick="classifyTarget(this)"><h4>since <span style="font-weight:400;font-size:1.05rem;color:#666;">(example: 2015)</span></h4></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('hw-gr1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('hw-gr1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW2: PRESENT PERFECT + FOR/SINCE ============ -->
+<!-- WB 2B 1b -->
+<div class="slide" id="hw-gr2-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW2 — Present perfect + <i>for</i> / <i>since</i></h2>
+    <p class="instruction">Complete each sentence with the present perfect simple form of the verb in parentheses and <i>for</i> or <i>since</i>.</p>
+    <div class="fixed-two-col" id="hw-gr2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">'ve had</span> my car <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">for</span> about a month. <i>(have)</i></div>
+        <div class="ex-row">2. My mom <input class="ans-input" style="width:150px" data-ans="has been" data-alt="'s been"> sick <input class="ans-input" style="width:150px" data-ans="for"> weeks. <i>(be)</i></div>
+        <div class="ex-row">3. We <input class="ans-input" style="width:150px" data-ans="have known" data-alt="'ve known"> each other <input class="ans-input" style="width:150px" data-ans="since"> we were in college. <i>(know)</i></div>
+        <div class="ex-row">4. Owen <input class="ans-input" style="width:150px" data-ans="has worked" data-alt="'s worked"> for the same company <input class="ans-input" style="width:150px" data-ans="for"> five years. <i>(work)</i></div>
+        <div class="ex-row">5. Dan and Vicky <input class="ans-input" style="width:150px" data-ans="have lived" data-alt="'ve lived"> in Boston <input class="ans-input" style="width:150px" data-ans="since"> they got married. <i>(live)</i></div>
+      </div>
+      <div>
+        <div class="ex-row">6. My parents <input class="ans-input" style="width:150px" data-ans="have loved" data-alt="'ve loved"> gardening <input class="ans-input" style="width:150px" data-ans="since"> they were young. <i>(love)</i></div>
+        <div class="ex-row">7. I <input class="ans-input" style="width:150px" data-ans="have wanted" data-alt="'ve wanted"> to go to Australia <input class="ans-input" style="width:150px" data-ans="for"> a long time. <i>(want)</i></div>
+        <div class="ex-row">8. Lola <input class="ans-input" style="width:150px" data-ans="hasn't spoken" data-alt="has not spoken"> to me <input class="ans-input" style="width:150px" data-ans="since"> last year. <i>(not speak)</i></div>
+        <div class="ex-row">9. I <input class="ans-input" style="width:150px" data-ans="haven't seen" data-alt="have not seen"> my grandparents <input class="ans-input" style="width:150px" data-ans="for"> a long time. <i>(not see)</i></div>
+        <div class="ex-row">10. Max <input class="ans-input" style="width:150px" data-ans="has liked" data-alt="'s liked"> Ayesha <input class="ans-input" style="width:150px" data-ans="since"> they were in school together. <i>(like)</i></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hw-gr2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hw-gr2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW3: PRESENT PERFECT CONTINUOUS ============ -->
+<!-- WB 2B 1c -->
+<div class="slide" id="hw-gr3-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW3 — Present perfect continuous</h2>
+    <p class="instruction">Complete each conversation with the present perfect continuous form of the verbs in parentheses.</p>
+    <div id="hw-gr3">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <b>A</b> Did you know that Amy's in a band? <b>B</b> No. <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Have they been playing</span> together for a long time? <i>(they / play)</i></div>
+      <div class="ex-row">2. <b>A</b> How long was your flight? <b>B</b> Twelve hours. <input class="ans-input" style="width:210px" data-ans="We've been traveling" data-alt="we have been traveling"> all day. <i>(we / travel)</i></div>
+      <div class="ex-row">3. <b>A</b> My brother has a very good job in New York. <b>B</b> Really? How long <input class="ans-input" style="width:210px" data-ans="has he been working"> there? <i>(he / work)</i></div>
+      <div class="ex-row">4. <b>A</b> Diana has finally moved into a new apartment. <b>B</b> Oh good! <input class="ans-input" style="width:210px" data-ans="She's been looking for" data-alt="she has been looking for"> one for a long time. <i>(she / look for)</i></div>
+      <div class="ex-row">5. <b>A</b> Why does Marco's teacher want to see you? <b>B</b> <input class="ans-input" style="width:210px" data-ans="He hasn't been doing" data-alt="he has not been doing"> his homework lately. <i>(he / not do)</i></div>
+      <div class="ex-row">6. <b>A</b> You're late. <b>B</b> Yes, I know. Sorry. <input class="ans-input" style="width:210px" data-ans="Have you been waiting"> long? <i>(you / wait)</i></div>
+      <div class="ex-row">7. <b>A</b> You look exhausted. <b>B</b> <input class="ans-input" style="width:210px" data-ans="I've been looking after" data-alt="i have been looking after"> the kids all day! <i>(I / look after)</i></div>
+      <div class="ex-row">8. <b>A</b> How's your soccer team doing, Pete? <b>B</b> Pretty good, but <input class="ans-input" style="width:210px" data-ans="I haven't been playing" data-alt="i have not been playing"> recently. I hurt my foot. <i>(I / not play)</i></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hw-gr3')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hw-gr3')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW4: MATCH REGULAR & STRONG ADJECTIVES ============ -->
+<!-- WB 2B 3a -->
+<div class="slide" id="hw-voc1-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW4 — Regular and strong adjectives</h2>
+    <p class="instruction">Click a strong adjective in the bank, then click the blank next to the regular adjective it matches.</p>
+    <div class="wb-bank book-style" id="hw-voc1-bank">
+      <span class="wb-tile example-used" data-val="exhausted">exhausted</span>
+      <span class="wb-tile" data-val="amazed" onclick="wbPick(this)">amazed</span>
+      <span class="wb-tile" data-val="boiling" onclick="wbPick(this)">boiling</span>
+      <span class="wb-tile" data-val="delighted" onclick="wbPick(this)">delighted</span>
+      <span class="wb-tile" data-val="filthy" onclick="wbPick(this)">filthy</span>
+      <span class="wb-tile" data-val="freezing" onclick="wbPick(this)">freezing</span>
+      <span class="wb-tile" data-val="furious" onclick="wbPick(this)">furious</span>
+      <span class="wb-tile" data-val="fascinating" onclick="wbPick(this)">fascinating</span>
+      <span class="wb-tile" data-val="hilarious" onclick="wbPick(this)">hilarious</span>
+      <span class="wb-tile" data-val="huge" onclick="wbPick(this)">huge</span>
+      <span class="wb-tile" data-val="positive" onclick="wbPick(this)">positive</span>
+      <span class="wb-tile" data-val="starving" onclick="wbPick(this)">starving</span>
+      <span class="wb-tile" data-val="terrified" onclick="wbPick(this)">terrified</span>
+      <span class="wb-tile" data-val="tiny" onclick="wbPick(this)">tiny</span>
+    </div>
+    <div class="fixed-two-col" id="hw-voc1">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> tired → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">exhausted</span></div>
+        <div class="ex-row">2. surprised → <span class="wb-blank" data-ans="amazed" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">3. big → <span class="wb-blank" data-ans="huge" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">4. cold → <span class="wb-blank" data-ans="freezing" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">5. dirty → <span class="wb-blank" data-ans="filthy" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">6. funny → <span class="wb-blank" data-ans="hilarious" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">7. happy → <span class="wb-blank" data-ans="delighted" onclick="wbPlace(this)">______</span></div>
+      </div>
+      <div>
+        <div class="ex-row">8. hot → <span class="wb-blank" data-ans="boiling" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">9. hungry → <span class="wb-blank" data-ans="starving" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">10. interesting → <span class="wb-blank" data-ans="fascinating" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">11. small → <span class="wb-blank" data-ans="tiny" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">12. sure → <span class="wb-blank" data-ans="positive" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">13. afraid → <span class="wb-blank" data-ans="terrified" onclick="wbPlace(this)">______</span></div>
+        <div class="ex-row">14. angry → <span class="wb-blank" data-ans="furious" onclick="wbPlace(this)">______</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('hw-voc1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('hw-voc1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW5: COMPLETE WITH STRONG ADJECTIVES ============ -->
+<!-- WB 2B 3c -->
+<div class="slide" id="hw-voc2-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW5 — Complete with a strong adjective</h2>
+    <p class="instruction">Complete each sentence with a strong adjective from the previous exercise.</p>
+    <div class="fixed-two-col" id="hw-voc2">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> The temperature has been going up all week, and now it's absolutely <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">boiling</span>.</div>
+        <div class="ex-row">2. I'm <input class="ans-input" style="width:160px" data-ans="amazed"> that you don't know the name of the president of the US.</div>
+        <div class="ex-row">3. Tom's parents have just found out he's been missing school, so they're <input class="ans-input" style="width:160px" data-ans="furious">.</div>
+        <div class="ex-row">4. I've been watching a horror movie, and now I'm absolutely <input class="ans-input" style="width:160px" data-ans="terrified">.</div>
+      </div>
+      <div>
+        <div class="ex-row">5. We're <input class="ans-input" style="width:160px" data-ans="exhausted"> because we've hiked 8 miles today.</div>
+        <div class="ex-row">6. That movie is <input class="ans-input" style="width:160px" data-ans="hilarious">! We laughed all the way through it.</div>
+        <div class="ex-row">7. This book is <input class="ans-input" style="width:160px" data-ans="fascinating">. I've learned so much from it.</div>
+        <div class="ex-row">8. I've been thinking about your question, and now I'm <input class="ans-input" style="width:160px" data-ans="positive"> I know the answer.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSlide('hw-voc2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('hw-voc2')">Reset</button>
+    </div>
+  </div></div>
+</div>
+</div><!-- END #deck -->
+
+<div id="nav">
+  <button id="prevBtn" onclick="goTo(current-1)">◀ Prev</button>
+  <div id="dots"></div>
+  <div id="counter">1/1</div>
+  <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
+  <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
+  <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+</div>
+
+<script>
+/* ===================== SLIDE NAV DATA ===================== */
+var slideIds = ["s1", "s-leadin", "s-listen1", "s-listen2", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-gram6", "s-gram7", "s-pron1", "s-pron2", "s-speak1", "s-read1", "s-read2", "s-read3", "s-vocab1", "s-vocab2", "s-vocab3", "s-video", "s-writing", "hw-cover", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide", "hw-voc1-slide", "hw-voc2-slide"];
+var slideLabels = ["Cover", "Warm-Up – How Long Have They Been Around?", "Listening – Adelante Africa (Part 1)", "Listening – Order the Photos", "Listening – Correct the Information", "Grammar – Sentences from the Interview", "Grammar – Look More Closely", "Grammar – Present Perfect + For/Since", "Grammar – Present Perfect Continuous", "Grammar – Write the Sentences", "Grammar – Choose the Correct Form", "Grammar – Make Present Perfect Sentences", "Pronunciation – Sentence Stress", "Pronunciation – Make Questions", "Speaking – How Long Have You…?", "Reading – The Polar Challenge", "Reading – Put the Blog in Order", "Reading – In Which Entry?", "Vocabulary – Strong Adjectives", "Vocabulary – Regular & Strong Adjectives", "Vocabulary – Use a Strong Adjective", "Video Listening – The Great OUP Bake Sale", "Writing – An Informal Email", "Homework Cover", "HW1 – For or Since?", "HW2 – Present Perfect + For/Since", "HW3 – Present Perfect Continuous", "HW4 – Regular & Strong Adjectives", "HW5 – Complete with a Strong Adjective"];
+
+var slides = Array.from(document.querySelectorAll('.slide'));
+var current = 0;
+var notesData = {};
+var notesOpen = false;
+
+if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
+  console.warn('Slide count mismatch:', slides.length, 'slides,', slideIds.length, 'IDs,', slideLabels.length, 'labels');
+}
+
+var dotsWrap = document.getElementById('dots');
+slides.forEach(function(s, i){
+  var d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = function(){ goTo(i); };
+  dotsWrap.appendChild(d);
+});
+
+function goTo(n){
+  if (n < 0 || n >= slides.length) return;
+  saveNotes();
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  document.getElementById('counter').textContent = (current+1)+'/'+slides.length;
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===slides.length-1;
+  document.getElementById('homeBtn').style.display = current===0 ? 'none' : 'flex';
+  var panel = document.getElementById('notesPanel');
+  if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
+  else { panel.classList.remove('cover'); }
+  loadNotes(current);
+}
+function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.contentEditable === 'true') return;
+  if (e.key === 'ArrowRight') goTo(current+1);
+  if (e.key === 'ArrowLeft') goTo(current-1);
+});
+
+/* ===================== NOTES ===================== */
+function toggleNotes(){
+  notesOpen = !notesOpen;
+  var panel = document.getElementById('notesPanel');
+  panel.classList.toggle('open', notesOpen);
+  if (current === 0) panel.classList.toggle('cover', notesOpen);
+  document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+}
+function notesFormat(cmd){
+  document.getElementById('notesTA').focus();
+  document.execCommand(cmd, false, null);
+  saveNotes();
+}
+function notesHilite(color){
+  var ta = document.getElementById('notesTA');
+  ta.focus();
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) return;
+  document.execCommand('styleWithCSS', false, true);
+  if (color !== 'remove'){
+    var cur = document.queryCommandValue('backColor');
+    var hex = color.replace('#','');
+    var r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+    if (cur === 'rgb('+r+', '+g+', '+b+')' || cur === 'rgb('+r+','+g+','+b+')') { color = 'remove'; }
+  }
+  if (color === 'remove'){
+    document.execCommand('hiliteColor', false, 'transparent');
+    Array.from(ta.querySelectorAll('[style*="background"]')).forEach(function(el){
+      var c = el.style.backgroundColor;
+      if (c === 'transparent' || c === 'rgba(0, 0, 0, 0)' || c === ''){
+        var p = el.parentNode;
+        if (!p) return;
+        while (el.firstChild) p.insertBefore(el.firstChild, el);
+        p.removeChild(el);
+      }
+    });
+  } else {
+    document.execCommand('hiliteColor', false, color);
+  }
+  saveNotes();
+}
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function savePDF(){
+  saveNotes();
+  var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
+  if (!hasNotes){ alert('No notes to save yet!'); return; }
+  var win = window.open('', '_blank');
+  var cards = '';
+  slideIds.forEach(function(sid, idx){
+    var note = notesData[idx] || '';
+    if (!note.replace(/<[^>]*>/g,'').trim()) return;
+    cards += '<div class="card"><div class="card-header">Slide '+(idx+1)+' &mdash; '+slideLabels[idx]+'</div><div class="card-body">'+note+'</div></div>';
+  });
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF3 2B</title><style>'+
+    'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
+    '.header{border-bottom:2px solid #0B1929;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#0B1929}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#1B6E96}'+
+    '.date{font-size:.85rem;color:#666;margin:10px 0 24px}'+
+    '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid}'+
+    '.card-header{background:#0B1929;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem}'+
+    '.card-body{padding:12px 16px;font-size:.95rem;line-height:1.7}'+
+    'mark{background:#FFE066;color:#1a1a1a;padding:0 2px}'+
+    '[style*="background-color"]{color:#1a1a1a!important}'+
+    '.card-body,.card-body *{color:#1a1a1a!important}'+
+    '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
+    '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
+  '</style></head><body>'+
+  '<div class="header"><h1>AEF3 2B – Changing Lives</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-2B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-2B/index.html</a></div></div>'+
+  '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
+  cards+'</body></html>');
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 400);
+}
+
+/* ===================== GENERIC: TYPED GAP-FILL ===================== */
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/[.,!?;:'’]+$/,'').replace(/\s+/g,' '); }
+function checkSlide(sid){
+  var box = document.getElementById(sid);
+  var inputs = box.querySelectorAll('.ans-input');
+  inputs.forEach(function(inp){
+    var val = norm(inp.value);
+    if (!val) { inp.classList.remove('correct','wrong'); inp.classList.add('empty-warn'); return; }
+    inp.classList.remove('empty-warn');
+    var ans = norm(inp.dataset.ans);
+    var alts = (inp.dataset.alt || '').split('|').map(norm).filter(Boolean);
+    if (val === ans || alts.indexOf(val) > -1) { inp.classList.add('correct'); inp.classList.remove('wrong'); }
+    else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+  });
+}
+function resetSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.ans-input').forEach(function(inp){ inp.value=''; inp.classList.remove('correct','wrong','empty-warn'); });
+}
+
+/* ===================== GENERIC: CIRCLE MC ===================== */
+function circPick(btn){
+  var group = btn.dataset.group;
+  var box = btn.closest('.slide');
+  var wasPicked = btn.classList.contains('picked');
+  box.querySelectorAll('.circ-opt[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('picked'); });
+  if (!wasPicked) btn.classList.add('picked');
+}
+function circScope(sid){
+  var el = document.getElementById(sid);
+  if (!el) return null;
+  if (el.querySelector('.circ-opt[data-group]')) return el;   /* scope to this exercise */
+  return el.closest('.slide') || el;                           /* legacy fallback */
+}
+function checkCircSlide(sid){
+  var box = circScope(sid);
+  var groups = {};
+  box.querySelectorAll('.circ-opt[data-group][data-correct]').forEach(function(b){ groups[b.dataset.group] = groups[b.dataset.group] || []; groups[b.dataset.group].push(b); });
+  Object.keys(groups).forEach(function(g){
+    var picked = groups[g].find(function(b){ return b.classList.contains('picked'); });
+    groups[g].forEach(function(b){ b.classList.remove('correct','wrong'); });
+    if (!picked) return;
+    if (picked.dataset.correct === picked.textContent.trim()) picked.classList.add('correct');
+    else picked.classList.add('wrong');
+  });
+}
+function resetCircSlide(sid){
+  var box = circScope(sid);
+  box.querySelectorAll('.circ-opt[data-group]').forEach(function(b){ b.classList.remove('picked','correct','wrong'); });
+}
+
+/* ===================== GENERIC: COLOUR-PAIR MATCH ===================== */
+var matchColours = ['c0','c1','c2','c3','c4','c5','c6','c7'];
+var matchPending = {};
+function matchPick(el){
+  var wrap = el.closest('.match-wrap');
+  var wid = wrap.id;
+  if (el._linked){
+    var partner = el._linked;
+    matchColours.forEach(function(c){ el.classList.remove(c); partner.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    partner.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null; partner._linked = null;
+    delete el.dataset.colour; delete partner.dataset.colour;
+    if (matchPending[wid] === el) matchPending[wid] = null;
+    return;
+  }
+  var pending = matchPending[wid];
+  if (pending && pending !== el && pending.dataset.side !== el.dataset.side){
+    var used = Array.from(wrap.querySelectorAll('.match-item')).map(function(x){ return x.dataset.colour; }).filter(Boolean);
+    var next = matchColours.find(function(c){ return used.indexOf(c) === -1; }) || matchColours[Math.floor(used.length/2) % matchColours.length];
+    pending.classList.remove('picking');
+    pending.classList.add(next); el.classList.add(next);
+    pending.dataset.colour = next; el.dataset.colour = next;
+    pending._linked = el; el._linked = pending;
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending === el){
+    pending.classList.remove('picking');
+    matchPending[wid] = null;
+    return;
+  }
+  if (pending) pending.classList.remove('picking');
+  el.classList.add('picking');
+  matchPending[wid] = el;
+}
+function checkMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item[data-side="left"]').forEach(function(l){
+    l.classList.remove('correctpair','wrongpair');
+    if (l._linked) l._linked.classList.remove('correctpair','wrongpair');
+    if (!l._linked) return;
+    var r = l._linked;
+    if (r.dataset.pair === l.dataset.pair){ l.classList.add('correctpair'); r.classList.add('correctpair'); }
+    else { l.classList.add('wrongpair'); r.classList.add('wrongpair'); }
+  });
+}
+function resetMatchSlide(id){
+  var wrap = document.getElementById(id);
+  wrap.querySelectorAll('.match-item').forEach(function(el){
+    matchColours.forEach(function(c){ el.classList.remove(c); });
+    el.classList.remove('correctpair','wrongpair','picking');
+    el._linked = null;
+    delete el.dataset.colour;
+  });
+  matchPending[id] = null;
+}
+
+/* ===================== GENERIC: CLASSIFY / SORT ===================== */
+var classifySelected = {};
+function classifyPick(chip){
+  if (chip.classList.contains('used')) return;
+  var bank = chip.closest('[id$="-bank"]') || chip.parentElement;
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  classifySelected[bank.id] = chip;
+}
+function classifyTarget(col){
+  var colsEl = col.closest('[id$="-cols"]');
+  var bankId = colsEl ? colsEl.id.replace(/-cols$/, '-bank') : null;
+  var chip = bankId ? classifySelected[bankId] : null;
+  if (!chip) return;
+  var tag = document.createElement('span');
+  tag.className = 'placed';
+  tag.textContent = chip.textContent;
+  tag.dataset.ans = chip.dataset.ans;
+  tag.dataset.chipRef = '1';
+  tag.onclick = function(e){ e.stopPropagation(); tag.remove(); chip.classList.remove('used'); };
+  col.appendChild(tag);
+  chip.classList.add('used'); chip.classList.remove('selected');
+  delete classifySelected[bankId];
+}
+function checkClassifySlide(prefix){
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.classify-col').forEach(function(col){
+    col.querySelectorAll('.placed').forEach(function(tag){
+      tag.classList.remove('correct','wrong');
+      if (tag.dataset.ans === col.dataset.target) tag.classList.add('correct');
+      else tag.classList.add('wrong');
+    });
+  });
+}
+function resetClassifySlide(prefix){
+  var bank = document.getElementById(prefix+'-bank');
+  var cols = document.getElementById(prefix+'-cols');
+  cols.querySelectorAll('.placed').forEach(function(tag){ tag.remove(); });
+  bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
+  classifySelected = {};
+}
+
+/* ===================== GENERIC: WORD BANK FILL ===================== */
+var wbSelected = {};
+function wbPick(tile){
+  if (tile.classList.contains('used')) return;
+  var bank = tile.parentElement;
+  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
+  tile.classList.add('selected');
+  wbSelected[closestSlideId(tile)] = tile;
+}
+function closestSlideId(el){ return el.closest('.slide').id; }
+function wbPlace(blank){
+  var sid = closestSlideId(blank);
+  if (blank.classList.contains('filled')) {
+    var tile = blank._tileRef;
+    if (tile) tile.classList.remove('used');
+    blank.textContent = '______';
+    blank.classList.remove('filled','correct','wrong');
+    blank._tileRef = null;
+    return;
+  }
+  var tile = wbSelected[sid];
+  if (!tile) return;
+  blank.textContent = tile.dataset.val;
+  blank.classList.add('filled');
+  blank._tileRef = tile;
+  tile.classList.add('used'); tile.classList.remove('selected');
+  delete wbSelected[sid];
+}
+function checkWbSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.wb-blank').forEach(function(b){
+    b.classList.remove('correct','wrong');
+    if (!b.classList.contains('filled')) return;
+    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
+    else b.classList.add('wrong');
+  });
+}
+function resetWbSlide(sid){
+  var box = document.getElementById(sid);
+  var slideEl = box.closest('.slide') || box;
+  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
+  slideEl.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
+  wbSelected = {};
+}
+
+/* ===================== GENERIC: TICK / CHECKBOX ===================== */
+function toggleTick(el){
+  el.classList.toggle('picked');
+}
+function checkTickSlide(sid, correctVals){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){
+    var val = item.dataset.val;
+    var isCorrect = correctVals.indexOf(val) > -1;
+    item.classList.remove('correct','wrong','missed');
+    if (item.classList.contains('picked') && isCorrect) item.classList.add('correct');
+    else if (item.classList.contains('picked') && !isCorrect) item.classList.add('wrong');
+    else if (!item.classList.contains('picked') && isCorrect) item.classList.add('missed');
+  });
+}
+function resetTickSlide(sid){
+  var box = document.getElementById(sid);
+  box.querySelectorAll('.tick-item').forEach(function(item){ item.classList.remove('picked','correct','wrong','missed'); });
+}
+
+/* ===================== SUGGESTED ANSWER / ANSWER KEY TOGGLE ===================== */
+function toggleSuggested(id){
+  var box = document.getElementById(id);
+  box.classList.toggle('show');
+}
+
+/* ===================== SHARED NO-REPEAT SHUFFLE BAG ===================== */
+var shuffleBags = {}, shuffleLast = {};
+function shuffleArray(arr){
+  var a = arr.slice();
+  for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function nextNoRepeat(key, size){
+  if (!shuffleBags[key] || shuffleBags[key].length === 0){
+    var idxs = []; for (var k=0;k<size;k++) idxs.push(k);
+    var bag = shuffleArray(idxs);
+    if (size > 1 && shuffleLast[key] !== undefined && bag[bag.length-1] === shuffleLast[key]){
+      var swapWith = Math.floor(Math.random()*(bag.length-1));
+      var tmp = bag[bag.length-1]; bag[bag.length-1] = bag[swapWith]; bag[swapWith] = tmp;
+    }
+    shuffleBags[key] = bag;
+  }
+  var n = shuffleBags[key].pop();
+  shuffleLast[key] = n;
+  return n;
+}
+
+/* ===================== SCORE SLIDER (Listening 1a) ===================== */
+function scorePick(el){
+  var row = el.parentElement;
+  row.querySelectorAll('.env-pill').forEach(function(p){ p.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+
+/* ===================== R-CHECK (Speaking interview) ===================== */
+function rPick(el){
+  el.classList.toggle('picked');
+  updateRSummary();
+}
+function updateRSummary(){
+  var all = document.querySelectorAll('.r-check');
+  var picked = document.querySelectorAll('.r-check.picked');
+  var box = document.getElementById('r-summary-text');
+  if (!box) return;
+  box.textContent = picked.length + ' out of ' + all.length + ' areas marked — the more you marked, the bigger risk-taker you are!';
+}
+
+/* ===================== PRINT LESSON ===================== */
+function printAll(){
+  saveNotes();
+  var injected = [];
+  slides.forEach(function(slide, i){
+    if (i === 0){
+      var linkEl = document.createElement('div');
+      linkEl.className = 'lesson-link-print';
+      linkEl.innerHTML = '<span class="lp-title">Changing Lives</span>' +
+        '<span class="lp-sub">Click on this link to access the lesson: ' +
+        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-2B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-2B/index.html</a></span>';
+      slide.insertBefore(linkEl, slide.firstChild);
+      injected.push(linkEl);
+    }
+    var n = notesData[i] || '';
+    if (n.replace(/<[^>]*>/g,'').trim()){
+      var notesEl = document.createElement('div');
+      notesEl.className = 'slide-notes-print';
+      notesEl.innerHTML = '<div class="slide-notes-print-label">📝 Teacher Notes</div>' + n;
+      slide.appendChild(notesEl);
+      injected.push(notesEl);
+    }
+  });
+  document.body.classList.add('print-all');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-all');
+    injected.forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
+  }, 1500);
+}
+
+/* ===================== SYLLABLE STRESS ===================== */
+function sylClick(el){
+  var w = el.closest('.syl-word');
+  w.querySelectorAll('.syl').forEach(function(s){ s.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+function checkSyl(sid){
+  document.getElementById(sid).querySelectorAll('.syl-word').forEach(function(w){
+    w.querySelectorAll('.syl').forEach(function(s){ s.classList.remove('correct','wrong'); });
+    var p = w.querySelector('.syl.picked');
+    if (!p) return;
+    if (p.dataset.stress === '1') p.classList.add('correct');
+    else p.classList.add('wrong');
+  });
+}
+function resetSyl(sid){
+  document.getElementById(sid).querySelectorAll('.syl').forEach(function(s){ s.classList.remove('picked','correct','wrong'); });
+}
+
+/* init */
+document.getElementById('counter').textContent = '1/'+slides.length;
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>
