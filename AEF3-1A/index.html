@@ -145,6 +145,43 @@
   .vocab-photo-layout { display:grid; grid-template-columns:1.5fr 1fr; gap:0 28px; align-items:start; }
   @media (max-width:820px){ .vocab-photo-layout{ grid-template-columns:1fr; } .clue-photo-box{ position:static; max-height:420px; } }
 
+  /* ===== illustrated vocab clue grid (replaces book-photo scans) ===== */
+  .vclue-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:12px; margin-bottom:18px; }
+  .vclue-card { background:linear-gradient(160deg,#F4F8FA,#EAF0F3); border-radius:14px; padding:16px 10px 12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.07); border:1px solid #e4e9ec; }
+  .vclue-card .vc-num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#1C2B3A; color:#fff; font-weight:800; font-size:.85rem; margin-bottom:6px; }
+  .vclue-card .vc-icon { font-size:2.5rem; display:block; margin:2px 0 6px; line-height:1; }
+  .vclue-card .vc-clue { display:block; font-size:.82rem; color:#5A6B78; font-style:italic; line-height:1.35; min-height:2.4em; }
+  .vclue-card .wb-blank { display:block; margin:10px auto 0; width:calc(100% - 8px); text-align:center; }
+
+  /* ===== flip-card flashcards ===== */
+  .flip-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; margin-bottom:10px; }
+  .flip-card { perspective:800px; height:170px; cursor:pointer; }
+  .flip-inner { position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; }
+  .flip-card.flipped .flip-inner { transform:rotateY(180deg); }
+  .flip-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.07); }
+  .flip-front { background:linear-gradient(160deg,#F4F8FA,#EAF0F3); border:1px solid #e4e9ec; }
+  .flip-front .vc-icon { font-size:2.5rem; display:block; margin-bottom:8px; }
+  .flip-front .vc-clue { font-size:.85rem; color:#5A6B78; font-style:italic; line-height:1.35; }
+  .flip-back { background:#A8571E; color:#fff; font-weight:800; font-size:1.3rem; transform:rotateY(180deg); }
+  .flip-hint { text-align:center; font-size:.9rem; color:#999; font-style:italic; margin:-4px 0 18px; }
+  .vclue-cap { font-size:.92rem; font-style:italic; font-weight:700; color:#8B3A1E; margin:2px 0 14px; text-align:center; }
+
+  /* ===== quote cards (warm-up, replaces scanned quote image) ===== */
+  .quote-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:18px; }
+  .quote-card { background:linear-gradient(155deg,#FBF6E8,#F6ECD2); border:1px solid #E8D9A8; border-radius:14px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .quote-card .qc-icon { font-size:1.7rem; display:block; margin-bottom:6px; }
+  .quote-card .qc-text { font-size:1rem; font-style:italic; color:#5A4318; line-height:1.55; }
+  .quote-card .qc-author { display:block; margin-top:8px; font-style:normal; font-weight:700; color:#8A2230; font-size:.88rem; }
+
+  /* ===== food-category countdown (warm-up game) ===== */
+  .countdown-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:10px; }
+  .countdown-row { display:flex; align-items:center; gap:16px; background:#FBF6E8; border-radius:12px; padding:12px 18px; border-left:6px solid #D35400; }
+  .countdown-num { flex-shrink:0; width:38px; height:38px; border-radius:50%; background:#D35400; color:#fff; font-weight:900; font-size:1.15rem; display:flex; align-items:center; justify-content:center; }
+  .countdown-text { flex:1; font-weight:700; font-size:1.05rem; color:#1C2B3A; }
+  .countdown-reveal { background:#5A2E8C; color:#fff; border:none; border-radius:20px; padding:5px 14px; font-size:.82rem; font-weight:700; cursor:pointer; flex-shrink:0; }
+  .countdown-ans { display:none; font-size:.92rem; color:#1A7A4A; font-style:italic; margin-top:4px; }
+  .countdown-ans.show { display:block; }
+
   /* word bank tiles */
   .wb-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
   .wb-bank.book-style { border-top:3px double #333; border-bottom:1px solid #ccc; padding:12px 4px; }
@@ -373,6 +410,60 @@
   </div>
 </div>
 
+<!-- ============ WARM-UP GAME: FOOD COUNTDOWN ============ -->
+<!-- TB p.12, Optional lead-in (books closed) -->
+<div class="slide" id="s-countdown">
+  <div class="banner banner-leadin">🎯 Warm-Up</div>
+  <div class="slide-main"><div class="content">
+    <h2>Food countdown</h2>
+    <p class="instruction">Books closed! For each category, how fast can you think of the right number of things? Say your answers out loud — check the hint if you get stuck.</p>
+    <div class="countdown-grid" id="countdown-list">
+      <div class="countdown-row">
+        <div class="countdown-num">1</div>
+        <div class="countdown-text">RED fruit, YELLOW fruit, GREEN fruit — one of each
+          <div class="countdown-ans" id="cd-a1">💡 e.g. cherries / mango / avocado</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a1').classList.toggle('show')">Hint</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">2</div>
+        <div class="countdown-text">TWO kinds of food that some people are allergic to
+          <div class="countdown-ans" id="cd-a2">💡 e.g. shrimp / peanuts</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a2').classList.toggle('show')">Hint</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">3</div>
+        <div class="countdown-text">THREE kinds of food that come from milk
+          <div class="countdown-ans" id="cd-a3">💡 e.g. cheese / yogurt / butter</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a3').classList.toggle('show')">Hint</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">4</div>
+        <div class="countdown-text">FOUR vegetables you can put in a salad
+          <div class="countdown-ans" id="cd-a4">💡 e.g. cucumber / red pepper / cabbage / avocado</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a4').classList.toggle('show')">Hint</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">5</div>
+        <div class="countdown-text">FIVE containers you can buy food in
+          <div class="countdown-ans" id="cd-a5">💡 e.g. a can, a jar, a carton, a box, a bag</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a5').classList.toggle('show')">Hint</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">6</div>
+        <div class="countdown-text">SIX things people sometimes have for breakfast
+          <div class="countdown-ans" id="cd-a6">💡 e.g. eggs, toast, cereal, fruit, coffee, yogurt</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('cd-a6').classList.toggle('show')">Hint</button>
+      </div>
+    </div>
+  </div></div>
+</div>
+
 <!-- ============ WARM-UP: COMPLETE THE FOOD QUOTES ============ -->
 <!-- SB p.6, ex 1a (used as warm-up) -->
 <div class="slide" id="s-leadin">
@@ -389,21 +480,13 @@
       <span class="wb-tile" data-val="pear" onclick="wbPick(this)">pear</span>
       <span class="wb-tile" data-val="tomato" onclick="wbPick(this)">tomato</span>
     </div>
-    <div class="fixed-two-col" id="wu1" style="grid-template-columns:1.15fr 1fr; gap:0 32px;">
-      <div>
-        <div class="ex-row" style="font-style:italic;">1. "There are only ten minutes in the life of a <span class="wb-blank" data-ans="pear" onclick="wbPlace(this)">______</span> when it is perfect to eat." <span style="font-style:normal;color:#8A2230;font-weight:700;">— Ralph Waldo Emerson</span></div>
-        <div class="ex-row" style="font-style:italic;">2. "Life is a combination of magic and <span class="wb-blank" data-ans="pasta" onclick="wbPlace(this)">______</span>." <span style="font-style:normal;color:#8A2230;font-weight:700;">— Federico Fellini</span></div>
-        <div class="ex-row" style="font-style:italic;">3. "One day, I'm going to make the <span class="wb-blank" data-ans="onions" onclick="wbPlace(this)">______</span> cry."</div>
-        <div class="ex-row" style="font-style:italic;">4. "Knowledge is knowing that a <span class="wb-blank" data-ans="tomato" onclick="wbPlace(this)">______</span> is a fruit. Wisdom is not putting it in a <span class="wb-blank" data-ans="fruit salad" onclick="wbPlace(this)">______</span>." <span style="font-style:normal;color:#8A2230;font-weight:700;">— Miles Kington</span></div>
-        <div class="ex-row" style="font-style:italic;">5. "A party without <span class="wb-blank" data-ans="cake" onclick="wbPlace(this)">______</span> is just a meeting." <span style="font-style:normal;color:#8A2230;font-weight:700;">— Julia Child</span></div>
-        <div class="ex-row" style="font-style:italic;">6. "A balanced diet is a <span class="wb-blank" data-ans="cookie" onclick="wbPlace(this)">______</span> in each hand." <span style="font-style:normal;color:#8A2230;font-weight:700;">— Barbara Johnson</span></div>
-      </div>
-      <div>
-        <div class="clue-photo-box">
-          <img src="images/food-quotes.png" alt="The six food quote cards from the book, for visual clues">
-        </div>
-        <p class="clue-photo-cap">👀 Scroll the picture for clues while you complete the sentences!</p>
-      </div>
+    <div class="quote-grid" id="wu1">
+      <div class="quote-card"><span class="qc-icon">🍐</span><span class="qc-text">1. "There are only ten minutes in the life of a <span class="wb-blank" data-ans="pear" onclick="wbPlace(this)">______</span> when it is perfect to eat."<span class="qc-author">— Ralph Waldo Emerson</span></span></div>
+      <div class="quote-card"><span class="qc-icon">🍝</span><span class="qc-text">2. "Life is a combination of magic and <span class="wb-blank" data-ans="pasta" onclick="wbPlace(this)">______</span>."<span class="qc-author">— Federico Fellini</span></span></div>
+      <div class="quote-card"><span class="qc-icon">🧅</span><span class="qc-text">3. "One day, I'm going to make the <span class="wb-blank" data-ans="onions" onclick="wbPlace(this)">______</span> cry."<span class="qc-author">— Anonymous</span></span></div>
+      <div class="quote-card"><span class="qc-icon">🍅</span><span class="qc-text">4. "Knowledge is knowing that a <span class="wb-blank" data-ans="tomato" onclick="wbPlace(this)">______</span> is a fruit. Wisdom is not putting it in a <span class="wb-blank" data-ans="fruit salad" onclick="wbPlace(this)">______</span>."<span class="qc-author">— Miles Kington</span></span></div>
+      <div class="quote-card"><span class="qc-icon">🎂</span><span class="qc-text">5. "A party without <span class="wb-blank" data-ans="cake" onclick="wbPlace(this)">______</span> is just a meeting."<span class="qc-author">— Julia Child</span></span></div>
+      <div class="quote-card"><span class="qc-icon">🍪</span><span class="qc-text">6. "A balanced diet is a <span class="wb-blank" data-ans="cookie" onclick="wbPlace(this)">______</span> in each hand."<span class="qc-author">— Barbara Johnson</span></span></div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkWbSlide('wu1')">Check Answers</button>
@@ -411,7 +494,7 @@
     </div>
 
     <div class="ccq-box" style="margin-top:22px;background:#F8F0F4;border-left:6px solid #B23A6B;">
-      <div class="discuss-label" style="margin:0;">💬 Which quote do you like best? Why?</div>
+      <div class="discuss-label" style="margin:0;">💬 Which quote do you like best? Why? Can you think of another funny or true quote about food?</div>
     </div>
   </div></div>
 </div>
@@ -492,46 +575,54 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Fish and seafood</h2>
-    <p class="instruction">Look closely at the photo. Click a word, then click the number of its photo to match them.</p>
-    <div class="vocab-photo-layout">
-      <div class="match-wrap" id="v1-match" style="grid-template-columns:1.3fr .7fr;">
-        <div>
-          <div class="match-col-head mc-left">Word</div>
-          <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)">crab</div>
-          <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)">salmon</div>
-          <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)">squid</div>
-          <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)">tuna</div>
-          <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)">mussels</div>
-          <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)">shrimp</div>
-          <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)">lobster</div>
-        </div>
-        <div>
-          <div class="match-col-head mc-right">#</div>
-          <div class="match-item badge-only" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="vocab-num-badge">1</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="vocab-num-badge">2</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="vocab-num-badge">3</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="vocab-num-badge">4</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="vocab-num-badge">5</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="vocab-num-badge">6</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="vocab-num-badge">7</span></div>
-        </div>
-      </div>
-      <div>
-        <div class="clue-photo-box">
-          <img src="images/fish-seafood-photo.png" alt="Numbered photos of crab, salmon, squid, tuna, mussels, shrimp and lobster">
-        </div>
-        <p class="clue-photo-cap">🔍 1–7 above</p>
-      </div>
+    <p class="instruction">Click a word in the bank, then click the card whose clue it matches.</p>
+    <div class="wb-bank book-style" id="v1-bank">
+      <span class="wb-tile" data-val="crab" onclick="wbPick(this)">crab</span>
+      <span class="wb-tile" data-val="salmon" onclick="wbPick(this)">salmon</span>
+      <span class="wb-tile" data-val="squid" onclick="wbPick(this)">squid</span>
+      <span class="wb-tile" data-val="tuna" onclick="wbPick(this)">tuna</span>
+      <span class="wb-tile" data-val="mussels" onclick="wbPick(this)">mussels</span>
+      <span class="wb-tile" data-val="shrimp" onclick="wbPick(this)">shrimp</span>
+      <span class="wb-tile" data-val="lobster" onclick="wbPick(this)">lobster</span>
+    </div>
+    <div class="vclue-grid" id="v1-wb">
+      <div class="vclue-card"><span class="vc-icon">🦀</span><span class="vc-clue">Sea animal, hard shell, eight legs, walks sideways</span><span class="wb-blank" data-ans="crab" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🐟</span><span class="vc-clue">Pink-orange fish, farmed or wild-caught</span><span class="wb-blank" data-ans="salmon" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🦑</span><span class="vc-clue">Soft body, eight arms, two long tentacles</span><span class="wb-blank" data-ans="squid" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🐠</span><span class="vc-clue">Large sea fish, common in sushi and cans</span><span class="wb-blank" data-ans="tuna" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🦪</span><span class="vc-clue">Small shellfish, dark blue-black shells, grow in groups</span><span class="wb-blank" data-ans="mussels" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍤</span><span class="vc-clue">Small, curls up and turns pink-orange when cooked</span><span class="wb-blank" data-ans="shrimp" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🦞</span><span class="vc-clue">Large shellfish with a tail and two big claws</span><span class="wb-blank" data-ans="lobster" onclick="wbPlace(this)">______</span></div>
     </div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('v1-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('v1-match')">Reset</button>
+      <button class="btn-check" onclick="checkWbSlide('v1-wb')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('v1-wb')">Reset</button>
     </div>
-    <div class="ccq-box" style="margin-top:20px;">
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: WOULD YOU TRY IT? (seafood) ============ -->
+<!-- Vocabulary Bank Activation prompt, SB p.152 -->
+<div class="slide" id="s-speak-seafood">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Would you try it?</h2>
+    <p class="instruction">Click one reaction for each food, then explain your choice out loud.</p>
+    <div class="tick-list" id="sf-tick">
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;"><span style="flex:1;min-width:120px;font-weight:700;">🦀 Crab</span><span style="display:flex;gap:6px;flex-wrap:wrap;"><button class="circ-opt" data-group="sf-1" onclick="circPick(this)">❤️ Love it</button><button class="circ-opt" data-group="sf-1" onclick="circPick(this)">🙂 Like it</button><button class="circ-opt" data-group="sf-1" onclick="circPick(this)">🤔 Never tried</button><button class="circ-opt" data-group="sf-1" onclick="circPick(this)">🙅 No way!</button></span></div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;"><span style="flex:1;min-width:120px;font-weight:700;">🐟 Salmon</span><span style="display:flex;gap:6px;flex-wrap:wrap;"><button class="circ-opt" data-group="sf-2" onclick="circPick(this)">❤️ Love it</button><button class="circ-opt" data-group="sf-2" onclick="circPick(this)">🙂 Like it</button><button class="circ-opt" data-group="sf-2" onclick="circPick(this)">🤔 Never tried</button><button class="circ-opt" data-group="sf-2" onclick="circPick(this)">🙅 No way!</button></span></div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;"><span style="flex:1;min-width:120px;font-weight:700;">🦑 Squid</span><span style="display:flex;gap:6px;flex-wrap:wrap;"><button class="circ-opt" data-group="sf-3" onclick="circPick(this)">❤️ Love it</button><button class="circ-opt" data-group="sf-3" onclick="circPick(this)">🙂 Like it</button><button class="circ-opt" data-group="sf-3" onclick="circPick(this)">🤔 Never tried</button><button class="circ-opt" data-group="sf-3" onclick="circPick(this)">🙅 No way!</button></span></div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;"><span style="flex:1;min-width:120px;font-weight:700;">🦪 Mussels</span><span style="display:flex;gap:6px;flex-wrap:wrap;"><button class="circ-opt" data-group="sf-4" onclick="circPick(this)">❤️ Love it</button><button class="circ-opt" data-group="sf-4" onclick="circPick(this)">🙂 Like it</button><button class="circ-opt" data-group="sf-4" onclick="circPick(this)">🤔 Never tried</button><button class="circ-opt" data-group="sf-4" onclick="circPick(this)">🙅 No way!</button></span></div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;"><span style="flex:1;min-width:120px;font-weight:700;">🦞 Lobster</span><span style="display:flex;gap:6px;flex-wrap:wrap;"><button class="circ-opt" data-group="sf-5" onclick="circPick(this)">❤️ Love it</button><button class="circ-opt" data-group="sf-5" onclick="circPick(this)">🙂 Like it</button><button class="circ-opt" data-group="sf-5" onclick="circPick(this)">🤔 Never tried</button><button class="circ-opt" data-group="sf-5" onclick="circPick(this)">🙅 No way!</button></span></div>
+    </div>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-reset" onclick="resetCircSlide('sf-tick')">↺ Reset</button>
+    </div>
+    <div class="ccq-box" style="margin-top:16px;">
       <ul class="discuss-list" style="margin:0;padding-left:20px;">
-        <li>🦐 Which of these have you tried? Which would you never try?</li>
         <li>🌊 Is fresh seafood easy to find where you live?</li>
         <li>🍽️ What's your favorite way to eat fish or seafood?</li>
+        <li>🐟 Any other seafood that's very common in your country?</li>
       </ul>
     </div>
   </div></div>
@@ -543,42 +634,44 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Meat</h2>
-    <p class="instruction">Look closely at the photo — the little animal icons are a clue! Click a word, then click its number.</p>
-    <div class="vocab-photo-layout">
-      <div class="match-wrap" id="v1b-match" style="grid-template-columns:1.3fr .7fr;">
-        <div>
-          <div class="match-col-head mc-left">Word</div>
-          <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)">pork</div>
-          <div class="match-item" data-side="left" data-pair="9" onclick="matchPick(this)">duck</div>
-          <div class="match-item" data-side="left" data-pair="10" onclick="matchPick(this)">lamb</div>
-          <div class="match-item" data-side="left" data-pair="11" onclick="matchPick(this)">beef</div>
-          <div class="match-item" data-side="left" data-pair="12" onclick="matchPick(this)">chicken</div>
-        </div>
-        <div>
-          <div class="match-col-head mc-right">#</div>
-          <div class="match-item badge-only" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="vocab-num-badge">8</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="9" onclick="matchPick(this)"><span class="vocab-num-badge">9</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="10" onclick="matchPick(this)"><span class="vocab-num-badge">10</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="11" onclick="matchPick(this)"><span class="vocab-num-badge">11</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="12" onclick="matchPick(this)"><span class="vocab-num-badge">12</span></div>
-        </div>
-      </div>
-      <div>
-        <div class="clue-photo-box">
-          <img src="images/meat-photo.png" alt="Numbered photos of pork, duck, lamb, beef and chicken, with animal-silhouette clues">
-        </div>
-        <p class="clue-photo-cap">🔍 8–12 above</p>
-      </div>
+    <p class="instruction">Say the word for each animal's meat out loud, then click the card to check yourself.</p>
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-inner">
+        <div class="flip-face flip-front"><span class="vc-icon">🐖</span><span class="vc-clue">Meat from a pig</span></div>
+        <div class="flip-face flip-back">pork</div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-inner">
+        <div class="flip-face flip-front"><span class="vc-icon">🦆</span><span class="vc-clue">Meat from this bird — richer than chicken</span></div>
+        <div class="flip-face flip-back">duck</div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-inner">
+        <div class="flip-face flip-front"><span class="vc-icon">🐑</span><span class="vc-clue">Meat from a young sheep</span></div>
+        <div class="flip-face flip-back">lamb</div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-inner">
+        <div class="flip-face flip-front"><span class="vc-icon">🐄</span><span class="vc-clue">Meat from a cow</span></div>
+        <div class="flip-face flip-back">beef</div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-inner">
+        <div class="flip-face flip-front"><span class="vc-icon">🐔</span><span class="vc-clue">The most common meat worldwide</span></div>
+        <div class="flip-face flip-back">chicken</div>
+      </div></div>
     </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('v1b-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('v1b-match')">Reset</button>
-    </div>
-    <div class="ccq-box" style="margin-top:20px;">
+    <p class="flip-hint">👆 Click a card to flip it back and forth</p>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: MEAT INTERVIEW ============ -->
+<div class="slide" id="s-speak-meat">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Meat and you</h2>
+    <div class="ccq-box">
       <ul class="discuss-list" style="margin:0;padding-left:20px;">
         <li>🥩 Which meat do you eat most often? Which do you never eat, and why?</li>
         <li>🐔 Are you more of a "white meat" or "red meat" person?</li>
         <li>🌱 Do you know any vegetarians or vegans? What do they eat instead?</li>
+        <li>🌍 Is there a type of meat that's very common in your country but unusual elsewhere?</li>
       </ul>
     </div>
   </div></div>
@@ -588,66 +681,80 @@
 <div class="slide" id="s-vocab2">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>Fruit and vegetables</h2>
-    <p class="instruction">Look closely at the photo. Click a word, then click the number of its photo to match them.</p>
-    <div class="vocab-photo-layout">
-      <div class="match-wrap" id="v2-match" style="grid-template-columns:1.3fr .7fr;">
-        <div>
-          <div class="match-col-head mc-left">Word</div>
-          <div class="match-item" data-side="left" data-pair="13" onclick="matchPick(this)">cabbage</div>
-          <div class="match-item" data-side="left" data-pair="14" onclick="matchPick(this)">avocado</div>
-          <div class="match-item" data-side="left" data-pair="15" onclick="matchPick(this)">melon</div>
-          <div class="match-item" data-side="left" data-pair="16" onclick="matchPick(this)">pear</div>
-          <div class="match-item" data-side="left" data-pair="17" onclick="matchPick(this)">red pepper</div>
-          <div class="match-item" data-side="left" data-pair="18" onclick="matchPick(this)">cucumber</div>
-          <div class="match-item" data-side="left" data-pair="19" onclick="matchPick(this)">mango</div>
-          <div class="match-item" data-side="left" data-pair="20" onclick="matchPick(this)">eggplant</div>
-          <div class="match-item" data-side="left" data-pair="21" onclick="matchPick(this)">peach</div>
-          <div class="match-item" data-side="left" data-pair="22" onclick="matchPick(this)">zucchini</div>
-          <div class="match-item" data-side="left" data-pair="23" onclick="matchPick(this)">grapes</div>
-          <div class="match-item" data-side="left" data-pair="24" onclick="matchPick(this)">cherries</div>
-          <div class="match-item" data-side="left" data-pair="25" onclick="matchPick(this)">beet</div>
-          <div class="match-item" data-side="left" data-pair="26" onclick="matchPick(this)">lemon</div>
-          <div class="match-item" data-side="left" data-pair="27" onclick="matchPick(this)">green beans</div>
-          <div class="match-item" data-side="left" data-pair="28" onclick="matchPick(this)">raspberries</div>
-        </div>
-        <div>
-          <div class="match-col-head mc-right">#</div>
-          <div class="match-item badge-only" data-side="right" data-pair="13" onclick="matchPick(this)"><span class="vocab-num-badge">13</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="14" onclick="matchPick(this)"><span class="vocab-num-badge">14</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="15" onclick="matchPick(this)"><span class="vocab-num-badge">15</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="16" onclick="matchPick(this)"><span class="vocab-num-badge">16</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="17" onclick="matchPick(this)"><span class="vocab-num-badge">17</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="18" onclick="matchPick(this)"><span class="vocab-num-badge">18</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="19" onclick="matchPick(this)"><span class="vocab-num-badge">19</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="20" onclick="matchPick(this)"><span class="vocab-num-badge">20</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="21" onclick="matchPick(this)"><span class="vocab-num-badge">21</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="22" onclick="matchPick(this)"><span class="vocab-num-badge">22</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="23" onclick="matchPick(this)"><span class="vocab-num-badge">23</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="24" onclick="matchPick(this)"><span class="vocab-num-badge">24</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="25" onclick="matchPick(this)"><span class="vocab-num-badge">25</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="26" onclick="matchPick(this)"><span class="vocab-num-badge">26</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="27" onclick="matchPick(this)"><span class="vocab-num-badge">27</span></div>
-          <div class="match-item badge-only" data-side="right" data-pair="28" onclick="matchPick(this)"><span class="vocab-num-badge">28</span></div>
-        </div>
-      </div>
-      <div>
-        <div class="clue-photo-box">
-          <img src="images/fruit-veg-photo.png" alt="Numbered photos of cabbage, avocado, melon, pear, red pepper, cucumber, mango, eggplant, peach, zucchini, grapes, cherries, beet, lemon, green beans and raspberries">
-        </div>
-        <p class="clue-photo-cap">🔍 13–28 above</p>
-      </div>
+    <h2>Fruit</h2>
+    <p class="instruction">Click a word in the bank, then click the card whose clue it matches.</p>
+    <div class="wb-bank book-style" id="v2-bank">
+      <span class="wb-tile" data-val="avocado" onclick="wbPick(this)">avocado</span>
+      <span class="wb-tile" data-val="mango" onclick="wbPick(this)">mango</span>
+      <span class="wb-tile" data-val="melon" onclick="wbPick(this)">melon</span>
+      <span class="wb-tile" data-val="peach" onclick="wbPick(this)">peach</span>
+      <span class="wb-tile" data-val="pear" onclick="wbPick(this)">pear</span>
+      <span class="wb-tile" data-val="grapes" onclick="wbPick(this)">grapes</span>
+      <span class="wb-tile" data-val="cherries" onclick="wbPick(this)">cherries</span>
+      <span class="wb-tile" data-val="lemon" onclick="wbPick(this)">lemon</span>
+      <span class="wb-tile" data-val="raspberries" onclick="wbPick(this)">raspberries</span>
+    </div>
+    <div class="vclue-grid" id="v2-wb">
+      <div class="vclue-card"><span class="vc-icon">🥑</span><span class="vc-clue">Green skin, soft inside, big seed — used in guacamole</span><span class="wb-blank" data-ans="avocado" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🥭</span><span class="vc-clue">Tropical, orange flesh, big flat seed</span><span class="wb-blank" data-ans="mango" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍈</span><span class="vc-clue">Large, round, sweet, lots of seeds inside</span><span class="wb-blank" data-ans="melon" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍑</span><span class="vc-clue">Soft, fuzzy skin, orange-pink, a pit in the middle</span><span class="wb-blank" data-ans="peach" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍐</span><span class="vc-clue">Sweet, wider at the bottom than the top</span><span class="wb-blank" data-ans="pear" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍇</span><span class="vc-clue">Small, round, grow in bunches</span><span class="wb-blank" data-ans="grapes" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍒</span><span class="vc-clue">Small, dark red, grow in pairs on a stem</span><span class="wb-blank" data-ans="cherries" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍋</span><span class="vc-clue">Yellow and very sour</span><span class="wb-blank" data-ans="lemon" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍓</span><span class="vc-clue">Small, soft, red, bumpy skin — not a strawberry!</span><span class="wb-blank" data-ans="raspberries" onclick="wbPlace(this)">______</span></div>
     </div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('v2-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('v2-match')">Reset</button>
+      <button class="btn-check" onclick="checkWbSlide('v2-wb')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('v2-wb')">Reset</button>
     </div>
-    <div class="ccq-box" style="margin-top:20px;">
+  </div></div>
+</div>
+
+<!-- ============ VOCABULARY 2B: VEGETABLES ============ -->
+<div class="slide" id="s-vocab2b">
+  <div class="banner banner-vocab">📚 Vocabulary</div>
+  <div class="slide-main"><div class="content">
+    <h2>Vegetables</h2>
+    <p class="instruction">Click a word in the bank, then click the card whose clue it matches.</p>
+    <div class="wb-bank book-style" id="v2b-bank">
+      <span class="wb-tile" data-val="cabbage" onclick="wbPick(this)">cabbage</span>
+      <span class="wb-tile" data-val="red pepper" onclick="wbPick(this)">red pepper</span>
+      <span class="wb-tile" data-val="cucumber" onclick="wbPick(this)">cucumber</span>
+      <span class="wb-tile" data-val="eggplant" onclick="wbPick(this)">eggplant</span>
+      <span class="wb-tile" data-val="zucchini" onclick="wbPick(this)">zucchini</span>
+      <span class="wb-tile" data-val="beet" onclick="wbPick(this)">beet</span>
+      <span class="wb-tile" data-val="green beans" onclick="wbPick(this)">green beans</span>
+    </div>
+    <div class="vclue-grid" id="v2b-wb">
+      <div class="vclue-card"><span class="vc-icon">🥬</span><span class="vc-clue">Large green leafy vegetable, round shape</span><span class="wb-blank" data-ans="cabbage" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🫑</span><span class="vc-clue">Red, hollow inside, mild not spicy</span><span class="wb-blank" data-ans="red pepper" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🥒</span><span class="vc-clue">Long, green, mostly water — great in salads</span><span class="wb-blank" data-ans="cucumber" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🍆</span><span class="vc-clue">Dark purple skin, oval shape</span><span class="wb-blank" data-ans="eggplant" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🥒</span><span class="vc-clue">Long, green, like a cucumber but always cooked</span><span class="wb-blank" data-ans="zucchini" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🟣</span><span class="vc-clue">Dark red-purple root vegetable — stains everything pink!</span><span class="wb-blank" data-ans="beet" onclick="wbPlace(this)">______</span></div>
+      <div class="vclue-card"><span class="vc-icon">🫛</span><span class="vc-clue">Long, thin, green — grows in pods</span><span class="wb-blank" data-ans="green beans" onclick="wbPlace(this)">______</span></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('v2b-wb')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('v2b-wb')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: FRUIT & VEG GAME ============ -->
+<div class="slide" id="s-speak-fruitveg">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Love it, hate it, never tried it</h2>
+    <p class="instruction">Pick 5 fruits or vegetables from the last two pages. For each one, say a sentence out loud using one of these reactions.</p>
+    <div class="wyr-intro"><span class="wyr-emoji">🥑</span><p>"I love it, but it's expensive here." / "I've never tried it." / "I hate it — the texture is strange!"</p></div>
+    <div class="ccq-box">
       <ul class="discuss-list" style="margin:0;padding-left:20px;">
-        <li>❤️ Which of these do you love?</li>
-        <li>🤢 Which do you hate?</li>
-        <li>🍽️ Which have you never eaten?</li>
+        <li>❤️ Which of these do you love? 🤢 Which do you hate? 🤔 Which have you never eaten?</li>
         <li>🌍 Any other fruits or vegetables that are very common in your country?</li>
+        <li>🥗 What's your favorite recipe or salad that uses at least 3 of these?</li>
       </ul>
     </div>
   </div></div>
@@ -659,8 +766,15 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Cooking</h2>
-    <p class="instruction">Match each cooking word to its photo by typing the number. Then listen and check.</p>
-    <div class="img-placeholder" style="min-height:120px;"><span class="ip-icon">🍳</span>Photos 1–6: (1) a fried egg, (2) grilled meat, (3) steamed greens, (4) a roasted duck, (5) a boiling egg, (6) a baked potato</div>
+    <p class="instruction">Read the six cooking descriptions, then match each cooking word below to its number.</p>
+    <div class="vclue-grid">
+      <div class="vclue-card"><span class="vc-num">1</span><span class="vc-icon">🍳</span><span class="vc-clue">An egg cooked in a pan with oil, sunny-side up</span></div>
+      <div class="vclue-card"><span class="vc-num">2</span><span class="vc-icon">🔥</span><span class="vc-clue">Meat cooked on a hot metal grid, direct heat</span></div>
+      <div class="vclue-card"><span class="vc-num">3</span><span class="vc-icon">💨</span><span class="vc-clue">Vegetables cooked in the steam above boiling water</span></div>
+      <div class="vclue-card"><span class="vc-num">4</span><span class="vc-icon">🍗</span><span class="vc-clue">Meat cooked in the oven with fat, until crispy outside</span></div>
+      <div class="vclue-card"><span class="vc-num">5</span><span class="vc-icon">🥚</span><span class="vc-clue">An egg cooked whole in its shell, in boiling water</span></div>
+      <div class="vclue-card"><span class="vc-num">6</span><span class="vc-icon">🥔</span><span class="vc-clue">A potato cooked whole in the oven, skin on</span></div>
+    </div>
     <div class="fixed-three-col" id="v3" style="margin-top:14px;">
       <div>
         <div class="ex-row">baked <input class="ans-input" style="width:64px;text-align:left" data-ans="6"></div>
@@ -693,6 +807,29 @@
       <button class="btn-reset" onclick="resetSlide('v3b')">Reset</button>
     </div>
     <div class="gram-note" style="margin-top:14px;"><b>💡</b> <i>eat out</i> = eat in a restaurant · <i>cut down on</i> = eat/do less of · <i>cut out</i> = stop completely</div>
+    <div class="ccq-box" style="margin-top:16px;background:#F8F0F4;border-left:6px solid #B23A6B;">
+      <p class="ccq-label" style="margin-bottom:6px;">🎯 Extra challenge — make it true for you!</p>
+      <p style="margin:0;font-size:1.05rem;color:#1C2B3A;">Say one true sentence about yourself with each phrasal verb: <i>eat out</i> · <i>cut down on</i> · <i>cut out</i></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ SPEAKING: HOW DO YOU LIKE IT COOKED? ============ -->
+<!-- Vocabulary Bank Activation prompt, SB p.152 -->
+<div class="slide" id="s-speak-cooking">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>How do you like it cooked?</h2>
+    <p class="instruction">Tell me how you prefer each of these foods to be cooked — and how you don't like them.</p>
+    <div class="ccq-box">
+      <ul class="discuss-list" style="margin:0;padding-left:20px;">
+        <li>🍳 How do you like your eggs cooked?</li>
+        <li>🍗 How do you like chicken cooked?</li>
+        <li>🐟 How do you like fish cooked?</li>
+        <li>🥔 How do you like potatoes cooked?</li>
+      </ul>
+    </div>
+    <div class="gram-note" style="margin-top:14px;"><b>💡 Use:</b> "I like it/them baked/boiled/fried/grilled/roasted/steamed." · "I can't stand it/them ___."</div>
   </div></div>
 </div>
 
@@ -721,6 +858,9 @@
       <button class="btn-reset" onclick="resetSlide('v4')">Reset</button>
     </div>
     <div class="gram-note" style="margin-top:14px;"><b>💡 Which food goes with each?</b> canned (tomatoes, tuna) · fresh (fish, vegetables) · frozen (peas, pizza) · hot/spicy (sauce, chicken) · low-fat (yogurt, cheese) · raw (fish, vegetables)</div>
+    <div class="ccq-box" style="margin-top:16px;">
+      <div class="discuss-label" style="margin:0;">💬 What canned, frozen, or low-fat food do you have at home right now? Do you prefer fresh food, or do you not mind canned/frozen?</div>
+    </div>
   </div></div>
 </div>
 
@@ -798,7 +938,6 @@
       <button class="btn-check" onclick="checkMatchSlide('l1-match')">Check Answers</button>
       <button class="btn-reset" onclick="resetMatchSlide('l1-match')">Reset</button>
     </div>
-    <p class="discuss-label" style="margin-top:16px;">💬 Now answer for you: What's your favorite pizza <b>topping</b>? Do you ever have <b>take-out</b> food? Are you <b>allergic</b> to anything? What food do you eat to <b>cheer yourself up</b>?</p>
   </div></div>
 </div>
 
@@ -837,8 +976,49 @@
   </div></div>
 </div>
 
+<!-- ============ SPEAKING: YOUR FOOD PROFILE (personalized) ============ -->
+<!-- SB p.7, ex 3d -->
+<div class="slide" id="s-speak-profile">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Your food profile — now it's your turn</h2>
+    <p class="instruction">Answer the questions from the questionnaire about yourself, giving as much information as you can.</p>
+    <div class="ccq-box">
+      <ul class="discuss-list" style="margin:0;padding-left:20px;">
+        <li>1. What's your favorite pizza <b>topping</b> / sandwich <b>filling</b>?</li>
+        <li>2. Do you ever have <b>ready-made</b> or <b>take-out</b> food? Do you ever have very hot/spicy food?</li>
+        <li>3. Are you <b>allergic</b> or <b>intolerant</b> to any food?</li>
+        <li>4. What food do you eat to <b>cheer yourself up</b>?</li>
+        <li>5. When you're away from home, is there any food/drink you really <b>miss</b>?</li>
+        <li>6. Is there any food or drink you couldn't live without?</li>
+      </ul>
+    </div>
+    <div class="gram-note" style="margin-top:14px;"><b>💡</b> Do any of your answers match one of the six speakers you just heard? Try: <i>"Like Naomi, I…"</i> or <i>"Unlike Sarah, I don't…"</i></div>
+  </div></div>
+</div>
+
 <!-- ============ READING: EAT AND DRINK AT THE RIGHT TIME ============ -->
 <!-- SB p.7, ex 4b/4c/4d -->
+<div class="slide" id="s-speak-routine">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>What time do you usually…?</h2>
+    <p class="instruction">Tell me what time you usually do each of these things. You're about to read an article that says timing matters — let's see how close you already are!</p>
+    <div class="ccq-box">
+      <ul class="discuss-list" style="margin:0;padding-left:20px;columns:2;">
+        <li>⏰ get up</li>
+        <li>🥐 have breakfast</li>
+        <li>🏃 exercise</li>
+        <li>☕ have a coffee</li>
+        <li>🍽️ have lunch</li>
+        <li>🍝 have dinner</li>
+        <li>😴 go to bed</li>
+      </ul>
+    </div>
+    <div class="gram-note" style="margin-top:14px;"><b>💡</b> Now read the article — are you already doing things at the "right" time?</div>
+  </div></div>
+</div>
+
 <div class="slide" id="s-read1">
   <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
@@ -851,6 +1031,7 @@
       <p><b>Don't drink coffee in the morning. Have one at 3:00 p.m.</b> Early morning is the worst time to drink coffee because it stops the body from producing the stress hormone cortisol, which we need to help us wake up. The best time for caffeine is between 2:00 and 5:00 p.m., when it can make us more mentally alert.</p>
       <p><b>Have lunch between 12:00 and 2:00.</b> This is when our body digests food best, because the stomach produces the most acid. An experiment found that blood glucose levels after an evening meal were much higher than when people had the same meal earlier in the day — and high glucose can cause diabetes.</p>
       <p><b>Have dinner at 7:00 p.m.</b> Have your evening meal early. It should be delicious — our sense of smell and taste are at their best at this time — but light. Ideally, go to bed between 9:00 and 11:00 p.m., when the brain begins producing the sleep hormone melatonin.</p>
+      <p><b>More good times for your body:</b> get up when the sun rises · do yoga or go for a walk before breakfast · do important tasks at 11:00 a.m. (your brain is working best) · lift weights around midday (your muscles are strongest) · run or ride a bike at 5:00 p.m. (your lung capacity is greatest) · go to bed between 9:00 and 11:00 p.m.</p>
     </div>
     <p class="inst-light" style="font-weight:700;">Answer the questions.</p>
     <ul class="discuss-list">
@@ -934,7 +1115,14 @@
         <li>5. Four or five times a year. They share all the food and always order too much.</li>
       </ul>
     </div>
-    <p class="discuss-label" style="margin-top:16px;">💬 What was your favorite food when you were a child? Do you have a favorite restaurant — what do you like most about it?</p>
+    <div class="ccq-box" style="margin-top:16px;">
+      <div class="discuss-label" style="margin-bottom:10px;">💬 What about you?</div>
+      <ul class="discuss-list" style="margin:0;padding-left:20px;">
+        <li>What was your favorite food when you were a child?</li>
+        <li>What kinds of things did your mother or father cook? Do you still eat them?</li>
+        <li>Do you have a favorite restaurant? What do you like most about it — the food, the atmosphere, the service, or the price?</li>
+      </ul>
+    </div>
   </div></div>
 </div>
 
@@ -1206,12 +1394,42 @@
   </div></div>
 </div>
 
-<!-- ============ HW4: PRESENT SIMPLE / CONTINUOUS ============ -->
+<!-- ============ HW4: LABEL THE COOKING METHOD ============ -->
+<!-- WB 1A 1c -->
+<div class="slide" id="hw-voc4-slide">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW4 — Label the cooking method</h2>
+    <p class="instruction">Click a word in the bank, then click the blank under the matching description.</p>
+    <div class="wb-bank book-style" id="hw-voc4-bank">
+      <span class="wb-tile example-used" data-val="grilled">grilled</span>
+      <span class="wb-tile" data-val="baked" onclick="wbPick(this)">baked</span>
+      <span class="wb-tile" data-val="boiled" onclick="wbPick(this)">boiled</span>
+      <span class="wb-tile" data-val="fried" onclick="wbPick(this)">fried</span>
+      <span class="wb-tile" data-val="roasted" onclick="wbPick(this)">roasted</span>
+      <span class="wb-tile" data-val="steamed" onclick="wbPick(this)">steamed</span>
+    </div>
+    <div class="vclue-grid" id="hw-voc4-cards">
+      <div class="vclue-card"><span class="vc-num">1</span><span class="vc-icon">🐟</span><span class="vc-clue" style="color:#1A7A4A;font-weight:800;">grilled salmon <em style="color:#888;font-weight:400;">(example)</em></span></div>
+      <div class="vclue-card"><span class="vc-num">2</span><span class="vc-icon">🥚</span><span class="vc-clue">whole egg, cooked in its shell → <span class="wb-blank" data-ans="boiled" onclick="wbPlace(this)">______</span> egg</span></div>
+      <div class="vclue-card"><span class="vc-num">3</span><span class="vc-icon">🥔</span><span class="vc-clue">whole potato, cooked in the oven → <span class="wb-blank" data-ans="baked" onclick="wbPlace(this)">______</span> potato</span></div>
+      <div class="vclue-card"><span class="vc-num">4</span><span class="vc-icon">🍳</span><span class="vc-clue">egg cooked in a pan with oil → <span class="wb-blank" data-ans="fried" onclick="wbPlace(this)">______</span> egg</span></div>
+      <div class="vclue-card"><span class="vc-num">5</span><span class="vc-icon">🍗</span><span class="vc-clue">whole chicken, cooked in the oven → <span class="wb-blank" data-ans="roasted" onclick="wbPlace(this)">______</span> chicken</span></div>
+      <div class="vclue-card"><span class="vc-num">6</span><span class="vc-icon">🥦</span><span class="vc-clue">peas cooked in steam → <span class="wb-blank" data-ans="steamed" onclick="wbPlace(this)">______</span> peas</span></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkWbSlide('hw-voc4-cards')">Check Answers</button>
+      <button class="btn-reset" onclick="resetWbSlide('hw-voc4-cards')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW5: PRESENT SIMPLE / CONTINUOUS ============ -->
 <!-- WB 1A 3a -->
 <div class="slide" id="hw-gr1-slide">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW4 — Simple present or continuous</h2>
+    <h2>HW5 — Simple present or continuous</h2>
     <p class="instruction">Complete each sentence with the simple present or continuous form of the verb in parentheses.</p>
     <div class="fixed-two-col" id="hw-gr1">
       <div>
@@ -1241,7 +1459,7 @@
 <div class="slide" id="hw-gr2-slide">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW5 — Right or wrong?</h2>
+    <h2>HW6 — Right or wrong?</h2>
     <p class="instruction">Decide whether each highlighted phrase is right or wrong. If it's wrong, type the correction in the box.</p>
     <div id="hw-gr2">
       <div class="ex-row">1. I <b>like</b> your jacket. Is it new? <button class="circ-opt" data-group="hg2-1" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="hg2-1" data-correct="✓" onclick="circPick(this)">✗</button> <input class="ans-input" style="width:180px" data-ans="like"></div>
@@ -1266,7 +1484,7 @@
 <div class="slide" id="hw-gr3-slide">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW6 — Complete with a verb</h2>
+    <h2>HW7 — Complete with a verb</h2>
     <p class="instruction">Complete each sentence with the correct form of a verb from the bank: <i>believe, belong, drive, play, recognize, sleep, sound, use</i> (some are negative).</p>
     <div id="hw-gr3">
       <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I can't talk now, <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">I'm driving</span>. I'll call you when I get to the office.</div>
@@ -1297,8 +1515,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-leadin", "s-wyr", "s-vocab1", "s-vocab1b", "s-vocab2", "s-vocab3", "s-vocab4", "s-pron1", "s-listen1", "s-listen2", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Vocabulary – Meat", "Vocabulary – Fruit & Vegetables", "Vocabulary – Cooking & Phrasal Verbs", "Vocabulary – Describing Food", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Simple Present or Continuous", "HW5 – Right or Wrong?", "HW6 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-vocab3", "s-speak-cooking", "s-vocab4", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Vocabulary – Cooking & Phrasal Verbs", "Speaking – How Do You Like It Cooked?", "Vocabulary – Describing Food", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
