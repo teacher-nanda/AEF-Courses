@@ -3683,5 +3683,25 @@ function printAll(){
 </div><!-- /#deck -->
 
 
+<script>
+/* Warn before leaving the page if there are unsaved notes (added per request) */
+(function(){
+  var notesUnsaved = false;
+  document.addEventListener('input', function(e){
+    if (e.target && e.target.id === 'notesTA') { notesUnsaved = true; }
+  });
+  document.addEventListener('click', function(e){
+    var t = e.target && e.target.closest ? e.target.closest('#dlNotesBtn') : null;
+    if (t) { setTimeout(function(){ notesUnsaved = false; }, 300); }
+  });
+  window.addEventListener('beforeunload', function(e){
+    if (notesUnsaved) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
+})();
+</script>
 </body>
 </html>
