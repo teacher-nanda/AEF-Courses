@@ -1332,7 +1332,7 @@ var chkCorrect={1:false,2:true,3:false,4:true,5:false,6:false,7:true,8:true};
           <div class="ex-row" style="display:flex;align-items:baseline;gap:10px;padding:4px 0;">
             <span class="ex-num">9</span>
             <div style="flex:1;font-size:1rem;line-height:2;">
-              Why <input class="ans-input inline-ans" data-ans="didn't your sister like" data-alt="doesn't your sister like" style="min-width:220px;"> the present you gave her? <span style="color:#7a4a00;font-style:italic;font-size:.86rem;">(your sister / not like)</span>
+              Why <input class="ans-input inline-ans" data-ans="didn't your sister like" data-alt="doesn't your sister like|don't your sister like" style="min-width:220px;"> the present you gave her? <span style="color:#7a4a00;font-style:italic;font-size:.86rem;">(your sister / not like)</span>
             </div>
           </div>
           <div class="ex-row" style="display:flex;align-items:baseline;gap:10px;padding:4px 0;">
@@ -2169,8 +2169,8 @@ function checkSlide(sid) {
     if (!ans) return;
     total++;
     var val = norm(inp.value);
-    var alt = inp.dataset.alt ? norm(inp.dataset.alt) : null;
-    var correct = (val === ans) || (alt !== null && val === alt);
+    var alts = inp.dataset.alt ? inp.dataset.alt.split('|').map(norm) : [];
+    var correct = (val === ans) || alts.indexOf(val) !== -1;
     inp.classList.toggle('correct', correct);
     inp.classList.toggle('wrong', !correct);
     if (correct) score++;
