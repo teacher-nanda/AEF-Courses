@@ -501,6 +501,7 @@ AEF-Courses/
 |---|---|
 | AEF3 1B | https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html |
 | AEF4 1A | https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html |
+| AEF4 1B | https://teacher-nanda.github.io/AEF-Courses/AEF4-1B/index.html |
 | AEF4 2A | https://teacher-nanda.github.io/AEF-Courses/AEF4-2A/index.html |
 | AEF4 3A | https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html |
 | AEF4 7A | https://aef4-7a.netlify.app/ *(not yet migrated into AEF-Courses)* |
