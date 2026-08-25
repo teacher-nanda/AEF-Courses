@@ -456,105 +456,194 @@
   </div>
 </div>
 
+<!-- ============ CASE FILES: ASK & REACT (bridge from AEF4-1A) ============ -->
+<div class="slide" id="s-review-link">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>🕵️ Case files: ask &amp; react!</h2>
+    <p class="instruction">A good detective needs two skills: asking sharp questions (that's last lesson!) and reacting naturally to what you hear (that's today!). Read each case file, then do both jobs.</p>
+
+    <div class="card" style="margin-bottom:16px;border-left:6px solid #4A1A6A;">
+      <div style="font-weight:800;color:#4A1A6A;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #1</div>
+      <p class="ex-row" style="font-weight:700;">"My neighbor says she saw a strange light in the sky last night."</p>
+      <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb): <input class="ans-input wide"></p>
+      <p class="ex-row">😲 Now react to it (a short reply question or tag question): <input class="ans-input wide"></p>
+      <button class="btn-suggest" style="margin-top:6px;" onclick="toggleSuggested('case1-key')">💡 Show Suggested Answers</button>
+      <div class="suggest-box" id="case1-key" style="margin-top:10px;">🔎 "What did the light look like?" / "How long did it last?"<br>😲 "She did? That's so weird!" / "You're serious, aren't you?"</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:6px solid #0E7A8A;">
+      <div style="font-weight:800;color:#0E7A8A;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #2</div>
+      <p class="ex-row" style="font-weight:700;">"A friend of mine found an old locked box in his attic. Nobody knows what's inside."</p>
+      <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb): <input class="ans-input wide"></p>
+      <p class="ex-row">😲 Now react to it (a short reply question or tag question): <input class="ans-input wide"></p>
+      <button class="btn-suggest" style="margin-top:6px;" onclick="toggleSuggested('case2-key')">💡 Show Suggested Answers</button>
+      <div class="suggest-box" id="case2-key" style="margin-top:10px;">🔎 "Has he tried to open it?" / "Where did he find it?"<br>😲 "He hasn't? Why not?" / "That's bizarre, isn't it?"</div>
+    </div>
+
+    <div class="card" style="margin-bottom:8px;border-left:6px solid #B23A6B;">
+      <div style="font-weight:800;color:#B23A6B;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #3</div>
+      <p class="ex-row" style="font-weight:700;">"Someone left a mysterious note on my car this morning."</p>
+      <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb): <input class="ans-input wide"></p>
+      <p class="ex-row">😲 Now react to it (a short reply question or tag question): <input class="ans-input wide"></p>
+      <button class="btn-suggest" style="margin-top:6px;" onclick="toggleSuggested('case3-key')">💡 Show Suggested Answers</button>
+      <div class="suggest-box" id="case3-key" style="margin-top:10px;">🔎 "What did the note say?" / "Do you know who wrote it?"<br>😲 "You didn't? That's spooky!" / "You don't know who, do you?"</div>
+    </div>
+
+    <div class="gram-note" style="margin-top:12px;">💡 Notice: your Case File questions use the <b>same auxiliary-verb skill</b> from last lesson. Your reactions use a <b>new</b> short-question skill — that's today's grammar. Let's warm up with a mystery of our own!</div>
+  </div></div>
+</div>
+
 <!-- ============ WARM-UP: MYTH OR FACT? ============ -->
 <div class="slide" id="s-warmup">
   <div class="banner banner-leadin">🎯 Warm-Up</div>
   <div class="slide-main"><div class="content">
     <h2>Myth or fact?</h2>
-    <p class="instruction">Before we start... is each strange story below a MYTH (not true) or a FACT (really happened)? Pick one, then we'll reveal the answer together.</p>
+    <p class="instruction">Read each story below. Is it a MYTH (not true) or a FACT (really happened)? Choose one, then click "Reveal" to find out.</p>
     <div id="myth-list">
       <div class="card" style="margin-bottom:16px;">
-        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">1. In 1900, an entire lighthouse crew disappeared from a remote Scottish island, and no one ever found out what happened to them.</p>
+        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">1. In 1900, three lighthouse keepers disappeared from a small island in Scotland. Nobody ever found out what happened to them.</p>
         <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
           <span class="circ-opt" data-group="myth1" data-correct="FACT" onclick="circPick(this)">MYTH</span>
           <span class="circ-opt" data-group="myth1" data-correct="FACT" onclick="circPick(this)">FACT</span>
-          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list')">Reveal</button>
+          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list');toggleSuggested('myth1-key')">Reveal</button>
         </div>
+        <div class="suggest-box" id="myth1-key" style="margin-top:12px;">It's a <b>FACT</b>. In December 1900, three keepers — Thomas Marshall, James Ducat, and Donald MacArthur — vanished from the Flannan Isles Lighthouse in Scotland. When a ship arrived, the light wasn't working, the beds were unmade, and a meal was left on the table. No one was ever found, and nobody knows for sure what happened.</div>
       </div>
       <div class="card" style="margin-bottom:16px;">
-        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">2. There is a "Bermuda Triangle" of the sky where hundreds of airplanes have vanished without a trace and never been found.</p>
+        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">2. In an area of the Atlantic Ocean called the Bermuda Triangle, ships and planes disappear much more often than anywhere else in the world.</p>
         <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
           <span class="circ-opt" data-group="myth2" data-correct="MYTH" onclick="circPick(this)">MYTH</span>
           <span class="circ-opt" data-group="myth2" data-correct="MYTH" onclick="circPick(this)">FACT</span>
-          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list')">Reveal</button>
+          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list');toggleSuggested('myth2-key')">Reveal</button>
         </div>
+        <div class="suggest-box" id="myth2-key" style="margin-top:12px;">It's a <b>MYTH</b>. Some famous disappearances, like a group of five Navy planes in 1945, made the Bermuda Triangle famous. But according to the US National Oceanic and Atmospheric Administration (NOAA), ships and planes are lost there no more often than in any other busy area of ocean. Storms and heavy traffic explain most cases.</div>
       </div>
       <div class="card" style="margin-bottom:16px;">
-        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">3. A man in England once received a mysterious letter that had taken 100 years to be delivered.</p>
+        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">3. A letter was delivered in London over 100 years after it was sent, and nobody knows how.</p>
         <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
           <span class="circ-opt" data-group="myth3" data-correct="FACT" onclick="circPick(this)">MYTH</span>
           <span class="circ-opt" data-group="myth3" data-correct="FACT" onclick="circPick(this)">FACT</span>
-          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list')">Reveal</button>
+          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list');toggleSuggested('myth3-key')">Reveal</button>
+        </div>
+        <div class="suggest-box" id="myth3-key" style="margin-top:12px;">It's a <b>FACT</b>. A letter written in 1916 was finally delivered to a flat in Crystal Palace, London, in 2021 — 105 years later! It was written by a woman named Christabel Mennell to her friend Katie Marsh. The Royal Mail said they don't know how or why it took so long.</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <p class="ex-row" style="font-weight:700;margin-bottom:10px;">4. In 1872, a ship called the Mary Celeste was found sailing alone in the Atlantic Ocean. The captain, his family, and the whole crew were never seen again — but a lifeboat was missing.</p>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
+          <span class="circ-opt" data-group="myth4" data-correct="FACT" onclick="circPick(this)">MYTH</span>
+          <span class="circ-opt" data-group="myth4" data-correct="FACT" onclick="circPick(this)">FACT</span>
+          <button class="btn-akey" style="padding:8px 16px;" onclick="checkCircSlide('myth-list');toggleSuggested('myth4-key')">Reveal</button>
+        </div>
+        <div class="suggest-box" id="myth4-key" style="margin-top:12px;">It's a <b>FACT</b>. The Mary Celeste was found abandoned near the Azores with its cargo, food, and water still on board — but its lifeboat and navigation instruments were gone. Nobody knows exactly why Captain Briggs, his family, and the crew of eight left the ship. It's one of the most famous sea mysteries ever.</div>
+      </div>
+    </div>
+    <div class="ex-example-centered" style="margin-top:8px;">
+      <span class="ex-tag">A famous detective once said…</span>
+      "When you have eliminated the impossible, whatever remains, however improbable, must be the truth." — Sherlock Holmes, in <i>The Sign of Four</i> by Arthur Conan Doyle
+    </div>
+    <div class="ccq-box" style="margin-top:8px;">
+      <div class="discuss-label" style="margin:0;">💬 Do you enjoy a good mystery? Have you ever experienced something you couldn't explain?</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ EX 2a: DISCUSSION — HAVE YOU (OR HAS ANYBODY YOU KNOW)…? ============ -->
+<div class="slide" id="s-gram1-2a">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Have you (or has anybody you know)…?</h2>
+    <div class="fixed-two-col">
+      <div>
+        <div class="discuss-label">💬 Have you (or has anybody you know)…?</div>
+        <ul class="discuss-list">
+          <li>seen or heard something that can't be explained, e.g., a ghost or a UFO</li>
+          <li>had a strange coincidence, e.g., meeting someone in an unexpected place</li>
+          <li>visited a fortune-teller, psychic, or faith healer</li>
+        </ul>
+      </div>
+      <div class="img-placeholder" style="min-height:200px;"><span class="ip-icon">🖼️</span>Image placeholder — ghost / UFO / fortune-teller theme</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ REACTING BOX: REACTING TO A STORY ABOUT SOMETHING STRANGE ============ -->
+<div class="slide" id="s-gram1-reacting">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>How weird!</h2>
+    <div class="glossary-box" style="border-left:6px solid #C9A227;background:#FDF3D6;">
+      <h4 style="color:#7A5A1E;">🔎 Reacting to a story about something strange</h4>
+      <p>When somebody talks about something strange or difficult to explain, we often react with these phrases.</p>
+      <p><b>How / That's</b> — strange / bizarre / odd / weird / spooky.</p>
+      <p><b>What a / an</b> — weird story / amazing coincidence.</p>
+    </div>
+    <p class="instruction" style="margin-top:22px;">Now it's your turn! Read each strange story below and choose a natural reaction.</p>
+    <div id="react-practice">
+      <div class="card" style="margin-bottom:14px;">
+        <p class="ex-row" style="font-weight:700;">1. "My cousin says her cat can predict earthquakes."</p>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
+          <span class="circ-opt" data-group="r1" onclick="circPick(this)">How weird!</span>
+          <span class="circ-opt" data-group="r1" onclick="circPick(this)">That's bizarre!</span>
+          <span class="circ-opt" data-group="r1" onclick="circPick(this)">What a strange story!</span>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <p class="ex-row" style="font-weight:700;">2. "I once dreamed about a car accident the night before it happened."</p>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
+          <span class="circ-opt" data-group="r2" onclick="circPick(this)">That's spooky!</span>
+          <span class="circ-opt" data-group="r2" onclick="circPick(this)">How odd!</span>
+          <span class="circ-opt" data-group="r2" onclick="circPick(this)">What an amazing coincidence!</span>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <p class="ex-row" style="font-weight:700;">3. "My neighbor swears he saw a UFO last summer."</p>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:0;">
+          <span class="circ-opt" data-group="r3" onclick="circPick(this)">That's bizarre!</span>
+          <span class="circ-opt" data-group="r3" onclick="circPick(this)">How weird!</span>
+          <span class="circ-opt" data-group="r3" onclick="circPick(this)">What a strange story!</span>
         </div>
       </div>
     </div>
-    <div class="suggest-box show" style="background:#EAF4F6;">
-      <b>💬 Discuss:</b> Do you enjoy a good mystery? Have you ever experienced something you couldn't explain?
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ GRAMMAR 1: MEANING & FORM — AUXILIARY VERBS ============ -->
-<div class="slide" id="s-gram1-mfp">
-  <div class="banner banner-grammar">📐 Grammar</div>
-  <div class="slide-main"><div class="content">
-    <h2>Auxiliary verbs: reply questions, tag questions, so / neither</h2>
-    <div class="gram-box">
-      <h3>Meaning</h3>
-      <p>We use short forms with auxiliary verbs (<span class="hl">do, did, have, be, can, will…</span>) instead of repeating a whole verb — it sounds much more natural in conversation.</p>
-      <ul>
-        <li><b>Reply questions</b> — to show interest or surprise. A: <i>"I saw a ghost last night."</i> B: <i>"You did?"</i></li>
-        <li><b>Tag questions</b> — added to a statement to check information or invite agreement. Positive statement → negative tag; negative statement → positive tag. <i>"You believe in ghosts, don't you?"</i> / <i>"You don't believe in UFOs, do you?"</i></li>
-        <li><b>So + auxiliary + subject</b> — to say you're the same, after an affirmative statement. A: <i>"I love a good mystery."</i> B: <i>"So do I."</i></li>
-        <li><b>Neither + auxiliary + subject</b> — to say you're the same, after a negative statement. A: <i>"I don't believe in ghosts."</i> B: <i>"Neither do I."</i></li>
-        <li><b>Stressed auxiliary for emphasis</b> — to contradict or emphasize. A: <i>"You don't really think it's true."</i> B: <i>"I DO think it's true!"</i></li>
-      </ul>
-    </div>
     <div class="ccq-box">
-      <div class="ccq-label">Concept-checking questions</div>
-      <ul class="ccq-list">
-        <li>If I say "I've never seen a UFO," and you say "Neither have I" — does that mean you HAVE seen one, or you HAVEN'T? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">You haven't either.</span></li>
-        <li>Is a tag question added to a positive or negative statement usually negative? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Usually negative (after a positive statement).</span></li>
-        <li>If someone says "You didn't lock the door?" with rising intonation — are they asking for new information, or reacting with surprise? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Reacting with surprise (a reply question).</span></li>
-      </ul>
-    </div>
-    <div class="book-placeholder">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.14 (Grammar Bank 1B example dialogue)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+      <div class="discuss-label" style="margin:0;">💬 Now tell me a strange story of your own — real or invented! — and I'll react to it too.</div>
     </div>
   </div></div>
 </div>
 
-<!-- ============ GRAMMAR 1: PRACTICE — SB p.11 ex 2b ============ -->
+<!-- ============ EX 2b: COMPLETE THE MINI-DIALOGUES ============ -->
 <div class="slide" id="s-gram1-2b">
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
-    <h2>Complete the mini-dialogues</h2>
-    <p class="instruction">Complete with an auxiliary verb (do / did / have, etc.).</p>
-    <div id="g2b">
-      <p class="ex-row"><span class="example-badge">1</span>A I heard a weird noise in the middle of the night.<br>B You <input class="ans-input small" data-ans="did"> ? What kind of noise?</p>
-      <p class="ex-row"><span class="circ-num">2</span>A You don't believe in ghosts, <input class="ans-input small" data-ans="do"> you?<br>B No, I don't.</p>
-      <p class="ex-row"><span class="circ-num">3</span>A I've never been to a fortune-teller.<br>B Neither <input class="ans-input small" data-ans="have"> I.</p>
-      <p class="ex-row"><span class="circ-num">4</span>C I <input class="ans-input small" data-ans="have"> . It was really interesting.</p>
-      <p class="ex-row"><span class="circ-num">5</span>A I don't believe you really saw a UFO.<br>B I <input class="ans-input small" data-ans="did"> see one! It couldn't have been anything else.</p>
+    <h2>Ghost stories &amp; gossip</h2>
+    <p class="instruction">Look at the conversations and try to fill in the blanks with an auxiliary verb (do, did, is, was, etc.).</p>
+    <div id="g2b" class="two-col">
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I heard a weird noise in the middle of the night.<br><b style="color:#0E7A8A;">Leo:</b> You <input class="ans-input small" data-ans="did"> ? What kind of noise?</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> You don't believe in ghosts, <input class="ans-input small" data-ans="do"> you?<br><b style="color:#0E7A8A;">Leo:</b> No, I don't.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I've never been to a fortune-teller.<br><b style="color:#0E7A8A;">Leo:</b> Neither <input class="ans-input small" data-ans="have"> I.<br><b style="color:#B23A6B;">Jamie:</b> I <input class="ans-input small" data-ans="have"> . It was really interesting.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I don't believe you really saw a UFO.<br><b style="color:#0E7A8A;">Leo:</b> I <input class="ans-input small" data-ans="did"> see one! It couldn't have been anything else.</p>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('g2b')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('g2b')">Reset</button>
     </div>
-    <div class="book-placeholder" style="margin-top:20px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.13 (listen and check)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.11 ex2b listen-and-check track -->
+    <div class="audio-box" style="margin-top:16px;">
+      <audio controls src="audio/ghost-stories-check.mp3"></audio>
     </div>
   </div></div>
 </div>
 
-<!-- ============ GRAMMAR 1: FUNCTION MATCH — SB p.11 ex 2c ============ -->
+<!-- ============ EX 2c: LISTEN AND CHECK, THEN MATCH THE FUNCTION ============ -->
 <div class="slide" id="s-gram1-2c">
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>What's the function?</h2>
-    <p class="instruction">Match each auxiliary from the dialogues (1–5) to its function (A–E). Click a phrase, then click its matching function.</p>
+    <p class="instruction">Listen and check your answers from the previous slide. Then decide which highlighted phrase (1–5) is used to... Click a phrase, then click its matching function.</p>
+    <!-- audio: SB p.11 ex2c listen-and-check track (same as 2b) -->
+    <div class="audio-box">
+      <audio controls src="audio/ghost-stories-check.mp3"></audio>
+    </div>
     <div class="match-wrap" id="g2c">
       <div>
         <div class="match-col-head mc-left">Phrase in context</div>
@@ -580,108 +669,307 @@
   </div></div>
 </div>
 
-<!-- ============ GRAMMAR BANK 1B — PRACTICE a & b ============ -->
-<div class="slide" id="s-gbank">
-  <div class="banner banner-grammar">📐 Grammar Bank 1B</div>
+<!-- ============ EX 2d: GRAMMAR BANK 1B — RULES ============ -->
+<div class="slide" id="s-gbank-theory">
+  <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
-    <h2>a Complete with an auxiliary verb</h2>
-    <div id="gba">
-      <p class="ex-row"><span class="example-badge">1</span>A Robert hasn't called yet. B I know. He <input class="ans-input small" data-ans="hasn't"> called me either.</p>
-      <p class="ex-row"><span class="circ-num">2</span>A This isn't a very good restaurant. B No, it <input class="ans-input small" data-ans="isn't"> .</p>
-      <p class="ex-row"><span class="circ-num">3</span>A I love mystery movies. B So <input class="ans-input small" data-ans="do"> I.</p>
-      <p class="ex-row"><span class="circ-num">4</span>A I'd love to go to Egypt one day. B So <input class="ans-input small" data-ans="would"> I.</p>
-      <p class="ex-row"><span class="circ-num">5</span>A This soup is delicious. B Yes, it <input class="ans-input small" data-ans="is"> .</p>
-      <p class="ex-row"><span class="circ-num">6</span>A I didn't sleep well last night. B Neither <input class="ans-input small" data-ans="did"> I.</p>
-      <p class="ex-row"><span class="circ-num">7</span>A He never eats vegetables. B Neither <input class="ans-input small" data-ans="does"> she.</p>
-      <p class="ex-row"><span class="circ-num">8</span>A This coat is really warm. B It <input class="ans-input small" data-ans="is"> , isn't it?</p>
-      <p class="ex-row"><span class="circ-num">9</span>A You aren't going, are you? B No, I <input class="ans-input small" data-ans="won't"> .</p>
-      <p class="ex-row"><span class="circ-num">10</span>A You don't like horror films, do you? B No, I <input class="ans-input small" data-ans="doesn't"> .</p>
+    <h2>Auxiliary verbs</h2>
+    <p class="inst-light">We use auxiliary verbs (<b>do, have,</b> etc.) or modal verbs (<b>can, must,</b> etc.) for six different jobs. Click each one to see how it works.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
+
+      <!-- LEFT COLUMN: rules 1-4 -->
+      <div style="display:flex;flex-direction:column;gap:11px;">
+
+        <div style="background:#f3eeff;border-left:5px solid #4A1A6A;border-radius:0 10px 10px 0;">
+          <button onclick="gbToggle('r1')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;color:#4A1A6A;font-size:1rem;">1 · Avoid repeating the verb</span>
+            <span id="gb-btn-r1" style="font-size:.82rem;font-weight:700;color:#4A1A6A;white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r1" style="display:none;padding:0 14px 10px;">
+            <div style="font-size:.93rem;color:#2a1a40;line-height:1.5;">Instead of repeating the whole verb phrase, just use the auxiliary.</div>
+            <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span style="background:#fddede;color:#c0392b;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;text-decoration:line-through;">I like cats, but my husband doesn't like cats. ✗</span>
+              <span style="background:#4A1A6A;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">I like cats, but my husband <strong>doesn't</strong>. ✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff3f0;border-left:5px solid #C8891E;border-radius:0 10px 10px 0;">
+          <button onclick="gbToggle('r2')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;color:#C8891E;font-size:1rem;">2 · So / Neither — same as</span>
+            <span id="gb-btn-r2" style="font-size:.82rem;font-weight:700;color:#C8891E;white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r2" style="display:none;padding:0 14px 10px;">
+            <div style="font-size:.93rem;color:#2a1a40;line-height:1.5;"><strong>So</strong> + aux + subject responds to an affirmative statement. <strong>Neither</strong> + aux + subject responds to a negative one — always with an affirmative auxiliary.</div>
+            <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span style="background:#C8891E;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"I loved his latest movie." <strong>"So did I."</strong></span>
+              <span style="background:#C8891E;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"I haven't finished the book." <strong>"Neither have I."</strong></span>
+              <span style="background:#fddede;color:#c0392b;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;text-decoration:line-through;">Neither didn't I. ✗</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#e8f5f0;border-left:5px solid #2A6B42;border-radius:0 10px 10px 0;">
+          <button onclick="gbToggle('r3')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;color:#2A6B42;font-size:1rem;">3 · Saying you're different</span>
+            <span id="gb-btn-r3" style="font-size:.82rem;font-weight:700;color:#2A6B42;white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r3" style="display:none;padding:0 14px 10px;">
+            <div style="font-size:.93rem;color:#1a3040;line-height:1.5;">Respond to a statement to show that you (or someone/something else) are not the same.</div>
+            <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span style="background:#2A6B42;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"I don't like shopping online." <strong>"I do.</strong> I buy a lot of my clothes online."</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#eef4ff;border-left:5px solid #1E4D8C;border-radius:0 10px 10px 0;">
+          <button onclick="gbToggle('r4')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;color:#1E4D8C;font-size:1rem;">4 · Reply questions</span>
+            <span id="gb-btn-r4" style="font-size:.82rem;font-weight:700;color:#1E4D8C;white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r4" style="display:none;padding:0 14px 10px;">
+            <div style="font-size:.93rem;color:#1a3040;line-height:1.5;">A short question built from just the auxiliary + subject. Often shows interest or surprise.</div>
+            <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span style="background:#1E4D8C;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"I went to a psychic yesterday." <strong>"You did?"</strong></span>
+              <span style="background:#1E4D8C;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"I'll make dinner tonight." <strong>"You will? That's great!"</strong></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: rule 5 + rule 6 (special) -->
+      <div style="display:flex;flex-direction:column;gap:11px;">
+
+        <div style="background:#fdf0f5;border-left:5px solid #B23A6B;border-radius:0 10px 10px 0;">
+          <button onclick="gbToggle('r5')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;color:#B23A6B;font-size:1rem;">5 · Emphasis</span>
+            <span id="gb-btn-r5" style="font-size:.82rem;font-weight:700;color:#B23A6B;white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r5" style="display:none;padding:0 14px 10px;">
+            <div style="font-size:.93rem;color:#3a1020;line-height:1.5;">To contradict someone, in the simple present/past we add <em>do/does/did</em> before the main verb. With other auxiliaries (be, have, will), just stress the auxiliary — don't contract it.</div>
+            <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span style="background:#B23A6B;color:#fff;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"You didn't lock the door!" <strong>"I DID lock it; I know I did."</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#0E7A8A;border-radius:12px;">
+          <button onclick="gbToggle('r6')" style="width:100%;background:none;border:none;cursor:pointer;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
+            <span style="font-weight:800;font-size:1.05rem;color:#fff;">🏷️ 6 · Tag questions</span>
+            <span id="gb-btn-r6" style="font-size:.82rem;font-weight:700;color:rgba(255,255,255,.85);white-space:nowrap;margin-left:8px;">Show ▼</span>
+          </button>
+          <div id="gb-body-r6" style="display:none;padding:0 16px 12px;color:#fff;">
+            <div style="font-size:.93rem;line-height:1.55;opacity:.95;">Affirmative statement → negative tag. Negative statement → affirmative tag.</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;">
+              <span style="background:rgba(255,255,255,.18);border-radius:5px;padding:2px 8px;font-size:.88rem;font-style:italic;">You won't forget, <strong>will you?</strong></span>
+              <span style="background:rgba(255,255,255,.18);border-radius:5px;padding:2px 8px;font-size:.88rem;font-style:italic;">She can speak Italian, <strong>can't she?</strong></span>
+            </div>
+
+            <div style="background:#f5f0ff;border-radius:10px;padding:11px 14px;font-size:.93rem;line-height:1.6;color:#1a1a2e;margin-top:10px;">
+              <div style="font-weight:800;color:#4A1A6A;margin-bottom:6px;">🎵 Two different intonations</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div>↘ <strong>Falling</strong> — just inviting agreement:<br>
+                  <div style="margin-top:4px;"><span style="background:#e8f5e9;color:#2A6B42;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"It's a nice day, isn't it?"</span></div>
+                </div>
+                <div>↗ <strong>Rising</strong> — checking something you think is true, like a normal yes/no question:<br>
+                  <div style="margin-top:4px;"><span style="background:#e8f5e9;color:#2A6B42;border-radius:6px;padding:3px 9px;font-size:.88rem;font-style:italic;">"She's a painter, isn't she?"</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ccq-box" style="margin:0;">
+          <div class="ccq-label">Concept-checking questions</div>
+          <ul class="ccq-list">
+            <li>If I say "I've never seen a UFO," and you say "Neither have I" — have you seen one? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">No, you haven't either.</span></li>
+            <li>After "neither," do we use an affirmative or negative auxiliary? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Affirmative — "Neither did I," not "Neither didn't I."</span></li>
+            <li>Is a falling-intonation tag question asking for real information, or just inviting agreement? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Just inviting agreement.</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GRAMMAR BANK 1B — PRACTICE a ============ -->
+<div class="slide" id="s-gbank-a">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>Quick-fire practice</h2>
+    <p class="instruction">Complete with an auxiliary or modal verb.</p>
+    <div id="gba" class="two-col">
+      <p class="ex-row"><span class="example-badge">1</span>A You didn't remember to buy coffee. B I <b>did</b> remember. It's in the cabinet.</p>
+      <p class="ex-row"><span class="circ-num">2</span>A He's booked the flights, <input class="ans-input small" data-ans="hasn't"> he? B Yes, I think so.</p>
+      <p class="ex-row"><span class="circ-num">3</span>A It's hot today, <input class="ans-input small" data-ans="isn't"> it? B Yes, it's boiling.</p>
+      <p class="ex-row"><span class="circ-num">4</span>A Why don't you like classical music? B I <input class="ans-input small" data-ans="do"> like it, but it isn't my favorite.</p>
+      <p class="ex-row"><span class="circ-num">5</span>A I wouldn't like to be a celebrity. B Neither <input class="ans-input small" data-ans="would"> I.</p>
+      <p class="ex-row"><span class="circ-num">6</span>A Mike's arriving tomorrow! B He <input class="ans-input small" data-ans="is"> ? I thought he was arriving today.</p>
+      <p class="ex-row"><span class="circ-num">7</span>A What did you think of the movie? B Tom liked it, but I <input class="ans-input small" data-ans="didn't"> . I thought it was awful.</p>
+      <p class="ex-row"><span class="circ-num">8</span>A Emma doesn't like me. B She <input class="ans-input small" data-ans="does"> like you. She just doesn't want to go out with you.</p>
+      <p class="ex-row"><span class="circ-num">9</span>A Are you a vegetarian? B Yes, I am, and so <input class="ans-input small" data-ans="is"> my boyfriend.</p>
+      <p class="ex-row"><span class="circ-num">10</span>A You'll remember to call me, <input class="ans-input small" data-ans="won't"> you? B Yes, of course!</p>
+      <p class="ex-row"><span class="circ-num">11</span>I really want to go to Thailand, but my wife <input class="ans-input small" data-ans="doesn't"> . She hates the heat.</p>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('gba')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('gba')">Reset</button>
     </div>
+  </div></div>
+</div>
 
-    <h2 style="margin-top:26px;">b Complete the conversation</h2>
-    <p class="instruction">"You're Tom's sister, aren't you?" — complete with a tag question or an auxiliary.</p>
-    <div id="gbb">
-      <p class="ex-row">A You're Tom's sister, <input class="ans-input small" data-ans="isn't"> it?</p>
-      <p class="ex-row">B Yes, that's right. I love this club, don't you?</p>
-      <p class="ex-row">A You <input class="ans-input small" data-ans="don't"> ? I don't come here very often.</p>
-      <p class="ex-row">B Really? I've never been here before.</p>
-      <p class="ex-row">A Neither <input class="ans-input small" data-ans="have"> I. I don't go clubbing very often.</p>
-      <p class="ex-row">B Oh, you <input class="ans-input small" data-ans="don't"> ? I <input class="ans-input small" data-ans="do"> . In fact, I usually go most weekends.</p>
-      <p class="ex-row">A You <input class="ans-input small" data-ans="don't"> ? I can't afford to go out every weekend.</p>
-      <p class="ex-row">B Why <input class="ans-input small" data-ans="didn't"> you go to the club last week?</p>
-      <p class="ex-row">A I <input class="ans-input small" data-ans="did"> go, but I left early. I wasn't feeling well.</p>
-      <p class="ex-row">B I'm sorry to hear that. So <input class="ans-input small" data-ans="am"> I — I hope you feel better now.</p>
+<!-- ============ GRAMMAR BANK 1B — PRACTICE b ============ -->
+<div class="slide" id="s-gbank-b">
+  <div class="banner banner-grammar">📐 Grammar</div>
+  <div class="slide-main"><div class="content">
+    <h2>A night at the club</h2>
+    <p class="instruction">Complete with a suitable auxiliary verb.</p>
+    <div id="gbb" class="two-col">
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> You're Tom's sister, <b>aren't</b> you?</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> Yes, I'm Carla.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> It's a great club, <input class="ans-input small" data-ans="isn't"> it?</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> Well, it's OK. But I don't like the music much.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> You <input class="ans-input small" data-ans="don't"> ? I love it! I've never been here before.</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> Neither <input class="ans-input small" data-ans="have"> I. I don't go clubbing very often.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> Oh, you <input class="ans-input small" data-ans="don't"> ? I <input class="ans-input small" data-ans="do"> . In fact, I usually go most weekends.</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> You <input class="ans-input small" data-ans="do"> ? I can't afford to go out every weekend.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> I didn't see you at Tom's birthday party last Saturday. Why <input class="ans-input small" data-ans="didn't"> you go?</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> I <input class="ans-input small" data-ans="did"> go, but I got there really late because my car broke down.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> Oh, that's why I didn't see you. I left early.</p>
+      <p class="ex-row"><b style="color:#0E7A8A;">Carla:</b> I'd like something to drink. I'm really thirsty after all that dancing.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Jake:</b> So <input class="ans-input small" data-ans="am"> I.</p>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('gbb')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('gbb')">Reset</button>
     </div>
+    <!-- audio: SB p.133 Grammar Bank 1B ex b listen-and-check track -->
+    <div class="audio-box" style="margin-top:16px;">
+      <audio controls src="audio/night-at-the-club-check.mp3"></audio>
+    </div>
+    <div class="img-placeholder" style="margin-top:16px;"><span class="ip-icon">🖼️</span>Image placeholder — two people dancing at a club</div>
   </div></div>
 </div>
 
-<!-- ============ PRONUNCIATION ============ -->
-<div class="slide" id="s-pron">
+<!-- ============ BONUS: DICE — REACT TO IT! ============ -->
+<div class="slide" id="s-dice-react">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>React to it!</h2>
+    <p class="instruction">Roll the dice to get a strange statement. Read it out loud to me and I'll react using a phrase from the Reacting box — then it's your turn to roll and react to mine!</p>
+    <div class="dice-box" id="dice-react-box">
+      <div class="die-face" id="dice-react-face">⚀</div>
+      <button class="btn-check" onclick="rollDie('dice-react')">🎲 Roll the Dice</button>
+      <div class="dice-prompt" id="dice-react-prompt">Click to roll!</div>
+    </div>
+    <div class="gram-note" style="margin-top:20px;">💡 Try to react with a stressed auxiliary too — "You DID?" "That's SO weird!"</div>
+  </div></div>
+</div>
+
+<!-- ============ EX 3a: PRONUNCIATION — STRESSED AUXILIARIES ============ -->
+<div class="slide" id="s-pron-3a">
   <div class="banner banner-pron">🔊 Pronunciation</div>
   <div class="slide-main"><div class="content">
-    <h2>Intonation and stress</h2>
-    <p class="instruction">Reply questions and tag questions usually rise in intonation, and the auxiliary is often stressed for emphasis. Complete the replies, then imagine saying them with rising intonation.</p>
-    <div id="pron1">
-      <p class="ex-row"><span class="example-badge">1</span>A I saw a ghost in the old house! B You <input class="ans-input small" data-ans="did"> ?</p>
-      <p class="ex-row"><span class="circ-num">2</span>A I don't believe you. B I <input class="ans-input small" data-ans="don't"> believe you? You don't like them, do you? A You don't like them <input class="ans-input small" data-ans="?" data-alt="either"> ! I do like them.</p>
-      <p class="ex-row"><span class="circ-num">3</span>A You don't like classic mysteries? B I <input class="ans-input small" data-ans="do"> like them.</p>
+    <h2>Intonation and sentence rhythm</h2>
+    <!-- audio: SB p.11 ex3a stressed-auxiliaries track -->
+    <div class="audio-box">
+      <audio controls src="audio/stressed-auxiliaries.mp3"></audio>
+    </div>
+    <p class="instruction">Listen to the conversations. Click each auxiliary verb (did, don't, do) that is stressed.</p>
+    <div id="s-pron-3a-list" style="line-height:2.4;font-size:1.08rem;">
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I dreamed that I saw a ghost last night.<br>
+      <b style="color:#0E7A8A;">Leo:</b> You <span class="tick-item" data-val="p1" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">did</span>? So <span class="tick-item" data-val="p2" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">did</span> I. How spooky!</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I <span class="tick-item" data-val="p3" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span> believe in fortune-telling.<br>
+      <b style="color:#0E7A8A;">Leo:</b> You <span class="tick-item" data-val="p4" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span>? I <span class="tick-item" data-val="p5" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">do</span>.</p>
+      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> You <span class="tick-item" data-val="p6" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span> like horror movies, do you?<br>
+      <b style="color:#0E7A8A;">Leo:</b> I <span class="tick-item" data-val="p7" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">do</span> like them. It's just that sometimes they're too scary!</p>
     </div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('pron1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('pron1')">Reset</button>
-    </div>
-    <div class="book-placeholder" style="margin-top:20px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.15 (stressed auxiliaries)
-      <div class="bp-note">Add the corresponding audio file here.</div>
-    </div>
-    <div class="gram-note" style="margin-top:16px;">💡 Practice saying the "So do I / Neither do I" table out loud with your teacher: <br>
-      <b>So</b> + aux + subject (agree with a positive) — <i>"I love mysteries." "So do I."</i><br>
-      <b>Neither</b> + aux + subject (agree with a negative) — <i>"I don't." "Neither do I."</i>
+      <button class="btn-check" onclick="checkTickSlide('s-pron-3a-list', ['p1','p2','p3','p4','p5','p6','p7'])">Check Answers</button>
+      <button class="btn-reset" onclick="resetTickSlide('s-pron-3a-list')">Reset</button>
     </div>
   </div></div>
 </div>
 
+<!-- ============ EX 3b: PRACTICE OUT LOUD ============ -->
+<div class="slide" id="s-pron-3b">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>Practice out loud</h2>
+    <p class="instruction">Practice the conversations from the previous slide with me. Copy the rhythm and intonation.</p>
+    <div class="gram-note">💡 Reply questions ("You did?") rise at the end, to show surprise or interest.</div>
+    <div class="gram-note" style="margin-top:10px;">💡 A tag question that just invites agreement ("It's a nice day, isn't it?") falls at the end. A tag question that checks something you think is true ("She's a painter, isn't she?") rises, like a normal yes/no question.</div>
+    <div class="img-placeholder" style="margin-top:18px;min-height:160px;"><span class="ip-icon">🖼️</span>Image placeholder — a speech-bubble / sound-wave graphic showing rising and falling intonation</div>
+  </div></div>
+</div>
+
+<!-- ============ EX 3c: COMPLETE SENTENCES SO THEY ARE TRUE FOR YOU ============ -->
+<div class="slide" id="s-pron-3c">
+  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="slide-main"><div class="content">
+    <h2>True for me</h2>
+    <div id="pron3c" class="two-col">
+      <p class="ex-row"><span class="circ-num">1</span>I'm not very good at <input class="ans-input"> . <i style="color:#888;">(activity)</i></p>
+      <p class="ex-row"><span class="circ-num">2</span>I'm going to <input class="ans-input"> tonight. <i style="color:#888;">(verb phrase)</i></p>
+      <p class="ex-row"><span class="circ-num">3</span>I love <input class="ans-input"> . <i style="color:#888;">(a kind of music)</i></p>
+      <p class="ex-row"><span class="circ-num">4</span>I don't like <input class="ans-input"> . <i style="color:#888;">(a kind of food)</i></p>
+      <p class="ex-row"><span class="circ-num">5</span>I've never read <input class="ans-input"> . <i style="color:#888;">(a famous book)</i></p>
+      <p class="ex-row"><span class="circ-num">6</span>I'd love to live in <input class="ans-input"> . <i style="color:#888;">(a town or country)</i></p>
+      <p class="ex-row"><span class="circ-num">7</span>I was very <input class="ans-input"> as a child. <i style="color:#888;">(adj. of personality)</i></p>
+      <p class="ex-row"><span class="circ-num">8</span>I didn't <input class="ans-input"> yesterday evening. <i style="color:#888;">(verb phrase)</i></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ EX 3d: PAIR WORK — REPLY QUESTIONS ============ -->
+<div class="slide" id="s-pron-3d">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Same or different?</h2>
+    <p class="instruction">Read your sentences from the previous slide to me. I'll respond with a reply question and say whether I'm the same or different. Then I'll read mine to you!</p>
+    <div class="card">
+      <p class="ex-row" style="font-style:italic;">A: "I'm not very good at cooking."<br>B: "You aren't? Neither am I."</p>
+      <p class="ex-row" style="font-style:italic;margin-top:14px;">A: "I'm going to watch Netflix tonight."<br>B: "You are? I'm not. I'm going to study."</p>
+    </div>
+    <div class="ccq-box" style="margin-top:16px;">
+      <div class="discuss-label" style="margin:0;">💬 How many things did you and I have in common?</div>
+    </div>
+  </div></div>
+</div>
 <!-- ============ SPEAKING: YOU'RE PSYCHIC, AREN'T YOU? ============ -->
 <div class="slide" id="s-speak-psychic">
-  <div class="banner banner-speaking">🗣️ Speaking</div>
+  <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>You're psychic, aren't you?</h2>
-    <p class="instruction">Communication activity, SB p.107/p.112. Work in pairs: Student A and Student B. Use tag questions and reply questions to guess three true things about your partner — and react naturally when you're right (or wrong)!</p>
+    <p class="instruction">Let's guess things about each other! Use tag questions to guess three true things about me — and I'll do the same for you. React naturally when you're right (or wrong)!</p>
     <div class="fixed-two-col">
       <div class="interview-card">
-        <h4>Student A</h4>
-        <div class="interview-q">Make guesses about your partner using tag questions, e.g. <i>"You've traveled abroad, haven't you?"</i></div>
-        <div class="interview-q">React to their answers with reply questions, e.g. <i>"You have? Where did you go?"</i></div>
-        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Image placeholder — SB p.107 Communication activity, Student A card</div>
+        <h4>Your turn to guess</h4>
+        <div class="interview-q">Make guesses about me using tag questions, e.g. <i>"You've traveled abroad, haven't you?"</i></div>
+        <div class="interview-q">React to my answers with reply questions, e.g. <i>"You have? Where did you go?"</i></div>
       </div>
       <div class="interview-card" style="border-left-color:#0E7A8A;">
-        <h4>Student B</h4>
-        <div class="interview-q">Answer truthfully, then make your own guesses about Student A.</div>
-        <div class="interview-q">Use "So do I" / "Neither do I" if you have something in common.</div>
-        <div class="img-placeholder"><span class="ip-icon">🖼️</span>Image placeholder — SB p.112 Communication activity, Student B card</div>
+        <h4>My turn to guess</h4>
+        <div class="interview-q">Answer truthfully, then I'll make my own guesses about you.</div>
+        <div class="interview-q">Use "So do I" / "Neither do I" if we have something in common.</div>
       </div>
     </div>
     <div class="ccq-box" style="margin-top:8px;">
-      <div class="discuss-label" style="margin:0;">💬 How many guesses did you get right? Were you surprised by anything you learned about your partner?</div>
+      <div class="discuss-label" style="margin:0;">💬 How many guesses did you get right? Were you surprised by anything you learned about me?</div>
     </div>
   </div></div>
 </div>
 
 <!-- ============ LISTENING & SPEAKING: A WALK IN THE FOREST — INTRO ============ -->
 <div class="slide" id="s-forest-intro">
-  <div class="banner banner-listening">🎧 Listening &amp; Speaking</div>
+  <div class="banner banner-listening">🎧 Listening &amp; 💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>A walk in the forest</h2>
     <p class="instruction">This is a classic personality test. Imagine you are walking through a forest — for each moment, choose the option that feels most natural to you. Be honest, there are no right or wrong answers!</p>
-    <div class="img-placeholder" style="min-height:180px;"><span class="ip-icon">🖼️</span>Image placeholder — SB p.13, forest / nature scene illustration</div>
+    <div class="img-placeholder" style="min-height:180px;"><span class="ip-icon">🖼️</span>Image placeholder — forest / nature scene illustration</div>
     <div id="forest-quiz">
       <div class="card" style="margin-bottom:14px;">
         <p class="ex-row" style="font-weight:700;">1. You're walking through the forest. How do you feel?</p>
@@ -721,13 +1009,13 @@
 <div class="slide" id="s-forest-audio">
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
-    <h2>Listen and complete</h2>
+    <h2>Follow the path</h2>
     <p class="instruction">Listen to the full instructions for "A Walk in the Forest" and complete the gaps.</p>
-    <div class="book-placeholder">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.16 "A Walk in the Forest"
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.13 ex4b "A Walk in the Forest" track -->
+    <div class="audio-box">
+      <audio controls src="audio/walk-in-the-forest.mp3"></audio>
     </div>
-    <div id="forest-fill">
+    <div id="forest-fill" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>Imagine you are walking through a <input class="ans-input" data-ans="forest"> .</p>
       <p class="ex-row"><span class="circ-num">2</span>As you walk, you feel a certain way — this represents your attitude to <input class="ans-input" data-ans="life"> .</p>
       <p class="ex-row"><span class="circ-num">3</span>Suddenly you see an <input class="ans-input" data-ans="animal"> — the size of the animal represents the size of your <input class="ans-input" data-ans="problems"> .</p>
@@ -743,10 +1031,10 @@
 
 <!-- ============ SPEAKING: FOREST INTERPRETATION ============ -->
 <div class="slide" id="s-forest-interpret">
-  <div class="banner banner-speaking">🗣️ Speaking</div>
+  <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>What does it mean?</h2>
-    <p class="instruction">Now compare your answers from the previous slide with a partner. Then reveal the interpretation below — do you agree with what it says about you?</p>
+    <p class="instruction">Now tell me your answers from the previous slide. Then reveal the interpretation below — do you agree with what it says about you?</p>
     <button class="btn-akey" onclick="toggleSuggested('forest-key')">Reveal Interpretation</button>
     <div class="suggest-box" id="forest-key">
       <ul>
@@ -756,9 +1044,9 @@
         <li><b>The cup:</b> how hard and strong (or soft and delicate) it is represents the strength of your closest relationship.</li>
       </ul>
     </div>
-    <div class="book-placeholder" style="margin-top:20px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.17 (interpretation explained)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.13 ex4d forest-interpretation track -->
+    <div class="audio-box" style="margin-top:20px;">
+      <audio controls src="audio/forest-interpretation.mp3"></audio>
     </div>
     <div class="ccq-box" style="margin-top:16px;">
       <div class="discuss-label" style="margin:0;">💬 Do you think personality tests like this can really tell you something true about yourself? Why / why not?</div>
@@ -770,7 +1058,7 @@
 <div class="slide" id="s-gram2-mfp">
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
-    <h2>The + comparative…, the + comparative…</h2>
+    <h2>The more, the merrier</h2>
     <div class="gram-box">
       <h3>Meaning</h3>
       <p>We use <span class="hl">the + comparative adjective/adverb</span>, or <span class="hl">the more / less (+ noun)</span>, twice in one sentence to show that one thing depends on, or changes together with, another.</p>
@@ -810,9 +1098,9 @@
       <button class="btn-check" onclick="checkSlide('g2g')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('g2g')">Reset</button>
     </div>
-    <div class="book-placeholder" style="margin-top:20px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.18 (listen and check)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.14 ex2g listen-and-check track -->
+    <div class="audio-box" style="margin-top:20px;">
+      <audio controls src="audio/the-more-the-merrier-check.mp3"></audio>
     </div>
   </div></div>
 </div>
@@ -822,7 +1110,7 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Make it personal</h2>
-    <p class="instruction">Complete the sentences about yourself, then compare with a partner.</p>
+    <p class="instruction">Complete the sentences about yourself, then tell me your answers.</p>
     <div class="ex-row">1. The more money I have, <input class="ans-input wide"></div>
     <div class="ex-row">2. The earlier I get up, <input class="ans-input wide"></div>
     <div class="ex-row">3. The faster people speak English, <input class="ans-input wide"></div>
@@ -849,7 +1137,7 @@
 <div class="slide" id="s-vocab-mfp">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>Compound adjectives for personality</h2>
+    <h2>Personality words</h2>
     <div class="gram-box">
       <h3>Meaning &amp; Form</h3>
       <p>A <span class="hl">compound adjective</span> is made of two words joined together (often with a hyphen) to describe personality. Some are positive, some negative, and some can be either depending on context.</p>
@@ -859,9 +1147,9 @@
       </ul>
     </div>
     <div class="gram-note">💡 Stress: in compound adjectives like these, the stress usually falls on the <b>second word</b> — absent-<b>MIND</b>ed, self-<b>CENT</b>ered, tight-<b>FIST</b>ed.</div>
-    <div class="book-placeholder" style="margin-top:20px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.19 (listen and check)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.14 ex5b listen-and-check track -->
+    <div class="audio-box" style="margin-top:20px;">
+      <audio controls src="audio/personality-words-check.mp3"></audio>
     </div>
   </div></div>
 </div>
@@ -870,7 +1158,7 @@
 <div class="slide" id="s-vocab-match1">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>Match the word to the definition (1/2)</h2>
+    <h2>What kind of person? (1/2)</h2>
     <p class="instruction">Click a word, then click its matching definition.</p>
     <div class="match-wrap" id="vm1">
       <div>
@@ -905,7 +1193,7 @@
 <div class="slide" id="s-vocab-match2">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>Match the word to the definition (2/2)</h2>
+    <h2>What kind of person? (2/2)</h2>
     <p class="instruction">Click a word, then click its matching definition.</p>
     <div class="match-wrap" id="vm2">
       <div>
@@ -940,7 +1228,7 @@
 <div class="slide" id="s-vocab-modifiers">
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>Modifiers: a little, pretty, really, very, extremely, incredibly, kind of, rather</h2>
+    <h2>A little or a lot?</h2>
     <p class="instruction">Circle the more natural modifier for each sentence. Check (✓) if both are possible.</p>
     <div id="vc-mod">
       <p class="ex-row"><span class="example-badge">1</span>Tony's new girlfriend seems <span class="circ-opt" data-group="m1" data-correct="really" onclick="circPick(this)">rather</span> <span class="circ-opt" data-group="m1" data-correct="really" onclick="circPick(this)">really</span> well-balanced.</p>
@@ -955,19 +1243,19 @@
       <button class="btn-reset" onclick="resetCircSlide('vc-mod')">Reset</button>
     </div>
     <div class="gram-note" style="margin-top:16px;">💡 Remember: the stress in compound adjectives is on the <b>second word</b> — big-<b>HEAD</b>ed, easy-<b>GO</b>ing, tight-<b>FIST</b>ed.</div>
-    <div class="book-placeholder" style="margin-top:10px;">
-      <span class="bp-icon">🎧</span>Audio placeholder — Track 1.20 (listen and check stress)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: SB p.14 ex5c stress-check track -->
+    <div class="audio-box" style="margin-top:10px;">
+      <audio controls src="audio/modifiers-stress-check.mp3"></audio>
     </div>
   </div></div>
 </div>
 
 <!-- ============ SPEAKING: DESCRIBE YOURSELF & OTHERS ============ -->
 <div class="slide" id="s-vocab-speak">
-  <div class="banner banner-speaking">🗣️ Speaking</div>
+  <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>Describe yourself and people you know</h2>
-    <p class="instruction">Choose eight compound adjectives and write a sentence about yourself or someone you know, using a suitable modifier. Then share your sentences with a partner.</p>
+    <h2>Describe yourself</h2>
+    <p class="instruction">Choose eight compound adjectives and write a sentence about yourself or someone you know, using a suitable modifier. Then tell me your sentences.</p>
     <div class="ex-row">1. <input class="ans-input wide"></div>
     <div class="ex-row">2. <input class="ans-input wide"></div>
     <div class="ex-row">3. <input class="ans-input wide"></div>
@@ -977,7 +1265,7 @@
     <div class="ex-row">7. <input class="ans-input wide"></div>
     <div class="ex-row">8. <input class="ans-input wide"></div>
     <div class="ccq-box" style="margin-top:8px;">
-      <div class="discuss-label" style="margin:0;">💬 Which compound adjective best describes YOU? Do you agree with what your partner said about you?</div>
+      <div class="discuss-label" style="margin:0;">💬 Which compound adjective best describes YOU? Do you agree with what I said about you?</div>
     </div>
   </div></div>
 </div>
@@ -1016,7 +1304,7 @@
   <div class="slide-main"><div class="content">
     <h2>HW1 — What's unnecessary?</h2>
     <p class="instruction">In the second half of each sentence, type the word(s) that are unnecessary and could be removed (because they're already said, or replaced by an auxiliary).</p>
-    <div id="hw1a">
+    <div id="hw1a" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>My mom can drive, but my dad can't drive. → <input class="ans-input wide" data-ans="drive"></p>
       <p class="ex-row"><span class="circ-num">2</span>I loved that book, but my wife didn't love that book. → <input class="ans-input wide" data-ans="love that book"></p>
       <p class="ex-row"><span class="circ-num">3</span>You weren't listening to the instructions, but I was listening to the instructions. → <input class="ans-input wide" data-ans="listening to the instructions"></p>
@@ -1039,7 +1327,7 @@
   <div class="slide-main"><div class="content">
     <h2>HW2 — Complete the conversations</h2>
     <p class="instruction">Complete each conversation with a tag question or an auxiliary verb.</p>
-    <div id="hw1b">
+    <div id="hw1b" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>A I texted you last night, but you didn't reply. B I <b>did</b> reply. I texted you right away.</p>
       <p class="ex-row"><span class="circ-num">2</span>A I don't feel like cooking tonight. B Neither <input class="ans-input small" data-ans="do"> I. Let's go out for dinner. I'd love some Mexican food. A So <input class="ans-input small" data-ans="do"> I. Come on. Let's go.</p>
       <p class="ex-row"><span class="circ-num">3</span>A I've seen this movie before. B Well, I <input class="ans-input small" data-ans="haven't"> . A Do you mind if I change channels? B Yes, I <input class="ans-input small" data-ans="do"> mind! I want to see the end.</p>
@@ -1094,11 +1382,11 @@
   <div class="slide-main"><div class="content">
     <h2>HW4 — Listen and complete</h2>
     <p class="instruction">Complete each conversation with the correct auxiliary verb.</p>
-    <div class="book-placeholder">
-      <span class="bp-icon">🎧</span>Audio placeholder — Workbook Track (Unit 1B, ex 2a)
-      <div class="bp-note">Add the corresponding audio file here.</div>
+    <!-- audio: WB p.9 ex2a listen-and-complete track -->
+    <div class="audio-box">
+      <audio controls src="audio/hw-pronunciation.mp3"></audio>
     </div>
-    <div id="hw2a">
+    <div id="hw2a" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>A You don't like the soup, do you? B I <b>do</b> like it. It's just that it's very hot.</p>
       <p class="ex-row"><span class="circ-num">2</span>A We <input class="ans-input small" data-ans="weren't"> invited to their wedding. B You <input class="ans-input small" data-ans="weren't"> ? Neither <input class="ans-input small" data-ans="were"> we.</p>
       <p class="ex-row"><span class="circ-num">3</span>A I <input class="ans-input small" data-ans="didn't"> enjoy that movie. B You <input class="ans-input small" data-ans="didn't"> ? I <input class="ans-input small" data-ans="did"> .</p>
@@ -1145,7 +1433,7 @@
 <div class="slide" id="hw-wb4a">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW6 — Match the definition to the word</h2>
+    <h2>HW6 — Match the meaning</h2>
     <p class="instruction">Click a word in the bank, then click the blank next to its matching definition.</p>
     <div class="wb-bank book-style" id="hw4a-bank">
       <span class="wb-tile" data-val="open-minded" onclick="wbPick(this)">open-minded</span>
@@ -1162,7 +1450,7 @@
       <span class="wb-tile" data-val="good-tempered" onclick="wbPick(this)">good-tempered</span>
       <span class="wb-tile" data-val="well-behaved" onclick="wbPick(this)">well-behaved</span>
     </div>
-    <div id="hw4a">
+    <div id="hw4a" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>easily made angry or annoyed → <b>bad-tempered</b></p>
       <p class="ex-row"><span class="circ-num">2</span>ready to consider new ideas → <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span></p>
       <p class="ex-row"><span class="circ-num">3</span>not willing to spend money → <span class="wb-blank" data-ans="tight-fisted" onclick="wbPlace(this)">______</span></p>
@@ -1206,7 +1494,7 @@
       <span class="wb-tile" data-val="good-tempered" onclick="wbPick(this)">good-tempered</span>
       <span class="wb-tile" data-val="bad-tempered" onclick="wbPick(this)">bad-tempered</span>
     </div>
-    <div id="hw4b">
+    <div id="hw4b" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>My parents are very <b>easygoing</b>. They accept most things I do, without getting upset.</p>
       <p class="ex-row"><span class="circ-num">2</span>Tom's wife is very <span class="wb-blank" data-ans="laid-back" onclick="wbPlace(this)">______</span> . She doesn't seem to let anything worry her.</p>
       <p class="ex-row"><span class="circ-num">3</span>Oliver's new girlfriend isn't as crazy as he is. She seems very <span class="wb-blank" data-ans="well-balanced" onclick="wbPlace(this)">______</span> .</p>
@@ -1235,7 +1523,7 @@
   <div class="slide-main"><div class="content">
     <h2>HW8 — Circle the correct answer</h2>
     <p class="instruction">Circle the more natural modifier. Check (✓) if both are possible.</p>
-    <div id="hw4c">
+    <div id="hw4c" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>Tony's new girlfriend is good for him — she seems <span class="circ-opt" data-group="c1" data-correct="really" onclick="circPick(this)">rather</span> <span class="circ-opt" data-group="c1" data-correct="really" onclick="circPick(this)">really</span> well-balanced.</p>
       <p class="ex-row"><span class="circ-num">2</span>I don't trust my neighbor — she's <span class="circ-opt" data-group="c2" data-correct="extremely" onclick="circPick(this)">extremely</span> <span class="circ-opt" data-group="c2" data-correct="extremely" onclick="circPick(this)">incredibly</span> two-faced. <i style="color:#888;">(both possible ✓)</i></p>
       <p class="ex-row"><span class="circ-num">3</span>Some people complain about my kids, but I think they're <span class="circ-opt" data-group="c3" data-correct="pretty" onclick="circPick(this)">pretty</span> <span class="circ-opt" data-group="c3" data-correct="pretty" onclick="circPick(this)">a little</span> well-behaved.</p>
@@ -1264,8 +1552,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-warmup", "s-gram1-mfp", "s-gram1-2b", "s-gram1-2c", "s-gbank", "s-pron", "s-speak-psychic", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
-var slideLabels = ["Cover", "Warm-Up – Myth or Fact?", "Grammar 1 – Meaning & Form: Auxiliary Verbs", "Grammar 1 – Complete the Dialogues", "Grammar 1 – What's the Function?", "Grammar Bank 1B – Practice a & b", "Pronunciation – Intonation & Stress", "Speaking – You're Psychic, Aren't You?", "Listening & Speaking – A Walk in the Forest", "Listening – Forest Audioscript Gap-Fill", "Speaking – What Does It Mean?", "Grammar 2 – Meaning & Form: The…, The…", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Compound Adjectives: Meaning & Form", "Vocabulary – Matching (1/2)", "Vocabulary – Matching (2/2)", "Vocabulary – Modifiers & Stress", "Speaking – Describe Yourself & Others", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Definition", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-gbank-a", "s-gbank-b", "s-dice-react", "s-pron-3a", "s-pron-3b", "s-pron-3c", "s-pron-3d", "s-speak-psychic", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
+var slideLabels = ["Cover", "Case Files – Ask & React", "Warm-Up – Myth or Fact?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Quick-Fire Practice", "A Night at the Club", "Communication Practice – React to It! (Dice)", "Pronunciation – Stressed Auxiliaries", "Pronunciation – Practice Out Loud", "True for Me", "Same or Different?", "Speaking – You're Psychic, Aren't You?", "Listening & Speaking – A Walk in the Forest", "Follow the Path", "Speaking – What Does It Mean?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -1458,15 +1746,23 @@ function resetBingo(btn){ btn.closest('.slide').querySelectorAll('.bingo-cell').
 /* ===================== GENERIC: DICE ROLLER ===================== */
 var diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
 var dicePrompts = {
-  'dice-agree': {
-    1: "1. Good service is more important than good food.",
-    2: "2. The best chefs are usually men.",
-    3: "3. Everybody should learn to cook at school.",
-    4: "4. Cheap restaurants always serve bad food.",
-    5: "5. Waiters should earn a good salary and tips should be banned.",
-    6: "6. Italian food is the best in the world."
+  'dice-react': {
+    1: "My cousin's dog always barks three times right before the phone rings.",
+    2: "I once found a $20 bill on the exact day I needed it most.",
+    3: "My grandmother says she can always tell when it's about to rain — her knee hurts.",
+    4: "A friend of mine says she dreamed about her old classmate the night before running into her on the street.",
+    5: "My neighbor is sure his house is haunted by a former owner.",
+    6: "I once called my best friend at the exact moment she was calling me."
   }
 };
+function gbToggle(id) {
+  var body = document.getElementById('gb-body-' + id);
+  var btn  = document.getElementById('gb-btn-'  + id);
+  if (!body) return;
+  var open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (btn) btn.textContent = open ? 'Show ▼' : 'Hide ▲';
+}
 function rollDie(id){
   var face = document.getElementById(id+'-face');
   var promptEl = document.getElementById(id+'-prompt');
