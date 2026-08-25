@@ -69,6 +69,49 @@ When exercises are displayed in two (or more) columns, the numbering always flow
 
 Never lay out exercises left-to-right across a row (1 on left, 2 on right, 3 on left, 4 on right…). Always finish one column before starting the next.
 
+Layout classes: `.fixed-two-col` (2 columns), `.fixed-three-col` (3 columns), `.fixed-four-col` (4 columns) — all fixed CSS grids, used when items must split by an exact count rather than auto-balance by height.
+
+---
+
+## 📏 Text Line-Height Standard
+
+> Added 2026-08-25 after AEF4-1B's instruction/discussion-question text looked visually cramped compared to quoted example text.
+
+**Every block of instruction, discussion-question, or quoted text uses `line-height:1.7`.** This applies to (at minimum) `.instruction`, `.inst-light`, `.discuss-label`, `.ex-row`, `.glossary-box p`, `.gram-note`, `.gram-mistake`, `.ex-example-centered`, `.ccq-list li`, and any similar reading-text class — never leave a text block at the browser default line-height (~1.2) or at a tighter value like `1.5`/`1.6`, it reads as cramped next to the rest of the deck. When adding a new CSS class for body/instruction-style text, always set `line-height:1.7` explicitly (some exercise/dialogue text intentionally uses a looser `1.8–1.9` — see the Typography reference table — but never anything tighter than 1.7).
+
+> Audited 2026-08-25 across all lesson files: `.inst-light` was missing `line-height` entirely (browser default ~1.2) in every lesson that had it, and `.glossary-box p` / `.gram-note` / `.gram-mistake` / `.ex-example-centered` / `.ccq-list li` were all sitting at `1.6` or missing it. All were corrected to `1.7`. When building or reviewing a lesson, check every reading-text class against this list — don't assume a class is compliant just because `.instruction` is.
+
+**When a slide has 2 or more standalone discussion questions (not a single flowing instruction sentence), give each question its own boxed container** (e.g. a `.ccq-box` wrapping a `.discuss-label`) stacked with a visible gap between boxes (`display:flex;flex-direction:column;gap:16px` or similar) — never stack multiple questions inside one shared block separated only by `<br>`.
+
+**Any image placed beside text in a `.fixed-two-col` / `.fixed-three-col` / `.fixed-four-col` layout must be height-constrained (e.g. `max-height`) so that section of the slide fits on screen without forcing a scroll.** Use `object-fit:contain` (not `cover`) whenever the full image needs to stay visible without cropping — `cover` is only for images being used as a decorative background fill where cropping the edges is acceptable.
+
+---
+
+## 🎨 Text Highlighting Standard
+
+> Added 2026-08-25 after AEF4-1B's "How weird!" glossary box (a wall of plain-text reacting phrases) felt flat and hard to scan.
+
+**Whenever an explanation box, glossary box, or grammar note has more than a sentence or two of plain text, break it up visually — don't leave dense paragraphs of uniform black text.** Use a mix of:
+
+- **Bold + color** on the key phrase or pattern being taught (e.g. the fixed part of a structure like `How / That's`), often paired with a light matching background chip: `color:#1B6E96;background:#E4F1F7;padding:1px 8px;border-radius:5px;` (swap the color pair per item so multiple patterns in the same box are visually distinct).
+- *Italics* for the variable/example word list that follows a pattern (e.g. the adjectives that can slot into it).
+- Color coding kept **consistent with the rest of the slide/lesson** where a concept already has an established color (e.g. reuse the same color for "did" everywhere it's highlighted across a lesson — see Text Line-Height Standard's sibling rule on auxiliary-verb color coding).
+
+This applies especially to `.glossary-box`, `.gram-box`, `.gram-note`, and similar theory/reference boxes — these are exactly the places dense text tends to accumulate. The goal is that a student can scan the box and immediately spot the pattern being taught, not read it top to bottom like a paragraph.
+
+---
+
+## 🪟 Two-Part Slide Standard
+
+> Added 2026-08-25, reference implementation: AEF4-1B's Warm-Up slide (`s-warmup`) — title + discussion questions + image as part 1, four superstition cards as part 2.
+
+Some slides genuinely hold two distinct activities stacked on one slide (e.g. a discussion prompt with an image, followed by a separate card exercise below). When this happens:
+
+- **Part 1 should visually read as its own complete screen** — sized generously enough to feel intentional, not like leftover space above a second exercise. Don't leave a tall image floating with big empty margins, and don't let it feel like it's fighting part 2 for room.
+- **Do not use a fixed pixel height or a raw `calc(100vh - Npx)` on the container** — actual usable height varies too much between windows and causes overflow/overlap bugs. Instead, size the dominant visual (usually the image) with `max-height: clamp(<min>px, <vh>vh, <max>px)` and `object-fit:contain`, letting it scale naturally with the viewport while staying within safe bounds.
+- **Give part 1 a generous bottom margin before part 2 begins** — e.g. `margin-bottom:40px` on the part-1 container plus `margin-top:50-60px` on part 2's instruction paragraph. This visually separates the two parts so part 2 clearly starts "after a scroll," not immediately below part 1.
+- **When part 1 has a left column of stacked question boxes next to a right-column image, align the columns to `align-items:flex-start`** (not `center`) so the top of the first question box lines up with the top of the image.
+
 ---
 
 ## 🟢 Example Presentation Standards
@@ -300,10 +343,20 @@ function toggleNotes(){
   panel.classList.toggle('open', notesOpen);
   if (current === 0) panel.classList.toggle('cover', notesOpen);
   document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 ```
 
 The button text itself changes between "📝 Notes" and "✕ Close" — it isn't a fixed label.
+
+### Draggable panel always resets to its default position on close
+
+The notes panel can be dragged around the screen mid-lesson (see the drag-handle script further down), but that dragged position is **session-only, never persisted across a close/reopen**. Every time `toggleNotes()` closes the panel (transitions from open → closed), it must clear the inline `left`/`top`/`right`/`bottom`/`transform` styles the drag handler set, so the panel falls back to its default CSS position (top-right, or centered for the `.cover` state) the next time it's opened — regardless of where it was last dragged to.
+
+- This reset happens **only on close**, not on every render — dragging while the panel is open must still work smoothly and keep its position until the teacher closes it.
+- Applies to every lesson using the draggable notes panel (all of them, going forward).
+- If a lesson's `toggleNotes()` uses a differently-named open/closed flag (e.g. a local `isOpen` captured before the toggle instead of the shared `notesOpen`), adapt the condition accordingly — the point is: whichever branch represents "the panel just closed," reset the inline position styles there.
 
 ### Panel animation
 `#notesPanel` uses `max-height: 0 → 320px` + `opacity` transition (not `display:none/flex`) for a smooth slide-open, and has a dark frosted-glass style (`background: rgba(10,40,54,.92)` on the textarea, `backdrop-filter: blur`) rather than a plain white box.
@@ -892,6 +945,7 @@ Use CSS classes for banner colours — **not inline styles** (except for one-off
           letter-spacing:.03em; display:flex; align-items:center; gap:10px;
           flex-shrink:0; color:#fff; }
 
+.banner-bridge    { background: #3E7CB1; }
 .banner-leadin    { background: #D35400; }
 .banner-vocab     { background: #2A6B42; }
 .banner-reading   { background: #2A6B42; }
@@ -909,6 +963,7 @@ Use CSS classes for banner colours — **not inline styles** (except for one-off
 
 | Section | HTML to use | Default colour |
 |---|---|---|
+| Bridge | `<div class="banner banner-bridge">🌉 Bridge</div>` | #3E7CB1 |
 | Warm-Up | `<div class="banner banner-leadin">🎯 Warm-Up</div>` | #D35400 |
 | Vocabulary | `<div class="banner banner-vocab">📚 Vocabulary</div>` | #2A6B42 |
 | Reading | `<div class="banner banner-reading">📖 Reading</div>` | #2A6B42 |
@@ -968,8 +1023,9 @@ If a slide combines two sections: `<div class="banner banner-listening">🎧 Lis
 |---|---|---|---|
 | Section banner (`.banner`) | `1.1rem` | 700 | letter-spacing .03em; colour chosen per lesson |
 | Slide title (`h2`) | `1.85rem` | 800 | dark colour chosen per lesson |
-| Bold instruction (`.instruction`) | `1.08rem` | 700 | |
+| Bold instruction (`.instruction`) | `1.08rem` | 700 | line-height 1.7 |
 | Light instruction (`.inst-light`) | `1.05rem` | 400 | |
+| Discussion question (`.discuss-label`) | `1.08rem` | 700 | line-height 1.7 |
 
 #### Exercise content
 | Element | Size | Weight | Notes |
@@ -1178,6 +1234,31 @@ Some Flippity activity types are built for classrooms/multiple students and don'
 
 ---
 
+## 🌉 Bridge Slide — connecting to the previous lesson (always slide 2, before the Warm-Up)
+
+> Added after AEF4-1B's "Case Files: Ask About It!" slide worked well as a connector between lessons.
+
+Every lesson now opens with a short **Bridge slide**, positioned right after the Cover and before the Warm-Up. Its job is to re-activate a skill or grammar point from the **previous** lesson through a quick game or communicative task — **never through an explicit statement that this is reviewing the last lesson.** The connection should be felt through the activity itself, not announced to the student.
+
+**Design pattern:**
+
+- Build it as a light game or short interactive task (case-file-style cards, prompts, a quick production exercise) themed to fit the **current** lesson's topic, but built entirely from the skill/grammar taught in the **previous** lesson.
+- Keep it fast — 2–4 items, one clear task, no more than a couple of minutes of class time. This is a warm connector, not a full review.
+- It's fine (and often good) to end with a short, low-key `gram-note` that plants a seed for today's new grammar — but keep it brief and natural, not a lecture.
+- Never use words like "review," "last lesson," or "recap" in anything student-facing (title, instruction, banner). Let the activity itself carry the connection.
+
+**Banner — add to the approved list:**
+
+| Section | HTML to use | Default colour |
+|---|---|---|
+| Bridge | `<div class="banner banner-bridge">🌉 Bridge</div>` | #3E7CB1 |
+
+Add `.banner-bridge { background: #3E7CB1; }` to the banner CSS block alongside the others (adjust the shade per lesson palette if needed, same as every other banner colour).
+
+> Reference implementation: **AEF4-1B**, "Case Files: Ask About It!" — three mystery statements, students produce questions using last lesson's auxiliary-verb-question skill, closing with a short gram-note that quietly sets up today's new reacting-with-auxiliary-verbs grammar.
+
+---
+
 ## 🎬 Warm-Up Standards — be creative, never default to a quote
 
 The Warm-Up is the first thing the student sees, so it must earn its place. A book quote followed by three discussion questions is the **fallback, not the format** — it should never be the whole warm-up.
@@ -1208,16 +1289,17 @@ The Warm-Up is the first thing the student sees, so it must earn its place. A bo
 Most lessons follow this sequence (not all sections appear in every lesson):
 
 1. **Cover** — "Conversational English / with teacher Nanda" + Lesson Title only (see rules above)
-2. **Lead-in / Warm-Up** — warm-up activity (topic activation, image discussion, spin the wheel, dice-roll prompt)
-3. **Vocabulary** — word list, matching, or labelling exercise (consider a Bingo or Word Scramble review at the end)
-4. **Reading** — passage + comprehension exercises (true/false, multiple choice, gap fill)
-5. **Listening** — audio placeholder + comprehension task
-6. **Speaking** — discussion prompts or role-play adapted for one-on-one — a good spot for a dice-roller or spin-wheel prompt generator
-7. **Grammar** — follow the **Meaning → Form → Pronunciation** sequence above: context + CCQs → form breakdown → pronunciation focus → controlled practice → freer/personalized practice (MadLibs or open speaking)
-8. **Pronunciation** (when applicable) — pronunciation focus exercise
-9. **Writing** (when applicable) — guided writing prompt
-10. **Homework** — homework cover + task slides
-11. **Review / Wrap-up** — optional recap slide; a Virtual Breakout or dice-driven review is a good option here instead of a plain summary
+2. **Bridge** — short game/communicative task connecting to the previous lesson's skill (see 🌉 Bridge Slide standards above) — always before the Warm-Up
+3. **Lead-in / Warm-Up** — warm-up activity (topic activation, image discussion, spin the wheel, dice-roll prompt)
+4. **Vocabulary** — word list, matching, or labelling exercise (consider a Bingo or Word Scramble review at the end)
+5. **Reading** — passage + comprehension exercises (true/false, multiple choice, gap fill)
+6. **Listening** — audio placeholder + comprehension task
+7. **Speaking** — discussion prompts or role-play adapted for one-on-one — a good spot for a dice-roller or spin-wheel prompt generator
+8. **Grammar** — follow the **Meaning → Form → Pronunciation** sequence above: context + CCQs → form breakdown → pronunciation focus → controlled practice → freer/personalized practice (MadLibs or open speaking)
+9. **Pronunciation** (when applicable) — pronunciation focus exercise
+10. **Writing** (when applicable) — guided writing prompt
+11. **Homework** — homework cover + task slides
+12. **Review / Wrap-up** — optional recap slide; a Virtual Breakout or dice-driven review is a good option here instead of a plain summary
 
 Use this order as the default; deviate only if the book's lesson flow demands it.
 
@@ -1287,7 +1369,7 @@ Before considering a lesson complete, verify:
 - [ ] No raw audio filenames visible — all audio uses native `<audio controls>` in styled pill wrapper, with nothing else inside the audio container (no glued-on caption/label)
 - [ ] All image spots have styled placeholder `<div>`s
 - [ ] Navigation bar shows correct slide count and dots
-- [ ] Notes system: opens/closes on all slides, cover behaviour correct; toolbar has B/U + 4 highlight colors (yellow/green/pink/blue) + ✕ remove-highlight, same-color click toggles off; Notes button label toggles "📝 Notes" ↔ "✕ Close"
+- [ ] Notes system: opens/closes on all slides, cover behaviour correct; toolbar has B/U + 4 highlight colors (yellow/green/pink/blue) + ✕ remove-highlight, same-color click toggles off; Notes button label toggles "📝 Notes" ↔ "✕ Close"; dragging the panel then closing and reopening it always returns it to its default position (see 📒 Notes System → Draggable panel always resets)
 - [ ] Nav bar shows **both** 💾 Save Notes (`#2E2A6B`) and 🖨️ Print Lesson (`#0E5A8A`) as two distinct buttons — neither replaces the other
 - [ ] "💾 Save Notes" button: opens a printable summary page of every slide with notes (or alerts "No notes to save yet!" if none)
 - [ ] "🖨️ Print Lesson" button: all slides print one per page in original layout; cover page gets `.lesson-link-print` banner (lesson title + link); every other slide gets small grey `::before` page header; teacher's notes print at the bottom of relevant pages in light-blue block
@@ -1297,6 +1379,7 @@ Before considering a lesson complete, verify:
 - [ ] Wordbank exercises use the correct click pattern — Case A (click-tile-to-place) if every word is used unchanged, Case B (typed blank + click-to-mark-used) if any word changes form
 - [ ] Non-homework example numbering verified against the actual book page (never assumed); example answer words use the green highlight chip, not blue italic/underline; example placement follows the odd/even centering logic (see 🟢 Example Presentation Standards)
 - [ ] Arrow keys don't trigger navigation while typing in inputs or notes
+- [ ] A Bridge slide (🌉 banner) sits right after the Cover and before the Warm-Up, connecting to the previous lesson's skill through a short game/task — never stated explicitly as "review" (see 🌉 Bridge Slide standards)
 - [ ] Warm-Up includes at least one active/interactive element (Myth or Fact, guess-the-number, what's-wrong-with-this-picture, story, would-you-rather, dice/wheel) — not just a quote + questions; and the format differs from the previous lesson (see 🎬 Warm-Up Standards)
 - [ ] Spin the Wheel redraws on slide entry (if present)
 - [ ] Multi-column exercises follow the top-to-bottom, left-to-right column order rule

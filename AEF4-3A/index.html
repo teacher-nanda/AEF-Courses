@@ -183,7 +183,7 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 
 /* Discussion */
 .discuss-qs{background:#F0F6FF;border-radius:10px;padding:14px 18px;margin:10px 0}
-.discuss-label{font-weight:700;color:#1E4D8C;margin-bottom:8px;font-size:1rem}
+.discuss-label{font-weight:700;color:#1E4D8C;margin-bottom:8px;font-size:1rem; line-height:1.7; }
 .discuss-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .discuss-list li{font-size:1.05rem;color:#1C2B3A;padding-left:18px;position:relative;line-height:1.5}
 .discuss-list li::before{content:'▶';position:absolute;left:0;color:#1E4D8C;font-size:.7rem;top:5px}
@@ -2981,6 +2981,8 @@ function toggleNotes(){
   panel.classList.toggle('open',notesOpen);
   if(current===0)panel.classList.toggle('cover',notesOpen);
   document.getElementById('notesBtn').textContent=notesOpen?'✕ Close':'📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd) {
   document.getElementById('notesTA').focus();

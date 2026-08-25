@@ -43,8 +43,8 @@
   .content { padding:24px 48px 20px; flex:1; }
   h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
   .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
-  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
-  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; line-height:1.7; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; line-height:1.7; }
   .section-subhead { font-size:1.3rem; font-weight:800; color:#6B3F86; margin:24px 0 10px; }
   .topics-card { background:#F4F8FA; border-radius:12px; padding:1.1rem 1.3rem; }
   .topics-card h4 { margin:0 0 10px; color:#6B3F86; font-size:1.1rem; }
@@ -231,7 +231,7 @@
   .gram-box h3 { margin:0 0 8px; font-size:1.1rem; color:#3B4C99; }
   .gram-box p { font-size:1.06rem; line-height:1.7; color:#1C2B3A; margin:0 0 8px; }
   .gram-box .hl { font-weight:800; color:#3B4C99; }
-  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.6; }
+  .gram-note { background:#FDF3D6; border-left:4px solid #C9A227; border-radius:8px; padding:14px 18px; font-size:1.05rem; color:#7A5A1E; margin-top:6px; line-height:1.7; }
 
   /* ===== MPF grammar cards (Meaning / Form / Pronunciation) ===== */
   .mpf-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
@@ -270,7 +270,7 @@
   .connect-note.arrow-right::before { content:"▶"; position:absolute; top:50%; left:auto; right:-15px; transform:translateY(-50%); color:#C9822E; font-size:.9rem; background:#fff; }
   .connect-note b { color:#8a5a1e; }
   .pc-hl { font-weight:800; padding:1px 6px; border-radius:4px; color:#fff; background:#C2185B; }
-  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.6; }
+  .ex-example-centered { text-align:center; font-size:1.06rem; font-style:italic; color:#1A5030; background:#EAF6EE; border-radius:10px; padding:14px 24px; margin:0 0 22px; font-weight:600; line-height:1.7; }
   .ex-example-centered .ex-tag { display:block; font-style:normal; font-weight:800; letter-spacing:.06em; font-size:.78rem; text-transform:uppercase; color:#2F7A52; margin-bottom:6px; }
 
   /* speaking flowchart / cards */
@@ -1629,6 +1629,8 @@ function toggleNotes(){
   panel.classList.toggle('open', notesOpen);
   if (current === 0) panel.classList.toggle('cover', notesOpen);
   document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd){
   document.getElementById('notesTA').focus();

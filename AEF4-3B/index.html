@@ -45,7 +45,7 @@
   h2 { font-size:1.85rem; font-weight:800; color:#1C2B3A; margin:0 0 14px; }
   .instruction { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 18px; }
   .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; }
-  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; }
+  .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; line-height:1.7; }
   .discuss-list { margin:0 0 18px; padding-left:22px; line-height:1.9; font-size:1.06rem; color:#1C2B3A; }
   .flow-wrap { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
   .flow-col { display:flex; flex-direction:column; align-items:center; gap:0; }
@@ -1743,6 +1743,8 @@ function toggleNotes(){
   panel.classList.toggle('open', notesOpen);
   if (current === 0) panel.classList.toggle('cover', notesOpen);
   document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd){
   document.getElementById('notesTA').focus();

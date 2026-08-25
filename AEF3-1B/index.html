@@ -3418,6 +3418,8 @@ function toggleNotes() {
   panel.classList.toggle('open', notesOpen);
   if (current === 0) panel.classList.toggle('cover', notesOpen);
   document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd) {
   document.getElementById('notesTA').focus();

@@ -126,7 +126,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI
 .content { padding: 24px 48px 20px; flex: 1; }
 h2 { font-size: 1.85rem; font-weight: 800; color: #0A2836; margin-bottom: 14px; }
 .instruction { font-size: 1.08rem; color: #1C2B3A; margin-bottom: 10px; font-weight: 700; }
-.inst-light { font-size: 1.05rem; color: #1C2B3A; margin-bottom: 10px; font-weight: 400; }
+.inst-light { font-size: 1.05rem; color: #1C2B3A; margin-bottom: 10px; font-weight: 400; line-height:1.7; }
 
 /* ── TITLE SLIDE ──────────────────────────────── */
 #s1 { background: linear-gradient(145deg, #0A1E2F 0%, #0F4A6A 55%, #14607A 100%); }
@@ -2167,6 +2167,8 @@ function toggleNotes() {
   panel.classList.toggle('open', notesOpen);
   if (current === 0) panel.classList.toggle('cover', notesOpen);
   document.getElementById('notesBtn').textContent = notesOpen ? '✕ Close' : '📝 Notes';
+  /* reset position on close */
+  if (!notesOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd) {
   document.getElementById('notesTA').focus();

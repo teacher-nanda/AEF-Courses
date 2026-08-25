@@ -406,7 +406,7 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 .rank-card.rank-bad{background:#FDEEEE;border-color:#C0282A;color:#C0282A}
 .rank-card.rank-ok {background:#E8F7F7;border-color:#0B8C8C;color:#0B6A6A}
 .discuss-qs{background:#F5F0FF;border-radius:14px;padding:16px 20px;margin-top:4px;border:1.5px solid #C8B0F0}
-.discuss-label{font-size:1.08rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#7A4AAA;margin-bottom:8px}
+.discuss-label{font-size:1.08rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#7A4AAA;margin-bottom:8px; line-height:1.7; }
 .discuss-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
 .discuss-list li{font-size:1.05rem;color:#2A1A4A;line-height:1.5}
 
@@ -499,7 +499,7 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
 .rcb-b{background:#EEF3FF;border-color:#A0B8E8;color:#1A52B0}
 .rcb-b.rb-active{background:#1A52B0;border-color:#1A52B0;color:#fff}
 .discuss-qs2{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.discuss-label{font-size:1.08rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#888;margin-bottom:4px}
+.discuss-label{font-size:1.08rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#888;margin-bottom:4px; line-height:1.7; }
 .rq{display:flex;align-items:center;gap:8px;background:#F5F0FF;border:1.5px solid #C8B0F0;border-radius:11px;padding:10px 14px;cursor:pointer;transition:background .15s;flex-wrap:wrap}
 .rq:hover{background:#EDE5FF}
 .rq-num{font-size:1.1rem;font-weight:800;color:#7A4AAA;min-width:18px}
@@ -2295,6 +2295,8 @@ function toggleNotes() {
   if(!isOpen&&current===0) panel.classList.add('cover');
   if(isOpen) panel.classList.remove('cover');
   if(btn) btn.innerHTML=isOpen?'&#128221;&nbsp;Notes':'&#10005;&nbsp;Close';
+  /* reset position on close */
+  if (isOpen) { panel.style.left=''; panel.style.top=''; panel.style.right=''; panel.style.bottom=''; panel.style.transform=''; }
 }
 function notesFormat(cmd) {
   document.getElementById('notesTA').focus();
