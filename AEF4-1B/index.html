@@ -316,6 +316,24 @@
 
   /* image placeholder */
   .img-placeholder { background:linear-gradient(135deg,#FBEFE0,#F5DCC0); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8B5A1E; font-size:.95rem; font-weight:600; border:2px dashed #D9B36C; margin:8px 0; padding:24px; text-align:center; min-height:120px; }
+  .pron-card-wrap { perspective:1200px; max-width:480px; margin:20px auto 0; }
+  .pron-card { position:relative; width:100%; min-height:170px; cursor:pointer; transition:transform .5s; transform-style:preserve-3d; }
+  .pron-card.flipped { transform:rotateY(180deg); }
+  .pron-card-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:22px; text-align:center; }
+  .pron-card-front { background:linear-gradient(135deg,#4A1A6A,#7B2D8E); color:#fff; font-size:1.15rem; font-weight:800; box-shadow:0 6px 18px rgba(74,26,106,.3); }
+  .pron-card-back { background:#fff; border:2.5px solid #4A1A6A; transform:rotateY(180deg); font-size:1.12rem; color:#1C2B3A; line-height:1.6; box-shadow:0 6px 18px rgba(74,26,106,.15); }
+  .pron-card-back .ans-input { margin-top:8px; }
+  .forest-label { font-weight:800; font-size:1.05rem; color:#1C2B3A; margin:14px 0 10px; }
+  .forest-list { display:flex; flex-direction:column; gap:16px; }
+  .forest-item { display:flex; align-items:flex-start; gap:12px; }
+  .forest-num { font-weight:700; font-size:1.05rem; color:#1C2B3A; min-width:16px; margin-top:6px; }
+  .forest-icon { font-size:1.6rem; background:#FBEFE0; border:2px solid #D9B36C; border-radius:50%; width:42px; height:42px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .forest-lines { flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px; }
+  .line-blank { border:none; border-bottom:1.5px solid #999; background:transparent; width:100%; font-size:1rem; padding:2px 4px; font-family:inherit; }
+  .line-blank:focus { outline:none; border-bottom-color:#4A1A6A; }
+  .line-blank.short { max-width:130px; align-self:flex-end; }
+  .psychic-log { margin-top:12px; max-height:220px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; }
+  .psychic-log-entry { background:#f8fafb; border-radius:8px; padding:7px 11px; font-size:.85rem; line-height:1.4; color:#1C2B3A; border-left:3px solid #ccc; }
   .img-placeholder .ip-icon { font-size:1.8rem; margin-bottom:6px; }
   .photo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:16px; }
   .photo-item { position:relative; }
@@ -471,21 +489,21 @@
       <div class="card" style="border-left:6px solid #4A1A6A;">
         <div style="font-weight:800;color:#4A1A6A;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #1</div>
         <p class="ex-row" style="font-weight:700;">"My neighbor says she saw a strange light in the sky last night."</p>
-        <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb):<br><input class="ans-input wide"></p>
+        <p class="ex-row">🔎 Ask a question about it:<br><input class="ans-input wide"></p>
         <p class="ex-row">😲 Now react to it.<br><input class="ans-input wide"></p>
       </div>
 
       <div class="card" style="border-left:6px solid #0E7A8A;">
         <div style="font-weight:800;color:#0E7A8A;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #2</div>
         <p class="ex-row" style="font-weight:700;">"A friend of mine found an old locked box in his attic. Nobody knows what's inside."</p>
-        <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb):<br><input class="ans-input wide"></p>
+        <p class="ex-row">🔎 Ask a question about it:<br><input class="ans-input wide"></p>
         <p class="ex-row">😲 Now react to it.<br><input class="ans-input wide"></p>
       </div>
 
       <div class="card" style="border-left:6px solid #B23A6B;">
         <div style="font-weight:800;color:#B23A6B;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">🗂️ Case File #3</div>
         <p class="ex-row" style="font-weight:700;">"Someone left a mysterious note on my car this morning."</p>
-        <p class="ex-row">🔎 Ask a question about it (use an auxiliary verb):<br><input class="ans-input wide"></p>
+        <p class="ex-row">🔎 Ask a question about it:<br><input class="ans-input wide"></p>
         <p class="ex-row">😲 Now react to it.<br><input class="ans-input wide"></p>
       </div>
 
@@ -886,57 +904,64 @@
   </div></div>
 </div>
 
-<!-- ============ EX 3a: PRONUNCIATION — STRESSED AUXILIARIES ============ -->
-<div class="slide" id="s-pron-3a">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Intonation and sentence rhythm</h2>
-    <!-- audio: SB p.11 ex3a stressed-auxiliaries track -->
-    <div class="audio-box">
-      <audio controls src="audio/stressed-auxiliaries.mp3"></audio>
-    </div>
-    <p class="instruction">Listen to the conversations.<br>Click each auxiliary verb (did, don't, do) that is stressed.</p>
-    <div id="s-pron-3a-list" style="line-height:2.4;font-size:1.08rem;">
-      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I dreamed that I saw a ghost last night.<br>
-      <b style="color:#0E7A8A;">Leo:</b> You <span class="tick-item" data-val="p1" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">did</span>? So <span class="tick-item" data-val="p2" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">did</span> I. How spooky!</p>
-      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> I <span class="tick-item" data-val="p3" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span> believe in fortune-telling.<br>
-      <b style="color:#0E7A8A;">Leo:</b> You <span class="tick-item" data-val="p4" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span>? I <span class="tick-item" data-val="p5" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">do</span>.</p>
-      <p class="ex-row"><b style="color:#4A1A6A;">Mia:</b> You <span class="tick-item" data-val="p6" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">don't</span> like horror movies, do you?<br>
-      <b style="color:#0E7A8A;">Leo:</b> I <span class="tick-item" data-val="p7" onclick="toggleTick(this)" style="display:inline-flex;padding:3px 10px;margin:0 2px;">do</span> like them. It's just that sometimes they're too scary!</p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkTickSlide('s-pron-3a-list', ['p1','p2','p3','p4','p5','p6','p7'])">Check Answers</button>
-      <button class="btn-reset" onclick="resetTickSlide('s-pron-3a-list')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ EX 3b: PRACTICE OUT LOUD ============ -->
-<div class="slide" id="s-pron-3b">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Practice out loud</h2>
-    <p class="instruction">Practice the conversations from the previous slide with me.<br>Copy the rhythm and intonation.</p>
-    <div class="gram-note">💡 Reply questions ("You did?") rise at the end, to show surprise or interest.</div>
-    <div class="gram-note" style="margin-top:10px;">💡 A tag question that just invites agreement ("It's a nice day, isn't it?") falls at the end.<br>A tag question that checks something you think is true ("She's a painter, isn't she?") rises, like a normal yes/no question.</div>
-    <div class="img-placeholder" style="margin-top:18px;min-height:160px;"><span class="ip-icon">🖼️</span>Image placeholder — a speech-bubble / sound-wave graphic showing rising and falling intonation</div>
-  </div></div>
-</div>
-
 <!-- ============ EX 3c: COMPLETE SENTENCES SO THEY ARE TRUE FOR YOU ============ -->
 <div class="slide" id="s-pron-3c">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
+  <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>True for me</h2>
-    <div id="pron3c" class="two-col">
-      <p class="ex-row"><span class="circ-num">1</span>I'm not very good at <input class="ans-input"> . <i style="color:#888;">(activity)</i></p>
-      <p class="ex-row"><span class="circ-num">2</span>I'm going to <input class="ans-input"> tonight. <i style="color:#888;">(verb phrase)</i></p>
-      <p class="ex-row"><span class="circ-num">3</span>I love <input class="ans-input"> . <i style="color:#888;">(a kind of music)</i></p>
-      <p class="ex-row"><span class="circ-num">4</span>I don't like <input class="ans-input"> . <i style="color:#888;">(a kind of food)</i></p>
-      <p class="ex-row"><span class="circ-num">5</span>I've never read <input class="ans-input"> . <i style="color:#888;">(a famous book)</i></p>
-      <p class="ex-row"><span class="circ-num">6</span>I'd love to live in <input class="ans-input"> . <i style="color:#888;">(a town or country)</i></p>
-      <p class="ex-row"><span class="circ-num">7</span>I was very <input class="ans-input"> as a child. <i style="color:#888;">(adj. of personality)</i></p>
-      <p class="ex-row"><span class="circ-num">8</span>I didn't <input class="ans-input"> yesterday evening. <i style="color:#888;">(verb phrase)</i></p>
+    <h2>🔮 You're psychic, aren't you?</h2>
+    <p class="instruction">Draw a card and use its topic to guess something about the other person with a tag question.<br>They confirm or deny it — then you react!<br>Take turns: you draw and guess, then I draw and guess about you.</p>
+    <div class="ex-example-centered" style="text-align:left;">
+      <span class="ex-tag">Example</span>
+      <b>Card:</b> a kind of music<br>
+      <b>Guess:</b> "You love jazz, don't you?"<br>
+      <b>Answer:</b> "I do, actually!" <i style="color:#666;">(or "I don't — I prefer rock.")</i><br>
+      <b>Reaction:</b> "You do? So do I!" <i style="color:#666;">(or "You don't? Really?")</i>
+    </div>
+    <div style="text-align:center;margin-top:14px;">
+      <span id="psychic-scoreboard" style="font-weight:800;color:#4A1A6A;background:#f3eeff;padding:8px 20px;border-radius:999px;font-size:1rem;">🎓 You: 0 ✅ / 0 &nbsp;·&nbsp; 🧑‍🏫 Me: 0 ✅ / 0</span>
+    </div>
+    <div class="fixed-two-col" style="margin-top:14px;">
+      <div>
+        <div class="match-col-head mc-left">🧑‍🎓 Your cards</div>
+        <div class="pron-card-wrap" style="max-width:100%;">
+          <div class="pron-card" id="psychic-student-card">
+            <div class="pron-card-face pron-card-front" onclick="drawPsychicCard('student')">
+              <div style="font-size:2.2rem;">🔮</div><div>Draw a Card</div>
+            </div>
+            <div class="pron-card-face pron-card-back" id="psychic-student-back"></div>
+          </div>
+        </div>
+        <div class="btn-row" id="psychic-student-mark-row" style="justify-content:center;margin-top:10px;display:none;">
+          <button class="btn-check" style="background:#2A6B42;" onclick="markPsychic('student', true)">✅ Correct</button>
+          <button class="btn-check" style="background:#B23A6B;" onclick="markPsychic('student', false)">❌ Wrong</button>
+        </div>
+        <div style="text-align:center;margin-top:8px;">
+          <button class="btn-check" id="psychic-student-btn" onclick="drawPsychicCard('student')" style="display:none;">🔄 Draw Another</button>
+        </div>
+        <div id="psychic-student-log" class="psychic-log"></div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">🧑‍🏫 My cards</div>
+        <div class="pron-card-wrap" style="max-width:100%;">
+          <div class="pron-card" id="psychic-teacher-card">
+            <div class="pron-card-face pron-card-front" onclick="drawPsychicCard('teacher')">
+              <div style="font-size:2.2rem;">🔮</div><div>Draw a Card</div>
+            </div>
+            <div class="pron-card-face pron-card-back" id="psychic-teacher-back"></div>
+          </div>
+        </div>
+        <div class="btn-row" id="psychic-teacher-mark-row" style="justify-content:center;margin-top:10px;display:none;">
+          <button class="btn-check" style="background:#2A6B42;" onclick="markPsychic('teacher', true)">✅ Correct</button>
+          <button class="btn-check" style="background:#B23A6B;" onclick="markPsychic('teacher', false)">❌ Wrong</button>
+        </div>
+        <div style="text-align:center;margin-top:8px;">
+          <button class="btn-check" id="psychic-teacher-btn" onclick="drawPsychicCard('teacher')" style="display:none;">🔄 Draw Another</button>
+        </div>
+        <div id="psychic-teacher-log" class="psychic-log"></div>
+      </div>
+    </div>
+    <div class="ccq-box" style="margin-top:16px;">
+      <div class="discuss-label" style="margin:0;">💬 How many guesses did you get right?<br>Were you surprised by anything you learned about me?</div>
     </div>
   </div></div>
 </div>
@@ -953,29 +978,6 @@
     </div>
     <div class="ccq-box" style="margin-top:16px;">
       <div class="discuss-label" style="margin:0;">💬 How many things did you and I have in common?</div>
-    </div>
-  </div></div>
-</div>
-<!-- ============ SPEAKING: YOU'RE PSYCHIC, AREN'T YOU? ============ -->
-<div class="slide" id="s-speak-psychic">
-  <div class="banner banner-speaking">💬 Speaking</div>
-  <div class="slide-main"><div class="content">
-    <h2>You're psychic, aren't you?</h2>
-    <p class="instruction">Let's guess things about each other!<br>Use tag questions to guess three true things about me — and I'll do the same for you.<br>React naturally when you're right (or wrong)!</p>
-    <div class="fixed-two-col">
-      <div class="interview-card">
-        <h4>Your turn to guess</h4>
-        <div class="interview-q">Make guesses about me using tag questions, e.g. <i>"You've traveled abroad, haven't you?"</i></div>
-        <div class="interview-q">React to my answers with reply questions, e.g. <i>"You have?<br>Where did you go?"</i></div>
-      </div>
-      <div class="interview-card" style="border-left-color:#0E7A8A;">
-        <h4>My turn to guess</h4>
-        <div class="interview-q">Answer truthfully, then I'll make my own guesses about you.</div>
-        <div class="interview-q">Use "So do I" / "Neither do I" if we have something in common.</div>
-      </div>
-    </div>
-    <div class="ccq-box" style="margin-top:8px;">
-      <div class="discuss-label" style="margin:0;">💬 How many guesses did you get right?<br>Were you surprised by anything you learned about me?</div>
     </div>
   </div></div>
 </div>
@@ -1027,21 +1029,53 @@
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>Follow the path</h2>
-    <p class="instruction">Listen to the full instructions for "A Walk in the Forest" and complete the gaps.</p>
-    <!-- audio: SB p.13 ex4b "A Walk in the Forest" track -->
+    <p class="instruction">Listen and follow the instructions.<br>Write your own answers on the lines below.</p>
+    <!-- audio: SB p.13 ex4b "A Walk in the Forest" track 1.16 -->
     <div class="audio-box">
       <audio controls src="audio/walk-in-the-forest.mp3"></audio>
     </div>
-    <div id="forest-fill" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>Imagine you are walking through a <input class="ans-input" data-ans="forest"> .</p>
-      <p class="ex-row"><span class="circ-num">2</span>As you walk, you feel a certain way — this represents your attitude to <input class="ans-input" data-ans="life"> .</p>
-      <p class="ex-row"><span class="circ-num">3</span>Suddenly you see an <input class="ans-input" data-ans="animal"> — the size of the animal represents the size of your <input class="ans-input" data-ans="problems"> .</p>
-      <p class="ex-row"><span class="circ-num">4</span>Next, you find a <input class="ans-input" data-ans="house"> in a clearing — this represents your attitude to <input class="ans-input" data-ans="relationships"> .</p>
-      <p class="ex-row"><span class="circ-num">5</span>Finally you see a <input class="ans-input" data-ans="cup"> on the ground — how hard and strong it is represents the strength of your <input class="ans-input" data-ans="relationship"> .</p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('forest-fill')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('forest-fill')">Reset</button>
+    <div class="forest-label">A walk in the forest</div>
+    <div id="forest-fill" class="forest-list">
+      <div class="forest-item">
+        <span class="forest-num">1</span><span class="forest-icon">🧍</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+          <input class="line-blank">
+        </div>
+      </div>
+      <div class="forest-item">
+        <span class="forest-num">2</span><span class="forest-icon">🦊</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+          <input class="line-blank short">
+        </div>
+      </div>
+      <div class="forest-item">
+        <span class="forest-num">3</span><span class="forest-icon">🏠</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+        </div>
+      </div>
+      <div class="forest-item">
+        <span class="forest-num">4</span><span class="forest-icon">🪑</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+          <input class="line-blank short">
+        </div>
+      </div>
+      <div class="forest-item">
+        <span class="forest-num">5</span><span class="forest-icon">☕</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+          <input class="line-blank">
+        </div>
+      </div>
+      <div class="forest-item">
+        <span class="forest-num">6</span><span class="forest-icon">🌊</span>
+        <div class="forest-lines">
+          <input class="line-blank">
+        </div>
+      </div>
     </div>
   </div></div>
 </div>
@@ -1569,8 +1603,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-gbank-a", "s-gbank-b", "s-dice-react", "s-pron-3a", "s-pron-3b", "s-pron-3c", "s-pron-3d", "s-speak-psychic", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
-var slideLabels = ["Cover", "Case Files – Ask & React", "Warm-Up – Myth or Fact?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Quick-Fire Practice", "A Night at the Club", "Communication Practice – React to It! (Dice)", "Pronunciation – Stressed Auxiliaries", "Pronunciation – Practice Out Loud", "True for Me", "Same or Different?", "Speaking – You're Psychic, Aren't You?", "Listening & Speaking – A Walk in the Forest", "Follow the Path", "Speaking – What Does It Mean?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-gbank-a", "s-gbank-b", "s-dice-react", "s-pron-3c", "s-pron-3d", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
+var slideLabels = ["Cover", "Case Files – Ask & React", "Warm-Up – Myth or Fact?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Quick-Fire Practice", "A Night at the Club", "Communication Practice – React to It! (Dice)", "Speaking – You're Psychic, Aren't You?", "Same or Different?", "Listening & Speaking – A Walk in the Forest", "Follow the Path", "Speaking – What Does It Mean?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2054,6 +2088,70 @@ function nextNoRepeat(key, size){
   var n = shuffleBags[key].pop();
   shuffleLast[key] = n;
   return n;
+}
+
+/* ===================== PSYCHIC CARD DRAW (ex3c + Communication, merged) ===================== */
+var psychicCardData = [
+  { cat: 'an activity',        pre: "You're good at ",        post: ", aren't you?" },
+  { cat: 'something tonight',  pre: "You're going to ",       post: " tonight, aren't you?" },
+  { cat: 'a kind of music',    pre: "You love ",               post: ", don't you?" },
+  { cat: 'a kind of food',     pre: "You don't like ",         post: ", do you?" },
+  { cat: 'a famous book',      pre: "You've never read ",      post: ", have you?" },
+  { cat: 'a town or country',  pre: "You'd love to live in ",  post: ", wouldn't you?" },
+  { cat: 'a personality trait',pre: "You were very ",          post: " as a child, weren't you?" },
+  { cat: 'yesterday evening',  pre: "You didn't ",             post: " yesterday evening, did you?" }
+];
+var psychicCurrentIdx = {};
+var psychicScore = { student: {correct:0,total:0}, teacher: {correct:0,total:0} };
+function updatePsychicScoreboard(){
+  var s = psychicScore.student, t = psychicScore.teacher;
+  var el = document.getElementById('psychic-scoreboard');
+  if (el) el.innerHTML = '🎓 You: ' + s.correct + ' ✅ / ' + s.total + ' &nbsp;·&nbsp; 🧑‍🏫 Me: ' + t.correct + ' ✅ / ' + t.total;
+}
+function drawPsychicCard(who){
+  var card = document.getElementById('psychic-' + who + '-card');
+  var back = document.getElementById('psychic-' + who + '-back');
+  var btn = document.getElementById('psychic-' + who + '-btn');
+  var markRow = document.getElementById('psychic-' + who + '-mark-row');
+  var idx = nextNoRepeat('psychic-' + who, psychicCardData.length);
+  function showNewCard(){
+    var item = psychicCardData[idx];
+    psychicCurrentIdx[who] = idx;
+    back.innerHTML = '<div style="font-weight:800;color:#4A1A6A;margin-bottom:8px;">' + item.cat + '</div>' +
+      '<div style="font-size:.98rem;line-height:1.5;">' + item.pre +
+      '<input type="text" id="psychic-' + who + '-input" class="line-blank" style="display:inline-block;width:110px;text-align:center;">' +
+      item.post + '</div>';
+    card.classList.add('flipped');
+    if (btn) btn.style.display = 'inline-block';
+    if (markRow) markRow.style.display = 'flex';
+  }
+  if (card.classList.contains('flipped')){
+    card.classList.remove('flipped');
+    setTimeout(showNewCard, 260);
+  } else {
+    showNewCard();
+  }
+}
+function markPsychic(who, isCorrect){
+  var idx = psychicCurrentIdx[who];
+  if (idx === undefined) return;
+  var item = psychicCardData[idx];
+  var inputEl = document.getElementById('psychic-' + who + '-input');
+  var guess = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '___';
+  psychicScore[who].total++;
+  if (isCorrect) psychicScore[who].correct++;
+  updatePsychicScoreboard();
+  var log = document.getElementById('psychic-' + who + '-log');
+  if (log){
+    var entry = document.createElement('div');
+    entry.className = 'psychic-log-entry';
+    entry.style.borderLeftColor = isCorrect ? '#1A7A4A' : '#C4614A';
+    entry.innerHTML = '<b>' + item.cat + ':</b> "' + item.pre + guess + item.post + '" ' +
+      (isCorrect ? '<span style="color:#1A7A4A;">✅</span>' : '<span style="color:#C4614A;">❌</span>');
+    log.prepend(entry);
+  }
+  var markRow = document.getElementById('psychic-' + who + '-mark-row');
+  if (markRow) markRow.style.display = 'none';
 }
 
 /* ===================== SCORE SLIDER (Listening 1a) ===================== */

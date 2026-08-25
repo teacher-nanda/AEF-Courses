@@ -1248,6 +1248,7 @@ Use this order as the default; deviate only if the book's lesson flow demands it
   - Example: `index_backup_20260706_1039.html`
 - Good moments to back up: after finishing each section, after any major fix, before attempting complex changes, and whenever asked to "save a backup"
 - Backup files are excluded from git via `.gitignore` (see AEF-Courses Deployment section) — they're a local safety net only, not meant to be committed
+- **Retention cap — max 2 backups per lesson at any time.** Before saving a new backup, check how many `index_backup_*.html` files already exist in that lesson's folder. If there are already 3 or more, delete the older ones first, keeping only the single most recent existing backup, then save the new one (so at most 2 remain after the save). Never let backups pile up unchecked — a growing pile of old backups is clutter, not safety.
 
 ---
 
