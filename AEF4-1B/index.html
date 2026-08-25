@@ -948,13 +948,13 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>🔮 You're psychic, aren't you?</h2>
-    <p class="instruction">Draw a card and use its topic to guess something about the other person with a tag question.<br>They confirm or deny it — then you react!<br>Take turns: you draw and guess, then I draw and guess about you.</p>
+    <p class="instruction">Imagine you're psychic! Draw a card and use your psychic powers to complete the sentence with a guess about the other person.<br>They confirm or deny it — then you react!<br>Take turns: you draw and guess, then I draw and guess about you.</p>
     <div class="ex-example-centered" style="text-align:left;">
       <span class="ex-tag">Example</span>
-      <b>Card:</b> a kind of music<br>
-      <b>Guess:</b> "You love jazz, don't you?"<br>
-      <b>Answer:</b> "I do, actually!" <i style="color:#666;">(or "I don't — I prefer rock.")</i><br>
-      <b>Reaction:</b> "You do? So do I!" <i style="color:#666;">(or "You don't? Really?")</i>
+      <b>Card:</b> a sport or hobby<br>
+      <b>Guess:</b> "You really like tennis."<br>
+      <b>Answer:</b> "That's right!" <i style="color:#666;">(or "Not quite — I prefer swimming.")</i><br>
+      <b>Reaction:</b> "Really? So do I!" <i style="color:#666;">(or "You don't? Since when?")</i>
     </div>
     <div style="text-align:center;margin-top:14px;">
       <span id="psychic-scoreboard" style="font-weight:800;color:#4A1A6A;background:#f3eeff;padding:8px 20px;border-radius:999px;font-size:1rem;">🎓 You: 0 ✅ / 0 &nbsp;·&nbsp; 🧑‍🏫 Me: 0 ✅ / 0</span>
@@ -2130,17 +2130,29 @@ function nextNoRepeat(key, size){
 }
 
 /* ===================== PSYCHIC CARD DRAW (ex3c + Communication, merged) ===================== */
-var psychicCardData = [
-  { cat: 'a skill or hobby',   pre: "You're good at ",        post: ", aren't you?" },
-  { cat: 'a place',            pre: "You're going to ",       post: " tonight, aren't you?" },
-  { cat: 'a kind of music',    pre: "You love ",               post: ", don't you?" },
-  { cat: 'a kind of food',     pre: "You don't like ",         post: ", do you?" },
-  { cat: 'a famous book',      pre: "You've never read ",      post: ", have you?" },
-  { cat: 'a town or country',  pre: "You'd love to live in ",  post: ", wouldn't you?" },
-  { cat: 'a personality trait',pre: "You were very ",          post: " as a child, weren't you?" },
-  { cat: 'an activity',        pre: "You didn't ",             post: " yesterday evening, did you?" }
+/* Student A cards — the student guesses about the teacher */
+var psychicCardDataStudent = [
+  { cat: '',                    pre: "Your favorite color is ",     post: "." },
+  { cat: 'a place',             pre: "You were born in ",           post: "." },
+  { cat: 'a sport or hobby',    pre: "You really like ",            post: "." },
+  { cat: 'an activity',         pre: "You ",                        post: " last weekend." },
+  { cat: 'a city or country',   pre: "You haven't been to ",        post: "." },
+  { cat: '',                    pre: "You would like to be able to ", post: "." },
+  { cat: '',                    pre: "You can't ",                  post: " very well." },
+  { cat: '',                    pre: "You're very good at ",        post: "." }
 ];
-var psychicCurrentIdx = {};
+/* Student B cards — the teacher guesses about the student */
+var psychicCardDataTeacher = [
+  { cat: 'a month',             pre: "You were born in ",           post: "." },
+  { cat: 'a kind of music',     pre: "You don't like ",             post: "." },
+  { cat: 'an activity',         pre: "You're going to ",            post: " tonight." },
+  { cat: 'a movie',             pre: "You've seen ",                post: "." },
+  { cat: '',                    pre: "Your favorite season is ",    post: "." },
+  { cat: 'a kind of food',      pre: "You didn't like ",            post: " when you were a child." },
+  { cat: 'a musical instrument',pre: "You can play ",               post: "." },
+  { cat: 'a place',             pre: "You wouldn't like to live in ", post: "." }
+];
+var psychicCurrentItem = {};
 var psychicScore = { student: {correct:0,total:0}, teacher: {correct:0,total:0} };
 function updatePsychicScoreboard(){
   var s = psychicScore.student, t = psychicScore.teacher;
@@ -2148,15 +2160,16 @@ function updatePsychicScoreboard(){
   if (el) el.innerHTML = '🎓 You: ' + s.correct + ' ✅ / ' + s.total + ' &nbsp;·&nbsp; 🧑‍🏫 Me: ' + t.correct + ' ✅ / ' + t.total;
 }
 function drawPsychicCard(who){
+  var deck = (who === 'student') ? psychicCardDataStudent : psychicCardDataTeacher;
   var card = document.getElementById('psychic-' + who + '-card');
   var back = document.getElementById('psychic-' + who + '-back');
   var btn = document.getElementById('psychic-' + who + '-btn');
   var markRow = document.getElementById('psychic-' + who + '-mark-row');
-  var idx = nextNoRepeat('psychic-' + who, psychicCardData.length);
+  var idx = nextNoRepeat('psychic-' + who, deck.length);
   function showNewCard(){
-    var item = psychicCardData[idx];
-    psychicCurrentIdx[who] = idx;
-    back.innerHTML = '<div style="font-weight:800;color:#4A1A6A;margin-bottom:8px;">' + item.cat + '</div>' +
+    var item = deck[idx];
+    psychicCurrentItem[who] = item;
+    back.innerHTML = (item.cat ? '<div style="font-weight:800;color:#4A1A6A;margin-bottom:8px;">' + item.cat + '</div>' : '') +
       '<div style="font-size:.98rem;line-height:1.5;">' + item.pre +
       '<input type="text" id="psychic-' + who + '-input" class="line-blank" style="display:inline-block;width:110px;text-align:center;">' +
       item.post + '</div>';
@@ -2172,9 +2185,8 @@ function drawPsychicCard(who){
   }
 }
 function markPsychic(who, isCorrect){
-  var idx = psychicCurrentIdx[who];
-  if (idx === undefined) return;
-  var item = psychicCardData[idx];
+  var item = psychicCurrentItem[who];
+  if (!item) return;
   var inputEl = document.getElementById('psychic-' + who + '-input');
   var guess = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '___';
   psychicScore[who].total++;
@@ -2185,7 +2197,7 @@ function markPsychic(who, isCorrect){
     var entry = document.createElement('div');
     entry.className = 'psychic-log-entry';
     entry.style.borderLeftColor = isCorrect ? '#1A7A4A' : '#C4614A';
-    entry.innerHTML = '<b>' + item.cat + ':</b> "' + item.pre + guess + item.post + '" ' +
+    entry.innerHTML = (item.cat ? '<b>' + item.cat + ':</b> ' : '') + '"' + item.pre + guess + item.post + '" ' +
       (isCorrect ? '<span style="color:#1A7A4A;">✅</span>' : '<span style="color:#C4614A;">❌</span>');
     log.prepend(entry);
   }
