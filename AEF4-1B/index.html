@@ -333,6 +333,16 @@
   .forest-lines { flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px; }
   .forest-textbox { flex:1; border:1.5px solid #ccc; border-radius:8px; padding:10px 12px; font-size:1.05rem; font-family:inherit; color:#1C2B3A; resize:none; line-height:1.5; min-height:3.4rem; }
   .forest-textbox:focus { outline:none; border-color:#1B6E96; box-shadow:0 0 0 3px rgba(27,110,150,.15); }
+  .fc-table { border:1.5px solid #ccc; border-radius:10px; overflow:hidden; margin-top:16px; }
+  .fc-head { background:#F7E0D6; font-weight:800; padding:10px 14px; border-bottom:1.5px solid #ccc; color:#1C2B3A; }
+  .fc-row { padding:10px 14px; border-bottom:1.5px solid #eee; }
+  .fc-row:last-child { border-bottom:none; }
+  .fc-line { display:flex; align-items:center; gap:10px; margin:6px 0; }
+  .fc-line:first-child { margin-top:0; }
+  .fc-line:last-child { margin-bottom:0; }
+  .fc-num { font-weight:700; min-width:16px; }
+  .fc-label { white-space:nowrap; color:#1C2B3A; }
+  .fc-line .line-blank { flex:1; }
   .line-blank { border:none; border-bottom:1.5px solid #999; background:transparent; width:100%; font-size:1rem; padding:2px 4px; font-family:inherit; }
   .line-blank:focus { outline:none; border-bottom-color:#4A1A6A; }
   .line-blank.short { max-width:130px; align-self:flex-end; }
@@ -529,7 +539,8 @@
         <img src="images/superstitions-cartoon.png" alt="A cartoon of a man avoiding a black cat, a ladder, a broken mirror, and spilled salt on Friday the 13th, captioned 'Superstitions... just in case!'" style="width:100%;max-height:clamp(412px,60vh,581px);object-fit:contain;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.15);background:#fff;">
       </div>
     </div>
-    <p class="instruction" style="margin-top:56px;">Here are four superstitions from around the world.<br>Have you heard of them before? Where do you think they come from?</p>
+    <hr style="border:none;border-top:2px solid #E0E0E0;margin:40px 0 0;">
+    <p class="instruction" style="margin-top:24px;">Here are four superstitions from around the world.<br>Have you heard of them before? Where do you think they come from?</p>
     <div class="fixed-four-col">
       <div class="card">
         <img src="images/superstition-wood.png" alt="A girl knocking on a wooden table" style="width:100%;height:132px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:8px;">
@@ -1094,25 +1105,68 @@
 
 <!-- ============ SPEAKING: FOREST INTERPRETATION ============ -->
 <div class="slide" id="s-forest-interpret">
-  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>What does it mean?</h2>
-    <p class="instruction">Now tell me your answers from the previous slide.<br>Then reveal the interpretation below — do you agree with what it says about you?</p>
-    <button class="btn-akey" onclick="toggleSuggested('forest-key')">Reveal Interpretation</button>
-    <div class="suggest-box" id="forest-key">
-      <ul>
-        <li><b>The forest:</b> how you feel walking through it shows your attitude to life in general — nervous, curious, or relaxed.</li>
-        <li><b>The animal:</b> its size represents the size of the problems in your life right now.</li>
-        <li><b>The house:</b> old and abandoned, or new and welcoming — this shows your attitude to relationships in general.</li>
-        <li><b>The cup:</b> how hard and strong (or soft and delicate) it is represents the strength of your closest relationship.</li>
-      </ul>
+    <p class="instruction">Write down the meaning of each topic, then use the notes to interpret what you wrote before.<br>Do you agree with the results?</p>
+    <div class="fixed-two-col" style="align-items:flex-start;">
+      <div class="fc-table">
+        <div class="fc-head">A walk in the forest</div>
+        <div class="fc-row"><div class="fc-line"><span class="fc-num">1</span><span class="fc-label">the person =</span><input class="line-blank" type="text"></div></div>
+        <div class="fc-row">
+          <div class="fc-line"><span class="fc-num">2</span><span class="fc-label">the animal =</span><input class="line-blank" type="text"></div>
+          <div class="fc-line"><span class="fc-num"></span><span class="fc-label">how you interact with it =</span><input class="line-blank" type="text"></div>
+        </div>
+        <div class="fc-row">
+          <div class="fc-line"><span class="fc-num">3</span><span class="fc-label">the house =</span><input class="line-blank" type="text"></div>
+          <div class="fc-line"><span class="fc-num"></span><span class="fc-label">no fence =</span><input class="line-blank" type="text"></div>
+          <div class="fc-line"><span class="fc-num"></span><span class="fc-label">a fence =</span><input class="line-blank" type="text"></div>
+        </div>
+        <div class="fc-row"><div class="fc-line"><span class="fc-num">4</span><span class="fc-label">the table =</span><input class="line-blank" type="text"></div></div>
+        <div class="fc-row"><div class="fc-line"><span class="fc-num">5</span><span class="fc-label">the cup =</span><input class="line-blank" type="text"></div></div>
+        <div class="fc-row">
+          <div class="fc-line"><span class="fc-num">6</span><span class="fc-label">the water =</span><input class="line-blank" type="text"></div>
+          <div class="fc-line"><span class="fc-num"></span><span class="fc-label">how wet you get =</span><input class="line-blank" type="text"></div>
+        </div>
+      </div>
+      <div>
+        <div class="audio-box">
+          <audio controls src="AEF3e_Level_4_SB_1.17.mp3"></audio>
+        </div>
+        <div class="ex-example-centered" style="margin-top:16px;">
+          <span class="ex-tag">Example</span>
+          "I put that the animal was a…, and it says that means…, but I don't think that's true."
+        </div>
+      </div>
     </div>
-    <!-- audio: SB p.13 ex4d forest-interpretation track -->
-    <div class="audio-box" style="margin-top:20px;">
-      <audio controls src="audio/forest-interpretation.mp3"></audio>
+  </div></div>
+</div>
+
+<!-- ============ EX 4f: DISCUSSION — PERSONALITY TESTS ============ -->
+<div class="slide" id="s-forest-belief">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Do you believe it?</h2>
+    <div class="ccq-box">
+      <div class="discuss-label" style="margin:0;">💬 Do you believe in this kind of personality test?<br>Do you believe that you can learn anything about someone's personality by…?</div>
     </div>
-    <div class="ccq-box" style="margin-top:16px;">
-      <div class="discuss-label" style="margin:0;">💬 Do you think personality tests like this can really tell you something true about yourself?<br>Why / why not?</div>
+    <div class="fixed-four-col" style="margin-top:22px;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2.2rem;">✍️</div>
+        <p class="ex-row" style="margin:8px 0 0;">analyzing their handwriting <i style="color:#666;">(graphology)</i></p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2.2rem;">🖐️</div>
+        <p class="ex-row" style="margin:8px 0 0;">looking at their hands <i style="color:#666;">(palmistry)</i></p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2.2rem;">🔮</div>
+        <p class="ex-row" style="margin:8px 0 0;">analyzing the position of the sun, moon, and planets at the exact time of their birth <i style="color:#666;">(astrology)</i></p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2.2rem;">📱</div>
+        <p class="ex-row" style="margin:8px 0 0;">online personality quizzes, e.g., Buzzfeed</p>
+      </div>
     </div>
   </div></div>
 </div>
@@ -1256,7 +1310,7 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Positive or negative?</h2>
-    <p class="instruction">With a partner, use the two parts of the words to try to figure out their meaning.<br>Which do you think are positive characteristics, and which are negative? Are there any you think can be either?</p>
+    <p class="instruction">Use the two parts of the words to try to figure out their meaning.<br>Which do you think are positive characteristics, and which are negative? Are there any you think can be either?</p>
     <div class="ex-example-centered" style="text-align:left;">"I think a bad-tempered person is somebody who gets angry easily…"</div>
     <div class="glossary-box" style="border-left:6px solid #5A2E8C;background:#F1E9F8;margin-top:14px;">
       <h4 style="color:#4A1A6A;">🔎 Modifiers</h4>
@@ -1272,7 +1326,7 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Do you know somebody who is…?</h2>
-    <p class="instruction">Tell your partner about people with the characteristics below.<br>Give examples of their behavior.</p>
+    <p class="instruction">Tell me about people you know with the characteristics below.<br>Give examples of their behavior.</p>
     <div class="fixed-two-col">
       <div>
         <div class="discuss-label">💬 Do you know somebody who is…?</div>
@@ -1599,8 +1653,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
-var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Speaking – What Does It Mean?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
+var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2091,25 +2145,25 @@ function nextNoRepeat(key, size){
 /* ===================== PSYCHIC CARD DRAW (ex3c + Communication, merged) ===================== */
 /* Student A cards — the student guesses about the teacher */
 var psychicCardDataStudent = [
-  { cat: '',                    pre: "Your favorite color is ",     post: "." },
-  { cat: 'a place',             pre: "You were born in ",           post: "." },
-  { cat: 'a sport or hobby',    pre: "You really like ",            post: "." },
-  { cat: 'an activity',         pre: "You ",                        post: " last weekend." },
-  { cat: 'a city or country',   pre: "You haven't been to ",        post: "." },
-  { cat: '',                    pre: "You would like to be able to ", post: "." },
-  { cat: '',                    pre: "You can't ",                  post: " very well." },
-  { cat: '',                    pre: "You're very good at ",        post: "." }
+  { cat: '',                    pre: "Your favorite color is ",     post: "",                    tag: "isn't it" },
+  { cat: 'a place',             pre: "You were born in ",           post: "",                    tag: "weren't you" },
+  { cat: 'a sport or hobby',    pre: "You really like ",            post: "",                    tag: "don't you" },
+  { cat: 'an activity',         pre: "You ",                        post: " last weekend",       tag: "didn't you" },
+  { cat: 'a city or country',   pre: "You haven't been to ",        post: "",                    tag: "have you" },
+  { cat: '',                    pre: "You would like to be able to ", post: "",                  tag: "wouldn't you" },
+  { cat: '',                    pre: "You can't ",                  post: " very well",          tag: "can you" },
+  { cat: '',                    pre: "You're very good at ",        post: "",                    tag: "aren't you" }
 ];
 /* Student B cards — the teacher guesses about the student */
 var psychicCardDataTeacher = [
-  { cat: 'a month',             pre: "You were born in ",           post: "." },
-  { cat: 'a kind of music',     pre: "You don't like ",             post: "." },
-  { cat: 'an activity',         pre: "You're going to ",            post: " tonight." },
-  { cat: 'a movie',             pre: "You've seen ",                post: "." },
-  { cat: '',                    pre: "Your favorite season is ",    post: "." },
-  { cat: 'a kind of food',      pre: "You didn't like ",            post: " when you were a child." },
-  { cat: 'a musical instrument',pre: "You can play ",               post: "." },
-  { cat: 'a place',             pre: "You wouldn't like to live in ", post: "." }
+  { cat: 'a month',             pre: "You were born in ",           post: "",                    tag: "weren't you" },
+  { cat: 'a kind of music',     pre: "You don't like ",             post: "",                    tag: "do you" },
+  { cat: 'an activity',         pre: "You're going to ",            post: " tonight",            tag: "aren't you" },
+  { cat: 'a movie',             pre: "You've seen ",                post: "",                    tag: "haven't you" },
+  { cat: '',                    pre: "Your favorite season is ",    post: "",                    tag: "isn't it" },
+  { cat: 'a kind of food',      pre: "You didn't like ",            post: " when you were a child", tag: "did you" },
+  { cat: 'a musical instrument',pre: "You can play ",               post: "",                    tag: "can't you" },
+  { cat: 'a place',             pre: "You wouldn't like to live in ", post: "",                  tag: "would you" }
 ];
 var psychicCurrentItem = {};
 var psychicScore = { student: {correct:0,total:0}, teacher: {correct:0,total:0} };
@@ -2130,8 +2184,8 @@ function drawPsychicCard(who){
     psychicCurrentItem[who] = item;
     back.innerHTML = (item.cat ? '<div style="font-weight:800;color:#4A1A6A;margin-bottom:8px;">' + item.cat + '</div>' : '') +
       '<div style="font-size:.98rem;line-height:1.5;">' + item.pre +
-      '<input type="text" id="psychic-' + who + '-input" class="line-blank" style="display:inline-block;width:110px;text-align:center;">' +
-      item.post + '</div>';
+      '<input type="text" id="psychic-' + who + '-input" class="line-blank" style="display:inline-block;width:121px;text-align:center;">' +
+      item.post + ', <input type="text" id="psychic-' + who + '-tag" class="line-blank" data-ans="' + item.tag + '" style="display:inline-block;width:121px;text-align:center;">?</div>';
     card.classList.add('flipped');
     if (btn) btn.style.display = 'inline-block';
     if (markRow) markRow.style.display = 'flex';
@@ -2148,6 +2202,9 @@ function markPsychic(who, isCorrect){
   if (!item) return;
   var inputEl = document.getElementById('psychic-' + who + '-input');
   var guess = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : '___';
+  var tagEl = document.getElementById('psychic-' + who + '-tag');
+  var tagGuess = (tagEl && tagEl.value.trim()) ? tagEl.value.trim() : '___';
+  var tagCorrect = tagGuess.toLowerCase().replace(/[^a-z' ]/g, '').trim() === item.tag.toLowerCase();
   psychicScore[who].total++;
   if (isCorrect) psychicScore[who].correct++;
   updatePsychicScoreboard();
@@ -2156,8 +2213,9 @@ function markPsychic(who, isCorrect){
     var entry = document.createElement('div');
     entry.className = 'psychic-log-entry';
     entry.style.borderLeftColor = isCorrect ? '#1A7A4A' : '#C4614A';
-    entry.innerHTML = (item.cat ? '<b>' + item.cat + ':</b> ' : '') + '"' + item.pre + guess + item.post + '" ' +
-      (isCorrect ? '<span style="color:#1A7A4A;">✅</span>' : '<span style="color:#C4614A;">❌</span>');
+    entry.innerHTML = (item.cat ? '<b>' + item.cat + ':</b> ' : '') + '"' + item.pre + guess + item.post + ', ' + tagGuess + '?" ' +
+      (isCorrect ? '<span style="color:#1A7A4A;">✅</span>' : '<span style="color:#C4614A;">❌</span>') +
+      ' <span style="color:' + (tagCorrect ? '#1A7A4A' : '#C4614A') + ';font-size:.85rem;">(tag: ' + item.tag + (tagCorrect ? ' ✅' : ' ❌') + ')</span>';
     log.prepend(entry);
   }
   var markRow = document.getElementById('psychic-' + who + '-mark-row');

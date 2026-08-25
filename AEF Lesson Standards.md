@@ -7,6 +7,21 @@ Share it at the start of any new conversation so Claude can match the existing l
 
 ---
 
+## ✅ Pre-Edit Checklist — Run This Before Touching ANY Book-Content Slide
+
+> Added 2026-08-25 after repeated book-accuracy and standards-compliance mistakes on AEF4-1B. This checklist is not optional and is not a one-time read — run it fresh every time, for every slide, even ones already built. Never build or fix a slide from memory of the book or memory of this file.
+
+1. **Open the actual book page render for this exercise first** — every time, even if it was already viewed earlier in the same session. Never reconstruct exercise content from memory, from a similar exercise in another unit, or from what "sounds right."
+2. **Follow the book's exercises step by step, in the exact order they appear on the page** (a, b, c, d… / 1, 2, 3…). Don't skip a step, merge two steps into one slide, reorder them, or add a step the book doesn't have — unless the teacher explicitly asks for a deviation.
+3. **Copy the book's wording, sentences, and sequence exactly.** The only allowed changes are the ones already documented elsewhere in this file — e.g. adapting "compare with a partner" / "discuss with a partner" to one-on-one phrasing ("tell me," "share your thoughts with me"), or changing the interaction mechanic to fit an on-screen click/type format. Never paraphrase or invent book content.
+4. **Never mention the source on screen** — no "book," "Student Book," "Workbook," "SB," "WB," "TB," page numbers, or exercise letters/numbers anywhere the student can see. These are internal references for building the slide only.
+5. **Never show a raw number on screen that comes from the book's own internal referencing** — this covers audio track numbers (e.g. "1.17") as well as exercise/page numbers. This extends the existing Audio Standards rule ("no 'Track 2.8'") to all book-internal numbering, not audio alone.
+6. **Never invent anything that's missing** — a filename, an answer-key value, a piece of content the available book scans don't show. Ask the teacher instead of guessing or filling the gap with something plausible.
+7. **After building, re-open the same book page again and check the finished slide against it line by line** — don't rely on the read from step 1 still being accurate in memory by the time the slide is done.
+8. **Then, separately, check the relevant sections of the rest of this standards file** (exercise type, banner, audio, example numbering, blank widths, etc.) against what was just built — book-accuracy and standards-compliance are two separate checks, not one.
+
+---
+
 ## 🗂 General Structure
 
 - Single-file HTML slide deck — `.slide` divs with opacity transitions, all inside `<div id="deck">`
