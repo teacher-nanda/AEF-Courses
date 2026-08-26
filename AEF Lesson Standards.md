@@ -30,8 +30,23 @@ Share it at the start of any new conversation so Claude can match the existing l
     - This applies with the same seriousness as book-accuracy — wrong grammar taught confidently is worse than a formatting inconsistency.
 11. **Every `data-ans` value (every answer key) must come from an actual Teacher's Book or Workbook answer-key page you have open — never derived yourself from grammar logic, even when you're confident the derivation is correct.** This happened: an exercise's answers were worked out from the transformation pattern instead of read off the TB page, and a *different* exercise on the very same TB page turned out to have a wrong answer already shipped in the lesson ("self-centered" instead of the book's actual "self-sufficient") — a mistake that opening the TB page for an unrelated reason caught by accident. Concretely:
     - Before building any Check-Answers exercise, locate and open the actual TB/WB answer-key page for that specific exercise. If it isn't in the available renders, say so explicitly to the teacher rather than filling the gap with a self-derived answer presented as fact.
-    - If only a self-derived answer is possible (the official key genuinely isn't available), mark it visibly as unverified in the slide itself (see the HW5 disclaimer pattern) — never silently ship a guessed answer with the same confidence as a verified one.
+    - If only a self-derived answer is possible (the official key genuinely isn't available), the unverified flag goes in an **HTML comment** right above/inside that slide for the teacher's own eyes only (e.g. `<!-- TEACHER NOTE: these answers are derived, not read from an official key — verify if possible. -->`) — it must **never** appear as visible text on the slide itself. A visible disclaimer like "double-check against your official answer key" is a **book-reference violation** (see "No book references — ever" above) on top of being confusing/unprofessional in front of a student — the student should never see any hint that an answer might be wrong or unsourced. This happened once (HW5) and was corrected 2026-08-26 — don't repeat it.
+    - Never silently ship a guessed answer with the same confidence as a verified one either — the HTML-comment flag exists so *you* (or the teacher, reading the source) know to re-check it, not so the student sees a hedge.
     - When you do open a TB/WB page for one exercise, check it for every exercise it contains, not just the one you were looking for — answer keys for unrelated exercises often share the same page and are easy to verify "for free" once the page is already open.
+
+---
+
+## ⏩ Forward-Only Rule — never re-touch already-approved slides
+
+> Added 2026-08-26 at the teacher's explicit request, after a "check every slide" audit pass ended up re-opening and re-editing slides the teacher had already reviewed and considered finished.
+
+Once a slide has been built, reviewed, and not flagged by the teacher, it is **settled** — treat it as correct and move forward. Do not re-open, re-check, or re-edit a slide that isn't the one currently being discussed, even during a broad "check everything" audit, unless:
+- The teacher explicitly names that slide or exercise, or
+- A change made elsewhere in the file mechanically requires it (e.g. renumbering `slideIds`/`slideLabels` after inserting a slide, or a shared function/CSS class used by that slide was just changed).
+
+**"Check every homework slide" / "check every slide" means audit and report, not silently rewrite.** If a broad audit turns up something on an already-approved slide, surface it to the teacher and ask before touching it — don't fix it automatically just because the audit found it. This is a deliberate change from earlier in this project, where broad audits directly edited any slide with an issue; going forward, only the slide(s) the teacher is actively pointing at get edited without asking first.
+
+The direction of work is always **forward**: new slides, the current slide being discussed, or a slide the teacher just named. Never backward into settled work on your own initiative.
 
 ---
 
@@ -99,6 +114,12 @@ Never lay out exercises left-to-right across a row (1 on left, 2 on right, 3 on 
 
 Layout classes: `.fixed-two-col` (2 columns), `.fixed-three-col` (3 columns), `.fixed-four-col` (4 columns) — all fixed CSS grids, used when items must split by an exact count rather than auto-balance by height.
 
+### `.two-col` vs `.fixed-two-col` — pick based on content, not habit
+
+> Added 2026-08-26 after AEF4-1B's HW2/HW4 dialogue exercises (multi-line `A:`/`B:` turns with `<br>`) were left in `.two-col` (native CSS multi-column auto-balancing), causing the first item of the left column and the first item of the right column to start at visibly different heights once turns spanned multiple lines.
+
+`.two-col` (`columns:2`, browser auto-balance) only produces clean-looking results when every item is roughly the same height (e.g. short single-line vocabulary rows). **The moment an exercise has multi-line items of uneven length — especially multi-turn dialogues using `<br>` between speakers — switch to `.fixed-two-col` with two explicit child `<div>`s (items split per the Column Order Rule, e.g. 8 items → 4 in the first `<div>`, 4 in the second).** This guarantees the top of column 1 and the top of column 2 actually align, since both columns start at the same grid row instead of being auto-flowed by total height. Check this any time a conversation/dialogue exercise is built or edited — it's an easy one to miss because `.two-col` still "looks fine" until an item's turn count grows past one line.
+
 ---
 
 ## 📏 Text Line-Height Standard
@@ -126,6 +147,18 @@ Layout classes: `.fixed-two-col` (2 columns), `.fixed-three-col` (3 columns), `.
 - Color coding kept **consistent with the rest of the slide/lesson** where a concept already has an established color (e.g. reuse the same color for "did" everywhere it's highlighted across a lesson — see Text Line-Height Standard's sibling rule on auxiliary-verb color coding).
 
 This applies especially to `.glossary-box`, `.gram-box`, `.gram-note`, and similar theory/reference boxes — these are exactly the places dense text tends to accumulate. The goal is that a student can scan the box and immediately spot the pattern being taught, not read it top to bottom like a paragraph.
+
+### Instructions that list the target language get the same colour-chip treatment
+
+> Added 2026-08-26, reference implementation: AEF4-1B's `s-gbank-a`/`s-gbank-b` ("Quick-fire practice" / "A night at the club") instruction lines — `Complete with an auxiliary (do, did, have, is, etc.) or modal verb (can, would, etc.).` — where each listed word is individually bold + coloured.
+
+**Whenever an instruction line names specific words or phrases the student is meant to use or respond with (a list of auxiliaries, modals, response patterns, etc.), style each one as bold + its own colour** — never leave them as plain text inside the instruction sentence:
+```html
+<strong style="color:#1B6E96;">do</strong>, <strong style="color:#C4614A;">did</strong>, <strong style="color:#0E7A8A;">have</strong>, etc.
+```
+- Give each distinct word/phrase its own colour (reuse colours already established for that word elsewhere in the lesson if one exists — e.g. if "did" is already blue-green in a grammar box on an earlier slide, keep it that colour here too).
+- This applies to any instruction listing target language — not just auxiliary/modal lists: response-pattern lists ("So do I, Neither do I, I do, I don't, etc."), connector lists, modifier lists, or any other "use one of these" instruction.
+- Check this on every slide during an audit, homework and non-homework alike — an instruction line that lists specific words in plain black text is the same category of "boring explanation" the Text Highlighting Standard already targets, just inside an instruction instead of a gram-box.
 
 ### Worked example sentences inside explanation boxes also get highlighted — never left as plain text
 
@@ -183,11 +216,13 @@ color:#1A7A4A; font-weight:800; background:#E3F5EA; padding:1px 7px; border-radi
 
 ### Example placement relative to word banks and columns
 
-When an exercise has a word bank / phrase bank displayed above the numbered items, where the example goes depends on whether the real item count is even or odd:
+> Revised 2026-08-26 — the previous version of this rule (folding the example into the top of the right column for odd item counts) shipped on HW5 and produced a confusing, unacceptable layout: items read "2, 3, 4" in the left column and "1, 5, 6" in the right column, i.e. the example broke the visual reading order between the two columns. That version of the rule is retired — never fold the example into either column again.
 
-- **Even number of real items** (e.g. 8): the example gets its own centered block, placed directly below the word bank and above the two-column exercise list — never folded into the first item of the left column. Items then split evenly (e.g. 8 → 4 left / 4 right).
-- **Odd number of real items** (e.g. 7 or 9) *and the book shows an example for this exercise*: the example is **not** centered separately. Instead, it goes at the top of the **right column** (the column that would otherwise be shorter), so the right column's total row count (example row + its numbered items) matches the left column's row count (numbered items only).
-- **No example at all in the book's version of this exercise**: just follow the standard Column Order Rule as-is — the left column gets the extra item when the count is odd (e.g. 9 real items with no example → 5 left / 4 right).
+**The example always gets its own centered block, placed above the two-column (or word-bank) exercise list — never folded into either column, regardless of whether the real item count is odd or even.** Items then split by the standard Column Order Rule as if the example weren't part of the grid at all:
+- Even real item count (e.g. 8): 4 left / 4 right.
+- Odd real item count (e.g. 5 or 7): left column gets the extra item (e.g. 5 → 3 left / 2 right).
+
+This keeps the numbered items reading in strict ascending order across the two columns every time, with the example sitting visually separate above — never interleaved with the numbering.
 
 ---
 
@@ -867,6 +902,14 @@ Never show a book-specific exercise-letter label anywhere the student/teacher ca
 - ❌ `<p class="instruction">🔊 3.2 Listen and check.</p>`
 
 If you need to keep the book reference for your own tracking, put it in an HTML comment above the slide (`<!-- SB p.28, ex 6a -->`), never in visible text.
+
+### Conversation / dialogue exercises — every speaker turn on its own line
+
+> Added 2026-08-26 after AEF4-1B's HW2 (tag-question/auxiliary conversations) shipped with every speaker's turn run together in one paragraph (`A ... B ... A ...` all inline), making the exchange hard to read as a conversation.
+
+Any exercise presented as a back-and-forth exchange between two (or more) speakers — homework or otherwise — must put **each speaker's turn on its own line**, never run multiple turns together in one flowing paragraph. This applies to every item in the exercise (not just the worked example, which already had this rule — see Example Presentation Standards above): `<b>A:</b> ...<br><b>B:</b> ...<br><b>A:</b> ...` etc., with a line break before each new speaker turn, matching the book's own layout.
+- ✅ `<b>A:</b> I texted you last night, but you didn't reply.<br><b>B:</b> I <input> reply. I texted you right away.`
+- ❌ `A I texted you last night, but you didn't reply. B I <input> reply. I texted you right away.` (all one line)
 
 ### Examples — numbered "1", never just labeled "(example)"
 

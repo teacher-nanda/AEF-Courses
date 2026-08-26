@@ -370,19 +370,6 @@
   .article-box p { font-size:1.05rem; line-height:1.75; color:#1C2B3A; margin:0 0 14px; }
   .article-box p:last-child { margin-bottom:0; }
 
-  /* checkbox tick list */
-  .tick-list { display:flex; flex-direction:column; gap:8px; margin:10px 0 18px; }
-  .tick-item { display:flex; align-items:center; gap:12px; padding:9px 14px; border:1.5px solid #ddd; border-radius:8px; cursor:pointer; font-size:1.05rem; color:#1C2B3A; background:#fff; transition:all .15s; }
-  .tick-item:hover { border-color:#2A6B42; }
-  .tick-box { width:22px; height:22px; border:2px solid #999; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:#fff; font-weight:800; }
-  .tick-item.picked { border-color:#2A6B42; background:#EAF6EE; }
-  .tick-item.picked .tick-box { background:#2A6B42; border-color:#2A6B42; }
-  .tick-item.correct { border-color:#1A7A4A; background:#E3F5EA; }
-  .tick-item.correct .tick-box { background:#1A7A4A; border-color:#1A7A4A; }
-  .tick-item.wrong { border-color:#C4614A; background:#FBEAE6; }
-  .tick-item.wrong .tick-box { background:#C4614A; border-color:#C4614A; }
-  .tick-item.missed { border-color:#C98A1E; background:#FDF3D6; }
-
   /* dice */
   .dice-box { text-align:center; background:#F4F8FA; border-radius:14px; padding:30px; }
   .die-face { font-size:3.5rem; margin-bottom:16px; }
@@ -1370,15 +1357,19 @@
   <div class="slide-main"><div class="content">
     <h2>HW2 — Complete the conversations</h2>
     <p class="instruction">Complete the conversations with a tag question or an auxiliary.</p>
-    <div id="hw1b" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>A I texted you last night, but you didn't reply. B I <b>did</b> reply. I texted you right away.</p>
-      <p class="ex-row"><span class="circ-num">2</span>A I don't feel like cooking tonight. B Neither <input class="ans-input small" data-ans="do"> I. Let's go out for dinner. I'd love some Mexican food. A So <input class="ans-input small" data-ans="do"> I. Come on. Let's go.</p>
-      <p class="ex-row"><span class="circ-num">3</span>A I've seen this movie before. B Well, I <input class="ans-input small" data-ans="haven't"> . A Do you mind if I change channels? B Yes, I <input class="ans-input small" data-ans="do"> mind! I want to see the end.</p>
-      <p class="ex-row"><span class="circ-num">4</span>A You're going to Sam's party, <input class="ans-input small" data-ans="aren't"> you? B No, I'm not. A Why not? You haven't argued with him again, <input class="ans-input small" data-ans="have"> you? B Yes. We aren't going out together anymore.</p>
-      <p class="ex-row"><span class="circ-num">5</span>A I'll be back a little bit late tonight. B You <input class="ans-input small" data-ans="will"> ? Where are you going? A To a concert with some friends. B Oh, OK. You'll be back before 12, <input class="ans-input small" data-ans="won't"> you? A Of course.</p>
-      <p class="ex-row"><span class="circ-num">6</span>A You couldn't lend me some money, <input class="ans-input small" data-ans="would"> you? B No, sorry. Why? A I spent my entire salary already this month. B So <input class="ans-input small" data-ans="did"> I!</p>
-      <p class="ex-row"><span class="circ-num">7</span>A I didn't go out last night. B Neither <input class="ans-input small" data-ans="did"> I. I was too tired. A So <input class="ans-input small" data-ans="was"> I!</p>
-      <p class="ex-row"><span class="circ-num">8</span>A You aren't from around here, <input class="ans-input small" data-ans="are"> you? B No, I'm from Australia. A I don't suppose you like this cold weather. B Actually, I <input class="ans-input small" data-ans="do"> like it. I prefer cool weather to hot weather.</p>
+    <div id="hw1b" class="fixed-two-col">
+      <div>
+        <p class="ex-row"><span class="example-badge">1</span><b>A:</b> I texted you last night, but you didn't reply.<br><b>B:</b> I <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">did</span> reply. I texted you right away.</p>
+        <p class="ex-row"><span class="circ-num">2</span><b>A:</b> I don't feel like cooking tonight.<br><b>B:</b> Neither <input class="ans-input small" data-ans="do"> I. Let's go out for dinner. I'd love some Mexican food.<br><b>A:</b> So <input class="ans-input small" data-ans="do"> I. Come on. Let's go.</p>
+        <p class="ex-row"><span class="circ-num">3</span><b>A:</b> I've seen this movie before.<br><b>B:</b> Well, I <input class="ans-input small" data-ans="haven't"> .<br><b>A:</b> Do you mind if I change channels?<br><b>B:</b> Yes, I <input class="ans-input small" data-ans="do"> mind! I want to see the end.</p>
+        <p class="ex-row"><span class="circ-num">4</span><b>A:</b> You're going to Sam's party, <input class="ans-input small" data-ans="aren't"> you?<br><b>B:</b> No, I'm not.<br><b>A:</b> Why not? You haven't argued with him again, <input class="ans-input small" data-ans="have"> you?<br><b>B:</b> Yes. We aren't going out together anymore.</p>
+      </div>
+      <div>
+        <p class="ex-row"><span class="circ-num">5</span><b>A:</b> I'll be back a little bit late tonight.<br><b>B:</b> You <input class="ans-input small" data-ans="will"> ? Where are you going?<br><b>A:</b> To a concert with some friends.<br><b>B:</b> Oh, OK. You'll be back before 12, <input class="ans-input small" data-ans="won't"> you?<br><b>A:</b> Of course.</p>
+        <p class="ex-row"><span class="circ-num">6</span><b>A:</b> You couldn't lend me some money, <input class="ans-input small" data-ans="would"> you?<br><b>B:</b> No, sorry. Why?<br><b>A:</b> I spent my entire salary already this month.<br><b>B:</b> So <input class="ans-input small" data-ans="did"> I!</p>
+        <p class="ex-row"><span class="circ-num">7</span><b>A:</b> I didn't go out last night.<br><b>B:</b> Neither <input class="ans-input small" data-ans="did"> I. I was too tired.<br><b>A:</b> So <input class="ans-input small" data-ans="was"> I!</p>
+        <p class="ex-row"><span class="circ-num">8</span><b>A:</b> You aren't from around here, <input class="ans-input small" data-ans="are"> you?<br><b>B:</b> No, I'm from Australia.<br><b>A:</b> I don't suppose you like this cold weather.<br><b>B:</b> Actually, I <input class="ans-input small" data-ans="do"> like it. I prefer cool weather to hot weather.</p>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('hw1b')">Check Answers</button>
@@ -1392,15 +1383,21 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW3 — React and say why</h2>
-    <p class="instruction">Respond to the statements with So do I, Neither do I, I do, I don't, etc., and say why.</p>
-    <div class="ex-row">1. I didn't go out yesterday. <input class="ans-input wide"></div>
-    <div class="ex-row">2. I love the ocean. <input class="ans-input wide"></div>
-    <div class="ex-row">3. I've never been to Canada. <input class="ans-input wide"></div>
-    <div class="ex-row">4. I'd like to go on a safari. <input class="ans-input wide"></div>
-    <div class="ex-row">5. I wasn't interested in history in school. <input class="ans-input wide"></div>
-    <div class="ex-row">6. I'm good at languages. <input class="ans-input wide"></div>
-    <div class="ex-row">7. I can swim well. <input class="ans-input wide"></div>
-    <div class="ex-row">8. I don't exercise at all. <input class="ans-input wide"></div>
+    <p class="instruction">Respond to the statements with <strong style="color:#1B6E96;">So do I</strong>, <strong style="color:#C4614A;">Neither do I</strong>, <strong style="color:#0E7A8A;">I do</strong>, <strong style="color:#5A2E8C;">I don't</strong>, etc., and say why.</p>
+    <div class="fixed-two-col">
+      <div>
+        <div class="ex-row">1. I didn't go out yesterday. <input class="ans-input wide"></div>
+        <div class="ex-row">2. I love the ocean. <input class="ans-input wide"></div>
+        <div class="ex-row">3. I've never been to Canada. <input class="ans-input wide"></div>
+        <div class="ex-row">4. I'd like to go on a safari. <input class="ans-input wide"></div>
+      </div>
+      <div>
+        <div class="ex-row">5. I wasn't interested in history in school. <input class="ans-input wide"></div>
+        <div class="ex-row">6. I'm good at languages. <input class="ans-input wide"></div>
+        <div class="ex-row">7. I can swim well. <input class="ans-input wide"></div>
+        <div class="ex-row">8. I don't exercise at all. <input class="ans-input wide"></div>
+      </div>
+    </div>
     <div class="btn-row">
       <button class="btn-suggest" onclick="toggleSuggested('hw1c-key')">Show Possible Answers</button>
     </div>
@@ -1424,14 +1421,21 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW4 — Listen and complete</h2>
-    <p class="instruction">Complete each conversation with the correct auxiliary verb.</p>
-    <div id="hw2a" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>A You don't like the soup, do you? B I <b>do</b> like it. It's just that it's very hot.</p>
-      <p class="ex-row"><span class="circ-num">2</span>A We <input class="ans-input small" data-ans="weren't"> invited to their wedding. B You <input class="ans-input small" data-ans="weren't"> ? Neither <input class="ans-input small" data-ans="were"> we.</p>
-      <p class="ex-row"><span class="circ-num">3</span>A I <input class="ans-input small" data-ans="didn't"> enjoy that movie. B You <input class="ans-input small" data-ans="didn't"> ? I <input class="ans-input small" data-ans="did"> .</p>
-      <p class="ex-row"><span class="circ-num">4</span>A I <input class="ans-input small" data-ans="wasn't"> always very well behaved as a child. B You <input class="ans-input small" data-ans="weren't"> ? I <input class="ans-input small" data-ans="was"> .</p>
-      <p class="ex-row"><span class="circ-num">5</span>A You <input class="ans-input small" data-ans="won't"> forget to call me, <input class="ans-input small" data-ans="will"> you? B Of course I <input class="ans-input small" data-ans="won't"> .</p>
-      <p class="ex-row"><span class="circ-num">6</span>A I <input class="ans-input small" data-ans="can't"> play tennis well. B You <input class="ans-input small" data-ans="can't"> ? I <input class="ans-input small" data-ans="can"> .</p>
+    <p class="instruction">Listen and complete the conversations.</p>
+    <div class="audio-box">
+      <audio controls src="AEF3e_Level_4_WB_1.6.mp3"></audio>
+    </div>
+    <div id="hw2a" class="fixed-two-col">
+      <div>
+        <p class="ex-row"><span class="example-badge">1</span><b>A:</b> You <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">don't</span> like the soup, <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">do</span> you?<br><b>B:</b> I <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">do</span> like it. It's just that it's very hot.</p>
+        <p class="ex-row"><span class="circ-num">2</span><b>A:</b> We <input class="ans-input small" data-ans="weren't"> invited to their wedding.<br><b>B:</b> You <input class="ans-input small" data-ans="weren't"> ? Neither <input class="ans-input small" data-ans="were"> we.</p>
+        <p class="ex-row"><span class="circ-num">3</span><b>A:</b> I <input class="ans-input small" data-ans="didn't"> enjoy that movie.<br><b>B:</b> You <input class="ans-input small" data-ans="didn't"> ? I <input class="ans-input small" data-ans="did"> .</p>
+      </div>
+      <div>
+        <p class="ex-row"><span class="circ-num">4</span><b>A:</b> I <input class="ans-input small" data-ans="wasn't"> always very well behaved as a child.<br><b>B:</b> You <input class="ans-input small" data-ans="weren't"> ? I <input class="ans-input small" data-ans="was"> .</p>
+        <p class="ex-row"><span class="circ-num">5</span><b>A:</b> You <input class="ans-input small" data-ans="won't"> forget to call me, <input class="ans-input small" data-ans="will"> you?<br><b>B:</b> Of course I <input class="ans-input small" data-ans="won't"> .</p>
+        <p class="ex-row"><span class="circ-num">6</span><b>A:</b> I <input class="ans-input small" data-ans="can't"> play tennis well.<br><b>B:</b> You <input class="ans-input small" data-ans="can't"> ? I <input class="ans-input small" data-ans="can"> .</p>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('hw2a')">Check Answers</button>
@@ -1445,13 +1449,36 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW5 — The more…, the more…</h2>
-    <p class="instruction">Complete the sentences with the comparative form of the adjectives in the list.<br>Use words like: big, cold, difficult, far, high, interesting, late, likely, long, qualified.</p>
-    <div class="ex-row"><span class="example-badge">1</span><b>The earlier</b> we set off, <b>the better</b> chance we'll have of avoiding the rush hour traffic.</div>
-    <div class="ex-row"><span class="circ-num">2</span>The <input class="ans-input small"> the class, the <input class="ans-input small"> the students are to learn something.</div>
-    <div class="ex-row"><span class="circ-num">3</span>The <input class="ans-input small"> you go to bed, the <input class="ans-input small"> it is to get up in the morning.</div>
-    <div class="ex-row"><span class="circ-num">4</span>The <input class="ans-input small"> north you travel in Canada, the <input class="ans-input small"> it gets.</div>
-    <div class="ex-row"><span class="circ-num">5</span>The <input class="ans-input small"> the person is for the job, the <input class="ans-input small"> the salary.</div>
-    <div class="ex-row"><span class="circ-num">6</span>The <input class="ans-input small"> your house, the <input class="ans-input small"> it takes you to clean it.</div>
+    <p class="instruction">Complete the sentences with the comparative form of the adjectives in the list.</p>
+    <div class="wb-bank book-style" id="hw3-bank">
+      <span class="wb-tile" onclick="mvWordToggle(this)">big</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">cold</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">difficult</span>
+      <span class="wb-tile example-used">early</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">far</span>
+      <span class="wb-tile example-used">good</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">high</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">interesting</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">late</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">likely</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">long</span>
+      <span class="wb-tile" onclick="mvWordToggle(this)">qualified</span>
+    </div>
+    <div class="ex-example-centered">
+      <span class="ex-tag">Example</span>
+      <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">The earlier</span> we set off, <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">the better</span> chance we'll have of avoiding the rush hour traffic.
+    </div>
+    <div class="fixed-two-col" style="margin-top:14px;">
+      <div>
+        <div class="ex-row"><span class="circ-num">2</span>The <input class="ans-input small"> the class, the <input class="ans-input small"> the students are to learn something.</div>
+        <div class="ex-row"><span class="circ-num">3</span>The <input class="ans-input small"> you go to bed, the <input class="ans-input small"> it is to get up in the morning.</div>
+        <div class="ex-row"><span class="circ-num">4</span>The <input class="ans-input small"> north you travel in Canada, the <input class="ans-input small"> it gets.</div>
+      </div>
+      <div>
+        <div class="ex-row"><span class="circ-num">5</span>The <input class="ans-input small"> the person is for the job, the <input class="ans-input small"> the salary.</div>
+        <div class="ex-row"><span class="circ-num">6</span>The <input class="ans-input small"> your house, the <input class="ans-input small"> it takes you to clean it.</div>
+      </div>
+    </div>
     <div class="btn-row">
       <button class="btn-suggest" onclick="toggleSuggested('hw3-key')">Show Possible Answers</button>
     </div>
@@ -1463,119 +1490,8 @@
         <li>5. The more qualified the person is for the job, the higher the salary.</li>
         <li>6. The bigger your house, the longer it takes you to clean it.</li>
       </ul>
-      <p style="margin:8px 0 0;font-style:italic;color:#5A6B78;">These are model answers based on the word list — double-check the exact pairing against your official answer key.</p>
     </div>
-  </div></div>
-</div>
-
-<!-- ============ HW6: COMPOUND ADJECTIVES — DEFINITIONS — WB4a ============ -->
-<div class="slide" id="hw-wb4a">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW6 — Match the meaning</h2>
-    <p class="instruction">Click a word in the bank, then click the blank next to its matching definition.</p>
-    <div class="wb-bank book-style" id="hw4a-bank">
-      <span class="wb-tile" data-val="open-minded" onclick="wbPick(this)">open-minded</span>
-      <span class="wb-tile" data-val="tight-fisted" onclick="wbPick(this)">tight-fisted</span>
-      <span class="wb-tile" data-val="absentminded" onclick="wbPick(this)">absentminded</span>
-      <span class="wb-tile" data-val="strong-willed" onclick="wbPick(this)">strong-willed</span>
-      <span class="wb-tile" data-val="laid-back" onclick="wbPick(this)">laid-back</span>
-      <span class="wb-tile" data-val="well-balanced" onclick="wbPick(this)">well-balanced</span>
-      <span class="wb-tile" data-val="big-headed" onclick="wbPick(this)">big-headed</span>
-      <span class="wb-tile" data-val="narrow-minded" onclick="wbPick(this)">narrow-minded</span>
-      <span class="wb-tile" data-val="two-faced" onclick="wbPick(this)">two-faced</span>
-      <span class="wb-tile" data-val="easygoing" onclick="wbPick(this)">easygoing</span>
-      <span class="wb-tile" data-val="self-centered" onclick="wbPick(this)">self-centered</span>
-      <span class="wb-tile" data-val="good-tempered" onclick="wbPick(this)">good-tempered</span>
-      <span class="wb-tile" data-val="well-behaved" onclick="wbPick(this)">well-behaved</span>
-    </div>
-    <div id="hw4a" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>easily made angry or annoyed → <b>bad-tempered</b></p>
-      <p class="ex-row"><span class="circ-num">2</span>ready to consider new ideas and opinions → <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">3</span>not willing to spend money → <span class="wb-blank" data-ans="tight-fisted" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">4</span>often forgetting or not noticing things → <span class="wb-blank" data-ans="absentminded" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">5</span>determined to do what you want to do, even if other people advise you not to → <span class="wb-blank" data-ans="strong-willed" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">6</span>relaxed; not easily worried by things → <span class="wb-blank" data-ans="laid-back" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">7</span>sensible and emotionally in control → <span class="wb-blank" data-ans="well-balanced" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">8</span>having a very high opinion of how important and smart you are → <span class="wb-blank" data-ans="big-headed" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">9</span>not willing to listen to ideas different from your own → <span class="wb-blank" data-ans="narrow-minded" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">10</span>dishonest about your feelings, telling people what you think will please them → <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">11</span>cheerful and not easily made angry → <span class="wb-blank" data-ans="easygoing" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">12</span>thinking only about yourself and not about other people → <span class="wb-blank" data-ans="self-centered" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">13</span>calm; not easily upset by what other people do → <span class="wb-blank" data-ans="good-tempered" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">14</span>behaving in a way that people think is polite and correct → <span class="wb-blank" data-ans="well-behaved" onclick="wbPlace(this)">______</span></p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkWbSlide('hw4a')">Check Answers</button>
-      <button class="btn-reset" onclick="resetWbSlide('hw4a')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ HW7: COMPLETE SENTENCES — WB4b ============ -->
-<div class="slide" id="hw-wb4b">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW7 — Complete the sentences</h2>
-    <p class="instruction">Click a word in the bank, then click the blank to complete each sentence.</p>
-    <div class="wb-bank book-style" id="hw4b-bank">
-      <span class="wb-tile" data-val="laid-back" onclick="wbPick(this)">laid-back</span>
-      <span class="wb-tile" data-val="well-balanced" onclick="wbPick(this)">well-balanced</span>
-      <span class="wb-tile" data-val="narrow-minded" onclick="wbPick(this)">narrow-minded</span>
-      <span class="wb-tile" data-val="self-centered" onclick="wbPick(this)">self-centered</span>
-      <span class="wb-tile" data-val="two-faced" onclick="wbPick(this)">two-faced</span>
-      <span class="wb-tile" data-val="open-minded" onclick="wbPick(this)">open-minded</span>
-      <span class="wb-tile" data-val="strong-willed" onclick="wbPick(this)">strong-willed</span>
-      <span class="wb-tile" data-val="tight-fisted" onclick="wbPick(this)">tight-fisted</span>
-      <span class="wb-tile" data-val="big-headed" onclick="wbPick(this)">big-headed</span>
-      <span class="wb-tile" data-val="absentminded" onclick="wbPick(this)">absentminded</span>
-      <span class="wb-tile" data-val="well-behaved" onclick="wbPick(this)">well-behaved</span>
-      <span class="wb-tile" data-val="good-tempered" onclick="wbPick(this)">good-tempered</span>
-      <span class="wb-tile" data-val="bad-tempered" onclick="wbPick(this)">bad-tempered</span>
-    </div>
-    <div id="hw4b" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>My parents are very <b>easygoing</b>. They accept most things I do, without getting upset.</p>
-      <p class="ex-row"><span class="circ-num">2</span>Tom's wife is very <span class="wb-blank" data-ans="laid-back" onclick="wbPlace(this)">______</span> . She doesn't seem to let anything worry her.</p>
-      <p class="ex-row"><span class="circ-num">3</span>Oliver's new girlfriend isn't as crazy as he is. She seems very <span class="wb-blank" data-ans="well-balanced" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">4</span>My partner is really <span class="wb-blank" data-ans="narrow-minded" onclick="wbPlace(this)">______</span> . He won't listen to other people's ideas.</p>
-      <p class="ex-row"><span class="circ-num">5</span>Grace never thinks of anyone else because she's so <span class="wb-blank" data-ans="self-centered" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">6</span>My sister-in-law is very <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span> . She's nice to me, and then speaks badly of me to other people.</p>
-      <p class="ex-row"><span class="circ-num">7</span>Since he went to work abroad for a while, Leo has become more <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span> about other cultures.</p>
-      <p class="ex-row"><span class="circ-num">8</span>She's very <span class="wb-blank" data-ans="strong-willed" onclick="wbPlace(this)">______</span> , and if she's decided to become a vegetarian, nothing will stop her.</p>
-      <p class="ex-row"><span class="circ-num">9</span>When we go out, my friend Jack never offers to pay for gas. I wish he wasn't so <span class="wb-blank" data-ans="tight-fisted" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">10</span>The new manager seems very <span class="wb-blank" data-ans="big-headed" onclick="wbPlace(this)">______</span> . He spent most of the meeting telling us how successful he was.</p>
-      <p class="ex-row"><span class="circ-num">11</span>My grandmother never remembers where she's put her keys. She's very <span class="wb-blank" data-ans="absentminded" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">12</span>I've never seen your children being bad. They're really <span class="wb-blank" data-ans="well-behaved" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">13</span>Our English teacher never seems to get angry. She's extremely <span class="wb-blank" data-ans="good-tempered" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">14</span>It's best not to talk to my brother when he first gets up. He's usually very <span class="wb-blank" data-ans="bad-tempered" onclick="wbPlace(this)">______</span> .</p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkWbSlide('hw4b')">Check Answers</button>
-      <button class="btn-reset" onclick="resetWbSlide('hw4b')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ HW8: CIRCLE THE CORRECT MODIFIER — WB4c ============ -->
-<div class="slide" id="hw-wb4c">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW8 — Circle the correct answer</h2>
-    <p class="instruction">Circle the more natural modifier.<br>Check (✓) if both are possible.</p>
-    <div id="hw4c" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>Tony's new girlfriend is good for him — she seems <span class="circ-opt" data-group="c1" data-correct="really" onclick="circPick(this)">rather</span> <span class="circ-opt" data-group="c1" data-correct="really" onclick="circPick(this)">really</span> well-balanced.</p>
-      <p class="ex-row"><span class="circ-num">2</span>I don't trust my neighbor — she's <span class="circ-opt" data-group="c2" data-correct="extremely" onclick="circPick(this)">extremely</span> <span class="circ-opt" data-group="c2" data-correct="extremely" onclick="circPick(this)">incredibly</span> two-faced. <i style="color:#888;">(both possible ✓)</i></p>
-      <p class="ex-row"><span class="circ-num">3</span>Some people complain about my kids, but I think they're <span class="circ-opt" data-group="c3" data-correct="pretty" onclick="circPick(this)">pretty</span> <span class="circ-opt" data-group="c3" data-correct="pretty" onclick="circPick(this)">a little</span> well-behaved.</p>
-      <p class="ex-row"><span class="circ-num">4</span>My cousin Olivia is <span class="circ-opt" data-group="c4" data-correct="very" onclick="circPick(this)">very</span> <span class="circ-opt" data-group="c4" data-correct="very" onclick="circPick(this)">really</span> tight-fisted — she doesn't want to give any money towards our grandfather's 80th birthday present. <i style="color:#888;">(both possible ✓)</i></p>
-      <p class="ex-row"><span class="circ-num">5</span>I'm not that sure about my new colleague. I find him <span class="circ-opt" data-group="c5" data-correct="really" onclick="circPick(this)">really</span> <span class="circ-opt" data-group="c5" data-correct="really" onclick="circPick(this)">rather</span> big-headed. <i style="color:#888;">(both possible ✓)</i></p>
-      <p class="ex-row"><span class="circ-num">6</span>I get along well with my boss. He's <span class="circ-opt" data-group="c6" data-correct="very" onclick="circPick(this)">very</span> <span class="circ-opt" data-group="c6" data-correct="very" onclick="circPick(this)">rather</span> easygoing. <i style="color:#888;">(both possible ✓)</i></p>
-      <p class="ex-row"><span class="circ-num">7</span>If I have a problem, I usually talk to my aunt. She's a <span class="circ-opt" data-group="c7" data-correct="kind of" onclick="circPick(this)">kind of</span> <span class="circ-opt" data-group="c7" data-correct="kind of" onclick="circPick(this)">incredibly</span> open-minded. <i style="color:#888;">(both possible ✓)</i></p>
-      <p class="ex-row"><span class="circ-num">8</span>I don't spend much time with my roommate — she's a <span class="circ-opt" data-group="c8" data-correct="kind of" onclick="circPick(this)">kind of</span> <span class="circ-opt" data-group="c8" data-correct="kind of" onclick="circPick(this)">pretty</span> self-centered. <i style="color:#888;">(both possible ✓)</i></p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('hw4c')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('hw4c')">Reset</button>
-    </div>
+    <!-- TEACHER NOTE (not shown to students): these 5 answers are derived from the adjective list and sentence logic, not read off an official WB3 answer key — that page hasn't been provided yet. If you have it, share it so these can be verified/corrected. -->
   </div></div>
 </div>
 </div><!-- END #deck -->
@@ -1591,8 +1507,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
-var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Speaking – Make It Personal", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3"];
+var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Speaking – Make It Personal", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -1950,8 +1866,6 @@ function resetClassifySlide(prefix){
   classifySelected = {};
 }
 
-/* ===================== GENERIC: WORD BANK FILL ===================== */
-var wbSelected = {};
 /* ===================== IMAGE-OVERLAY BLANK AUTO-FIT (slide: quote image) ===================== */
 function fitImgBlank(el){
   if (!el.classList.contains('img-blank')) return;
@@ -1989,68 +1903,14 @@ function cdShow(i){
 function cdNext(){ cdShow(cdIndex + 1); }
 function cdPrev(){ cdShow(cdIndex - 1); }
 
-function wbPick(tile){
-  if (tile.classList.contains('used')) return;
-  var bank = tile.parentElement;
-  bank.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('selected'); });
-  tile.classList.add('selected');
-  wbSelected[closestSlideId(tile)] = tile;
-}
-function closestSlideId(el){ return el.closest('.slide').id; }
-function wbPlace(blank){
-  var sid = closestSlideId(blank);
-  if (blank.classList.contains('filled')) {
-    var tile = blank._tileRef;
-    if (tile) tile.classList.remove('used');
-    blank.textContent = '______';
-    blank.classList.remove('filled','correct','wrong');
-    blank._tileRef = null;
-    return;
-  }
-  var tile = wbSelected[sid];
-  if (!tile) return;
-  blank.textContent = tile.dataset.val;
-  blank.classList.add('filled');
-  blank._tileRef = tile;
-  tile.classList.add('used'); tile.classList.remove('selected');
-  delete wbSelected[sid];
-}
-function checkWbSlide(sid){
-  var box = document.getElementById(sid);
-  box.querySelectorAll('.wb-blank').forEach(function(b){
-    b.classList.remove('correct','wrong');
-    if (!b.classList.contains('filled')) return;
-    if (norm(b.textContent) === norm(b.dataset.ans)) b.classList.add('correct');
-    else b.classList.add('wrong');
-  });
-}
-function resetWbSlide(sid){
-  var box = document.getElementById(sid);
-  var slideEl = box.closest('.slide') || box;
-  box.querySelectorAll('.wb-blank').forEach(function(b){ b.textContent='______'; b.classList.remove('filled','correct','wrong'); b._tileRef=null; });
-  slideEl.querySelectorAll('.wb-tile').forEach(function(t){ t.classList.remove('used','selected'); });
-  wbSelected = {};
+/* Case B wordbank helper — words that need to change form (verb conjugation, comparative, etc.)
+   before fitting a typed blank. Clicking a word just toggles a self-tracking "used" visual
+   state (crossed out / grayed) so the student can see which base words they've already drawn
+   on — it is NOT graded and does not feed into checkSlide(). */
+function mvWordToggle(el){
+  el.classList.toggle('used');
 }
 
-/* ===================== GENERIC: TICK / CHECKBOX ===================== */
-function toggleTick(el){
-  el.classList.toggle('picked');
-}
-function checkTickSlide(sid, correctVals){
-  var box = document.getElementById(sid);
-  box.querySelectorAll('.tick-item').forEach(function(item){
-    var val = item.dataset.val;
-    var isCorrect = correctVals.indexOf(val) > -1;
-    item.classList.remove('correct','wrong','missed');
-    if (item.classList.contains('picked') && isCorrect) item.classList.add('correct');
-    else if (item.classList.contains('picked') && !isCorrect) item.classList.add('wrong');
-    else if (!item.classList.contains('picked') && isCorrect) item.classList.add('missed');
-  });
-}
-function resetTickSlide(sid){
-  var box = document.getElementById(sid);
-  box.querySelectorAll('.tick-item').forEach(function(item){ item.classList.remove('picked','correct','wrong','missed'); });
-}
 
 /* ===================== SUGGESTED ANSWER / ANSWER KEY TOGGLE ===================== */
 function toggleSuggested(id){
