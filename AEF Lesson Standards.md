@@ -19,6 +19,19 @@ Share it at the start of any new conversation so Claude can match the existing l
 6. **Never invent anything that's missing** — a filename, an answer-key value, a piece of content the available book scans don't show. Ask the teacher instead of guessing or filling the gap with something plausible.
 7. **After building, re-open the same book page again and check the finished slide against it line by line** — don't rely on the read from step 1 still being accurate in memory by the time the slide is done.
 8. **Then, separately, check the relevant sections of the rest of this standards file** (exercise type, banner, audio, example numbering, blank widths, etc.) against what was just built — book-accuracy and standards-compliance are two separate checks, not one.
+9. **Two specific, repeated mistakes to actively check for on every single numbered exercise, every time, with no exceptions — including every Homework slide:**
+   - **The green "example" badge is only for an item the book itself shows as already worked/answered.** If the book's exercise starts straight at item 1 with no example, item 1 is a real question — `circ-num`, not `example-badge`. Never default to marking item 1 as the example just because it's first; check the actual book page for that specific exercise every time, per item 1-3 above.
+   - **Column order must be top-to-bottom then left-to-right, never row-major/interleaved.** With `n` items in 2 columns, items 1…⌈n/2⌉ go in the left column (stacked top to bottom) and the rest in the right column — e.g. 4 items → 1,2 left / 3,4 right; not 1,3 left / 2,4 right. `.fixed-two-col` / `.fixed-three-col` / `.fixed-four-col` are plain CSS grids with no auto-flow override, so placing numbered items directly as grid children produces the wrong (row-major) order — always wrap each column's items in its own child `<div>` inside the grid container so the grouping is explicit in the HTML, not left to the grid to guess.
+   - Both of these must be re-checked on every slide touched, not just newly built ones — a slide edited for an unrelated reason can still be carrying one of these two mistakes from earlier.
+10. **Any self-authored explanatory content — CCQs, gram-notes, gram-boxes, glossary-box definitions, "meaning" statements — must be independently fact-checked for grammatical/logical accuracy before it ships, separately from checking it against the book.** This content isn't copied from the book, so the book-accuracy checks above (steps 1-7) don't catch errors in it — a wrong CCQ answer is a real error teaching false information to a real student in a real class, not a formatting issue. Concretely:
+    - Before writing a CCQ, gram-note, or meaning explanation, work out the actual correct answer yourself from first principles — don't write a plausible-sounding question and a plausible-sounding answer without independently verifying the answer is true.
+    - **Check every self-authored explanation against every example already sitting in the same box**, not just the example it was written for. A rule that's true for one example in a `.gram-box` can be false for another example three lines below it (this happened: a CCQ claimed "the two halves always change in the same direction," which was true for one example in the box and false for the very next one).
+    - If a box contains multiple examples of the same structure, prefer a CCQ/explanation general enough to be true for all of them, or scope it explicitly to the one example it's actually testing.
+    - This applies with the same seriousness as book-accuracy — wrong grammar taught confidently is worse than a formatting inconsistency.
+11. **Every `data-ans` value (every answer key) must come from an actual Teacher's Book or Workbook answer-key page you have open — never derived yourself from grammar logic, even when you're confident the derivation is correct.** This happened: an exercise's answers were worked out from the transformation pattern instead of read off the TB page, and a *different* exercise on the very same TB page turned out to have a wrong answer already shipped in the lesson ("self-centered" instead of the book's actual "self-sufficient") — a mistake that opening the TB page for an unrelated reason caught by accident. Concretely:
+    - Before building any Check-Answers exercise, locate and open the actual TB/WB answer-key page for that specific exercise. If it isn't in the available renders, say so explicitly to the teacher rather than filling the gap with a self-derived answer presented as fact.
+    - If only a self-derived answer is possible (the official key genuinely isn't available), mark it visibly as unverified in the slide itself (see the HW5 disclaimer pattern) — never silently ship a guessed answer with the same confidence as a verified one.
+    - When you do open a TB/WB page for one exercise, check it for every exercise it contains, not just the one you were looking for — answer keys for unrelated exercises often share the same page and are easy to verify "for free" once the page is already open.
 
 ---
 
@@ -113,6 +126,14 @@ Layout classes: `.fixed-two-col` (2 columns), `.fixed-three-col` (3 columns), `.
 - Color coding kept **consistent with the rest of the slide/lesson** where a concept already has an established color (e.g. reuse the same color for "did" everywhere it's highlighted across a lesson — see Text Line-Height Standard's sibling rule on auxiliary-verb color coding).
 
 This applies especially to `.glossary-box`, `.gram-box`, `.gram-note`, and similar theory/reference boxes — these are exactly the places dense text tends to accumulate. The goal is that a student can scan the box and immediately spot the pattern being taught, not read it top to bottom like a paragraph.
+
+### Worked example sentences inside explanation boxes also get highlighted — never left as plain text
+
+> Added 2026-08-25 after AEF4-1B's "The more, the merrier" meaning box was caught with its example sentences (in the `<ul>` list and the `.ex-example-centered` box) sitting in plain black/italic text while the rest of the box used colour chips.
+
+**Any worked example sentence shown inside a `.gram-box`, `.glossary-box`, CCQ, or `.ex-example-centered` block must highlight the actual target structure inline** — not just the prose explaining it. If the box teaches a two-part pattern (e.g. `the + comparative …, the + comparative …`), each half of the pattern gets its own colour chip (reuse the same colour pair — e.g. blue for the first half, purple for the second — across every example in that box, so the repeated structure is instantly recognisable slide to slide). Don't highlight the surrounding explanation text and then leave the example sentence itself in plain italics — the example is the part a student actually reads to "get" the pattern, so it needs the highlight more than the prose does, not less.
+
+**General principle — boring explanations should always be made more visually interesting, not just technically correct.** Every theory/meaning box (`.gram-box`, `.glossary-box`, CCQs, worked examples) should be treated as a design problem, not just a content problem: before finishing a slide, ask "would a student's eye actually land on the pattern being taught, or does this read like a wall of text?" If the answer is the latter, add colour chips, icons, spacing, or card layout — whatever makes the target structure jump out — rather than shipping the plain-text version because it's technically complete.
 
 ---
 
@@ -986,7 +1007,7 @@ Use CSS classes for banner colours — **not inline styles** (except for one-off
 | Speaking | `<div class="banner banner-speaking">💬 Speaking</div>` | #1E4D8C |
 | Grammar | `<div class="banner banner-grammar">📐 Grammar</div>` | #4A1A6A |
 | Pronunciation | `<div class="banner banner-pron">🔊 Pronunciation</div>` | #0E7A8A |
-| Lesson Review | `<div class="banner banner-review">✅ Lesson Review</div>` | #2E2A6B |
+| Lesson Review | `<div class="banner banner-review">⭐ Lesson Review</div>` | #2E2A6B |
 | Homework slides | `<div class="banner banner-hw">📝 Homework</div>` | #1C2B3A |
 
 If a slide combines two sections: `<div class="banner banner-listening">🎧 Listening & 💬 Speaking</div>` — keep it short.

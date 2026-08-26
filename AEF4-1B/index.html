@@ -6,7 +6,7 @@
 <title>AEF4 1B — It's a Mystery</title>
 <style>
   * { box-sizing: border-box; }
-  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
+  body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; line-height:1.6; }
   #deck { position:relative; width:100%; height:100vh; overflow:hidden; }
   .slide {
     position:absolute; inset:0; opacity:0; pointer-events:none;
@@ -62,7 +62,7 @@
   .discuss-list li { margin-bottom:10px; }
 
   /* ===== CARDS / EXERCISE CONTAINERS ===== */
-  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; }
+  .card { background:#F4F8FA; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:20px; line-height:1.6; }
   .book-placeholder { border:2px dashed #C9A227; background:#FBF6E8; border-radius:12px; padding:32px 24px; text-align:center; color:#7A5A1E; font-weight:600; margin-bottom:20px; }
   .book-placeholder .bp-icon { font-size:2.2rem; display:block; margin-bottom:8px; }
   .book-placeholder .bp-note { font-weight:400; font-size:1.05rem; color:#9A7A2E; margin-top:6px; }
@@ -105,6 +105,10 @@
 
   /* circle MC */
   .circ-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-weight:800; background:#eee; color:#5A2E8C; margin-right:8px; font-size:.9rem; }
+  .cross-word { cursor:pointer; padding:1px 3px; border-radius:4px; }
+  .cross-word.crossed { text-decoration:line-through; }
+  .cross-word.correct { background:#E3F5EA; color:#1A7A4A; text-decoration:line-through; }
+  .cross-word.wrong { background:#FBEAE6; color:#C4614A; text-decoration:line-through; }
   .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
   .circ-opt.picked { border-color:#5A2E8C; background:#EEE7F7; font-weight:700; }
   .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
@@ -259,6 +263,9 @@
   .akey-box.show { display:block; }
   .akey-box li { margin-bottom:8px; }
   .btn-akey { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-akey-sm { background:none; color:#5A2E8C; border:1px solid #5A2E8C; border-radius:6px; padding:3px 10px; font-size:.78rem; font-weight:700; cursor:pointer; font-family:inherit; }
+  .suggest-box-sm { display:none; background:#EAF4F6; border-left:3px solid #1B6E96; border-radius:6px; padding:8px 12px; margin-top:6px; font-size:.92rem; line-height:1.6; color:#1C2B3A; }
+  .suggest-box-sm.show { display:block; }
 
   /* grammar theory / form reference */
   .gram-box { background:#F4F8FA; border-radius:12px; padding:18px 22px; margin-bottom:16px; border-left:6px solid #5A2E8C; }
@@ -726,7 +733,7 @@
 
         <div style="background:#f3eeff;border-left:5px solid #4A1A6A;border-radius:0 10px 10px 0;">
           <button onclick="gbToggle('r1')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
-            <span style="font-weight:800;color:#4A1A6A;font-size:1rem;">1 · Avoid repeating the verb</span>
+            <span style="font-weight:800;color:#4A1A6A;font-size:1rem;">1 · Avoiding repetition of the main verb</span>
             <span id="gb-btn-r1" style="font-size:.82rem;font-weight:700;color:#4A1A6A;white-space:nowrap;margin-left:8px;">Show ▼</span>
           </button>
           <div id="gb-body-r1" style="display:none;padding:0 14px 10px;">
@@ -746,7 +753,7 @@
 
         <div style="background:#fff3f0;border-left:5px solid #C8891E;border-radius:0 10px 10px 0;">
           <button onclick="gbToggle('r2')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
-            <span style="font-weight:800;color:#C8891E;font-size:1rem;">2 · So / Neither — same as</span>
+            <span style="font-weight:800;color:#C8891E;font-size:1rem;">2 · Saying you're the same (so, neither)</span>
             <span id="gb-btn-r2" style="font-size:.82rem;font-weight:700;color:#C8891E;white-space:nowrap;margin-left:8px;">Show ▼</span>
           </button>
           <div id="gb-body-r2" style="display:none;padding:0 14px 10px;">
@@ -791,7 +798,7 @@
 
         <div style="background:#eef4ff;border-left:5px solid #1E4D8C;border-radius:0 10px 10px 0;">
           <button onclick="gbToggle('r4')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
-            <span style="font-weight:800;color:#1E4D8C;font-size:1rem;">4 · Reply questions</span>
+            <span style="font-weight:800;color:#1E4D8C;font-size:1rem;">4 · Showing interest or surprise</span>
             <span id="gb-btn-r4" style="font-size:.82rem;font-weight:700;color:#1E4D8C;white-space:nowrap;margin-left:8px;">Show ▼</span>
           </button>
           <div id="gb-body-r4" style="display:none;padding:0 14px 10px;">
@@ -811,7 +818,7 @@
 
         <div style="background:#fdf0f5;border-left:5px solid #B23A6B;border-radius:0 10px 10px 0;">
           <button onclick="gbToggle('r5')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
-            <span style="font-weight:800;color:#B23A6B;font-size:1rem;">5 · Emphasis</span>
+            <span style="font-weight:800;color:#B23A6B;font-size:1rem;">5 · Giving emphasis</span>
             <span id="gb-btn-r5" style="font-size:.82rem;font-weight:700;color:#B23A6B;white-space:nowrap;margin-left:8px;">Show ▼</span>
           </button>
           <div id="gb-body-r5" style="display:none;padding:0 14px 10px;">
@@ -830,7 +837,7 @@
 
         <div style="background:#e6f4f5;border-left:5px solid #0E7A8A;border-radius:0 10px 10px 0;">
           <button onclick="gbToggle('r6')" style="width:100%;background:none;border:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;text-align:left;">
-            <span style="font-weight:800;color:#0E7A8A;font-size:1rem;">6 · Tag questions</span>
+            <span style="font-weight:800;color:#0E7A8A;font-size:1rem;">6 · Checking information (tag questions)</span>
             <span id="gb-btn-r6" style="font-size:.82rem;font-weight:700;color:#0E7A8A;white-space:nowrap;margin-left:8px;">Show ▼</span>
           </button>
           <div id="gb-body-r6" style="display:none;padding:0 14px 10px;">
@@ -865,12 +872,12 @@
       <div class="dice-prompt" id="dice-react-prompt">Click to roll!</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:18px;">
-      <div style="background:#f3eeff;border-left:4px solid #4A1A6A;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#2a1a40;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚀</span> Avoid repeating the verb</div>
-      <div style="background:#fff3f0;border-left:4px solid #C8891E;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#2a1a40;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚁</span> So / Neither</div>
-      <div style="background:#e8f5f0;border-left:4px solid #2A6B42;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#1a3040;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚂</span> Say you're different</div>
-      <div style="background:#eef4ff;border-left:4px solid #1E4D8C;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#1a3040;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚃</span> Reply question</div>
-      <div style="background:#fdf0f5;border-left:4px solid #B23A6B;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#3a1020;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚄</span> Emphasis</div>
-      <div style="background:#e6f4f5;border-left:4px solid #0E7A8A;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#0a2e33;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚅</span> Tag question</div>
+      <div style="background:#f3eeff;border-left:4px solid #4A1A6A;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#2a1a40;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚀</span> Avoiding repetition of the main verb</div>
+      <div style="background:#fff3f0;border-left:4px solid #C8891E;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#2a1a40;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚁</span> Saying you're the same (so, neither)</div>
+      <div style="background:#e8f5f0;border-left:4px solid #2A6B42;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#1a3040;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚂</span> Saying you're different</div>
+      <div style="background:#eef4ff;border-left:4px solid #1E4D8C;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#1a3040;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚃</span> Showing interest or surprise</div>
+      <div style="background:#fdf0f5;border-left:4px solid #B23A6B;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#3a1020;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚄</span> Giving emphasis</div>
+      <div style="background:#e6f4f5;border-left:4px solid #0E7A8A;border-radius:0 8px 8px 0;padding:7px 10px;font-size:.9rem;color:#0a2e33;display:flex;align-items:center;gap:8px;"><span style="font-size:1.7rem;line-height:1;">⚅</span> Checking information (tag questions)</div>
     </div>
     <div class="gram-note" style="margin-top:16px;">💡 Try to stress the auxiliary in your response too — "I DID." "So DO I." "You DIDN'T?"</div>
   </div></div>
@@ -889,15 +896,15 @@
     <div id="gba" class="fixed-two-col">
       <div>
         <p class="ex-row"><span class="circ-num">1</span><b>A:</b> He's booked the flights, <input class="ans-input small" data-ans="hasn't"> he?<br><b>B:</b> Yes, I think so.</p>
-        <p class="ex-row"><span class="circ-num">2</span><b>A:</b> It's hot today, <input class="ans-input small" data-ans="isn't"> it?<br><b>B:</b> Yes, it's boiling.</p>
-        <p class="ex-row"><span class="circ-num">3</span><b>A:</b> Why don't you like classical music?<br><b>B:</b> I <input class="ans-input small" data-ans="do"> like it, but it isn't my favorite.</p>
-        <p class="ex-row"><span class="circ-num">4</span><b>A:</b> I wouldn't like to be a celebrity.<br><b>B:</b> Neither <input class="ans-input small" data-ans="would"> I.</p>
-        <p class="ex-row"><span class="circ-num">5</span><b>A:</b> Mike's arriving tomorrow!<br><b>B:</b> He <input class="ans-input small" data-ans="is"> ? I thought he was arriving today.</p>
+        <p class="ex-row"><span class="circ-num">2</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">loved</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">that</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">book</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">wife</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">didn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">love</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">that</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">book</span>.</p>
+        <p class="ex-row"><span class="circ-num">3</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">You</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">weren't</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">listening</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">instructions</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">was</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">listening</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">instructions</span>.</p>
+        <p class="ex-row"><span class="circ-num">4</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">Some</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">people</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">believe</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">in</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">ghosts</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">others</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">don't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">believe</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">in</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">ghosts</span>.</p>
+        <p class="ex-row"><span class="circ-num">5</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">Gina's</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">going</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">party</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">Robbie</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">isn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">going</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">party</span>.</p>
       </div>
       <div>
-        <p class="ex-row"><span class="circ-num">6</span><b>A:</b> What did you think of the movie?<br><b>B:</b> Tom liked it, but I <input class="ans-input small" data-ans="didn't"> . I thought it was awful.</p>
-        <p class="ex-row"><span class="circ-num">7</span><b>A:</b> Emma doesn't like me.<br><b>B:</b> She <input class="ans-input small" data-ans="does"> like you. She just doesn't want to go out with you.</p>
-        <p class="ex-row"><span class="circ-num">8</span><b>A:</b> Are you a vegetarian?<br><b>B:</b> Yes, I am, and so <input class="ans-input small" data-ans="is"> my boyfriend.</p>
+        <p class="ex-row"><span class="circ-num">6</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">always</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">lock</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">front</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">door</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">partner</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">doesn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">always</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">lock</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">front</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">door</span>.</p>
+        <p class="ex-row"><span class="circ-num">7</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I've</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">never</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">been</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">a</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">fortune-teller</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">sister</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">has</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">visited</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">a</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">fortune-teller</span>.</p>
+        <p class="ex-row"><span class="circ-num">8</span><span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">My</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">friends</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">had</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">already</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">heard</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">story</span>, <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">but</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">hadn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">already</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">heard</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">story</span>.</p>
         <p class="ex-row"><span class="circ-num">9</span><b>A:</b> You'll remember to call me, <input class="ans-input small" data-ans="won't"> you?<br><b>B:</b> Yes, of course!</p>
         <p class="ex-row"><span class="circ-num">10</span>I really want to go to Thailand, but my wife <input class="ans-input small" data-ans="doesn't"> . She hates the heat.</p>
       </div>
@@ -1148,24 +1155,24 @@
   <div class="slide-main"><div class="content">
     <h2>Do you believe it?</h2>
     <div class="ccq-box">
-      <div class="discuss-label" style="margin:0;">💬 Do you believe in this kind of personality test?<br>Do you believe that you can learn anything about someone's personality by…?</div>
+      <div class="discuss-label" style="margin:0;">💬 Do you believe that you can learn anything about someone's personality by…?</div>
     </div>
     <div class="fixed-four-col" style="margin-top:22px;">
       <div class="card" style="text-align:center;">
-        <div style="font-size:2.2rem;">✍️</div>
-        <p class="ex-row" style="margin:8px 0 0;">analyzing their handwriting <i style="color:#666;">(graphology)</i></p>
+        <img src="images/belief-graphology.jpg" alt="Handwritten letter beginning 'Dear,' with a pen resting on the page" style="width:100%;height:138px;object-fit:cover;border-radius:10px;margin-bottom:8px;">
+        <p class="ex-row" style="margin:0;">analyzing their handwriting <i style="color:#666;">(graphology)</i></p>
       </div>
       <div class="card" style="text-align:center;">
-        <div style="font-size:2.2rem;">🖐️</div>
-        <p class="ex-row" style="margin:8px 0 0;">looking at their hands <i style="color:#666;">(palmistry)</i></p>
+        <img src="images/belief-palmistry.jpg" alt="A palm marked with palmistry lines labeled life line, head line, fate line, and heart line" style="width:100%;height:138px;object-fit:cover;border-radius:10px;margin-bottom:8px;">
+        <p class="ex-row" style="margin:0;">looking at their hands <i style="color:#666;">(palmistry)</i></p>
       </div>
       <div class="card" style="text-align:center;">
-        <div style="font-size:2.2rem;">🔮</div>
-        <p class="ex-row" style="margin:8px 0 0;">analyzing the position of the sun, moon, and planets at the exact time of their birth <i style="color:#666;">(astrology)</i></p>
+        <img src="images/belief-astrology.jpg" alt="An ornate astronomical clock face showing the zodiac signs" style="width:100%;height:138px;object-fit:cover;border-radius:10px;margin-bottom:8px;">
+        <p class="ex-row" style="margin:0;">analyzing the position of the sun, moon, and planets at the exact time of their birth <i style="color:#666;">(astrology)</i></p>
       </div>
       <div class="card" style="text-align:center;">
-        <div style="font-size:2.2rem;">📱</div>
-        <p class="ex-row" style="margin:8px 0 0;">online personality quizzes, e.g., Buzzfeed</p>
+        <img src="images/belief-quizzes.jpg" alt="A person taking an online quiz on a laptop, with app icons floating around the screen" style="width:100%;height:138px;object-fit:cover;border-radius:10px;margin-bottom:8px;">
+        <p class="ex-row" style="margin:0;">online personality quizzes, e.g., Buzzfeed</p>
       </div>
     </div>
   </div></div>
@@ -1176,26 +1183,51 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>The more, the merrier</h2>
-    <div class="gram-box">
-      <h3>Meaning</h3>
-      <p>We use <span class="hl">the + comparative adjective/adverb</span>, or <span class="hl">the more / less (+ noun)</span>, twice in one sentence to show that one thing depends on, or changes together with, another.</p>
-      <ul>
-        <li><i>"The earlier we start, the sooner we'll finish."</i> = If we start early, we'll finish early.</li>
-        <li><i>"The more money you spend now, the less you'll have for your vacation."</i> = If you spend a lot of money now, you'll have less for your vacation.</li>
-      </ul>
+    <div class="fixed-two-col" style="gap:24px;align-items:start;">
+      <div>
+        <div class="gram-box" style="margin-bottom:12px;">
+          <h3>Meaning</h3>
+          <p>We use <span class="hl">the + comparative</span> twice in one sentence to show that one thing changes together with another.</p>
+          <ul>
+            <li><i>"<span style="color:#1B6E96;background:#E4F1F7;padding:1px 8px;border-radius:5px;font-weight:700;">The earlier</span> we start, <span style="color:#5A2E8C;background:#F1E9F8;padding:1px 8px;border-radius:5px;font-weight:700;">the sooner</span> we'll finish."</i></li>
+            <li><i>"<span style="color:#1B6E96;background:#E4F1F7;padding:1px 8px;border-radius:5px;font-weight:700;">The more</span> money you spend, <span style="color:#5A2E8C;background:#F1E9F8;padding:1px 8px;border-radius:5px;font-weight:700;">the less</span> you'll have for vacation."</i></li>
+          </ul>
+        </div>
+        <div class="ccq-box" style="margin-bottom:0;">
+          <div class="ccq-label">Concept-checking questions</div>
+          <ul class="ccq-list">
+            <li>"<span style="color:#1B6E96;background:#E4F1F7;padding:1px 8px;border-radius:5px;font-weight:700;">The bigger</span> the animal, <span style="color:#5A2E8C;background:#F1E9F8;padding:1px 8px;border-radius:5px;font-weight:700;">the more</span> problems you have" — if the animal is small, more or fewer problems? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Fewer problems.</span></li>
+            <li>"<span style="color:#1B6E96;background:#E4F1F7;padding:1px 8px;border-radius:5px;font-weight:700;">The more</span> you spend, <span style="color:#5A2E8C;background:#F1E9F8;padding:1px 8px;border-radius:5px;font-weight:700;">the less</span> you'll have" — do the two halves go up together, or opposite ways? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Opposite ways here — spending up, money left down. The structure just links two things that change together; it doesn't mean same direction.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <p class="instruction" style="margin:0 0 10px;">Form — follow these steps:</p>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div class="card" style="margin-bottom:0;padding:10px 14px;display:flex;gap:12px;align-items:flex-start;">
+            <span style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#5A2E8C;color:#fff;font-weight:800;font-size:.9rem;">1</span>
+            <div style="font-size:.98rem;line-height:1.6;"><b>Find two things that change together.</b><br><span style="color:#555;display:inline-block;margin-top:4px;">how hard the cup is → how strong the relationship is</span></div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:10px 14px;display:flex;gap:12px;align-items:flex-start;">
+            <span style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#5A2E8C;color:#fff;font-weight:800;font-size:.9rem;">2</span>
+            <div style="font-size:.98rem;line-height:1.6;"><b>Make each one comparative.</b><br><span style="color:#555;display:inline-block;margin-top:4px;">hard → <b>harder</b> &nbsp;|&nbsp; strong → <b>stronger</b> &nbsp;|&nbsp; (or <b>more/less</b> + noun)</span></div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:10px 14px;display:flex;gap:12px;align-items:flex-start;">
+            <span style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#5A2E8C;color:#fff;font-weight:800;font-size:.9rem;">3</span>
+            <div style="font-size:.98rem;line-height:1.6;"><b>Put "the" directly before each comparative — never separate them.</b><br><span style="color:#1A7A4A;display:inline-block;margin-top:4px;">✅ the harder</span> &nbsp;|&nbsp; <span style="color:#C4614A;">❌ the cup is harder</span></div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:10px 14px;display:flex;gap:12px;align-items:flex-start;">
+            <span style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#5A2E8C;color:#fff;font-weight:800;font-size:.9rem;">4</span>
+            <div style="font-size:.98rem;line-height:1.6;"><b>Join the two halves with a comma.</b><br><span style="color:#555;display:inline-block;margin-top:4px;">"The harder the cup is, the stronger your relationship is."</span></div>
+          </div>
+        </div>
+        <div class="ex-example-centered" style="margin-top:12px;">
+          <span class="ex-tag">Worked example</span>
+          "The <span style="color:#0E7A8A;background:#E6F4F5;padding:1px 8px;border-radius:5px;font-weight:700;">harder</span> and <span style="color:#C8891E;background:#FDF3D6;padding:1px 8px;border-radius:5px;font-weight:700;">more resistant</span> the cup is, the <span style="color:#5A2E8C;background:#F1E9F8;padding:1px 8px;border-radius:5px;font-weight:700;">stronger</span> your relationship is."
+        </div>
+        <div class="gram-note" style="margin-top:10px;font-size:.92rem;padding:10px 14px;">💡 Can't separate: <span style="color:#1A7A4A;">✅ The more interesting the book is, the more slowly I read.</span> <span style="color:#C4614A;">❌ The more the book is interesting…</span><br>💡 Sometimes just the two comparatives alone: <i>"The sooner, the better."</i></div>
+      </div>
     </div>
-    <div class="ccq-box">
-      <div class="ccq-label">Concept-checking questions</div>
-      <ul class="ccq-list">
-        <li>In "The bigger the animal, the more problems you have" — if the animal is small, do you have more or fewer problems? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">Fewer problems.</span></li>
-        <li>Do the two halves of the sentence change in the SAME direction, or OPPOSITE directions? <button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Show</button><span class="ccq-answer">The same direction (both go up, or both go down, together).</span></li>
-      </ul>
-    </div>
-    <div class="ex-example-centered">
-      <span class="ex-tag">From the forest activity</span>
-      "The harder and more resistant the cup is, the stronger your relationship is."
-    </div>
-    <div class="gram-note">💡 Form: <b>The + comparative</b> + clause 1<b>, the + comparative</b> + clause 2.<br>With uncountable/plural nouns, use <b>the more / the less</b> + noun.</div>
   </div></div>
 </div>
 
@@ -1205,188 +1237,98 @@
   <div class="slide-main"><div class="content">
     <h2>Rewrite the sentences</h2>
     <p class="instruction">Rewrite each sentence using <i>the…, the…</i> + comparative.</p>
-    <div id="g2g">
-      <p class="ex-row"><span class="example-badge">1</span>If you study a lot, you learn a lot. <br>→ <input class="ans-input wide" data-ans="The more you study, the more you learn."></p>
-      <p class="ex-row"><span class="circ-num">2</span>If I drink a lot of coffee, I sleep badly. <br>→ <input class="ans-input wide" data-ans="The more coffee I drink, the worse I sleep."></p>
-      <p class="ex-row"><span class="circ-num">3</span>If you have a lot of time, you do things slowly. <br>→ <input class="ans-input wide" data-ans="The more time you have, the slower you do things."></p>
-      <p class="ex-row"><span class="circ-num">4</span>If you are in shape, you feel good. <br>→ <input class="ans-input wide" data-ans="The more in shape you are, the better you feel."></p>
+    <div id="g2g" class="fixed-two-col">
+      <div>
+        <p class="ex-row"><span class="circ-num">1</span>If you study a lot, you learn a lot. <br><input class="ans-input wide" data-ans="The more you study, the more you learn."></p>
+        <p class="ex-row"><span class="circ-num">2</span>If I drink a lot of coffee, I sleep badly. <br><input class="ans-input wide" data-ans="The more coffee I drink, the worse I sleep."></p>
+      </div>
+      <div>
+        <p class="ex-row"><span class="circ-num">3</span>If you have a lot of time, you do things slowly. <br><input class="ans-input wide" data-ans="The more time you have, the slower you do things." data-alt="The more time you have, the more slowly you do things."></p>
+        <p class="ex-row"><span class="circ-num">4</span>If you are in shape, you feel good. <br><input class="ans-input wide" data-ans="The more in shape you are, the better you feel."></p>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('g2g')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('g2g')">Reset</button>
-    </div>
-    <!-- audio: SB p.14 ex2g listen-and-check track -->
-    <div class="audio-box" style="margin-top:20px;">
-      <audio controls src="audio/the-more-the-merrier-check.mp3"></audio>
     </div>
   </div></div>
 </div>
 
 <!-- ============ GRAMMAR 2: PERSONALIZE — SB ex 2h ============ -->
 <div class="slide" id="s-gram2-personalize">
-  <div class="banner banner-grammar">📐 Grammar</div>
-  <div class="slide-main"><div class="content">
-    <h2>Make it personal</h2>
-    <p class="instruction">Complete the sentences about yourself, then tell me your answers.</p>
-    <div class="ex-row">1. The more money I have, <input class="ans-input wide"></div>
-    <div class="ex-row">2. The earlier I get up, <input class="ans-input wide"></div>
-    <div class="ex-row">3. The faster American people speak, <input class="ans-input wide"></div>
-    <div class="ex-row">4. The less I eat, <input class="ans-input wide"></div>
-    <div class="ex-row">5. The harder I work, <input class="ans-input wide"></div>
-    <div class="ex-row">6. The more I exercise, <input class="ans-input wide"></div>
-    <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('g2h-key')">Show Possible Answers</button>
-    </div>
-    <div class="suggest-box" id="g2h-key">
-      <ul>
-        <li>1. …the more I spend / the more I save.</li>
-        <li>2. …the better I feel / the more I get done.</li>
-        <li>3. …the more difficult they are to understand.</li>
-        <li>4. …the thinner I get / the hungrier I am.</li>
-        <li>5. …the more I get done / the more tired I am.</li>
-        <li>6. …the better I feel / the more I eat.</li>
-      </ul>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ VOCABULARY: COMPOUND ADJECTIVES — SB ex5a/5b ============ -->
-<div class="slide" id="s-vocab-mfp">
-  <div class="banner banner-vocab">📚 Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>Compound adjectives</h2>
-    <p class="instruction">Look at some extracts from the listening you just heard.<br>Can you remember what words go in the blanks?</p>
-    <div id="v5a">
-      <div class="ex-row"><span class="example-badge">1</span>If there was no fence around the house, it means you are very open-<input class="ans-input small" data-ans="minded">, and welcome new ideas.</div>
-      <div class="ex-row" style="margin-top:10px;"><span class="circ-num">2</span>If you hardly got wet at all, it means that you depend less on your friends and are more self-<input class="ans-input small" data-ans="centered">.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('v5a')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('v5a')">Reset</button>
-    </div>
-    <p class="instruction" style="margin-top:20px;">Now listen and check.<br>Do the compound adjectives have a positive or negative meaning?</p>
-    <!-- audio: SB p.14 ex5b listen-and-check track 1.19 -->
-    <div class="audio-box">
-      <audio controls src="audio/personality-words-check.mp3"></audio>
-    </div>
-    <div class="glossary-box" style="border-left:6px solid #1B6E96;background:#EAF4F6;margin-top:18px;">
-      <h4 style="color:#0E5A7A;">🔎 Compound adjectives</h4>
-      <p>Compound adjectives have two parts.<br>The second part often ends in <strong style="color:#1B6E96;">-ed</strong> or <strong style="color:#1B6E96;">-ing</strong>, e.g., <em>good-natured, slow-moving</em>.<br>The words are usually linked by hyphens.</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ VOCABULARY: STRESS — SB ex5c ============ -->
-<div class="slide" id="s-vocab-match1">
-  <div class="banner banner-vocab">📚 Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>Which word has the stress?</h2>
-    <p class="instruction">Listen to some more compound adjectives.<br>Which word has the main stress? Click each one to check.</p>
-    <!-- audio: SB p.14 ex5c stress track 1.20 -->
-    <div class="audio-box">
-      <audio controls src="audio/modifiers-stress-check.mp3"></audio>
-    </div>
-    <div class="fixed-three-col" style="margin-top:16px;">
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str1')">absentminded</button><div class="suggest-box" id="str1">absent<b>MIND</b>ed</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str2')">bad-tempered</button><div class="suggest-box" id="str2">bad-<b>TEMP</b>ered</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str3')">big-headed</button><div class="suggest-box" id="str3">big-<b>HEAD</b>ed</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str4')">easygoing</button><div class="suggest-box" id="str4">easy-<b>GO</b>ing</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str5')">good-tempered</button><div class="suggest-box" id="str5">good-<b>TEMP</b>ered</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str6')">laid-back</button><div class="suggest-box" id="str6">laid-<b>BACK</b></div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str7')">narrow-minded</button><div class="suggest-box" id="str7">narrow-<b>MIND</b>ed</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str8')">open-minded</button><div class="suggest-box" id="str8">open-<b>MIND</b>ed</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str9')">self-centered</button><div class="suggest-box" id="str9">self-<b>CENT</b>ered</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str10')">strong-willed</button><div class="suggest-box" id="str10">strong-<b>WILLED</b></div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str11')">tight-fisted</button><div class="suggest-box" id="str11">tight-<b>FIST</b>ed</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str12')">two-faced</button><div class="suggest-box" id="str12">two-<b>FACED</b></div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str13')">well-balanced</button><div class="suggest-box" id="str13">well-<b>BAL</b>anced</div></div>
-      <div class="card" style="text-align:center;"><button class="btn-akey" onclick="toggleSuggested('str14')">well-behaved</button><div class="suggest-box" id="str14">well-be<b>HAVED</b></div></div>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ VOCABULARY: MEANING & MODIFIERS — SB ex5d ============ -->
-<div class="slide" id="s-vocab-match2">
-  <div class="banner banner-vocab">📚 Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>Positive or negative?</h2>
-    <p class="instruction">Use the two parts of the words to try to figure out their meaning.<br>Which do you think are positive characteristics, and which are negative? Are there any you think can be either?</p>
-    <div class="ex-example-centered" style="text-align:left;">"I think a bad-tempered person is somebody who gets angry easily…"</div>
-    <div class="glossary-box" style="border-left:6px solid #5A2E8C;background:#F1E9F8;margin-top:14px;">
-      <h4 style="color:#4A1A6A;">🔎 Modifiers</h4>
-      <p>We often use modifiers with adjectives of personality to make them stronger or less strong.</p>
-      <p><strong style="color:#1A7A4A;background:#E3F5EA;padding:1px 8px;border-radius:5px;">With positive characteristics</strong> — <em>really / incredibly / extremely, very, pretty</em> + adjective, e.g., <em>My mom is really good-tempered.</em></p>
-      <p><strong style="color:#C4614A;background:#FBEAE6;padding:1px 8px;border-radius:5px;">With negative characteristics</strong> — <em>really / incredibly / extremely, very, rather / pretty, a little / kind of</em> + adjective, e.g., <em>My sister is a little bad-tempered.</em></p>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ VOCABULARY: DISCUSS — SB ex5e ============ -->
-<div class="slide" id="s-vocab-modifiers">
-  <div class="banner banner-vocab">📚 Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>Do you know somebody who is…?</h2>
-    <p class="instruction">Tell me about people you know with the characteristics below.<br>Give examples of their behavior.</p>
-    <div class="fixed-two-col">
-      <div>
-        <div class="discuss-label">💬 Do you know somebody who is…?</div>
-        <ul class="discuss-list">
-          <li>very open-minded</li>
-          <li>extremely absentminded</li>
-          <li>a little tight-fisted</li>
-          <li>pretty laid-back</li>
-        </ul>
-      </div>
-      <div>
-        <div class="discuss-label">&nbsp;</div>
-        <ul class="discuss-list">
-          <li>kind of two-faced</li>
-          <li>very good-tempered</li>
-          <li>incredibly strong-willed</li>
-          <li>really self-centered</li>
-        </ul>
-      </div>
-    </div>
-    <div class="ex-example-centered" style="text-align:left;margin-top:6px;">"My cousin is pretty laid-back. She didn't even get angry when her boyfriend crashed her car!"</div>
-  </div></div>
-</div>
-
-<!-- ============ SPEAKING: DESCRIBE YOURSELF & OTHERS ============ -->
-<div class="slide" id="s-vocab-speak">
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>Describe yourself</h2>
-    <p class="instruction">Choose eight compound adjectives and write a sentence about yourself or someone you know, using a suitable modifier.<br>Then tell me your sentences.</p>
-    <div class="ex-row">1. <input class="ans-input wide"></div>
-    <div class="ex-row">2. <input class="ans-input wide"></div>
-    <div class="ex-row">3. <input class="ans-input wide"></div>
-    <div class="ex-row">4. <input class="ans-input wide"></div>
-    <div class="ex-row">5. <input class="ans-input wide"></div>
-    <div class="ex-row">6. <input class="ans-input wide"></div>
-    <div class="ex-row">7. <input class="ans-input wide"></div>
-    <div class="ex-row">8. <input class="ans-input wide"></div>
-    <div class="ccq-box" style="margin-top:8px;">
-      <div class="discuss-label" style="margin:0;">💬 Which compound adjective best describes YOU?<br>Do you agree with what I said about you?</div>
+    <h2>Make it personal</h2>
+    <p class="instruction">Complete the sentences about yourself, then share.</p>
+    <div class="fixed-two-col">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card" style="border-left:5px solid #4A1A6A;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#4A1A6A;">1</span>The more money I have, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-1')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-1">…the more I spend. / …the more I save.</div>
+        </div>
+        <div class="card" style="border-left:5px solid #C8891E;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#C8891E;">2</span>The earlier I get up, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-2')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-2">…the better I feel. / …the more I get done.</div>
+        </div>
+        <div class="card" style="border-left:5px solid #2A6B42;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#2A6B42;">3</span>The faster American people speak, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-3')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-3">…the more difficult they are to understand.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card" style="border-left:5px solid #1E4D8C;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#1E4D8C;">4</span>The less I eat, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-4')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-4">…the thinner I get. / …the hungrier I am.</div>
+        </div>
+        <div class="card" style="border-left:5px solid #B23A6B;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#B23A6B;">5</span>The harder I work, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-5')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-5">…the more I get done. / …the more tired I am.</div>
+        </div>
+        <div class="card" style="border-left:5px solid #0E7A8A;padding:14px 16px;">
+          <p class="ex-row" style="margin:0 0 8px;"><span class="example-badge" style="background:#0E7A8A;">6</span>The more I exercise, <input class="ans-input wide"></p>
+          <button class="btn-akey-sm" onclick="toggleSuggested('g2h-6')">Possible answer</button>
+          <div class="suggest-box-sm" id="g2h-6">…the better I feel. / …the more I eat.</div>
+        </div>
+      </div>
     </div>
   </div></div>
 </div>
 
 <!-- ============ LESSON REVIEW ============ -->
 <div class="slide" id="s-review">
-  <div class="banner banner-review">✅ Lesson Review</div>
+  <div class="banner banner-review">⭐ Lesson Review</div>
   <div class="slide-main"><div class="content">
-    <h2>Check what you've learned</h2>
-    <p class="instruction">Tick the things you feel confident about after today's lesson.</p>
-    <div class="tick-list" id="review-list">
-      <div class="tick-item" data-val="1" onclick="toggleTick(this)"><span class="tick-box">✓</span>I can use reply questions to show interest or surprise (<i>"You did?"</i>)</div>
-      <div class="tick-item" data-val="2" onclick="toggleTick(this)"><span class="tick-box">✓</span>I can use tag questions correctly (<i>"…don't you?" / "…do you?"</i>)</div>
-      <div class="tick-item" data-val="3" onclick="toggleTick(this)"><span class="tick-box">✓</span>I can use "So do I" and "Neither do I" to agree with someone</div>
-      <div class="tick-item" data-val="4" onclick="toggleTick(this)"><span class="tick-box">✓</span>I can build sentences with "the…, the…" + comparatives</div>
-      <div class="tick-item" data-val="5" onclick="toggleTick(this)"><span class="tick-box">✓</span>I know at least 10 compound adjectives for personality</div>
-      <div class="tick-item" data-val="6" onclick="toggleTick(this)"><span class="tick-box">✓</span>I can use modifiers like "pretty," "extremely," and "kind of" naturally</div>
-    </div>
-    <div class="ccq-box" style="margin-top:8px;">
-      <div class="discuss-label" style="margin:0;">💬 What was the most interesting or surprising thing you learned about your classmates today?</div>
+    <h2 style="margin-bottom:14px;">What have we learned?</h2>
+    <div class="fixed-two-col" style="gap:14px;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:#F5F0FF;border-radius:12px;padding:16px 20px;border-left:5px solid #4A1A6A;">
+          <p style="font-size:1.2rem;font-weight:800;color:#4A1A6A;margin-bottom:14px;">📐 Grammar — Auxiliary Verbs</p>
+          <div style="display:flex;flex-direction:column;gap:16px;font-size:1.05rem;line-height:1.7;">
+            <div><span style="background:#4A1A6A;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Avoiding repetition of the main verb</span><br><span style="color:#4A1A6A;font-style:italic;display:inline-block;margin-top:4px;">"I like cats, but my husband doesn't."</span></div>
+            <div><span style="background:#C8891E;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Saying you're the same (so, neither)</span><br><span style="color:#C8891E;font-style:italic;display:inline-block;margin-top:4px;">"I loved it." "So did I."</span></div>
+            <div><span style="background:#2A6B42;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Saying you're different</span><br><span style="color:#2A6B42;font-style:italic;display:inline-block;margin-top:4px;">"I don't like it." "I do."</span></div>
+            <div><span style="background:#1E4D8C;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Showing interest or surprise</span><br><span style="color:#1E4D8C;font-style:italic;display:inline-block;margin-top:4px;">"I saw a ghost." "You did?"</span></div>
+            <div><span style="background:#B23A6B;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Giving emphasis</span><br><span style="color:#B23A6B;font-style:italic;display:inline-block;margin-top:4px;">"You didn't lock it!" "I DID lock it."</span></div>
+            <div><span style="background:#0E7A8A;color:#fff;border-radius:5px;padding:2px 10px;font-weight:700;">Checking information (tag questions)</span><br><span style="color:#0E7A8A;font-style:italic;display:inline-block;margin-top:4px;">"You like coffee, don't you?"</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:#F5F0FF;border-radius:12px;padding:16px 20px;border-left:5px solid #4A1A6A;">
+          <p style="font-size:1.2rem;font-weight:800;color:#4A1A6A;margin-bottom:10px;">📐 Grammar — The…, the… + Comparatives</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0 0 8px;">Two things change together — use <b>the + comparative</b> twice in one sentence.</p>
+          <p style="margin:0;font-size:1.05rem;"><span style="color:#1B6E96;font-style:italic;">"<b>The more</b> you study,</span> <span style="color:#5A2E8C;font-style:italic;"><b>the more</b> you learn."</span></p>
+        </div>
+        <div style="background:#EEF3FA;border-radius:12px;padding:16px 20px;border-left:5px solid #1E4D8C;">
+          <p style="font-size:1.2rem;font-weight:800;color:#1E4D8C;margin-bottom:8px;">💬 Speaking</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">We reacted to strange stories, played detective with tag questions and reply questions, took turns being psychic, described a walk through a forest, and made comparative sentences personal.</p>
+        </div>
+      </div>
     </div>
   </div></div>
 </div>
@@ -1404,20 +1346,20 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW1 — What's unnecessary?</h2>
-    <p class="instruction">In the second half of each sentence, type the word(s) that are unnecessary and could be removed (because they're already said, or replaced by an auxiliary).</p>
+    <p class="instruction">Cross out the unnecessary words.</p>
     <div id="hw1a" class="two-col">
-      <p class="ex-row"><span class="example-badge">1</span>My mom can drive, but my dad can't drive. → <input class="ans-input wide" data-ans="drive"></p>
-      <p class="ex-row"><span class="circ-num">2</span>I loved that book, but my wife didn't love that book. → <input class="ans-input wide" data-ans="love that book"></p>
-      <p class="ex-row"><span class="circ-num">3</span>You weren't listening to the instructions, but I was listening to the instructions. → <input class="ans-input wide" data-ans="listening to the instructions"></p>
-      <p class="ex-row"><span class="circ-num">4</span>Some people believe in ghosts, but others don't believe in ghosts. → <input class="ans-input wide" data-ans="believe in ghosts"></p>
-      <p class="ex-row"><span class="circ-num">5</span>Gina's going to the party, but Robbie isn't going to the party. → <input class="ans-input wide" data-ans="going to the party"></p>
-      <p class="ex-row"><span class="circ-num">6</span>I always lock the front door, but my partner doesn't always lock the front door. → <input class="ans-input wide" data-ans="always lock the front door" data-alt="lock the front door"></p>
-      <p class="ex-row"><span class="circ-num">7</span>I've never been to a fortune-teller, but my sister has visited a fortune-teller. → <input class="ans-input wide" data-ans="visited a fortune-teller" data-alt="visited a fortune teller"></p>
-      <p class="ex-row"><span class="circ-num">8</span>My friends had already heard the story, but I hadn't already heard the story. → <input class="ans-input wide" data-ans="already heard the story"></p>
+      <p class="ex-row"><span class="example-badge">1</span>My mom can drive, but my dad can't <span class="cross-word crossed" style="cursor:default;color:#1A7A4A;font-weight:800;">drive</span>. <i style="color:#888;">(example)</i></p>
+      <p class="ex-row"><span class="circ-num">2</span>I loved that book, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">wife</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">didn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">love</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">that</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">book</span>.</p>
+      <p class="ex-row"><span class="circ-num">3</span>You weren't listening to the instructions, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">was</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">listening</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">instructions</span>.</p>
+      <p class="ex-row"><span class="circ-num">4</span>Some people believe in ghosts, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">others</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">don't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">believe</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">in</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">ghosts</span>.</p>
+      <p class="ex-row"><span class="circ-num">5</span>Gina's going to the party, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">Robbie</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">isn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">going</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">to</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">party</span>.</p>
+      <p class="ex-row"><span class="circ-num">6</span>I always lock the front door, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">partner</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">doesn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">always</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">lock</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">front</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">door</span>.</p>
+      <p class="ex-row"><span class="circ-num">7</span>I've never been to a fortune-teller, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">my</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">sister</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">has</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">visited</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">a</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">fortune-teller</span>.</p>
+      <p class="ex-row"><span class="circ-num">8</span>My friends had already heard the story, but <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">I</span> <span class="cross-word" data-correct="false" onclick="toggleCrossWord(this)">hadn't</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">already</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">heard</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">the</span> <span class="cross-word" data-correct="true" onclick="toggleCrossWord(this)">story</span>.</p>
     </div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('hw1a')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('hw1a')">Reset</button>
+      <button class="btn-check" onclick="checkCrossSlide('hw1a')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCrossSlide('hw1a')">Reset</button>
     </div>
   </div></div>
 </div>
@@ -1427,7 +1369,7 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW2 — Complete the conversations</h2>
-    <p class="instruction">Complete each conversation with a tag question or an auxiliary verb.</p>
+    <p class="instruction">Complete the conversations with a tag question or an auxiliary.</p>
     <div id="hw1b" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>A I texted you last night, but you didn't reply. B I <b>did</b> reply. I texted you right away.</p>
       <p class="ex-row"><span class="circ-num">2</span>A I don't feel like cooking tonight. B Neither <input class="ans-input small" data-ans="do"> I. Let's go out for dinner. I'd love some Mexican food. A So <input class="ans-input small" data-ans="do"> I. Come on. Let's go.</p>
@@ -1450,7 +1392,7 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW3 — React and say why</h2>
-    <p class="instruction">Respond to each statement with "So do I / Neither do I / I do / I don't" (or similar), and say why.</p>
+    <p class="instruction">Respond to the statements with So do I, Neither do I, I do, I don't, etc., and say why.</p>
     <div class="ex-row">1. I didn't go out yesterday. <input class="ans-input wide"></div>
     <div class="ex-row">2. I love the ocean. <input class="ans-input wide"></div>
     <div class="ex-row">3. I've never been to Canada. <input class="ans-input wide"></div>
@@ -1483,10 +1425,6 @@
   <div class="slide-main"><div class="content">
     <h2>HW4 — Listen and complete</h2>
     <p class="instruction">Complete each conversation with the correct auxiliary verb.</p>
-    <!-- audio: WB p.9 ex2a listen-and-complete track -->
-    <div class="audio-box">
-      <audio controls src="audio/hw-pronunciation.mp3"></audio>
-    </div>
     <div id="hw2a" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>A You don't like the soup, do you? B I <b>do</b> like it. It's just that it's very hot.</p>
       <p class="ex-row"><span class="circ-num">2</span>A We <input class="ans-input small" data-ans="weren't"> invited to their wedding. B You <input class="ans-input small" data-ans="weren't"> ? Neither <input class="ans-input small" data-ans="were"> we.</p>
@@ -1508,12 +1446,12 @@
   <div class="slide-main"><div class="content">
     <h2>HW5 — The more…, the more…</h2>
     <p class="instruction">Complete the sentences with the comparative form of the adjectives in the list.<br>Use words like: big, cold, difficult, far, high, interesting, late, likely, long, qualified.</p>
-    <div class="ex-row">1. <b>The earlier</b> we set off, <b>the better</b> chance we'll have of avoiding the rush hour traffic. <i style="color:#888;">(example)</i></div>
-    <div class="ex-row">2. The <input class="ans-input small"> the class, the <input class="ans-input small"> the students are to learn something.</div>
-    <div class="ex-row">3. The <input class="ans-input small"> you go to bed, the <input class="ans-input small"> it is to get up in the morning.</div>
-    <div class="ex-row">4. The <input class="ans-input small"> north you travel in Canada, the <input class="ans-input small"> it gets.</div>
-    <div class="ex-row">5. The <input class="ans-input small"> the person is for the job, the <input class="ans-input small"> the salary.</div>
-    <div class="ex-row">6. The <input class="ans-input small"> your house, the <input class="ans-input small"> it takes you to clean it.</div>
+    <div class="ex-row"><span class="example-badge">1</span><b>The earlier</b> we set off, <b>the better</b> chance we'll have of avoiding the rush hour traffic.</div>
+    <div class="ex-row"><span class="circ-num">2</span>The <input class="ans-input small"> the class, the <input class="ans-input small"> the students are to learn something.</div>
+    <div class="ex-row"><span class="circ-num">3</span>The <input class="ans-input small"> you go to bed, the <input class="ans-input small"> it is to get up in the morning.</div>
+    <div class="ex-row"><span class="circ-num">4</span>The <input class="ans-input small"> north you travel in Canada, the <input class="ans-input small"> it gets.</div>
+    <div class="ex-row"><span class="circ-num">5</span>The <input class="ans-input small"> the person is for the job, the <input class="ans-input small"> the salary.</div>
+    <div class="ex-row"><span class="circ-num">6</span>The <input class="ans-input small"> your house, the <input class="ans-input small"> it takes you to clean it.</div>
     <div class="btn-row">
       <button class="btn-suggest" onclick="toggleSuggested('hw3-key')">Show Possible Answers</button>
     </div>
@@ -1553,19 +1491,19 @@
     </div>
     <div id="hw4a" class="two-col">
       <p class="ex-row"><span class="example-badge">1</span>easily made angry or annoyed → <b>bad-tempered</b></p>
-      <p class="ex-row"><span class="circ-num">2</span>ready to consider new ideas → <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">2</span>ready to consider new ideas and opinions → <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span></p>
       <p class="ex-row"><span class="circ-num">3</span>not willing to spend money → <span class="wb-blank" data-ans="tight-fisted" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">4</span>often forgetting things or not noticing what's happening → <span class="wb-blank" data-ans="absentminded" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">5</span>determined to do what you want → <span class="wb-blank" data-ans="strong-willed" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">6</span>relaxed, not easily worried → <span class="wb-blank" data-ans="laid-back" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">4</span>often forgetting or not noticing things → <span class="wb-blank" data-ans="absentminded" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">5</span>determined to do what you want to do, even if other people advise you not to → <span class="wb-blank" data-ans="strong-willed" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">6</span>relaxed; not easily worried by things → <span class="wb-blank" data-ans="laid-back" onclick="wbPlace(this)">______</span></p>
       <p class="ex-row"><span class="circ-num">7</span>sensible and emotionally in control → <span class="wb-blank" data-ans="well-balanced" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">8</span>having too high an opinion of yourself → <span class="wb-blank" data-ans="big-headed" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">9</span>not willing to listen to different ideas → <span class="wb-blank" data-ans="narrow-minded" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">10</span>dishonest about your feelings, telling people what pleases them → <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">11</span>cheerful, not easily made angry → <span class="wb-blank" data-ans="easygoing" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">12</span>thinking only about yourself → <span class="wb-blank" data-ans="self-centered" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">13</span>calm, not easily upset → <span class="wb-blank" data-ans="good-tempered" onclick="wbPlace(this)">______</span></p>
-      <p class="ex-row"><span class="circ-num">14</span>behaving politely and correctly → <span class="wb-blank" data-ans="well-behaved" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">8</span>having a very high opinion of how important and smart you are → <span class="wb-blank" data-ans="big-headed" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">9</span>not willing to listen to ideas different from your own → <span class="wb-blank" data-ans="narrow-minded" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">10</span>dishonest about your feelings, telling people what you think will please them → <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">11</span>cheerful and not easily made angry → <span class="wb-blank" data-ans="easygoing" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">12</span>thinking only about yourself and not about other people → <span class="wb-blank" data-ans="self-centered" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">13</span>calm; not easily upset by what other people do → <span class="wb-blank" data-ans="good-tempered" onclick="wbPlace(this)">______</span></p>
+      <p class="ex-row"><span class="circ-num">14</span>behaving in a way that people think is polite and correct → <span class="wb-blank" data-ans="well-behaved" onclick="wbPlace(this)">______</span></p>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkWbSlide('hw4a')">Check Answers</button>
@@ -1601,8 +1539,8 @@
       <p class="ex-row"><span class="circ-num">3</span>Oliver's new girlfriend isn't as crazy as he is. She seems very <span class="wb-blank" data-ans="well-balanced" onclick="wbPlace(this)">______</span> .</p>
       <p class="ex-row"><span class="circ-num">4</span>My partner is really <span class="wb-blank" data-ans="narrow-minded" onclick="wbPlace(this)">______</span> . He won't listen to other people's ideas.</p>
       <p class="ex-row"><span class="circ-num">5</span>Grace never thinks of anyone else because she's so <span class="wb-blank" data-ans="self-centered" onclick="wbPlace(this)">______</span> .</p>
-      <p class="ex-row"><span class="circ-num">6</span>My sister-in-law is very <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span> . She's nice to me, then speaks badly of me to others.</p>
-      <p class="ex-row"><span class="circ-num">7</span>Since he went to work abroad, Leo has become more <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span> about other cultures.</p>
+      <p class="ex-row"><span class="circ-num">6</span>My sister-in-law is very <span class="wb-blank" data-ans="two-faced" onclick="wbPlace(this)">______</span> . She's nice to me, and then speaks badly of me to other people.</p>
+      <p class="ex-row"><span class="circ-num">7</span>Since he went to work abroad for a while, Leo has become more <span class="wb-blank" data-ans="open-minded" onclick="wbPlace(this)">______</span> about other cultures.</p>
       <p class="ex-row"><span class="circ-num">8</span>She's very <span class="wb-blank" data-ans="strong-willed" onclick="wbPlace(this)">______</span> , and if she's decided to become a vegetarian, nothing will stop her.</p>
       <p class="ex-row"><span class="circ-num">9</span>When we go out, my friend Jack never offers to pay for gas. I wish he wasn't so <span class="wb-blank" data-ans="tight-fisted" onclick="wbPlace(this)">______</span> .</p>
       <p class="ex-row"><span class="circ-num">10</span>The new manager seems very <span class="wb-blank" data-ans="big-headed" onclick="wbPlace(this)">______</span> . He spent most of the meeting telling us how successful he was.</p>
@@ -1653,8 +1591,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-vocab-mfp", "s-vocab-match1", "s-vocab-match2", "s-vocab-modifiers", "s-vocab-speak", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
-var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Grammar 2 – Make It Personal", "Vocabulary – Personality Words", "Vocabulary – What Kind of Person? (1/2)", "Vocabulary – What Kind of Person? (2/2)", "Vocabulary – A Little or a Lot?", "Speaking – Describe Yourself", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3", "hw-wb4a", "hw-wb4b", "hw-wb4c"];
+var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Speaking – Make It Personal", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…", "HW6 – Match the Meaning", "HW7 – Complete the Sentences", "HW8 – Circle the Correct Answer"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2118,6 +2056,33 @@ function resetTickSlide(sid){
 function toggleSuggested(id){
   var box = document.getElementById(id);
   box.classList.toggle('show');
+}
+
+/* ===================== CLICK-TO-CROSS-OUT (HW1 — What's unnecessary?) ===================== */
+function toggleCrossWord(el){
+  el.classList.toggle('crossed');
+}
+function checkCrossSlide(sid){
+  var container = document.getElementById(sid);
+  var words = container.querySelectorAll('.cross-word[data-correct]');
+  words.forEach(function(w){
+    var shouldCross = w.dataset.correct === 'true';
+    var isCrossed = w.classList.contains('crossed');
+    w.classList.remove('correct','wrong');
+    /* Only give feedback on words the student actually clicked — an unclicked
+       word (whether or not it should have been crossed) stays neutral, per the
+       "no answer is ever revealed" rule: unselected/unfilled items never show
+       the correct answer, they just aren't marked either way. */
+    if (!isCrossed) return;
+    if (shouldCross) w.classList.add('correct');
+    else w.classList.add('wrong');
+  });
+}
+function resetCrossSlide(sid){
+  var container = document.getElementById(sid);
+  container.querySelectorAll('.cross-word[data-correct]').forEach(function(w){
+    w.classList.remove('crossed','correct','wrong','missed');
+  });
 }
 
 /* ===================== SHARED NO-REPEAT SHUFFLE BAG ===================== */
