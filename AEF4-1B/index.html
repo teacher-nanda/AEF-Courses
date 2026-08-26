@@ -2064,18 +2064,26 @@ function toggleCrossWord(el){
 }
 function checkCrossSlide(sid){
   var container = document.getElementById(sid);
-  var words = container.querySelectorAll('.cross-word[data-correct]');
-  words.forEach(function(w){
-    var shouldCross = w.dataset.correct === 'true';
-    var isCrossed = w.classList.contains('crossed');
-    w.classList.remove('correct','wrong');
-    /* Only give feedback on words the student actually clicked — an unclicked
-       word (whether or not it should have been crossed) stays neutral, per the
-       "no answer is ever revealed" rule: unselected/unfilled items never show
-       the correct answer, they just aren't marked either way. */
-    if (!isCrossed) return;
-    if (shouldCross) w.classList.add('correct');
-    else w.classList.add('wrong');
+  var rows = container.querySelectorAll('.ex-row');
+  rows.forEach(function(row){
+    var words = row.querySelectorAll('.cross-word[data-correct]');
+    if (!words.length) return;
+    words.forEach(function(w){ w.classList.remove('correct','wrong'); });
+    /* The correct answer is the whole set of unnecessary words in the sentence,
+       not each word independently — crossing only part of it is not correct.
+       Only give feedback on words the student actually clicked; an unclicked
+       word stays neutral either way, per the "no answer is ever revealed" rule. */
+    var allCorrectCrossed = Array.from(words).every(function(w){
+      return w.dataset.correct !== 'true' || w.classList.contains('crossed');
+    });
+    var noExtraCrossed = Array.from(words).every(function(w){
+      return w.dataset.correct === 'true' || !w.classList.contains('crossed');
+    });
+    var sentenceCorrect = allCorrectCrossed && noExtraCrossed;
+    words.forEach(function(w){
+      if (!w.classList.contains('crossed')) return;
+      w.classList.add(sentenceCorrect ? 'correct' : 'wrong');
+    });
   });
 }
 function resetCrossSlide(sid){
