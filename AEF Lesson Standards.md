@@ -933,6 +933,10 @@ For "select the correct option" exercises, the options sit **inline in the blank
 - ✅ `I had a terrible <button class="circ-opt">journey</button> <span class="circ-sep">/</span> <button class="circ-opt">trip</button> here — the flight was delayed.`
 - ❌ `I had a terrible ___ here. (a) journey (b) trip (c) travel`
 
+### Inline multiple-choice options never wrap mid-phrase
+
+Multi-word `.circ-opt` options (e.g. "does the bus leave", "I've ever been seeing") sit inside a running sentence, so if the browser is free to line-wrap them, a long option can break across two lines — ugly and hard to read as a single option. `.circ-opt` must always render as one unbroken unit: `display:inline-block; white-space:nowrap;`. Check this any time `.circ-opt` (or an equivalent inline-choice class) is defined or copied into a new lesson file.
+
 ### One instruction paragraph per slide
 
 Every homework slide has exactly **one** instruction paragraph. Never stack two `<p class="instruction">`/`<p class="inst-light">` tags on the same slide (e.g. a base instruction plus a separate "Tip:" paragraph) — merge any extra guidance into the single instruction paragraph instead. If a slide has two genuinely distinct exercises, split it into two slides (see the `slideIds`/`slideLabels` update rule above) rather than writing two instructions on one slide.

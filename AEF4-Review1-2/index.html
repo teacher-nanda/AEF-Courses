@@ -109,7 +109,7 @@
   .cross-word.crossed { text-decoration:line-through; }
   .cross-word.correct { background:#E3F5EA; color:#1A7A4A; text-decoration:line-through; }
   .cross-word.wrong { background:#FBEAE6; color:#C4614A; text-decoration:line-through; }
-  .circ-opt { border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
+  .circ-opt { display:inline-block; white-space:nowrap; border:1.5px solid #ccc; border-radius:14px; padding:4px 14px; margin:2px 4px; background:#fff; cursor:pointer; font-family:inherit; font-size:1.05rem; color:#1C2B3A; }
   .circ-opt.picked { border-color:#5A2E8C; background:#EEE7F7; font-weight:700; }
   .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; font-weight:800; }
   .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; font-weight:800; }
@@ -583,7 +583,7 @@
   <div class="slide-main"><div class="content">
     <h2>Complete the sentences with one word</h2>
     <p class="instruction">Complete the sentences with one word.</p>
-    <div class="fixed-two-col">
+    <div id="gram1" class="fixed-two-col">
       <div>
         <div class="ex-row"><span class="circ-num">1</span>What were you and Sarah talking <input class="ans-input small" data-ans="about"> ?</div>
         <div class="ex-row"><span class="circ-num">2</span>You didn't like her latest novel, <input class="ans-input small" data-ans="did"> you?</div>
@@ -622,45 +622,21 @@
   </div></div>
 </div>
 
-<!-- ============ VOCABULARY REVIEW A — compound adjectives ============ -->
-<div class="slide" id="s-vocab1">
-  <div class="banner banner-vocab">🗣️ Vocabulary</div>
-  <div class="slide-main"><div class="content">
-    <h2>Complete the compound adjectives</h2>
-    <p class="instruction">Complete the compound adjectives.</p>
-    <div class="fixed-two-col">
-      <div>
-        <div class="ex-row"><span class="circ-num">1</span>My boss is very bad-<input class="ans-input small" data-ans="tempered"> . When things go wrong, he starts shouting at everyone.</div>
-        <div class="ex-row"><span class="circ-num">2</span>I'm very <input class="ans-input small" data-ans="absent">-minded. I tend to forget things.</div>
-        <div class="ex-row"><span class="circ-num">3</span>I think Paul is very tight-<input class="ans-input small" data-ans="fisted"> . He never spends money unless he absolutely has to.</div>
-      </div>
-      <div>
-        <div class="ex-row"><span class="circ-num">4</span>Sylvia won't have any problems at the interview — she's very self-<input class="ans-input small" data-ans="confident"> .</div>
-        <div class="ex-row"><span class="circ-num">5</span>That sweater is very old-<input class="ans-input small" data-ans="fashioned"> . It looks like the kind of thing my grandpa would wear.</div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('vocab1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('vocab1')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
 <!-- ============ VOCABULARY REVIEW B — write the word ============ -->
 <div class="slide" id="s-vocab2">
   <div class="banner banner-vocab">🗣️ Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Write the word</h2>
-    <p class="instruction">Write the word that matches each definition.</p>
-    <div class="fixed-two-col">
+    <p class="instruction">Write words for the definitions. The first letters are given.</p>
+    <div id="vocab2" class="fixed-two-col">
       <div>
-        <div class="ex-row"><span class="circ-num">1</span>(verb) to lose blood from an injury <input class="ans-input small" data-ans="bleed"></div>
-        <div class="ex-row"><span class="circ-num">2</span>(adj.) bigger than normal, especially because of an injury or infection <input class="ans-input small" data-ans="swollen"></div>
-        <div class="ex-row"><span class="circ-num">3</span>(noun) a piece of cloth used to tie around a part of the body that has been hurt <input class="ans-input small" data-ans="bandage"></div>
+        <div class="ex-row"><img src="images/cut.png" alt="bleeding finger" style="width:46px;height:46px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-right:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);"><span class="circ-num">1</span><b>bl</b><input class="ans-input small" data-ans="eed" style="width:110px;"> <em>(verb)</em> to lose blood from an injury</div>
+        <div class="ex-row"><img src="images/ankle.png" alt="swollen ankle" style="width:46px;height:46px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-right:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);"><span class="circ-num">2</span><b>sw</b><input class="ans-input small" data-ans="ollen" style="width:110px;"> <em>(adj.)</em> bigger than normal, especially because of an injury or infection</div>
+        <div class="ex-row"><img src="images/bandage.png" alt="bandage" style="width:46px;height:46px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-right:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);"><span class="circ-num">3</span><b>b</b><input class="ans-input small" data-ans="andage" style="width:110px;"> <em>(noun)</em> a piece of cloth used to tie around a part of the body that has been hurt</div>
       </div>
       <div>
-        <div class="ex-row"><span class="circ-num">4</span>(noun) a pain in one of your teeth <input class="ans-input small" data-ans="toothache"></div>
-        <div class="ex-row"><span class="circ-num">5</span>(noun) an area of red spots caused by an illness or allergy <input class="ans-input small" data-ans="rash"></div>
+        <div class="ex-row"><img src="images/toothache.png" alt="toothache" style="width:46px;height:46px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-right:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);"><span class="circ-num">4</span><b>t</b><input class="ans-input small" data-ans="oothache" style="width:110px;"> <em>(noun)</em> a pain in one of your teeth</div>
+        <div class="ex-row"><img src="images/rash.png" alt="skin rash" style="width:46px;height:46px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-right:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);"><span class="circ-num">5</span><b>r</b><input class="ans-input small" data-ans="ash" style="width:110px;"> <em>(noun)</em> an area of red spots caused by an illness or allergy</div>
       </div>
     </div>
     <div class="btn-row">
@@ -670,81 +646,63 @@
   </div></div>
 </div>
 
-<!-- ============ VOCABULARY REVIEW C — circle the correct verb ============ -->
-<div class="slide" id="s-vocab3">
-  <div class="banner banner-vocab">🗣️ Vocabulary</div>
+<!-- ============ READING A — CAN YOU UNDERSTAND THIS TEXT? ============ -->
+<div class="slide" id="s-reading1">
+  <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
-    <h2>Choose the correct verb</h2>
-    <p class="instruction">Click the correct verb or verb phrase.</p>
-    <div id="vocab3" class="two-col">
-      <p class="ex-row"><span class="circ-num">1</span>I <span class="circ-opt" data-group="v1" data-correct="feel" onclick="circPick(this)">have</span> <span class="circ-opt" data-group="v1" data-correct="feel" onclick="circPick(this)">feel</span> a little dizzy. I need to sit down.</p>
-      <p class="ex-row"><span class="circ-num">2</span>She <span class="circ-opt" data-group="v2" data-correct="sprained" onclick="circPick(this)">burned</span> <span class="circ-opt" data-group="v2" data-correct="sprained" onclick="circPick(this)">sprained</span> her ankle when she was jogging.</p>
-      <p class="ex-row"><span class="circ-num">3</span>It was so hot in the room that I nearly <span class="circ-opt" data-group="v3" data-correct="fainted" onclick="circPick(this)">fainted</span> <span class="circ-opt" data-group="v3" data-correct="fainted" onclick="circPick(this)">choked</span>.</p>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('vocab3')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('vocab3')">Reset</button>
+    <h2>Astronaut returns from space younger than his twin</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+      <div>
+        <p class="instruction">Read the article once. Do the scientists who have studied Scott Kelly agree about the effect of space travel on the human body?</p>
+      </div>
+      <div class="card" style="line-height:1.8;font-size:1.06rem;max-height:420px;overflow-y:auto;margin:0;">
+        <img src="images/scottkelly.avif" alt="Astronauts Mark and Scott Kelly, identical twins, sitting side by side in NASA jackets" style="width:100%;border-radius:10px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.15);">
+        <p><b>American astronaut Scott Kelly</b>, and his identical twin Mark, also a retired astronaut, may be the most studied siblings in the history of science. Each time one of them went into space while the other remained on Earth, both men would carry out dozens of experiments, including cognitive exercises, genetic sequencing, and testing for bacteria on their bodies. When Scott landed in Kazakhstan last year, after 340 days in space, he came back two inches taller, fifteen pounds lighter, and with a strong desire to jump into a swimming pool. Changes like these were predictable and temporary. Now, however, scientists have found the first signs of a change that no one expected — during his year on board the International Space Station, Scott's body had become younger.</p>
+        <p>One of the genetic indicators of human aging is the length of our telomeres. Telomeres are the caps at the end of each strand of DNA that protect our chromosomes, like the plastic tips at the end of shoelaces. Usually, telomeres get shorter as we age; they are about 11,000 molecules long when we are born and only about 4,000 long in old age, and this means that our DNA is increasingly vulnerable to damage as we get older. However, an analysis of Scott Kelly's cells, led by Susan Bailey, professor of radiation cancer biology at Colorado State University, showed that the 52-year-old astronaut's telomeres got longer while he was in space, before shrinking back again after returning to Earth.</p>
+        <p>In theory, expanding telomeres indicate the reversal of part of the aging process. However, they are also strongly linked to cancer. NASA is aiming to send humans to Mars and beyond, but many scientists worry that long-haul trips into space could cause astronauts to suffer from chronic and severe health problems. So this is definitely not good news, and it could have serious implications for the future of space travel.</p>
+        <p>Christopher Mason, assistant professor of physiology and biophysics at Cornell Weill Medicine in New York, takes a different view. Professor Mason's team also found changes in Scott Kelly's genes while he was in space. But he thinks this may be less a result of simply being in space, and more due to the intense NASA fitness regime. "On Earth, you might go to the gym on Tuesday and then decide you can't be bothered on Thursday and go out for a big dinner, but on the space station, the astronauts exercise extremely regularly, and all food and exercise is very controlled."</p>
+      </div>
     </div>
   </div></div>
 </div>
 
-<!-- ============ VOCABULARY REVIEW D — complete with one word ============ -->
-<div class="slide" id="s-vocab4">
-  <div class="banner banner-vocab">🗣️ Vocabulary</div>
+<!-- ============ READING B — READ AGAIN AND CHOOSE ============ -->
+<div class="slide" id="s-reading2">
+  <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
-    <h2>Complete with one word</h2>
-    <p class="instruction">Complete the sentences with one word.</p>
-    <div class="fixed-two-col">
+    <h2>Read again and choose</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
       <div>
-        <div class="ex-row"><span class="circ-num">1</span>My mother had a very bad case of the flu last week, but she's beginning to get <input class="ans-input small" data-ans="over"> it now.</div>
+        <p class="instruction">Read the article again and choose the correct option.</p>
+        <div id="reading2" style="display:flex;flex-direction:column;gap:14px;">
+          <p class="ex-row"><span class="circ-num">1</span>Scientists expected that, after spending a year in space, Scott Kelly would be…<br>
+            <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">more intelligent.</span>
+            <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">taller and lighter.</span>
+            <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">younger.</span></p>
+          <p class="ex-row"><span class="circ-num">2</span>Telomeres prevent…<br>
+            <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">aging.</span>
+            <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">radiation.</span>
+            <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">damage to our chromosomes.</span></p>
+          <p class="ex-row"><span class="circ-num">3</span>Scientists are afraid that astronauts…<br>
+            <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">will not want to do long space flights.</span>
+            <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">will have a lot of long-term health problems.</span>
+            <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">won't be able to travel further than Mars.</span></p>
+          <p class="ex-row"><span class="circ-num">4</span>In space, astronauts…<br>
+            <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">must use the gym twice a week.</span>
+            <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">exercise more than when they are in training.</span>
+            <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">are not allowed to eat whatever they like.</span></p>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="checkCircSlide('reading2')">Check Answers</button>
+          <button class="btn-reset" onclick="resetCircSlide('reading2')">Reset</button>
+        </div>
       </div>
-      <div>
-        <div class="ex-row"><span class="circ-num">2</span>Please lie <input class="ans-input small" data-ans="down"> on the couch over there.</div>
-        <div class="ex-row"><span class="circ-num">3</span>I'm feeling sick. I think I'm going to <input class="ans-input small" data-ans="throw"> up.</div>
+      <div class="card" style="line-height:1.8;font-size:1.06rem;max-height:420px;overflow-y:auto;margin:0;">
+        <p><b>American astronaut Scott Kelly</b>, and his identical twin Mark, also a retired astronaut, may be the most studied siblings in the history of science. Each time one of them went into space while the other remained on Earth, both men would carry out dozens of experiments, including cognitive exercises, genetic sequencing, and testing for bacteria on their bodies. When Scott landed in Kazakhstan last year, after 340 days in space, he came back two inches taller, fifteen pounds lighter, and with a strong desire to jump into a swimming pool. Changes like these were predictable and temporary. Now, however, scientists have found the first signs of a change that no one expected — during his year on board the International Space Station, Scott's body had become younger.</p>
+        <p>One of the genetic indicators of human aging is the length of our telomeres. Telomeres are the caps at the end of each strand of DNA that protect our chromosomes, like the plastic tips at the end of shoelaces. Usually, telomeres get shorter as we age; they are about 11,000 molecules long when we are born and only about 4,000 long in old age, and this means that our DNA is increasingly vulnerable to damage as we get older. However, an analysis of Scott Kelly's cells, led by Susan Bailey, professor of radiation cancer biology at Colorado State University, showed that the 52-year-old astronaut's telomeres got longer while he was in space, before shrinking back again after returning to Earth.</p>
+        <p>In theory, expanding telomeres indicate the reversal of part of the aging process. However, they are also strongly linked to cancer. NASA is aiming to send humans to Mars and beyond, but many scientists worry that long-haul trips into space could cause astronauts to suffer from chronic and severe health problems. So this is definitely not good news, and it could have serious implications for the future of space travel.</p>
+        <p>Christopher Mason, assistant professor of physiology and biophysics at Cornell Weill Medicine in New York, takes a different view. Professor Mason's team also found changes in Scott Kelly's genes while he was in space. But he thinks this may be less a result of simply being in space, and more due to the intense NASA fitness regime. "On Earth, you might go to the gym on Tuesday and then decide you can't be bothered on Thursday and go out for a big dinner, but on the space station, the astronauts exercise extremely regularly, and all food and exercise is very controlled."</p>
       </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('vocab4')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('vocab4')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ PRONUNCIATION REVIEW A — odd sound out ============ -->
-<div class="slide" id="s-pron1">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Find the different sound</h2>
-    <p class="instruction">Click the word with a different sound.</p>
-    <div class="fixed-two-col">
-      <div>
-        <div class="ex-row"><span class="circ-num">1</span><span class="circ-opt" data-group="p1" data-correct="ache" onclick="circPick(this)">ache</span> <span class="circ-opt" data-group="p1" data-correct="ache" onclick="circPick(this)">choke</span> <span class="circ-opt" data-group="p1" data-correct="ache" onclick="circPick(this)">change</span> <span class="circ-opt" data-group="p1" data-correct="ache" onclick="circPick(this)">matches</span></div>
-      </div>
-      <div>
-        <div class="ex-row"><span class="circ-num">2</span><span class="circ-opt" data-group="p2" data-correct="suede" onclick="circPick(this)">unconscious</span> <span class="circ-opt" data-group="p2" data-correct="suede" onclick="circPick(this)">rash</span> <span class="circ-opt" data-group="p2" data-correct="suede" onclick="circPick(this)">fashion</span> <span class="circ-opt" data-group="p2" data-correct="suede" onclick="circPick(this)">suede</span></div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('pron1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('pron1')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ PRONUNCIATION REVIEW B — word stress ============ -->
-<div class="slide" id="s-pron2">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Find the stress</h2>
-    <p class="instruction">Click the syllable with the main stress in each word.</p>
-    <div id="pron2" style="display:flex;flex-direction:column;gap:16px;">
-      <div class="ex-row"><span class="circ-num">1</span><span class="syl-word"><span class="syl" onclick="sylClick(this)">in</span><span class="syl" onclick="sylClick(this)" data-stress="1">cred</span><span class="syl" onclick="sylClick(this)">i</span><span class="syl" onclick="sylClick(this)">bly</span></span></div>
-      <div class="ex-row"><span class="circ-num">2</span><span class="syl-word"><span class="syl" onclick="sylClick(this)">big-</span><span class="syl" onclick="sylClick(this)" data-stress="1">head</span><span class="syl" onclick="sylClick(this)">ed</span></span></div>
-      <div class="ex-row"><span class="circ-num">3</span><span class="syl-word"><span class="syl" onclick="sylClick(this)">an</span><span class="syl" onclick="sylClick(this)">ti</span><span class="syl" onclick="sylClick(this)">bi</span><span class="syl" onclick="sylClick(this)" data-stress="1">o</span><span class="syl" onclick="sylClick(this)">tics</span></span></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSyl('pron2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSyl('pron2')">Reset</button>
     </div>
   </div></div>
 </div>
@@ -762,13 +720,13 @@
         </div>
         <div style="background:#EAF6EE;border-radius:12px;padding:16px 20px;border-left:5px solid #1E7A5F;">
           <p style="font-size:1.2rem;font-weight:800;color:#1E7A5F;margin-bottom:10px;">🗣️ Vocabulary</p>
-          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">Compound adjectives (bad-tempered, self-confident…) and illnesses &amp; injuries (bleed, swollen, sprained, faint…).</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">Illnesses &amp; injuries (bleed, swollen, bandage, toothache, rash…).</p>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div style="background:#FDF0E4;border-radius:12px;padding:16px 20px;border-left:5px solid #A8571E;">
-          <p style="font-size:1.2rem;font-weight:800;color:#A8571E;margin-bottom:10px;">🔊 Pronunciation</p>
-          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">The consonant sounds /ʃ/, /dʒ/, /tʃ/, and /k/, plus word stress in longer words.</p>
+          <p style="font-size:1.2rem;font-weight:800;color:#A8571E;margin-bottom:10px;">📖 Reading</p>
+          <p style="font-size:1.05rem;color:#1C2B3A;line-height:1.75;margin:0;">A real article about astronaut Scott Kelly's twin study, read for gist and then for detail.</p>
         </div>
         <div style="background:#EEF3FA;border-radius:12px;padding:16px 20px;border-left:5px solid #1E4D8C;">
           <p style="font-size:1.2rem;font-weight:800;color:#1E4D8C;margin-bottom:10px;">💬 Speaking</p>
@@ -787,59 +745,54 @@
   </div>
 </div>
 
-<!-- ============ HW1: READING — CAN YOU UNDERSTAND THIS TEXT? ============ -->
-<div class="slide" id="hw-reading">
-  <div class="banner banner-reading">📖 Reading</div>
+<!-- ============ HW1: SAY IT ANOTHER WAY ============ -->
+<div class="slide" id="hw-remember1">
+  <div class="banner banner-grammar">📐 Grammar &amp; Vocabulary</div>
   <div class="slide-main"><div class="content">
-    <h2>HW1 — Astronaut returns from space younger than his twin</h2>
-    <p class="instruction">Read the article once. Do the scientists who have studied Scott Kelly agree about the effect of space travel on the human body?</p>
-    <div class="card" style="line-height:1.8;font-size:1.06rem;max-height:320px;overflow-y:auto;">
-      <p><b>American astronaut Scott Kelly</b>, and his identical twin Mark, also a retired astronaut, may be the most studied siblings in the history of science. Each time one of them went into space while the other remained on Earth, both men would carry out dozens of experiments, including cognitive exercises, genetic sequencing, and testing for bacteria on their bodies. When Scott landed in Kazakhstan last year, after 340 days in space, he came back two inches taller, fifteen pounds lighter, and with a strong desire to jump into a swimming pool. Changes like these were predictable and temporary. Now, however, scientists have found the first signs of a change that no one expected — during his year on board the International Space Station, Scott's body had become younger.</p>
-      <p>One of the genetic indicators of human aging is the length of our telomeres. Telomeres are the caps at the end of each strand of DNA that protect our chromosomes, like the plastic tips at the end of shoelaces. Usually, telomeres get shorter as we age; they are about 11,000 molecules long when we are born and only about 4,000 long in old age, and this means that our DNA is increasingly vulnerable to damage as we get older. However, an analysis of Scott Kelly's cells, led by Susan Bailey, professor of radiation cancer biology at Colorado State University, showed that the 52-year-old astronaut's telomeres got longer while he was in space, before shrinking back again after returning to Earth.</p>
-      <p>In theory, expanding telomeres indicate the reversal of part of the aging process. However, they are also strongly linked to cancer. NASA is aiming to send humans to Mars and beyond, but many scientists worry that long-haul trips into space could cause astronauts to suffer from chronic and severe health problems. So this is definitely not good news, and it could have serious implications for the future of space travel.</p>
-      <p>Christopher Mason, assistant professor of physiology and biophysics at Cornell Weill Medicine in New York, takes a different view. Professor Mason's team also found changes in Scott Kelly's genes while he was in space. But he thinks this may be less a result of simply being in space, and more due to the intense NASA fitness regime. "On Earth, you might go to the gym on Tuesday and then decide you can't be bothered on Thursday and go out for a big dinner, but on the space station, the astronauts exercise extremely regularly, and all food and exercise is very controlled."</p>
+    <h2>HW1 — Say it another way</h2>
+    <p class="instruction">Complete the second sentence so that it means the same as the first sentence. Use the word in parentheses. Contractions are one word.</p>
+    <div id="remember1" class="fixed-two-col">
+      <div>
+        <div class="ex-row"><span class="circ-num">1</span>My husband and I both love animals. <em style="color:#888;font-size:1.05rem;">(so)</em><br>I love animals and <b style="color:#1A7A4A;">so does my husband</b>.</div>
+        <div class="ex-row"><span class="circ-num">2</span>I'm sure I sent you a message last night. <em style="color:#888;font-size:1.05rem;">(did)</em><br>I <b style="color:#1A7A4A;">did send you a message</b> last night.</div>
+        <div class="ex-row"><span class="circ-num">3</span>Whose is this phone? <em style="color:#888;font-size:1.05rem;">(belong)</em><br>Who <input class="ans-input" data-ans="does this phone belong" style="width:280px;"> to?</div>
+        <div class="ex-row"><span class="circ-num">4</span>What was wrong with the hotel you stayed in? <em style="color:#888;font-size:1.05rem;">(like)</em><br>Why <input class="ans-input" data-ans="didn't you like" style="width:280px;"> the hotel you stayed in?</div>
+        <div class="ex-row"><span class="circ-num">5</span>Where did you get that book from? <em style="color:#888;font-size:1.05rem;">(gave)</em><br><input class="ans-input" data-ans="who gave you" style="width:280px;"> that book?</div>
+      </div>
+      <div>
+        <div class="ex-row"><span class="circ-num">6</span>How much is gas in your country? <em style="color:#888;font-size:1.05rem;">(costs)</em><br>Do you know <input class="ans-input" data-ans="how much gas costs" style="width:280px;"> in your country?</div>
+        <div class="ex-row"><span class="circ-num">7</span>Do you have any vacancies right now? <em style="color:#888;font-size:1.05rem;">(whether)</em><br>Can you <input class="ans-input" data-ans="tell me whether you have" style="width:280px;"> any vacancies right now?</div>
+        <div class="ex-row"><span class="circ-num">8</span>I'm just checking that you'll pick me up from work tonight. <em style="color:#888;font-size:1.05rem;">(you)</em><br>You will pick me up from work tonight, <input class="ans-input small" data-ans="won't you">?</div>
+        <div class="ex-row"><span class="circ-num">9</span>My friends and I can't afford to go on vacation this year. <em style="color:#888;font-size:1.05rem;">(neither)</em><br>I can't afford to go on vacation this year and <input class="ans-input" data-ans="neither can my friends" style="width:280px;">.</div>
+        <div class="ex-row"><span class="circ-num">10</span>I'm sure Tom knows about the meeting — he mentioned it yesterday. <em style="color:#888;font-size:1.05rem;">(does)</em><br>Tom <input class="ans-input" data-ans="does know about the meeting" style="width:280px;"> — he mentioned it yesterday.</div>
+      </div>
     </div>
     <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('hwr-a')">Show Answer</button>
+      <button class="btn-check" onclick="checkSlide('remember1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('remember1')">Reset</button>
     </div>
-    <div class="suggest-box" id="hwr-a"><p style="margin:0;">No, they don't.</p></div>
   </div></div>
 </div>
 
-<!-- ============ HW2: READING COMPREHENSION MC ============ -->
-<div class="slide" id="hw-reading2">
+<!-- ============ HW2: FACT OR FICTION? (BERMUDA TRIANGLE) ============ -->
+<div class="slide" id="hw-remember2">
   <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
-    <h2>HW2 — Read again and choose</h2>
-    <p class="instruction">Read the article again and choose the correct option.</p>
-    <div id="hwr2" class="fixed-two-col">
-      <div>
-        <p class="ex-row"><span class="circ-num">1</span>Scientists expected that, after spending a year in space, Scott Kelly would be…<br>
-          <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">more intelligent.</span>
-          <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">taller and lighter.</span>
-          <span class="circ-opt" data-group="r1" data-correct="taller and lighter." onclick="circPick(this)">younger.</span></p>
-        <p class="ex-row"><span class="circ-num">2</span>Telomeres prevent…<br>
-          <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">aging.</span>
-          <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">radiation.</span>
-          <span class="circ-opt" data-group="r2" data-correct="damage to our chromosomes." onclick="circPick(this)">damage to our chromosomes.</span></p>
-      </div>
-      <div>
-        <p class="ex-row"><span class="circ-num">3</span>Scientists are afraid that astronauts…<br>
-          <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">will not want to do long space flights.</span>
-          <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">will have a lot of long-term health problems.</span>
-          <span class="circ-opt" data-group="r3" data-correct="will have a lot of long-term health problems." onclick="circPick(this)">won't be able to travel further than Mars.</span></p>
-        <p class="ex-row"><span class="circ-num">4</span>In space, astronauts…<br>
-          <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">must use the gym twice a week.</span>
-          <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">exercise more than when they are in training.</span>
-          <span class="circ-opt" data-group="r4" data-correct="are not allowed to eat whatever they like." onclick="circPick(this)">are not allowed to eat whatever they like.</span></p>
-      </div>
+    <h2>HW2 — Fact or fiction?</h2>
+    <p class="instruction">Read the text. Click the correct option to complete each blank.</p>
+    <div id="remember2" class="card" style="line-height:2;font-size:1.05rem;">
+      <p style="font-weight:800;font-size:1.15rem;margin-bottom:10px;">The Bermuda Triangle</p>
+      <p>During the 1960s and 70s, many stories were told of ships and aircraft disappearing mysteriously in a region of the Atlantic Ocean known as the Bermuda Triangle. People asked, "<span class="circ-opt" data-group="bt1" data-correct="What" onclick="circPick(this)">How</span><span class="circ-opt" data-group="bt1" data-correct="What" onclick="circPick(this)">What</span><span class="circ-opt" data-group="bt1" data-correct="What" onclick="circPick(this)">Which</span> is causing these boats and planes to disappear?", and several <span class="circ-opt" data-group="bt2" data-correct="extraordinary" onclick="circPick(this)">foreign</span><span class="circ-opt" data-group="bt2" data-correct="extraordinary" onclick="circPick(this)">extraordinary</span><span class="circ-opt" data-group="bt2" data-correct="extraordinary" onclick="circPick(this)">absentminded</span> reasons were given to explain the mystery. Some writers wondered <span class="circ-opt" data-group="bt3" data-correct="whether" onclick="circPick(this)">how</span><span class="circ-opt" data-group="bt3" data-correct="whether" onclick="circPick(this)">whether</span><span class="circ-opt" data-group="bt3" data-correct="whether" onclick="circPick(this)">where</span> aliens had established an underwater base and were hijacking aircraft to study their crew. Others said that enormous waves might be hitting vessels, causing them to sink without a <span class="circ-opt" data-group="bt4" data-correct="sign" onclick="circPick(this)">mark</span><span class="circ-opt" data-group="bt4" data-correct="sign" onclick="circPick(this)">sign</span><span class="circ-opt" data-group="bt4" data-correct="sign" onclick="circPick(this)">trace</span>. However, nobody asked the question of whether there really <span class="circ-opt" data-group="bt5" data-correct="was" onclick="circPick(this)">is</span><span class="circ-opt" data-group="bt5" data-correct="was" onclick="circPick(this)">has</span><span class="circ-opt" data-group="bt5" data-correct="was" onclick="circPick(this)">was</span> any mystery to explain.</p>
+      <p>Journalist Larry Kusche was the first person to do this. He asked questions about the mysterious disappearances that previous writers <span class="circ-opt" data-group="bt6" data-correct="hadn't" onclick="circPick(this)">didn't</span><span class="circ-opt" data-group="bt6" data-correct="hadn't" onclick="circPick(this)">hadn't</span><span class="circ-opt" data-group="bt6" data-correct="hadn't" onclick="circPick(this)">weren't</span>. These writers had simply collected stories that had already been written and repeated them in their own way. Kusche found many mistakes in their stories: in some cases, there was no record of the ships and planes that were said to have been lost, and in others, they had disappeared during <span class="circ-opt" data-group="bt7" data-correct="extremely" onclick="circPick(this)">rather</span><span class="circ-opt" data-group="bt7" data-correct="extremely" onclick="circPick(this)">pretty</span><span class="circ-opt" data-group="bt7" data-correct="extremely" onclick="circPick(this)">extremely</span> bad storms. Kusche pointed out that it was logical that more accidents would occur in the busy Bermuda Triangle than in more <span class="circ-opt" data-group="bt8" data-correct="remote" onclick="circPick(this)">crowded</span><span class="circ-opt" data-group="bt8" data-correct="remote" onclick="circPick(this)">far</span><span class="circ-opt" data-group="bt8" data-correct="remote" onclick="circPick(this)">remote</span> areas such as the South Pacific because the more ships there are in an area, the <span class="circ-opt" data-group="bt9" data-correct="more likely" onclick="circPick(this)">likely</span><span class="circ-opt" data-group="bt9" data-correct="more likely" onclick="circPick(this)">more likely</span><span class="circ-opt" data-group="bt9" data-correct="more likely" onclick="circPick(this)">most likely</span> it is for one of them to sink.</p>
+      <p>In the end, Kusche concluded that the explanation for the Bermuda Triangle <span class="circ-opt" data-group="bt10" data-correct="puzzle" onclick="circPick(this)">puzzle</span><span class="circ-opt" data-group="bt10" data-correct="puzzle" onclick="circPick(this)">quiz</span><span class="circ-opt" data-group="bt10" data-correct="puzzle" onclick="circPick(this)">story</span> was neither aliens nor massive waves, but the lack of research done by writers in search of a sensational story.</p>
     </div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('hwr2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('hwr2')">Reset</button>
+      <button class="btn-check" onclick="checkCircSlide('remember2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('remember2')">Reset</button>
     </div>
   </div></div>
 </div>
+
 </div><!-- END #deck -->
 
 <div id="nav">
@@ -853,8 +806,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-bridge", "s-warmup", "s-gram1", "s-gram2", "s-vocab1", "s-vocab2", "s-vocab3", "s-vocab4", "s-pron1", "s-pron2", "s-review", "hw-cover", "hw-reading", "hw-reading2"];
-var slideLabels = ["Cover", "Bridge – Quick Files: Ask About It!", "Warm-Up – Would You Rather", "Grammar – Complete the Sentences", "Grammar – Choose the Correct Option", "Vocabulary – Compound Adjectives", "Vocabulary – Write the Word", "Vocabulary – Choose the Correct Verb", "Vocabulary – Complete with One Word", "Pronunciation – Find the Different Sound", "Pronunciation – Find the Stress", "Lesson Review", "Homework Cover", "HW1 – Reading: Can You Understand This Text?", "HW2 – Read Again and Choose"];
+var slideIds = ["s1", "s-bridge", "s-warmup", "s-gram1", "s-gram2", "s-vocab2", "s-reading1", "s-reading2", "s-review", "hw-cover", "hw-remember1", "hw-remember2"];
+var slideLabels = ["Cover", "Bridge – Quick Files: Ask About It!", "Warm-Up – Would You Rather", "Grammar – Complete the Sentences", "Grammar – Choose the Correct Option", "Vocabulary – Write the Word", "Reading – Can You Understand This Text?", "Reading – Read Again and Choose", "Lesson Review", "Homework Cover", "HW1 – Say It Another Way", "HW2 – Fact or Fiction? (Bermuda Triangle)"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
