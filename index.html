@@ -68,6 +68,16 @@
     box-shadow: 0 8px 20px rgba(15,42,56,.18);
     border-color: #C8891E;
   }
+  .course-card.review {
+    background: #EAF2F8;
+    border-color: #D3E4F0;
+  }
+  .course-card.review:hover {
+    border-color: #7FAFD1;
+  }
+  .course-card.review .course-code {
+    color: #3E7CB1;
+  }
   .course-code {
     font-size: .78rem;
     font-weight: 700;
@@ -128,6 +138,7 @@
     { level: "AEF4", folder: "AEF4-1A", file: "index.html", code: "AEF4 · 1A", title: "Questions and Answers" },
     { level: "AEF4", folder: "AEF4-1B", file: "index.html", code: "AEF4 · 1B", title: "It's a Mystery" },
     { level: "AEF4", folder: "AEF4-2A", file: "index.html", code: "AEF4 · 2A", title: "Doctor, doctor!" },
+    { level: "AEF4", folder: "AEF4-Review1-2", file: "index.html", code: "AEF4 · R1&2", title: "1 & 2 Review", type: "review" },
     { level: "AEF4", folder: "AEF4-3A", file: "index.html", code: "AEF4 · 3A", title: "Fasten your seat belts" },
     { level: "AEF4", folder: "AEF4-3B", file: "index.html", code: "AEF4 · 3B", title: "A Really Good Ending?" },
     { level: "AEF4", folder: "AEF4-4A", file: "index.html", code: "AEF4 · 4A", title: "Stormy Weather" },
@@ -159,7 +170,7 @@
 
       courses.filter(c => c.level === level).forEach(c => {
         const a = document.createElement('a');
-        a.className = 'course-card';
+        a.className = 'course-card' + (c.type === 'review' ? ' review' : '');
         a.href = `${encodeURIComponent(c.folder)}/${c.file}`;
         a.innerHTML = `
           <span class="course-code">${c.code}</span>

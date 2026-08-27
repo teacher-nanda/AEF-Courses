@@ -627,6 +627,7 @@ AEF-Courses/
 | AEF4 1A | https://teacher-nanda.github.io/AEF-Courses/AEF4-1A/index.html |
 | AEF4 1B | https://teacher-nanda.github.io/AEF-Courses/AEF4-1B/index.html |
 | AEF4 2A | https://teacher-nanda.github.io/AEF-Courses/AEF4-2A/index.html |
+| AEF4 Review 1&2 | https://teacher-nanda.github.io/AEF-Courses/AEF4-Review1-2/index.html |
 | AEF4 3A | https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html |
 | AEF4 7A | https://aef4-7a.netlify.app/ *(not yet migrated into AEF-Courses)* |
 | Business English for Everyone (Level 1) — Business-EFE1 | https://teacher-nanda.github.io/Business-EFE1/ *(separate repo, not part of AEF-Courses)* |
@@ -1325,6 +1326,53 @@ Every lesson now opens with a short **Bridge slide**, positioned right after the
 - Keep it fast — 2–4 items, one clear task, no more than a couple of minutes of class time. This is a warm connector, not a full review.
 - It's fine (and often good) to end with a short, low-key `gram-note` that plants a seed for today's new grammar — but keep it brief and natural, not a lecture.
 - Never use words like "review," "last lesson," or "recap" in anything student-facing (title, instruction, banner). Let the activity itself carry the connection.
+
+### The Bridge is communicative, never a graded grammar drill
+
+**A Bridge slide must be a speaking/production task, not a fill-in-the-blank or multiple-choice grammar exercise with a single graded correct answer.** The whole point is for the student to *use* the target skill to communicate — ask a real question, react, make something up, describe something — not to prove they can conjugate it correctly on a form.
+
+This means, for the Bridge specifically:
+
+- **No `checkSlide`/`checkCircSlide`-style "Check Answers" button testing grammatical accuracy.** That mechanic belongs to the lesson's actual Grammar practice slides, not the Bridge.
+- **Open, ungraded production fields are fine and often best** — e.g. a blank `.ans-input` with no `data-ans`, existing only to give the student something to jot down while they speak their answer out loud. Nothing gets marked right or wrong.
+- **Favor prompts that require the student to generate their own language**: ask a question about a scenario, react to a statement, describe something invented, make a guess — not complete a sentence with the "correct" verb form.
+- The reference implementation (AEF4-1B's "Case Files: Ask About It!") is the model to copy: three short scenario cards, each ending in an open "ask a question about it" field with no grading — the student produces real questions using last lesson's skill, live, out loud.
+
+### Connect through learning points, not through topic
+
+The single most common way to get this wrong: rebuilding the **previous lesson's topic** in new clothes (e.g. another doctor/illness quiz after a "Doctor, doctor!" lesson). That is not a bridge — it's just the old lesson again with a new theme label, and it does nothing to connect to *today's* lesson.
+
+A Bridge slide must instead identify the actual **learning points** taught last time — the specific, nameable things the student practiced — and re-exercise those, dressed in whatever scenario fits *today's* topic. Learning points typically fall into one of these buckets:
+
+- **Grammar / structure** (e.g. present perfect simple, question formation, auxiliary-verb functions)
+- **Key functional phrases** (e.g. phrases for describing a problem, asking for clarification, giving advice)
+- **Vocabulary set** (e.g. illness/injury words, personality adjectives) — used as *language material* inside a new scenario, not as the scenario's subject
+- **Pronunciation focus** (e.g. word stress, a specific sound contrast)
+
+**How to build it:**
+
+1. List out the previous lesson's actual learning points (check the lesson file / manual notes — don't guess).
+2. Pick one or two of them — not the topic — as the thing being reactivated.
+3. Invent a short task or game for *today's* topic/theme that requires using that grammar, those phrases, that pronunciation pattern, or that vocabulary as a tool — the old topic itself should not reappear.
+
+**Worked example — wrong vs. right**, for a Bridge slide following a "Doctor, doctor!" lesson (learning points: present perfect simple, phrases for describing symptoms/problems, illness vocabulary, word stress) feeding into a "1 & 2 Review" or any unrelated next lesson:
+
+- ❌ **Wrong** (topic-based): a "myth or fact" quiz about burns, nosebleeds, and frostbite. This just re-runs the old lesson's illness/first-aid topic — exactly what this rule forbids.
+- ✅ **Right** (learning-point-based): a quick "Have you ever…?" mingling task where the student forms present-perfect questions about experiences unrelated to illness (travel, food, sport), or a rapid-fire task where the student must use last lesson's "describing a problem" phrases ("I've got a…", "It hurts when…") to complain about something totally different (a noisy neighbor, a broken phone) — the grammar/phrases are reactivated, the topic is not.
+
+If it's not obvious which learning points to reactivate, ask: "if I stripped away the theme, what specific language skill was the student practicing?" Bridge that skill forward — never the theme.
+
+**When bridging into a lesson that follows more than one previous lesson** (e.g. a Review lesson after 1A + 1B + 2A), don't limit the Bridge to only the single most-recent lesson's learning point — pull one distinct learning point from each of the recent lessons being connected, so the Bridge reactivates a genuine spread, not just the last thing taught.
+
+### When multiple cards/items are used, mix the task types
+
+Don't give every card the same instruction (e.g. "ask a question about it" three times in a row). Each card should exercise a **different** learning point through a **different kind of task**, so the Bridge feels varied and communicative rather than repetitive drilling of one mechanic. For example, across three cards pulling from three different lessons:
+
+- Card 1 (question-formation skill): "Ask a polite, indirect question about it."
+- Card 2 (reacting skill): "React to it! (Same as you? Different? Surprised?)"
+- Card 3 (a grammar contrast, e.g. present simple vs. present perfect continuous): "Tell me something you usually do, and something you've been doing a lot recently."
+
+All three stay open-ended and ungraded (per the rule above), but the *shape* of what the student produces changes card to card — a question, a reaction, a pair of personal statements — which is what makes it feel like a real mixed conversation rather than one repeated exercise pattern.
 
 **Banner — add to the approved list:**
 
