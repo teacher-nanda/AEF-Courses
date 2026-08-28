@@ -1392,30 +1392,34 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
           <div class="audio-player-label">At the Doctor</div>
           <audio id="audio-doctor" src="AEF3e_Level_4_SB_2.09.mp3" controls preload="none"></audio>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
-            <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>1</strong>&ensp;What symptoms does the patient have?</p>
-            <input class="ans-input" style="width:100%;box-sizing:border-box;">
-            <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
-            <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A cough, headaches, a temperature.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
+              <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>1</strong>&ensp;What symptoms does the patient have?</p>
+              <textarea style="width:100%;height:68px;font-size:1.05rem;border:1.5px solid #A8D8D4;border-radius:6px;padding:5px 8px;font-family:inherit;resize:none;box-sizing:border-box;background:#fff;"></textarea>
+              <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
+              <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A cough, headaches, a temperature.</div>
+            </div>
+            <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
+              <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>2</strong>&ensp;What does he think might be wrong with him?</p>
+              <textarea style="width:100%;height:68px;font-size:1.05rem;border:1.5px solid #A8D8D4;border-radius:6px;padding:5px 8px;font-family:inherit;resize:none;box-sizing:border-box;background:#fff;"></textarea>
+              <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
+              <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A brain tumor.</div>
+            </div>
           </div>
-          <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
-            <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>2</strong>&ensp;What does he think might be wrong with him?</p>
-            <input class="ans-input" style="width:100%;box-sizing:border-box;">
-            <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
-            <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A brain tumor.</div>
-          </div>
-          <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
-            <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>3</strong>&ensp;What does he think he needs?</p>
-            <input class="ans-input" style="width:100%;box-sizing:border-box;">
-            <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
-            <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A blood test.</div>
-          </div>
-          <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
-            <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>4</strong>&ensp;What does the doctor suggest?</p>
-            <input class="ans-input" style="width:100%;box-sizing:border-box;">
-            <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
-            <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">He should wait a few days, take acetaminophen, and go to bed early.</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
+              <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>3</strong>&ensp;What does he think he needs?</p>
+              <textarea style="width:100%;height:68px;font-size:1.05rem;border:1.5px solid #A8D8D4;border-radius:6px;padding:5px 8px;font-family:inherit;resize:none;box-sizing:border-box;background:#fff;"></textarea>
+              <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
+              <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">A blood test.</div>
+            </div>
+            <div style="background:#F4F8FA;border-radius:11px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07);">
+              <p style="margin:0 0 8px;font-size:1.06rem;color:#1C2B3A;line-height:1.6;"><strong>4</strong>&ensp;What does the doctor suggest?</p>
+              <textarea style="width:100%;height:68px;font-size:1.05rem;border:1.5px solid #A8D8D4;border-radius:6px;padding:5px 8px;font-family:inherit;resize:none;box-sizing:border-box;background:#fff;"></textarea>
+              <button onclick="var d=this.nextElementSibling;d.style.display=d.style.display==='none'?'block':'none'" style="font-size:.78rem;color:#4A1A6A;background:none;border:none;cursor:pointer;padding:4px 0 0;display:block;">&#128161; sample answer</button>
+              <div style="display:none;font-size:1.05rem;color:#2A6B42;background:#F0FAF0;border-radius:6px;padding:5px 8px;margin-top:3px;line-height:1.5;">He should wait a few days, take acetaminophen, and go to bed early.</div>
+            </div>
           </div>
         </div>
         <div class="hw-btns" style="margin-top:16px;">

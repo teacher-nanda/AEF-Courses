@@ -224,6 +224,14 @@ color:#1A7A4A; font-weight:800; background:#E3F5EA; padding:1px 7px; border-radi
 
 This keeps the numbered items reading in strict ascending order across the two columns every time, with the example sitting visually separate above — never interleaved with the numbering.
 
+### Renumber real items starting at 1 once the example is extracted
+
+> Added 2026-08-28 after AEF4-1B's HW5 ("The more…, the more…") was found numbering its real items 2–6, matching the book's original numbers, because the book's own item 1 was the worked example. On screen this looked broken — item "1" appeared to be missing entirely.
+
+Once an example is pulled out into its own unnumbered `.ex-example-centered` block (per the rule above), it no longer occupies a slot in the on-screen numbering — regardless of what number that item had in the book. **The remaining real items are renumbered starting at 1**, in the same order the book presents them, so the student always sees a clean, gap-free `1, 2, 3…` sequence. This matches the pattern already used elsewhere in the same file (e.g. `s-gbank-a`'s "Quick-fire practice", where the book's item 1 is the example and the real items are shown as 1–8, not 2–9).
+
+Never carry the book's original item numbers onto the screen once one of them has been converted into the unnumbered example — check every exercise with an extracted example for this before considering it done.
+
 ---
 
 ## 📝 Exercises
