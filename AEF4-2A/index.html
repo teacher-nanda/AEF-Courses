@@ -2139,14 +2139,16 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
       <button onclick="notesHilite('remove')" title="Remove highlight" style="font-size:.75rem;padding:2px 6px;color:#cc0000;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.12);border-radius:4px;cursor:pointer;">✕</button>
     </span>
   </div>
-  <div id="notesTA" contenteditable="true" spellcheck="false"></div>
+  <div id="notesTA" contenteditable="true" spellcheck="false" oninput="saveNotes()"></div>
 </div>
 
 <script>
 
 var slideIds=["s1","s2","s-speak","s4","s-inbox","s-scenarios","s-pron","s-listen1","s-fa","s-listen2","s-discuss","s-gram","s-listen3","s-listen4","s-gram2","s-gram3","s-gram4","s-practice","s-review","hw-cover","hw-voca","hw-voc1","hw-voc5","hw-pron","hw-gr1","hw-gr3","hw-wr"];
 var slideLabels=["Cover","Lead-in","Speaking – Medical Myths","Vocabulary – Illnesses & Conditions","Vocabulary – Doctor's Inbox","Speaking – Scenarios","Pronunciation","Listening – Emergency Stories","Listening – First Aid","Listening – Helping in an Emergency","Speaking – Your Experience","Listening – At the Doctor","Listening – Doctor & Receptionist","Listening – Sentence Structure","Grammar – Theory","Grammar – Exercise a","Grammar – Exercise b","Speaking – It's your turn!","Lesson Review","Homework Cover","HW – Vocabulary: Spelling","HW2 – Symptoms and Conditions","HW3 – First Aid","HW4 – Pronunciation","HW5 – Present Perfect","HW6 – Email Writing","HW7 – Writing Practice"];
+var notesStoreKey='aefNotes::'+document.title;
 var notesData={};
+try{ var _savedNotes=JSON.parse(localStorage.getItem(notesStoreKey)); if(_savedNotes) Object.assign(notesData,_savedNotes); }catch(e){}
 var slides=Array.from(document.querySelectorAll('.slide'));
 var dotsEl=document.getElementById('dots');
 var current=0;
@@ -2242,7 +2244,6 @@ function resetRank() {
   });
 }
 /* ── NOTES ─────────────────────────────── */
-var notesData = {};
 var notesOpen = false;
 
 
@@ -2338,7 +2339,7 @@ function notesHilite(color) {
   }
   saveNotes();
 }
-function saveNotes(){var ta=document.getElementById('notesTA');if(ta) notesData[current]=ta.innerHTML;}
+function saveNotes(){var ta=document.getElementById('notesTA');if(ta){notesData[current]=ta.innerHTML; try{localStorage.setItem(notesStoreKey, JSON.stringify(notesData));}catch(e){}}}
 function loadNotes(idx){var ta=document.getElementById('notesTA');if(ta) ta.innerHTML=notesData[idx!==undefined?idx:current]||'';}
 function checkSlide(sid) {
   var inputs = document.querySelectorAll('#' + sid + ' .ans-input[data-ans]');

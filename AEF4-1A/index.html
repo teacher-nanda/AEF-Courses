@@ -2113,7 +2113,9 @@ window.addEventListener('keydown', function(e) {
 });
 
 /* ── NOTES ─────────────────────────────────────── */
+var notesStoreKey='aefNotes::'+document.title;
 const notesData = {};
+try{ var _savedNotes=JSON.parse(localStorage.getItem(notesStoreKey)); if(_savedNotes) Object.assign(notesData,_savedNotes); }catch(e){}
 var notesOpen = false;
 
 /* -- DRAGGABLE NOTES PANEL -------------------- */
@@ -2206,7 +2208,7 @@ function notesHilite(color) {
   }
   saveNotes();
 }
-function saveNotes() { notesData[current] = document.getElementById('notesTA').innerHTML; }
+function saveNotes() { notesData[current] = document.getElementById('notesTA').innerHTML; try{localStorage.setItem(notesStoreKey, JSON.stringify(notesData));}catch(e){} }
 function loadNotes(idx) { document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
 
 /* ── ANSWER CHECKING ────────────────────────────── */

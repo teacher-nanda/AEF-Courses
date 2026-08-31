@@ -1511,7 +1511,9 @@ var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up –
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
+var notesStoreKey='aefNotes::'+document.title;
 var notesData = {};
+try{ var _savedNotes=JSON.parse(localStorage.getItem(notesStoreKey)); if(_savedNotes) Object.assign(notesData,_savedNotes); }catch(e){}
 var notesOpen = false;
 
 if (slides.length !== slideIds.length || slides.length !== slideLabels.length) {
@@ -1640,7 +1642,7 @@ function notesHilite(color){
   }
   saveNotes();
 }
-function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
+function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; try{localStorage.setItem(notesStoreKey, JSON.stringify(notesData));}catch(e){} }
 function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
 function savePDF(){
   saveNotes();

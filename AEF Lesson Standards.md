@@ -390,6 +390,25 @@ Before building any exercise that gives the student a list of words to complete 
   ```
 - Requires a top-level `var notesOpen = false;` alongside `notesData`/`current`
 
+### Notes must survive a page refresh (localStorage)
+
+> Added 2026-08-28 after AEF4-2A's notes were found storing only in memory, with no `localStorage` backing — a page refresh silently discarded all notes with only a `beforeunload` warning as protection. AEF4-2A's `#notesTA` was also missing `oninput="saveNotes()"` entirely, so plain typing (without touching Bold/Underline/Highlight) never even reached the in-memory object.
+
+- `notesData` must be **loaded from and saved to `localStorage`**, not kept purely in memory — a refresh, closed tab, or crash must never lose notes.
+- Storage key: `var notesStoreKey = 'aefNotes::' + document.title;` — `document.title` is already unique per lesson, so this needs no extra configuration per file.
+- Declare and hydrate immediately next to `notesData`, before any slide renders:
+  ```js
+  var notesStoreKey = 'aefNotes::' + document.title;
+  var notesData = {}; // (or `const`, matching the file's existing style)
+  try { var _savedNotes = JSON.parse(localStorage.getItem(notesStoreKey)); if (_savedNotes) Object.assign(notesData, _savedNotes); } catch(e) {}
+  ```
+- `saveNotes()` must write through to `localStorage` on every call, not just update the in-memory object:
+  ```js
+  function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; try{ localStorage.setItem(notesStoreKey, JSON.stringify(notesData)); }catch(e){} }
+  ```
+- Never declare `notesData` twice in the same file (a duplicate declaration later in the script silently discards the loaded/hydrated version) — one declaration only, right where `slideIds`/`slideLabels`/`current` are declared.
+- Verify `#notesTA` actually has `oninput="saveNotes()"` on the element itself — don't assume it's wired just because `saveNotes()` exists elsewhere (e.g. inside `notesFormat`/`notesHilite`). Without it, plain typed notes never reach `notesData` at all, so they'd be lost on slide change, not just on refresh.
+
 ### Notes toolbar — 4 highlight colors + remove, with toggle-off
 
 ```html
