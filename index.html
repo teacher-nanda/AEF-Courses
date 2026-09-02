@@ -78,6 +78,23 @@
   .course-card.review .course-code {
     color: #3E7CB1;
   }
+  .course-card.draft {
+    background: #FCEFE0;
+    border-color: #EAC088;
+  }
+  .course-card.draft:hover {
+    border-color: #D18F2F;
+  }
+  .course-card.draft .course-code {
+    color: #B4711A;
+  }
+  .course-card.draft .course-open {
+    color: #B4711A;
+  }
+  .course-card.draft .course-open::after {
+    content: " (not ready yet)";
+    font-weight: 400;
+  }
   .course-code {
     font-size: .78rem;
     font-weight: 700;
@@ -130,7 +147,7 @@
   // file: the html file to open inside that folder
   // code / title: what shows on the card
   const courses = [
-    { level: "AEF3", folder: "AEF3-1A", file: "index.html", code: "AEF3 · 1A", title: "Eating In and Out" },
+    { level: "AEF3", folder: "AEF3-1A", file: "index.html", code: "AEF3 · 1A", title: "Eating In and Out", type: "draft" },
     { level: "AEF3", folder: "AEF3-1B", file: "index.html", code: "AEF3 · 1B", title: "Modern Families" },
     { level: "AEF3", folder: "AEF3-2A", file: "index.html", code: "AEF3 · 2A", title: "Spending Money" },
     { level: "AEF3", folder: "AEF3-2B", file: "index.html", code: "AEF3 · 2B", title: "Changing Lives" },
@@ -170,7 +187,7 @@
 
       courses.filter(c => c.level === level).forEach(c => {
         const a = document.createElement('a');
-        a.className = 'course-card' + (c.type === 'review' ? ' review' : '');
+        a.className = 'course-card' + (c.type === 'review' ? ' review' : '') + (c.type === 'draft' ? ' draft' : '');
         a.href = `${encodeURIComponent(c.folder)}/${c.file}`;
         a.innerHTML = `
           <span class="course-code">${c.code}</span>
