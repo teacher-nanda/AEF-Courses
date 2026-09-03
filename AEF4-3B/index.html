@@ -172,6 +172,9 @@
   .gm2-c1 { background: #E8F0FF !important; border-color: #1E4D8C !important; }
   .gm2-c2 { background: #FFF3E0 !important; border-color: #C8891E !important; }
   .gm2-c3 { background: #E0F5F7 !important; border-color: #0E7A8A !important; }
+  .gm2-c4 { background: #FCE4EC !important; border-color: #AD1457 !important; }
+  .gm2-c5 { background: #E8F5E9 !important; border-color: #2E7D32 !important; }
+  .gm2-c6 { background: #FFF3B0 !important; border-color: #9C7A00 !important; }
   .gm2-correct { background: #d4edda !important; border-color: #1A7A4A !important; }
   .gm2-wrong   { background: #f8d7da !important; border-color: #c0392b !important; }
   .gm2-given   { background: #eef7ef !important; border-color: #8fc9a0 !important; cursor: default !important; }
@@ -1013,112 +1016,127 @@
   <div class="slide-main"><div class="content">
     <h2>Comment adverbs</h2>
     <p class="instruction">Click a sentence on the left, then click its matching definition on the right — the pair will share a colour.</p>
-    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin-top:10px;align-items:stretch;">
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-top:10px;align-items:start;">
 
-      <!-- headers -->
-      <div style="font-weight:700;color:#4A1A6A;font-size:1rem;letter-spacing:.01em;">Sentences</div>
-      <div style="font-weight:700;color:#4A1A6A;font-size:1rem;letter-spacing:.01em;">Definitions</div>
+      <!-- ===== SENTENCES column (kept in book order a–h; example stays at a) ===== -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-weight:700;color:#4A1A6A;font-size:1rem;letter-spacing:.01em;">Sentences</div>
 
-      <!-- given example: a / 2 -->
-      <div class="gm2-sent gm2-given" style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:11px 14px;">
-        <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:18px;flex-shrink:0;">a</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">I thought the job was going to be difficult, but <b>in fact</b> it's very easy.</span>
-        <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:24px;text-align:center;flex-shrink:0;">→ 2</span>
-      </div>
-      <div class="gm2-resp gm2-given" style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:11px 14px;">
-        <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:18px;flex-shrink:0;">2</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;"><b>in fact</b> — the truth is; actually (used to emphasize something, especially the opposite of what was previously said)</span>
-      </div>
+        <!-- given example: a -->
+        <div class="gm2-sent gm2-given" style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:11px 14px;">
+          <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:18px;flex-shrink:0;">a</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">I thought the job was going to be difficult, but <b>in fact</b> it's very easy.</span>
+          <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:24px;text-align:center;flex-shrink:0;">→ 2</span>
+        </div>
 
-      <!-- row b -->
-      <div class="gm2-sent" id="vc3m-sb" data-i="b" onclick="vc3mPickSent('b')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">b</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">It took us over five hours to get there, but <b>eventually</b> we were able to relax.</span>
-        <span class="gm2-badge" id="vc3m-badge-b" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r1" data-r="1" onclick="vc3mPickResp('1')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">1</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">in a perfect world</span>
-      </div>
+        <div class="gm2-sent" id="vc3m-sb" data-i="b" onclick="vc3mPickSent('b')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">b</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">It took us over five hours to get there, but <b>eventually</b> we were able to relax.</span>
+          <span class="gm2-badge" id="vc3m-badge-b" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
 
-      <!-- row c -->
-      <div class="gm2-sent" id="vc3m-sc" data-i="c" onclick="vc3mPickSent('c')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">c</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;"><b>Ideally</b>, we'd go to Australia if we could afford it.</span>
-        <span class="gm2-badge" id="vc3m-badge-c" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r3" data-r="3" onclick="vc3mPickResp('3')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">3</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">in the main and most important way</span>
-      </div>
+        <div class="gm2-sent" id="vc3m-sc" data-i="c" onclick="vc3mPickSent('c')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">c</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;"><b>Ideally</b>, we'd go to Australia if we could afford it.</span>
+          <span class="gm2-badge" id="vc3m-badge-c" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
 
-      <!-- row d -->
-      <div class="gm2-sent" id="vc3m-sd" data-i="d" onclick="vc3mPickSent('d')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">d</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;"><b>Basically</b>, it's a pretty simple idea.</span>
-        <span class="gm2-badge" id="vc3m-badge-d" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r4" data-r="4" onclick="vc3mPickResp('4')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">4</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">clearly (used to give information you expect other people to know or agree with)</span>
-      </div>
+        <div class="gm2-sent" id="vc3m-sd" data-i="d" onclick="vc3mPickSent('d')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">d</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;"><b>Basically</b>, it's a pretty simple idea.</span>
+          <span class="gm2-badge" id="vc3m-badge-d" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
 
-      <!-- row e -->
-      <div class="gm2-sent" id="vc3m-se" data-i="e" onclick="vc3mPickSent('e')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">e</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">I thought they'd broken up, but <b>apparently</b>, they're back together again.</span>
-        <span class="gm2-badge" id="vc3m-badge-e" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r5" data-r="5" onclick="vc3mPickResp('5')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">5</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">little by little</span>
+        <div class="gm2-sent" id="vc3m-se" data-i="e" onclick="vc3mPickSent('e')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">e</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">I thought they'd broken up, but <b>apparently</b>, they're back together again.</span>
+          <span class="gm2-badge" id="vc3m-badge-e" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-sent" id="vc3m-sf" data-i="f" onclick="vc3mPickSent('f')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">f</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">…so you can tell it was a really awful weekend. <b>Anyway</b>, let's forget about it and talk about something else.</span>
+          <span class="gm2-badge" id="vc3m-badge-f" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-sent" id="vc3m-sg" data-i="g" onclick="vc3mPickSent('g')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">g</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">He's only 14, so <b>obviously</b> he can't stay at home on his own.</span>
+          <span class="gm2-badge" id="vc3m-badge-g" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-sent" id="vc3m-sh" data-i="h" onclick="vc3mPickSent('h')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">h</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">She's been sick for weeks, but <b>gradually</b> she's beginning to feel better.</span>
+          <span class="gm2-badge" id="vc3m-badge-h" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
       </div>
 
-      <!-- row f -->
-      <div class="gm2-sent" id="vc3m-sf" data-i="f" onclick="vc3mPickSent('f')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">f</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">…so you can tell it was a really awful weekend. <b>Anyway</b>, let's forget about it and talk about something else.</span>
-        <span class="gm2-badge" id="vc3m-badge-f" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r6" data-r="6" onclick="vc3mPickResp('6')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">6</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">according to what you have heard or read</span>
-      </div>
+      <!-- ===== DEFINITIONS column — strict numeric order 1–8; example stays at its own number, 2 ===== -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-weight:700;color:#4A1A6A;font-size:1rem;letter-spacing:.01em;">Definitions</div>
 
-      <!-- row g -->
-      <div class="gm2-sent" id="vc3m-sg" data-i="g" onclick="vc3mPickSent('g')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">g</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">He's only 14, so <b>obviously</b> he can't stay at home on his own.</span>
-        <span class="gm2-badge" id="vc3m-badge-g" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r7" data-r="7" onclick="vc3mPickResp('7')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">7</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">in any case (used to change or finish a conversation)</span>
-      </div>
+        <div class="gm2-resp" id="vc3m-r1" data-r="1" onclick="vc3mPickResp('1')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">1</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">in a perfect world</span>
+          <span class="gm2-badge" id="vc3m-rbadge-1" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
 
-      <!-- row h -->
-      <div class="gm2-sent" id="vc3m-sh" data-i="h" onclick="vc3mPickSent('h')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">h</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;flex:1;">She's been sick for weeks, but <b>gradually</b> she's beginning to feel better.</span>
-        <span class="gm2-badge" id="vc3m-badge-h" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
-      </div>
-      <div class="gm2-resp" id="vc3m-r8" data-r="8" onclick="vc3mPickResp('8')"
-           style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
-        <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">8</span>
-        <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;">in the end; after a series of events or difficulties</span>
+        <!-- given example: 2 (stays in its own numeric position, not moved to the top) -->
+        <div class="gm2-resp gm2-given" style="display:flex;align-items:center;gap:10px;border-radius:10px;padding:11px 14px;">
+          <span style="font-size:.95rem;font-weight:800;color:#1A7A4A;min-width:18px;flex-shrink:0;">2</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;"><b>in fact</b> — the truth is; actually (used to emphasize something, especially the opposite of what was previously said)</span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r3" data-r="3" onclick="vc3mPickResp('3')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">3</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">in the main and most important way</span>
+          <span class="gm2-badge" id="vc3m-rbadge-3" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r4" data-r="4" onclick="vc3mPickResp('4')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">4</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">clearly (used to give information you expect other people to know or agree with)</span>
+          <span class="gm2-badge" id="vc3m-rbadge-4" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r5" data-r="5" onclick="vc3mPickResp('5')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">5</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">little by little</span>
+          <span class="gm2-badge" id="vc3m-rbadge-5" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r6" data-r="6" onclick="vc3mPickResp('6')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">6</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">according to what you have heard or read</span>
+          <span class="gm2-badge" id="vc3m-rbadge-6" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r7" data-r="7" onclick="vc3mPickResp('7')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">7</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">in any case (used to change or finish a conversation)</span>
+          <span class="gm2-badge" id="vc3m-rbadge-7" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
+
+        <div class="gm2-resp" id="vc3m-r8" data-r="8" onclick="vc3mPickResp('8')"
+             style="display:flex;align-items:center;gap:10px;background:#f4f8fa;border:2px solid #c8d8e8;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .18s;">
+          <span style="font-size:.95rem;font-weight:800;color:#4A1A6A;min-width:18px;flex-shrink:0;">8</span>
+          <span style="font-size:1.05rem;color:#1C2B3A;line-height:1.5;flex:1;">in the end; after a series of events or difficulties</span>
+          <span class="gm2-badge" id="vc3m-rbadge-8" style="font-size:.95rem;font-weight:800;min-width:24px;text-align:center;flex-shrink:0;border-radius:6px;padding:2px 7px;"></span>
+        </div>
       </div>
     </div>
     <div class="btn-row">
@@ -1839,7 +1857,7 @@ var vc3mAns = {"b":"8","c":"1","d":"3","e":"6","f":"7","g":"4","h":"5"};
 var vc3mIdx = {"b":1,"c":2,"d":3,"e":4,"f":5,"g":6,"h":7};
 var vc3mSel = null;
 var vc3mPairs = {};
-var vc3mColors = ['gm2-c0','gm2-c1','gm2-c2','gm2-c3'];
+var vc3mColors = ['gm2-c0','gm2-c1','gm2-c2','gm2-c3','gm2-c4','gm2-c5','gm2-c6'];
 function vc3mColor(id) { return vc3mColors[(vc3mIdx[id]-1) % vc3mColors.length]; }
 function vc3mClearPair(id) {
   var sentEl = document.getElementById('vc3m-s' + id);
@@ -1848,6 +1866,8 @@ function vc3mClearPair(id) {
   if (vc3mPairs[id]) {
     var respEl = document.getElementById('vc3m-r' + vc3mPairs[id]);
     if (respEl) respEl.classList.remove(col,'gm2-active','gm2-correct','gm2-wrong');
+    var rb = document.getElementById('vc3m-rbadge-' + vc3mPairs[id]);
+    if (rb) rb.textContent = '';
     delete vc3mPairs[id];
   }
 }
@@ -1870,6 +1890,8 @@ function vc3mPickResp(id) {
   vc3mPairs[sid] = id;
   var sentEl = document.getElementById('vc3m-s' + sid);
   if (sentEl) { sentEl.classList.remove('gm2-active'); var b=document.getElementById('vc3m-badge-'+sid); if(b) b.textContent = '→ ' + id; }
+  var rb = document.getElementById('vc3m-rbadge-' + id);
+  if (rb) rb.textContent = '← ' + sid;
   vc3mSel = null;
 }
 function checkVC3M() {
@@ -1897,9 +1919,10 @@ function checkVC3M() {
 function vc3mRefresh() {
   vc3mPairs = {}; vc3mSel = null;
   document.querySelectorAll('.gm2-sent:not(.gm2-given),.gm2-resp:not(.gm2-given)').forEach(function(e){
-    if (e.id && e.id.indexOf('vc3m-') === 0) e.classList.remove('gm2-active','gm2-correct','gm2-wrong','gm2-c0','gm2-c1','gm2-c2','gm2-c3');
+    if (e.id && e.id.indexOf('vc3m-') === 0) e.classList.remove('gm2-active','gm2-correct','gm2-wrong','gm2-c0','gm2-c1','gm2-c2','gm2-c3','gm2-c4','gm2-c5','gm2-c6');
   });
   ['b','c','d','e','f','g','h'].forEach(function(k){ var b=document.getElementById('vc3m-badge-'+k); if(b) b.textContent=''; });
+  [1,3,4,5,6,7,8].forEach(function(r){ var rb=document.getElementById('vc3m-rbadge-'+r); if(rb) rb.textContent=''; });
 }
 function resetVC3M() { vc3mRefresh(); var sc=document.getElementById('vc3m-score'); if(sc){sc.textContent='';sc.style.display='none';} }
 

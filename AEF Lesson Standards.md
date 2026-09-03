@@ -232,6 +232,17 @@ Once an example is pulled out into its own unnumbered `.ex-example-centered` blo
 
 Never carry the book's original item numbers onto the screen once one of them has been converted into the unnumbered example — check every exercise with an extracted example for this before considering it done.
 
+### Matching exercises: each column keeps its own independent, natural order
+
+> Added 2026-09-03 after AEF4-3B slide 15 ("Comment adverbs" matching) was found laying out sentences (a–h) and definitions (1–8) as paired rows in a single grid — which forced the definitions column out of numeric order to align with the (unrelated) row position of its matching sentence. On screen the right column read "2, 1, 3, 4, 5, 6, 7, 8": the example ("2") was dragged to the top of the list instead of sitting in its own natural 2nd position, and definition "1" was displaced to the second row.
+
+In a two-list matching exercise (sentences↔definitions, questions↔answers, words↔pictures, etc.), **the two columns are independent lists — never force them into shared grid rows just because item A pairs with item B.** Each column keeps its own natural reading order:
+- Left column: in the order the book presents it (e.g. a, b, c, d…).
+- Right column: in its own natural order (e.g. numeric 1, 2, 3, 4… or the book's own order) — **completely decoupled** from which row it happens to sit next to.
+- **If the example is item "2," it stays the 2nd item in its column's natural order — it is never pulled to the top of the list or moved anywhere else to sit beside its partner.** This applies to the example in either column.
+- The pairing itself is shown through the interaction (click-to-connect, shared highlight colour once matched, a badge/arrow noting the match) — never through physical adjacency in the layout.
+- Use two independent `flex-direction:column` lists inside a `display:grid` (or flex) wrapper with two columns, not a single grid where sentence/definition pairs are flattened into matching row positions.
+
 ---
 
 ## 📝 Exercises
