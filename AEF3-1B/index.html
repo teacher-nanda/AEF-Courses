@@ -194,16 +194,17 @@ h2 {
 /* ── SCENARIO CARDS (personality adjective speaking practice) ─────────────── */
 .scen-carousel { display: flex; flex-direction: column; align-items: center; gap: 18px; margin-top: 18px; }
 .scen-card-single {
-  background: #F4F8FA; border-radius: 18px; padding: 34px 42px;
+  background: #F4F8FA; border-radius: 18px; padding: 30px 42px;
   border: 2px solid transparent; cursor: pointer; transition: all .2s;
-  width: 100%; max-width: 640px; min-height: 170px;
+  width: 100%; max-width: 700px; min-height: 170px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 16px; text-align: center; box-shadow: 0 3px 14px rgba(20,96,122,.10);
 }
 .scen-card-single:hover { border-color: #2E8B57; }
 .scen-card-single.revealed { background: #E1F3E9; border-color: #2E8B57; }
 .scen-card-single .scen-num { font-size: 1.05rem; font-weight: 800; color: #2E8B57; }
-.scen-card-single .scen-text { font-size: 1.18rem; color: #1C2B3A; line-height: 1.5; }
+.scen-card-single .scen-text { font-size: 1.1rem; color: #1C2B3A; line-height: 1.65; text-align: left; }
+.scen-card-single .scen-text b { color: #14607A; }
 .scen-card-single .scen-hint { font-size: .95rem; color: #7A8A96; }
 .scen-card-single .scen-answer { display: none; font-size: 1.15rem; font-weight: 800; color: #0A2836; background: #fff; border-radius: 10px; padding: 8px 22px; }
 .scen-card-single.revealed .scen-answer { display: inline-block; }
@@ -1419,7 +1420,7 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
         <div style="font-size:2.2rem;line-height:1;">🎭</div>
         <div>
           <h2 style="font-size:1.3rem;margin-bottom:3px;">Guess the personality!</h2>
-          <p style="font-size:.97rem;color:#555;">Read the scenario and say out loud which adjective describes the person. Click the card to check the suggested answer, then click Next.</p>
+          <p style="font-size:.97rem;color:#555;">Read the dialogue out loud and say which adjective describes person B. Click the card to check the suggested answer, then click Next.</p>
         </div>
       </div>
 
@@ -1432,7 +1433,7 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
         </div>
         <div class="scen-nav">
           <button id="scenPrevBtn" onclick="scenPrev()">← Prev</button>
-          <span class="scen-nav-count" id="scenCount">1 / 20</span>
+          <span class="scen-nav-count" id="scenCount">1 / 10</span>
           <button id="scenNextBtn" onclick="scenNext()">Next →</button>
         </div>
       </div>
@@ -3128,32 +3129,24 @@ function resetVocAdj() {
 
 /* ── GUESS THE PERSONALITY (scenario carousel) ───── */
 var scenData = [
-  { text: "Sofia loves parties. She talks to everyone in the room and makes new friends easily.", ans: "extroverted" },
-  { text: "Tom feels nervous meeting new people. He doesn't like being the center of attention.", ans: "shy" },
-  { text: "Ana always shares her lunch and helps pay for her friends' coffee.", ans: "generous" },
-  { text: "Mark never wants to pay for anything. He always asks others to cover the bill.", ans: "cheap" },
-  { text: "Elena stays late at the office every day and never complains about extra tasks.", ans: "hardworking" },
-  { text: "Carlos never wants to do any housework. He just watches TV all day.", ans: "lazy" },
-  { text: "Julia can chat for hours about anything. She never stops talking!", ans: "talkative" },
-  { text: "Daniel doesn't say much in meetings. He prefers to listen rather than speak.", ans: "quiet" },
-  { text: "Pedro always makes jokes, and everyone laughs when he tells a story.", ans: "funny" },
-  { text: "Laura rarely smiles at work. She focuses only on the task and doesn't joke around.", ans: "serious" },
-  { text: "Miguel never changes his mind, even when everyone disagrees with him.", ans: "stubborn" },
-  { text: "Beatriz loves going out and meeting new people every weekend.", ans: "sociable" },
-  { text: "The little boy cries and throws things when he doesn't get exactly what he wants.", ans: "spoiled" },
-  { text: "Camila has a 10-year plan for her career and wants to become CEO one day.", ans: "ambitious" },
-  { text: "Rafael never thinks about other people's needs, only his own.", ans: "selfish" },
-  { text: "You can always count on Isabel — she's never late and always keeps her promises.", ans: "reliable" },
-  { text: "Fernando thinks carefully before making decisions and rarely does anything risky.", ans: "sensible" },
-  { text: "Sometimes Valentina is happy and friendly, but the next hour she's upset for no reason.", ans: "moody" },
-  { text: "Lucia never gets angry waiting in line, even when it takes a long time.", ans: "patient" },
-  { text: "Everyone likes Diego right away — he's polite, friendly, and has a great smile.", ans: "charming" }
+  { text: "A: There's a party at Diego's house on Saturday. Want to come?\nB: I don't know... there'll be lots of people I've never met. I always get so nervous when I don't know anyone. Maybe I'll just stay home.", ans: "shy" },
+  { text: "A: I forgot my wallet! I can't pay for lunch.\nB: Don't worry about it, I've got it. Actually, keep this extra 10 dollars too, in case you need it later.", ans: "generous" },
+  { text: "A: Can you help me move this sofa before the guests arrive?\nB: Ugh, does it have to be now? Can't it wait until tomorrow... or next week?", ans: "lazy" },
+  { text: "A: The map says we turn left here.\nB: No, it's right. I've driven this road a hundred times.\nA: But the GPS clearly shows—\nB: I said it's right. I'm not changing my mind.", ans: "stubborn" },
+  { text: "A: Why's he crying?\nB: His parents got him a new phone for his birthday, but he wanted the more expensive model — so now he won't talk to anyone.", ans: "spoiled" },
+  { text: "A: There's only one seat left on the bus.\nB: (pushes past an elderly passenger and sits down without a word)", ans: "selfish" },
+  { text: "A: Are you sure Marta will show up on time?\nB: Definitely. In three years I don't think she's ever been late once, and she always finishes what she promises.", ans: "reliable" },
+  { text: "A: She was so cheerful yesterday, laughing at everything.\nB: I know, and today she snapped at me for saying good morning. You never know which version you'll get.", ans: "moody" },
+  { text: "A: How did he convince the whole board in one meeting?\nB: No idea — he just walked in, smiled, remembered everyone's name, and somehow they all left thinking he was their new best friend.", ans: "charming" },
+  { text: "A: Can I ask you a quick question?\nB: Sure! Actually, that reminds me of this story from my trip to Peru, and also this thing that happened at work, and oh, did I tell you about my cousin's wedding—\nA: ...I just wanted to know the time.", ans: "talkative" }
 ];
 var scenIdx = 0;
 function scenRender() {
   var item = scenData[scenIdx];
   document.getElementById('scenNum').textContent = (scenIdx + 1);
-  document.getElementById('scenText').textContent = item.text;
+  document.getElementById('scenText').innerHTML = item.text.split('\n').map(function(line){
+    return line.replace(/^(A:|B:)/, '<b>$1</b>');
+  }).join('<br>');
   document.getElementById('scenAnswer').textContent = item.ans;
   document.getElementById('scenCount').textContent = (scenIdx + 1) + ' / ' + scenData.length;
   document.getElementById('scenCard').classList.remove('revealed');
