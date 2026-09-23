@@ -191,6 +191,20 @@ h2 {
 .pair-note { font-size: .88rem; color: #4A6070; font-style: italic; display: none; margin-top: 6px; }
 .pair-row.revealed .pair-note { display: block; }
 
+/* ── SCENARIO CARDS (personality adjective speaking practice) ─────────────── */
+.scen-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
+.scen-card {
+  background: #F4F8FA; border-radius: 12px; padding: 14px 16px;
+  border: 2px solid transparent; cursor: pointer; transition: all .2s;
+  display: flex; flex-direction: column; gap: 9px; min-height: 122px;
+}
+.scen-card:hover { border-color: #2E8B57; }
+.scen-card.revealed { background: #E1F3E9; border-color: #2E8B57; }
+.scen-num { font-size: 1.05rem; font-weight: 800; color: #2E8B57; }
+.scen-text { font-size: 1.05rem; color: #1C2B3A; line-height: 1.4; }
+.scen-answer { display: none; font-size: 1.05rem; font-weight: 700; color: #0A2836; background: #fff; border-radius: 8px; padding: 5px 12px; align-self: flex-start; }
+.scen-card.revealed .scen-answer { display: inline-block; }
+
 /* ── INFOGRAPHIC / STATS ──────────────────────── */
 .stats-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -1381,6 +1395,127 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
       <div style="display:flex;gap:10px;">
         <button onclick="checkVocAdj()" style="background:#14607A;color:#fff;border:none;border-radius:8px;padding:9px 22px;font-size:.95rem;font-weight:700;cursor:pointer;">Answer Key</button>
         <button onclick="resetVocAdj()" style="background:#dde;color:#1C2B3A;border:none;border-radius:8px;padding:9px 22px;font-size:.95rem;font-weight:700;cursor:pointer;">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SLIDE 15b – SPEAKING: GUESS THE PERSONALITY (scenario cards)
+════════════════════════════════ -->
+<div class="slide" id="s15b">
+  <div class="slide-main">
+    <div class="banner" style="background:#2E8B57;color:#fff;">Speaking</div>
+    <div class="content" style="padding-top:12px;overflow-y:auto;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+        <div style="font-size:2.2rem;line-height:1;">🎭</div>
+        <div>
+          <h2 style="font-size:1.3rem;margin-bottom:3px;">Guess the personality!</h2>
+          <p style="font-size:.97rem;color:#555;">Read the scenario and say out loud which adjective describes the person. Click the card to check the suggested answer.</p>
+        </div>
+      </div>
+
+      <div class="scen-grid">
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">1</span>
+          <span class="scen-text">Sofia loves parties. She talks to everyone in the room and makes new friends easily.</span>
+          <span class="scen-answer">extroverted</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">2</span>
+          <span class="scen-text">Tom feels nervous meeting new people. He doesn't like being the center of attention.</span>
+          <span class="scen-answer">shy</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">3</span>
+          <span class="scen-text">Ana always shares her lunch and helps pay for her friends' coffee.</span>
+          <span class="scen-answer">generous</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">4</span>
+          <span class="scen-text">Mark never wants to pay for anything. He always asks others to cover the bill.</span>
+          <span class="scen-answer">cheap</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">5</span>
+          <span class="scen-text">Elena stays late at the office every day and never complains about extra tasks.</span>
+          <span class="scen-answer">hardworking</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">6</span>
+          <span class="scen-text">Carlos never wants to do any housework. He just watches TV all day.</span>
+          <span class="scen-answer">lazy</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">7</span>
+          <span class="scen-text">Julia can chat for hours about anything. She never stops talking!</span>
+          <span class="scen-answer">talkative</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">8</span>
+          <span class="scen-text">Daniel doesn't say much in meetings. He prefers to listen rather than speak.</span>
+          <span class="scen-answer">quiet</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">9</span>
+          <span class="scen-text">Pedro always makes jokes, and everyone laughs when he tells a story.</span>
+          <span class="scen-answer">funny</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">10</span>
+          <span class="scen-text">Laura rarely smiles at work. She focuses only on the task and doesn't joke around.</span>
+          <span class="scen-answer">serious</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">11</span>
+          <span class="scen-text">Miguel never changes his mind, even when everyone disagrees with him.</span>
+          <span class="scen-answer">stubborn</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">12</span>
+          <span class="scen-text">Beatriz loves going out and meeting new people every weekend.</span>
+          <span class="scen-answer">sociable</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">13</span>
+          <span class="scen-text">The little boy cries and throws things when he doesn't get exactly what he wants.</span>
+          <span class="scen-answer">spoiled</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">14</span>
+          <span class="scen-text">Camila has a 10-year plan for her career and wants to become CEO one day.</span>
+          <span class="scen-answer">ambitious</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">15</span>
+          <span class="scen-text">Rafael never thinks about other people's needs, only his own.</span>
+          <span class="scen-answer">selfish</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">16</span>
+          <span class="scen-text">You can always count on Isabel — she's never late and always keeps her promises.</span>
+          <span class="scen-answer">reliable</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">17</span>
+          <span class="scen-text">Fernando thinks carefully before making decisions and rarely does anything risky.</span>
+          <span class="scen-answer">sensible</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">18</span>
+          <span class="scen-text">Sometimes Valentina is happy and friendly, but the next hour she's upset for no reason.</span>
+          <span class="scen-answer">moody</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">19</span>
+          <span class="scen-text">Lucia never gets angry waiting in line, even when it takes a long time.</span>
+          <span class="scen-answer">patient</span>
+        </div>
+        <div class="scen-card" onclick="this.classList.toggle('revealed')">
+          <span class="scen-num">20</span>
+          <span class="scen-text">Everyone likes Diego right away — he's polite, friendly, and has a great smile.</span>
+          <span class="scen-answer">charming</span>
+        </div>
       </div>
     </div>
   </div>
@@ -3497,8 +3632,8 @@ function castVote(btn) {
 function toggleAK22(){var ak=document.getElementById('ak22'),btn=document.getElementById('ak22btn');var open=ak.style.display==='block';ak.style.display=open?'none':'block';btn.textContent=open?'🔑 Show answer key':'🔒 Hide answer key';}
 // initialise nav
 /* ── DOWNLOAD NOTES (PDF) ── */
-var slideIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "s15", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24", "s25", "s26", "s27", "s-review", "s28", "s29", "s30", "s31", "s32", "s33", "s34"];
-var slideLabels = ["s1", "Vocabulary \u2013 What's the difference?", "Reading", "Speaking \u2013 What about you? \ud83d\udde3\ufe0f", "Grammar \u2013 Future forms", "Grammar \u2013 Future forms", "Grammar \u2013 Future forms", "Grammar \u2013 future forms: present continuous, be going to, will / won't", "Grammar \u2013 Future forms", "Speaking \u2013 Future Plans \u2014 What about you?", "Pronunciation", "Pronunciation \u2013 Sentence stress", "Speaking \u2013 Let's talk \u2014 Family &amp; Future", "Vocabulary \u2013 Opposites attract", "Vocabulary \u2013 Personality adjectives", "Vocabulary", "Pronunciation \u2013 Word stress in adjectives \ud83d\udd0a", "Pronunciation \u2013 Word stress in adjectives \ud83d\udd0a", "Reading", "Reading \u2013 How birth order influences your personality", "Reading", "Listening", "Listening", "Speaking", "Writing \u2013 Self-Portrait Poem", "Writing \u2013 Describing a person", "Speaking \u2013 Do you agree? \ud83d\uddf3\ufe0f", "&#x1F501; Lesson Review \u2013 What have we learned? &#x1F4DA;", "s28", "\ud83d\udcdd HW 1 \u2014 Family Vocabulary", "\ud83d\udcdd HW 2 \u2014 Personality Vocabulary", "\ud83d\udcdd HW 3 \u2014 Prefixes + Adjectives", "\ud83d\udcdd HW 4 \u2014 Future Forms", "\ud83d\udcdd HW 5 \u2014 Future Forms in Conversations", "\ud83d\udcdd HW 6 \u2014 Stress and Pronunciation"];
+var slideIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14", "s15", "s15b", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24", "s25", "s26", "s27", "s-review", "s28", "s29", "s30", "s31", "s32", "s33", "s34"];
+var slideLabels = ["s1", "Vocabulary \u2013 What's the difference?", "Reading", "Speaking \u2013 What about you? \ud83d\udde3\ufe0f", "Grammar \u2013 Future forms", "Grammar \u2013 Future forms", "Grammar \u2013 Future forms", "Grammar \u2013 future forms: present continuous, be going to, will / won't", "Grammar \u2013 Future forms", "Speaking \u2013 Future Plans \u2014 What about you?", "Pronunciation", "Pronunciation \u2013 Sentence stress", "Speaking \u2013 Let's talk \u2014 Family &amp; Future", "Vocabulary \u2013 Opposites attract", "Vocabulary \u2013 Personality adjectives", "Speaking \u2013 Guess the personality! \ud83c\udfad", "Vocabulary", "Pronunciation \u2013 Word stress in adjectives \ud83d\udd0a", "Pronunciation \u2013 Word stress in adjectives \ud83d\udd0a", "Reading", "Reading \u2013 How birth order influences your personality", "Reading", "Listening", "Listening", "Speaking", "Writing \u2013 Self-Portrait Poem", "Writing \u2013 Describing a person", "Speaking \u2013 Do you agree? \ud83d\uddf3\ufe0f", "&#x1F501; Lesson Review \u2013 What have we learned? &#x1F4DA;", "s28", "\ud83d\udcdd HW 1 \u2014 Family Vocabulary", "\ud83d\udcdd HW 2 \u2014 Personality Vocabulary", "\ud83d\udcdd HW 3 \u2014 Prefixes + Adjectives", "\ud83d\udcdd HW 4 \u2014 Future Forms", "\ud83d\udcdd HW 5 \u2014 Future Forms in Conversations", "\ud83d\udcdd HW 6 \u2014 Stress and Pronunciation"];
 function downloadNotes() {
   saveNotes();
   var hasAny = false;
