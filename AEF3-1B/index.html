@@ -192,18 +192,26 @@ h2 {
 .pair-row.revealed .pair-note { display: block; }
 
 /* ── SCENARIO CARDS (personality adjective speaking practice) ─────────────── */
-.scen-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
-.scen-card {
-  background: #F4F8FA; border-radius: 12px; padding: 14px 16px;
+.scen-carousel { display: flex; flex-direction: column; align-items: center; gap: 18px; margin-top: 18px; }
+.scen-card-single {
+  background: #F4F8FA; border-radius: 18px; padding: 34px 42px;
   border: 2px solid transparent; cursor: pointer; transition: all .2s;
-  display: flex; flex-direction: column; gap: 9px; min-height: 122px;
+  width: 100%; max-width: 640px; min-height: 170px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; box-shadow: 0 3px 14px rgba(20,96,122,.10);
 }
-.scen-card:hover { border-color: #2E8B57; }
-.scen-card.revealed { background: #E1F3E9; border-color: #2E8B57; }
-.scen-num { font-size: 1.05rem; font-weight: 800; color: #2E8B57; }
-.scen-text { font-size: 1.05rem; color: #1C2B3A; line-height: 1.4; }
-.scen-answer { display: none; font-size: 1.05rem; font-weight: 700; color: #0A2836; background: #fff; border-radius: 8px; padding: 5px 12px; align-self: flex-start; }
-.scen-card.revealed .scen-answer { display: inline-block; }
+.scen-card-single:hover { border-color: #2E8B57; }
+.scen-card-single.revealed { background: #E1F3E9; border-color: #2E8B57; }
+.scen-card-single .scen-num { font-size: 1.05rem; font-weight: 800; color: #2E8B57; }
+.scen-card-single .scen-text { font-size: 1.18rem; color: #1C2B3A; line-height: 1.5; }
+.scen-card-single .scen-hint { font-size: .95rem; color: #7A8A96; }
+.scen-card-single .scen-answer { display: none; font-size: 1.15rem; font-weight: 800; color: #0A2836; background: #fff; border-radius: 10px; padding: 8px 22px; }
+.scen-card-single.revealed .scen-answer { display: inline-block; }
+.scen-card-single.revealed .scen-hint { display: none; }
+.scen-nav { display: flex; align-items: center; gap: 20px; }
+.scen-nav button { background: #14607A; color: #fff; border: none; border-radius: 8px; padding: 9px 22px; font-size: .95rem; font-weight: 700; cursor: pointer; }
+.scen-nav button:disabled { background: #ccd0d8; cursor: default; }
+.scen-nav-count { font-size: 1.05rem; font-weight: 700; color: #1C2B3A; min-width: 64px; text-align: center; }
 
 /* ── INFOGRAPHIC / STATS ──────────────────────── */
 .stats-grid {
@@ -1407,114 +1415,25 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
   <div class="slide-main">
     <div class="banner" style="background:#2E8B57;color:#fff;">Speaking</div>
     <div class="content" style="padding-top:12px;overflow-y:auto;">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;">
         <div style="font-size:2.2rem;line-height:1;">🎭</div>
         <div>
           <h2 style="font-size:1.3rem;margin-bottom:3px;">Guess the personality!</h2>
-          <p style="font-size:.97rem;color:#555;">Read the scenario and say out loud which adjective describes the person. Click the card to check the suggested answer.</p>
+          <p style="font-size:.97rem;color:#555;">Read the scenario and say out loud which adjective describes the person. Click the card to check the suggested answer, then click Next.</p>
         </div>
       </div>
 
-      <div class="scen-grid">
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">1</span>
-          <span class="scen-text">Sofia loves parties. She talks to everyone in the room and makes new friends easily.</span>
-          <span class="scen-answer">extroverted</span>
+      <div class="scen-carousel">
+        <div class="scen-card-single" id="scenCard" onclick="scenToggle()">
+          <span class="scen-num" id="scenNum">1</span>
+          <span class="scen-text" id="scenText"></span>
+          <span class="scen-hint" id="scenHint">(click to check the answer)</span>
+          <span class="scen-answer" id="scenAnswer"></span>
         </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">2</span>
-          <span class="scen-text">Tom feels nervous meeting new people. He doesn't like being the center of attention.</span>
-          <span class="scen-answer">shy</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">3</span>
-          <span class="scen-text">Ana always shares her lunch and helps pay for her friends' coffee.</span>
-          <span class="scen-answer">generous</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">4</span>
-          <span class="scen-text">Mark never wants to pay for anything. He always asks others to cover the bill.</span>
-          <span class="scen-answer">cheap</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">5</span>
-          <span class="scen-text">Elena stays late at the office every day and never complains about extra tasks.</span>
-          <span class="scen-answer">hardworking</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">6</span>
-          <span class="scen-text">Carlos never wants to do any housework. He just watches TV all day.</span>
-          <span class="scen-answer">lazy</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">7</span>
-          <span class="scen-text">Julia can chat for hours about anything. She never stops talking!</span>
-          <span class="scen-answer">talkative</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">8</span>
-          <span class="scen-text">Daniel doesn't say much in meetings. He prefers to listen rather than speak.</span>
-          <span class="scen-answer">quiet</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">9</span>
-          <span class="scen-text">Pedro always makes jokes, and everyone laughs when he tells a story.</span>
-          <span class="scen-answer">funny</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">10</span>
-          <span class="scen-text">Laura rarely smiles at work. She focuses only on the task and doesn't joke around.</span>
-          <span class="scen-answer">serious</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">11</span>
-          <span class="scen-text">Miguel never changes his mind, even when everyone disagrees with him.</span>
-          <span class="scen-answer">stubborn</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">12</span>
-          <span class="scen-text">Beatriz loves going out and meeting new people every weekend.</span>
-          <span class="scen-answer">sociable</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">13</span>
-          <span class="scen-text">The little boy cries and throws things when he doesn't get exactly what he wants.</span>
-          <span class="scen-answer">spoiled</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">14</span>
-          <span class="scen-text">Camila has a 10-year plan for her career and wants to become CEO one day.</span>
-          <span class="scen-answer">ambitious</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">15</span>
-          <span class="scen-text">Rafael never thinks about other people's needs, only his own.</span>
-          <span class="scen-answer">selfish</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">16</span>
-          <span class="scen-text">You can always count on Isabel — she's never late and always keeps her promises.</span>
-          <span class="scen-answer">reliable</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">17</span>
-          <span class="scen-text">Fernando thinks carefully before making decisions and rarely does anything risky.</span>
-          <span class="scen-answer">sensible</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">18</span>
-          <span class="scen-text">Sometimes Valentina is happy and friendly, but the next hour she's upset for no reason.</span>
-          <span class="scen-answer">moody</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">19</span>
-          <span class="scen-text">Lucia never gets angry waiting in line, even when it takes a long time.</span>
-          <span class="scen-answer">patient</span>
-        </div>
-        <div class="scen-card" onclick="this.classList.toggle('revealed')">
-          <span class="scen-num">20</span>
-          <span class="scen-text">Everyone likes Diego right away — he's polite, friendly, and has a great smile.</span>
-          <span class="scen-answer">charming</span>
+        <div class="scen-nav">
+          <button id="scenPrevBtn" onclick="scenPrev()">← Prev</button>
+          <span class="scen-nav-count" id="scenCount">1 / 20</span>
+          <button id="scenNextBtn" onclick="scenNext()">Next →</button>
         </div>
       </div>
     </div>
@@ -3206,6 +3125,51 @@ function resetVocAdj() {
   document.querySelectorAll('.voc-chip').forEach(c => c.classList.remove('used','chip-active'));
   vocSelectedChip = null;
 }
+
+/* ── GUESS THE PERSONALITY (scenario carousel) ───── */
+var scenData = [
+  { text: "Sofia loves parties. She talks to everyone in the room and makes new friends easily.", ans: "extroverted" },
+  { text: "Tom feels nervous meeting new people. He doesn't like being the center of attention.", ans: "shy" },
+  { text: "Ana always shares her lunch and helps pay for her friends' coffee.", ans: "generous" },
+  { text: "Mark never wants to pay for anything. He always asks others to cover the bill.", ans: "cheap" },
+  { text: "Elena stays late at the office every day and never complains about extra tasks.", ans: "hardworking" },
+  { text: "Carlos never wants to do any housework. He just watches TV all day.", ans: "lazy" },
+  { text: "Julia can chat for hours about anything. She never stops talking!", ans: "talkative" },
+  { text: "Daniel doesn't say much in meetings. He prefers to listen rather than speak.", ans: "quiet" },
+  { text: "Pedro always makes jokes, and everyone laughs when he tells a story.", ans: "funny" },
+  { text: "Laura rarely smiles at work. She focuses only on the task and doesn't joke around.", ans: "serious" },
+  { text: "Miguel never changes his mind, even when everyone disagrees with him.", ans: "stubborn" },
+  { text: "Beatriz loves going out and meeting new people every weekend.", ans: "sociable" },
+  { text: "The little boy cries and throws things when he doesn't get exactly what he wants.", ans: "spoiled" },
+  { text: "Camila has a 10-year plan for her career and wants to become CEO one day.", ans: "ambitious" },
+  { text: "Rafael never thinks about other people's needs, only his own.", ans: "selfish" },
+  { text: "You can always count on Isabel — she's never late and always keeps her promises.", ans: "reliable" },
+  { text: "Fernando thinks carefully before making decisions and rarely does anything risky.", ans: "sensible" },
+  { text: "Sometimes Valentina is happy and friendly, but the next hour she's upset for no reason.", ans: "moody" },
+  { text: "Lucia never gets angry waiting in line, even when it takes a long time.", ans: "patient" },
+  { text: "Everyone likes Diego right away — he's polite, friendly, and has a great smile.", ans: "charming" }
+];
+var scenIdx = 0;
+function scenRender() {
+  var item = scenData[scenIdx];
+  document.getElementById('scenNum').textContent = (scenIdx + 1);
+  document.getElementById('scenText').textContent = item.text;
+  document.getElementById('scenAnswer').textContent = item.ans;
+  document.getElementById('scenCount').textContent = (scenIdx + 1) + ' / ' + scenData.length;
+  document.getElementById('scenCard').classList.remove('revealed');
+  document.getElementById('scenPrevBtn').disabled = (scenIdx === 0);
+  document.getElementById('scenNextBtn').disabled = (scenIdx === scenData.length - 1);
+}
+function scenToggle() {
+  document.getElementById('scenCard').classList.toggle('revealed');
+}
+function scenNext() {
+  if (scenIdx < scenData.length - 1) { scenIdx++; scenRender(); }
+}
+function scenPrev() {
+  if (scenIdx > 0) { scenIdx--; scenRender(); }
+}
+document.addEventListener('DOMContentLoaded', scenRender);
 
 /* ── OPPOSITES ADJECTIVES ───────────────────────── */
 function checkOppAdj() {
