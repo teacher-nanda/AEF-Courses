@@ -145,6 +145,8 @@
   .infographic-scroll { max-height:520px; overflow-y:auto; border:2px solid #2F7A52; border-radius:14px; padding:8px 20px; background:linear-gradient(180deg,#FAFDFB,#EFF7F1); box-shadow:inset 0 0 0 1px rgba(47,122,82,.08); }
   .infographic-scroll::-webkit-scrollbar { width:10px; }
   .infographic-scroll::-webkit-scrollbar-thumb { background:#2F7A52; border-radius:6px; }
+  .infographic-scroll.lead-img-wrap { padding:10px; }
+  .infographic-scroll.lead-img-wrap img { border-radius:10px !important; box-shadow:none !important; }
   .infographic-section { padding:14px 0; border-bottom:1px dashed rgba(47,122,82,.3); }
   .infographic-section:last-child { border-bottom:none; }
   .infographic-section h4 { margin:0 0 6px; font-size:1.05rem; color:#2F7A52; font-weight:800; }
@@ -529,8 +531,8 @@
           </li>
         </ol>
       </div>
-      <div class="lead-img-wrap" style="margin:0;">
-        <img src="infographic_full.png" alt="Infographic: How will we be living in 20 years?" style="width:100%;max-width:590px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;margin:0 auto;">
+      <div class="lead-img-wrap infographic-scroll" style="margin:0;max-height:560px;">
+        <img src="infographic_full.png" alt="Infographic: How will we be living in 20 years?" style="width:100%;max-width:590px;display:block;margin:0 auto;">
       </div>
     </div>
   </div></div>
@@ -1693,7 +1695,7 @@ function savePDF(){
     '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
     '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
   '</style></head><body>'+
-  '<div class="header"><h1>AEF4 4A – Stormy Weather</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html</a></div></div>'+
+  '<div class="header"><h1>AEF4 4A – Stormy Weather</h1><div class="lesson-link">📝 Here you can see our Notes from Class.</div><div class="lesson-link" style="margin-top:4px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</div></div>'+
   '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
   cards+'</body></html>');
   win.document.close();
@@ -2096,8 +2098,8 @@ function printAll(){
       var linkEl = document.createElement('div');
       linkEl.className = 'lesson-link-print';
       linkEl.innerHTML = '<span class="lp-title">Stormy Weather</span>' +
-        '<span class="lp-sub">Click on this link to access the lesson: ' +
-        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html</a></span>';
+        '<span class="lp-sub">📝 Here you can see our Notes from Class.</span>' +
+        '<span class="lp-sub" style="margin-top:6px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-4A/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</span>';
       slide.insertBefore(linkEl, slide.firstChild);
       injected.push(linkEl);
     }

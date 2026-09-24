@@ -1825,7 +1825,7 @@ function savePDF(){
     '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
     '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
   '</style></head><body>'+
-  '<div class="header"><h1>AEF4 3B – A Really Good Ending?</h1><div class="lesson-link">Click on this link to access the lesson: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html</a></div></div>'+
+  '<div class="header"><h1>AEF4 3B – A Really Good Ending?</h1><div class="lesson-link">📝 Here you can see our Notes from Class.</div><div class="lesson-link" style="margin-top:4px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</div></div>'+
   '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
   cards+'</body></html>');
   win.document.close();
@@ -2200,8 +2200,8 @@ function printAll(){
       var linkEl = document.createElement('div');
       linkEl.className = 'lesson-link-print';
       linkEl.innerHTML = '<span class="lp-title">A Really Good Ending?</span>' +
-        '<span class="lp-sub">Click on this link to access the lesson: ' +
-        '<a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html</a></span>';
+        '<span class="lp-sub">📝 Here you can see our Notes from Class.</span>' +
+        '<span class="lp-sub" style="margin-top:6px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3B/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</span>';
       slide.insertBefore(linkEl, slide.firstChild);
       injected.push(linkEl);
     }

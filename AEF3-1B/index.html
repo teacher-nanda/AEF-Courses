@@ -3617,7 +3617,7 @@ function downloadNotes() {
     + '.card-body,.card-body *{color:#1a1a1a!important}'
     + '@media print{body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{margin:1cm}}'
     + '</style></head><body>'
-    + '<div class="banner"><span class="banner-title">Modern Families</span><span class="banner-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html</a></span></div>'
+    + '<div class="banner"><span class="banner-title">Modern Families</span><span class="banner-sub">📝 Here you can see our Notes from Class.</span><span class="banner-sub" style="margin-top:6px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</span></div>'
     + '<div class="date">' + date + '</div>'
     + cards
     + '</body></html>';
@@ -3798,7 +3798,7 @@ function printAll(){
     if(i===0){
       var linkEl=document.createElement('div');
       linkEl.className='lesson-link-print';
-      linkEl.innerHTML='<span class="lp-title">Modern Families</span><span class="lp-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html</a></span>';
+      linkEl.innerHTML='<span class="lp-title">Modern Families</span><span class="lp-sub">📝 Here you can see our Notes from Class.</span><span class="lp-sub" style="margin-top:6px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF3-1B/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</span>';
       slide.insertBefore(linkEl,slide.firstChild);
       injected.push(linkEl);
     }

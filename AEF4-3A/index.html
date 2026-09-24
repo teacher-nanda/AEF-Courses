@@ -4139,8 +4139,8 @@ function savePDF(){
   });
   win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Notes – AEF4 3A</title><style>'+
     'body{font-family:"Segoe UI",system-ui,sans-serif;max-width:800px;margin:0 auto;padding:32px 24px;color:#1C2B3A}'+
-    '.header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #0A1628;padding-bottom:8px;margin-bottom:4px}'+
-    '.header h1{font-size:1.4rem;margin:0;color:#0A1628}.header a{font-size:.85rem;color:#0E7A8A}'+
+    '.header{border-bottom:2px solid #0A1628;padding-bottom:8px;margin-bottom:4px}'+
+    '.header h1{font-size:1.4rem;margin:0 0 6px;color:#0A1628}.header .lesson-link{font-size:1.05rem;color:#1C2B3A}.header a{color:#0E7A8A;font-weight:700}'+
     '.date{font-size:.85rem;color:#666;margin-bottom:24px}'+
     '.card{border:1px solid #DDD;border-radius:8px;margin-bottom:16px;overflow:hidden;}'+
     '.card-header{background:#0A1628;color:#fff;padding:8px 14px;font-weight:700;font-size:.88rem;break-after:avoid-page;page-break-after:avoid;}'+
@@ -4152,7 +4152,7 @@ function savePDF(){
     '*{print-color-adjust:exact;-webkit-print-color-adjust:exact}'+
     '@media print{@page{margin:1.5cm}body{padding:0}button{display:none}}'+
   '</style></head><body>'+
-  '<div class="header"><h1>AEF4 3A – Fasten your seat belts</h1><a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html</a></div>'+
+  '<div class="header"><h1>AEF4 3A – Fasten your seat belts</h1><div class="lesson-link">📝 Here you can see our Notes from Class.</div><div class="lesson-link" style="margin-top:4px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</div></div>'+
   '<p class="date">'+new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</p>'+
   cards+'</body></html>');
   win.document.close();
@@ -4169,7 +4169,7 @@ function printAll(){
     if(i===0){
       var linkEl=document.createElement('div');
       linkEl.className='lesson-link-print';
-      linkEl.innerHTML='<span class="lp-title">Fasten your seat belts</span><span class="lp-sub">Click here to access the lesson online: <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html" target="_blank">https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html</a></span>';
+      linkEl.innerHTML='<span class="lp-title">Fasten your seat belts</span><span class="lp-sub">📝 Here you can see our Notes from Class.</span><span class="lp-sub" style="margin-top:6px;">You can also access <a href="https://teacher-nanda.github.io/AEF-Courses/AEF4-3A/index.html" target="_blank">this link</a> to review the lesson material and do your optional Homework activities.</span>';
       slide.insertBefore(linkEl,slide.firstChild);
       injected.push(linkEl);
     }
