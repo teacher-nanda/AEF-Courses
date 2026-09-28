@@ -2121,6 +2121,10 @@ h2{font-size:1.85rem;font-weight:800;color:#0A2836;margin-bottom:14px}
     style="margin-left:6px;padding:5px 12px;background:#0A4A6A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">
     🖨️ Print Lesson
   </button>
+  <button onclick="this.blur();clearAllNotes()" title="Delete all notes and start a new lesson"
+    style="margin-left:6px;padding:5px 12px;background:#8B2E2E;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">
+    🗑️ Clear Notes
+  </button>
 </div>
 
 <div id="notesPanel">
@@ -2341,6 +2345,13 @@ function notesHilite(color) {
 }
 function saveNotes(){var ta=document.getElementById('notesTA');if(ta){notesData[current]=ta.innerHTML; try{localStorage.setItem(notesStoreKey, JSON.stringify(notesData));}catch(e){}}}
 function loadNotes(idx){var ta=document.getElementById('notesTA');if(ta) ta.innerHTML=notesData[idx!==undefined?idx:current]||'';}
+function clearAllNotes(){
+  if(!confirm('Delete all notes for this lesson? This cannot be undone.')) return;
+  Object.keys(notesData).forEach(function(k){ delete notesData[k]; });
+  var ta = document.getElementById('notesTA');
+  if (ta) ta.innerHTML = '';
+  try{ if (typeof notesStoreKey !== 'undefined') localStorage.removeItem(notesStoreKey); }catch(e){}
+}
 function checkSlide(sid) {
   var inputs = document.querySelectorAll('#' + sid + ' .ans-input[data-ans]');
   inputs.forEach(function(inp) {

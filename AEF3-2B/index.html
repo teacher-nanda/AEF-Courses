@@ -1211,6 +1211,7 @@
   <button id="nextBtn" onclick="goTo(current+1)">Next ▶</button>
   <button id="dlNotesBtn" onclick="savePDF()" style="margin-left:10px;padding:5px 12px;background:#2E2A6B;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">💾 Save Notes</button>
   <button onclick="this.blur();printAll()" style="margin-left:6px;padding:5px 12px;background:#0E5A8A;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🖨️ Print Lesson</button>
+  <button onclick="this.blur();clearAllNotes()" title="Delete all notes and start a new lesson" style="margin-left:6px;padding:5px 12px;background:#8B2E2E;color:#fff;border:none;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:inherit;">🗑️ Clear Notes</button>
 </div>
 
 <script>
@@ -1351,6 +1352,13 @@ function notesHilite(color){
 }
 function saveNotes(){ notesData[current] = document.getElementById('notesTA').innerHTML; }
 function loadNotes(idx){ document.getElementById('notesTA').innerHTML = notesData[idx] || ''; }
+function clearAllNotes(){
+  if(!confirm('Delete all notes for this lesson? This cannot be undone.')) return;
+  Object.keys(notesData).forEach(function(k){ delete notesData[k]; });
+  var ta = document.getElementById('notesTA');
+  if (ta) ta.innerHTML = '';
+  try{ if (typeof notesStoreKey !== 'undefined') localStorage.removeItem(notesStoreKey); }catch(e){}
+}
 function savePDF(){
   saveNotes();
   var hasNotes = Object.keys(notesData).some(function(k){ return notesData[k] && notesData[k].replace(/<[^>]*>/g,'').trim(); });
