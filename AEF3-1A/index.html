@@ -822,6 +822,30 @@
       <button class="btn-check" onclick="checkWbSlide('v2b-wb')">Check Answers</button>
       <button class="btn-reset" onclick="resetWbSlide('v2b-wb')">Reset</button>
     </div>
+
+    <h3 class="section-subhead" style="margin-top:26px;">🌱 Underground or above ground?</h3>
+    <p class="instruction">Now sort these same vegetables by how they grow. Click a word, then click the correct box.</p>
+    <div id="veg-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:10px;">
+      <div class="classify-col" data-target="underground" onclick="classifyTarget(this)"><h4>⬇️ Grows underground</h4></div>
+      <div class="classify-col" data-target="above" onclick="classifyTarget(this)"><h4>⬆️ Grows above ground</h4></div>
+    </div>
+    <div id="veg-bank" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0 4px;">
+      <span class="classify-chip" data-ans="underground" onclick="classifyPick(this)">sweet potato</span>
+      <span class="classify-chip" data-ans="underground" onclick="classifyPick(this)">carrots</span>
+      <span class="classify-chip" data-ans="underground" onclick="classifyPick(this)">beet</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">cabbage</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">chard</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">chili pepper</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">eggplant</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">green beans</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">cucumber</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">zucchini</span>
+      <span class="classify-chip" data-ans="above" onclick="classifyPick(this)">red pepper</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('veg')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('veg')">Reset</button>
+    </div>
   </div></div>
 </div>
 
@@ -838,6 +862,87 @@
         <li>🌍 Any other fruits or vegetables that are very common in your country?</li>
         <li>🥗 What's your favorite recipe or salad that uses at least 3 of these?</li>
       </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ GUESSING GAME: FOOD DETECTIVE (recycles vocab 1-11) ============ -->
+<div class="slide" id="s-food-detective">
+  <div class="banner banner-speaking">🕵️ Guessing Game</div>
+  <div class="slide-main"><div class="content">
+    <h2>Food detective</h2>
+    <p class="instruction">Read the clue out loud. Guess the word before you click "Reveal" — then check if you were right!</p>
+    <div class="countdown-grid" id="fd-list">
+      <div class="countdown-row active">
+        <div class="countdown-num">🦀</div>
+        <div class="countdown-text">I have a hard shell and big pincers. You have to crack me open to eat my meat. What am I?
+          <div class="countdown-ans" id="fd-a1">🔎 Answer: crab</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a1').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🦑</div>
+        <div class="countdown-text">I have eight arms and a soft body. Restaurants often serve me cut into fried rings. What am I?
+          <div class="countdown-ans" id="fd-a2">🔎 Answer: squid</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a2').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🦆</div>
+        <div class="countdown-text">I'm a bird, but my meat is dark and quite fatty. Restaurants often serve me with an orange sauce. What am I?
+          <div class="countdown-ans" id="fd-a3">🔎 Answer: duck</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a3').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🐑</div>
+        <div class="countdown-text">My meat is very popular in Middle Eastern and Mediterranean cooking. A baby of my kind is even more tender. What am I?
+          <div class="countdown-ans" id="fd-a4">🔎 Answer: lamb</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a4').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🥭</div>
+        <div class="countdown-text">I'm a fruit with sweet orange flesh and one big flat seed in the middle. What am I?
+          <div class="countdown-ans" id="fd-a5">🔎 Answer: mango</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a5').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🥑</div>
+        <div class="countdown-text">I'm technically a fruit, but people treat me like a vegetable. I'm green and creamy inside — great on toast. What am I?
+          <div class="countdown-ans" id="fd-a6">🔎 Answer: avocado</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a6').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🍆</div>
+        <div class="countdown-text">I'm a shiny purple vegetable, long and smooth. You'll find me in Italian and Middle Eastern dishes. What am I?
+          <div class="countdown-ans" id="fd-a7">🔎 Answer: eggplant</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a7').classList.toggle('show')">Reveal</button>
+      </div>
+      <div class="countdown-row">
+        <div class="countdown-num">🌶️</div>
+        <div class="countdown-text">I can be red, green, or yellow — and some of my relatives are extremely hot! What am I?
+          <div class="countdown-ans" id="fd-a8">🔎 Answer: chili pepper</div>
+        </div>
+        <button class="countdown-reveal" onclick="document.getElementById('fd-a8').classList.toggle('show')">Reveal</button>
+      </div>
+    </div>
+    <div class="countdown-nav">
+      <button id="fd-prev" onclick="fdPrev()" disabled>◀</button>
+      <div class="countdown-dots" id="fd-dots">
+        <span class="active" onclick="fdShow(0)"></span>
+        <span onclick="fdShow(1)"></span>
+        <span onclick="fdShow(2)"></span>
+        <span onclick="fdShow(3)"></span>
+        <span onclick="fdShow(4)"></span>
+        <span onclick="fdShow(5)"></span>
+        <span onclick="fdShow(6)"></span>
+        <span onclick="fdShow(7)"></span>
+      </div>
+      <button id="fd-next" onclick="fdNext()">▶</button>
     </div>
   </div></div>
 </div>
@@ -891,7 +996,10 @@
   <div class="slide-main"><div class="content">
     <h2>Describing food</h2>
     <p class="instruction">Listen to six short conversations and write the food phrase you hear for each adjective.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.5<div class="bp-note">Add the audio file for this track</div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;background:#EAF5F8;border-radius:10px;padding:10px 16px;">
+      <span style="font-size:1.07rem;font-weight:700;color:#14607A;white-space:nowrap;">🎧 Audio 1.5</span>
+      <audio controls style="flex:1;height:32px;border-radius:8px;min-width:200px;" src="AEF3e_Level_3_SB_1.05.mp3"></audio>
+    </div>
     <div class="fixed-two-col" id="v4">
       <div>
         <div class="ex-row"><b>raw</b> → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">raw salmon</span> <em>(example)</em></div>
@@ -911,6 +1019,66 @@
     <div class="gram-note" style="margin-top:14px;"><b>💡 Which food goes with each?</b> canned (tomatoes, tuna) · fresh (fish, vegetables) · frozen (peas, pizza) · hot/spicy (sauce, chicken) · low-fat (yogurt, cheese) · raw (fish, vegetables)</div>
     <div class="ccq-box" style="margin-top:16px;">
       <div class="discuss-label" style="margin:0;">💬 What canned, frozen, or low-fat food do you have at home right now? Do you prefer fresh food, or do you not mind canned/frozen?</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ PERSONALIZATION: BUILD YOUR PLATE ============ -->
+<div class="slide" id="s-myplate">
+  <div class="banner banner-speaking">🍽️ Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Build your plate</h2>
+    <p class="instruction">Design a meal you'd actually want to eat. Pick one option in each row, then describe your plate to your teacher.</p>
+
+    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+      <span style="min-width:90px;font-weight:700;">🥩 Protein</span>
+      <span style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">salmon</button>
+        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">chicken</button>
+        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">lamb</button>
+        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">shrimp</button>
+        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">tofu (no meat)</button>
+      </span>
+    </div>
+    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+      <span style="min-width:90px;font-weight:700;">🥦 Side</span>
+      <span style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">carrots</button>
+        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">green beans</button>
+        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">sweet potato</button>
+        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">rice</button>
+        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">salad</button>
+      </span>
+    </div>
+    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+      <span style="min-width:90px;font-weight:700;">🔥 Cooked</span>
+      <span style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">grilled</button>
+        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">roasted</button>
+        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">steamed</button>
+        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">fried</button>
+      </span>
+    </div>
+    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;">
+      <span style="min-width:90px;font-weight:700;">🍓 Dessert</span>
+      <span style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">fresh mango</button>
+        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">frozen raspberries</button>
+        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">canned peaches</button>
+        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">none, I'm full!</button>
+      </span>
+    </div>
+
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-reset" onclick="resetCircSlide('s-myplate')">↺ New Plate</button>
+    </div>
+    <div class="gram-note" style="margin-top:14px;"><b>💡 Use:</b> "My plate has grilled salmon with steamed carrots and fresh mango for dessert. I chose this because…"</div>
+    <div class="ccq-box" style="margin-top:16px;">
+      <ul class="discuss-list" style="margin:0;padding-left:20px;">
+        <li>🍽️ Describe your plate in full sentences — why did you choose each thing?</li>
+        <li>🚫 Is there anything on the board you would never eat? Why not?</li>
+        <li>👥 Ask your teacher what's on their plate — do you have anything in common?</li>
+      </ul>
     </div>
   </div></div>
 </div>
@@ -1625,8 +1793,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-vocab3", "s-vocab4", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2021,6 +2189,22 @@ function cdShow(i){
 }
 function cdNext(){ cdShow(cdIndex + 1); }
 function cdPrev(){ cdShow(cdIndex - 1); }
+
+/* ===================== FOOD DETECTIVE CAROUSEL ===================== */
+var fdIndex = 0;
+function fdShow(i){
+  var rows = document.querySelectorAll('#fd-list .countdown-row');
+  var dots = document.querySelectorAll('#fd-dots span');
+  if (i < 0) i = 0;
+  if (i > rows.length - 1) i = rows.length - 1;
+  fdIndex = i;
+  rows.forEach(function(r, idx){ r.classList.toggle('active', idx === i); });
+  dots.forEach(function(d, idx){ d.classList.toggle('active', idx === i); });
+  document.getElementById('fd-prev').disabled = (i === 0);
+  document.getElementById('fd-next').disabled = (i === rows.length - 1);
+}
+function fdNext(){ fdShow(fdIndex + 1); }
+function fdPrev(){ fdShow(fdIndex - 1); }
 
 function wbPick(tile){
   if (tile.classList.contains('used')) return;
