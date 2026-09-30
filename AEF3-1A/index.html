@@ -163,6 +163,14 @@
   .vclue-card .vc-photo { width:100%; height:110px; object-fit:cover; border-radius:10px; display:block; margin-bottom:8px; }
   .vclue-card .vc-clue { display:block; font-size:.82rem; color:#5A6B78; font-style:italic; line-height:1.35; min-height:2.4em; }
   .vclue-card .wb-blank { display:block; margin:10px auto 0; width:calc(100% - 8px); text-align:center; }
+  .vclue-grid-lg { grid-template-columns:repeat(3,1fr); gap:18px; }
+  .vclue-grid-lg .vclue-card { cursor:pointer; transition:all .2s; padding:16px 12px 14px; }
+  .vclue-grid-lg .vclue-card:hover { box-shadow:0 4px 14px rgba(0,0,0,.14); transform:translateY(-2px); }
+  .vclue-grid-lg .vc-photo { height:190px; }
+  .vclue-grid-lg .vc-clue { font-size:1.05rem; min-height:2.6em; }
+  .vclue-grid-lg .placed { display:inline-block; margin-top:8px; background:#1C2B3A; color:#fff; border-radius:14px; padding:4px 14px; font-size:1.05rem; font-weight:700; }
+  .vclue-grid-lg .placed.correct { background:#1A7A4A; }
+  .vclue-grid-lg .placed.wrong { background:#C4614A; }
 
   /* ===== flip-card flashcards ===== */
   .flip-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; margin-bottom:10px; }
@@ -840,60 +848,29 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Cooking</h2>
-    <p class="instruction">Read the six cooking descriptions, then match each cooking word below to its number.</p>
-    <div class="vclue-grid">
-      <div class="vclue-card"><span class="vc-num">1</span><img class="vc-photo" src="https://images.unsplash.com/photo-1753198674530-21e539ac4303" alt="fried egg"><span class="vc-clue">An egg cooked in a pan with oil, sunny-side up</span></div>
-      <div class="vclue-card"><span class="vc-num">2</span><img class="vc-photo" src="https://images.unsplash.com/photo-1626323418665-8cf7dfb52904" alt="grilled meat"><span class="vc-clue">Meat cooked on a hot metal grid, direct heat</span></div>
-      <div class="vclue-card"><span class="vc-num">3</span><img class="vc-photo" src="https://images.unsplash.com/photo-1767324672653-84c017d85d8e" alt="steamed food in a bamboo basket"><span class="vc-clue">Vegetables cooked in the steam above boiling water</span></div>
-      <div class="vclue-card"><span class="vc-num">4</span><img class="vc-photo" src="https://images.unsplash.com/photo-1602534956586-2f4997a5a8ef" alt="roasted chicken"><span class="vc-clue">Meat cooked in the oven with fat, until crispy outside</span></div>
-      <div class="vclue-card"><span class="vc-num">5</span><img class="vc-photo" src="https://images.unsplash.com/photo-1557681140-20615626dcb3" alt="boiled eggs"><span class="vc-clue">An egg cooked whole in its shell, in boiling water</span></div>
-      <div class="vclue-card"><span class="vc-num">6</span><img class="vc-photo" src="https://images.unsplash.com/photo-1642522685167-cf414ea225be" alt="baked potato"><span class="vc-clue">A potato cooked whole in the oven, skin on</span></div>
+    <p class="instruction">Read the six cooking descriptions. Click a word below, then click the picture it matches.</p>
+    <div class="vclue-grid vclue-grid-lg" id="cook-cols">
+      <div class="vclue-card classify-col" data-target="fried" onclick="classifyTarget(this)"><span class="vc-num">1</span><img class="vc-photo" src="https://images.unsplash.com/photo-1753198674530-21e539ac4303" alt="fried egg"><span class="vc-clue">An egg cooked in a pan with oil, sunny-side up</span></div>
+      <div class="vclue-card classify-col" data-target="grilled" onclick="classifyTarget(this)"><span class="vc-num">2</span><img class="vc-photo" src="https://images.unsplash.com/photo-1626323418665-8cf7dfb52904" alt="grilled meat"><span class="vc-clue">Meat cooked on a hot metal grid, direct heat</span></div>
+      <div class="vclue-card classify-col" data-target="steamed" onclick="classifyTarget(this)"><span class="vc-num">3</span><img class="vc-photo" src="https://images.unsplash.com/photo-1767324672653-84c017d85d8e" alt="steamed food in a bamboo basket"><span class="vc-clue">Vegetables cooked in the steam above boiling water</span></div>
+      <div class="vclue-card classify-col" data-target="roasted" onclick="classifyTarget(this)"><span class="vc-num">4</span><img class="vc-photo" src="https://images.unsplash.com/photo-1602534956586-2f4997a5a8ef" alt="roasted chicken"><span class="vc-clue">Meat cooked in the oven with fat, until crispy outside</span></div>
+      <div class="vclue-card classify-col" data-target="boiled" onclick="classifyTarget(this)"><span class="vc-num">5</span><img class="vc-photo" src="https://images.unsplash.com/photo-1557681140-20615626dcb3" alt="boiled eggs"><span class="vc-clue">An egg cooked whole in its shell, in boiling water</span></div>
+      <div class="vclue-card classify-col" data-target="baked" onclick="classifyTarget(this)"><span class="vc-num">6</span><img class="vc-photo" src="https://images.unsplash.com/photo-1642522685167-cf414ea225be" alt="baked potato"><span class="vc-clue">A potato cooked whole in the oven, skin on</span></div>
     </div>
-    <div class="fixed-three-col" id="v3" style="margin-top:14px;">
-      <div>
-        <div class="ex-row">baked <input class="ans-input" style="width:64px;text-align:left" data-ans="6"></div>
-        <div class="ex-row">boiled <input class="ans-input" style="width:64px;text-align:left" data-ans="5"></div>
-      </div>
-      <div>
-        <div class="ex-row">fried <input class="ans-input" style="width:64px;text-align:left" data-ans="1"></div>
-        <div class="ex-row">grilled <input class="ans-input" style="width:64px;text-align:left" data-ans="2"></div>
-      </div>
-      <div>
-        <div class="ex-row">roasted <input class="ans-input" style="width:64px;text-align:left" data-ans="4"></div>
-        <div class="ex-row">steamed <input class="ans-input" style="width:64px;text-align:left" data-ans="3"></div>
-      </div>
+    <div id="cook-bank" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0 4px;">
+      <span class="classify-chip" data-ans="baked" onclick="classifyPick(this)">baked</span>
+      <span class="classify-chip" data-ans="boiled" onclick="classifyPick(this)">boiled</span>
+      <span class="classify-chip" data-ans="fried" onclick="classifyPick(this)">fried</span>
+      <span class="classify-chip" data-ans="grilled" onclick="classifyPick(this)">grilled</span>
+      <span class="classify-chip" data-ans="roasted" onclick="classifyPick(this)">roasted</span>
+      <span class="classify-chip" data-ans="steamed" onclick="classifyPick(this)">steamed</span>
     </div>
-    <div class="book-placeholder" style="margin-top:14px;"><span class="bp-icon">🎧</span>Audio 1.3<div class="bp-note">Add the audio file for this track</div></div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('v3')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('v3')">Reset</button>
+      <button class="btn-check" onclick="checkClassifySlide('cook')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('cook')">Reset</button>
     </div>
-    <h3 class="section-subhead" style="margin-top:24px;color:#2A6B42;">Phrasal verbs — complete with a particle</h3>
-    <p class="instruction">Complete each phrasal verb with <i>down on</i>, <i>out</i>, or <i>out</i>. Then listen and check.</p>
-    <div id="v3b">
-      <div class="ex-row">1. I eat <input class="ans-input" style="width:130px" data-ans="out"> a lot because I don't really have time to cook.</div>
-      <div class="ex-row">2. I'm trying to cut <input class="ans-input" style="width:130px" data-ans="down on"> coffee right now. I'm only having one cup at breakfast.</div>
-      <div class="ex-row">3. The doctor told me that I should completely cut <input class="ans-input" style="width:130px" data-ans="out"> all cheese and dairy products from my diet.</div>
-    </div>
-    <div class="book-placeholder" style="margin-top:14px;"><span class="bp-icon">🎧</span>Audio 1.4<div class="bp-note">Add the audio file for this track</div></div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('v3b')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('v3b')">Reset</button>
-    </div>
-    <div class="gram-note" style="margin-top:14px;"><b>💡</b> <i>eat out</i> = eat in a restaurant · <i>cut down on</i> = eat/do less of · <i>cut out</i> = stop completely</div>
-    <div class="ccq-box" style="margin-top:16px;background:#F8F0F4;border-left:6px solid #B23A6B;">
-      <p class="ccq-label" style="margin-bottom:6px;">🎯 Extra challenge — make it true for you!</p>
-      <p style="margin:0;font-size:1.05rem;color:#1C2B3A;">Say one true sentence about yourself with each phrasal verb: <i>eat out</i> · <i>cut down on</i> · <i>cut out</i></p>
-    </div>
-  </div></div>
-</div>
 
-<!-- ============ SPEAKING: HOW DO YOU LIKE IT COOKED? ============ -->
-<!-- Vocabulary Bank Activation prompt, SB p.152 -->
-<div class="slide" id="s-speak-cooking">
-  <div class="banner banner-speaking">💬 Speaking</div>
-  <div class="slide-main"><div class="content">
-    <h2>How do you like it cooked?</h2>
+    <h3 class="section-subhead" style="margin-top:26px;">💬 How do you like it cooked?</h3>
     <p class="instruction">Tell me how you prefer each of these foods to be cooked — and how you don't like them.</p>
     <div class="ccq-box">
       <ul class="discuss-list" style="margin:0;padding-left:20px;">
@@ -1358,7 +1335,7 @@
       <div>
         <p class="inst-light" style="font-weight:700;">Right now / Nowadays</p>
         <div class="ex-row">4. take vitamins right now?<br><input class="ans-input wide" data-ans="Are you taking vitamins right now?"></div>
-        <div class="ex-row">5. try to cut down on anything right now?<br><input class="ans-input wide" data-ans="Are you trying to cut down on anything right now?"></div>
+        <div class="ex-row">5. try to eat less of anything right now?<br><input class="ans-input wide" data-ans="Are you trying to eat less of anything right now?"></div>
         <div class="ex-row">6. the diet in your country / get better or worse?<br><input class="ans-input wide" data-ans="Is the diet in your country getting better or worse?"></div>
       </div>
     </div>
@@ -1574,7 +1551,7 @@
       </div>
       <div>
         <div class="ex-row">7. How often <input class="ans-input" style="width:170px" data-ans="does your teacher give"> you homework? <i>(give)</i></div>
-        <div class="ex-row">8. I <input class="ans-input" style="width:170px" data-ans="'m not eating" data-alt="am not eating"> chocolate this month. I need to cut down on sweet things. <i>(not eat)</i></div>
+        <div class="ex-row">8. I <input class="ans-input" style="width:170px" data-ans="'m not eating" data-alt="am not eating"> chocolate this month. I need to eat less sweet food. <i>(not eat)</i></div>
         <div class="ex-row">9. My mother <input class="ans-input" style="width:170px" data-ans="doesn't often do" data-alt="does not often do"> yoga. <i>(not do)</i></div>
         <div class="ex-row">10. My friend has stopped eating snacks. He <input class="ans-input" style="width:170px" data-ans="is trying" data-alt="'s trying"> to be healthier. <i>(try)</i></div>
       </div>
@@ -1648,8 +1625,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-vocab3", "s-speak-cooking", "s-vocab4", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Vocabulary – Cooking & Phrasal Verbs", "Speaking – How Do You Like It Cooked?", "Vocabulary – Describing Food", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-vocab3", "s-vocab4", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
