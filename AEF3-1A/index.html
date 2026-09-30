@@ -330,6 +330,18 @@
   .photo-label .wb-blank { display:block; width:100%; text-align:center; }
 
   /* article */
+  .menu-card { background:#FBF8F1; border:2px solid #8C5A2B; border-radius:12px; padding:20px 26px; margin-bottom:18px; }
+  .menu-card h3 { text-align:center; font-size:1.4rem; font-weight:900; color:#5A3A18; letter-spacing:.04em; text-transform:uppercase; margin:0 0 14px; border-bottom:2px solid #D9C1A0; padding-bottom:10px; }
+  .menu-section { margin-bottom:14px; }
+  .menu-section h4 { font-size:1.08rem; font-weight:800; color:#8C5A2B; text-transform:uppercase; letter-spacing:.05em; margin:0 0 8px; }
+  .menu-item { display:flex; justify-content:space-between; gap:14px; padding:6px 0; border-bottom:1px dashed #E0D3BC; font-size:1.05rem; color:#1C2B3A; }
+  .menu-item:last-child { border-bottom:none; }
+  .menu-item .mi-desc { color:#7A6A55; font-size:.98rem; font-weight:400; display:block; }
+  .menu-item .mi-price { font-weight:700; color:#5A3A18; white-space:nowrap; }
+  .phrase-box { background:#F4F8FA; border-radius:10px; padding:14px 18px; flex:1 1 220px; }
+  .phrase-box h4 { margin:0 0 8px; font-size:1.05rem; color:#14607A; }
+  .phrase-box ul { margin:0; padding-left:18px; }
+  .phrase-box li { margin-bottom:6px; font-size:1.03rem; line-height:1.5; }
   .food-profile-card { background:#DCEEEC; border:2px solid #0E7A8A; border-radius:12px; padding:18px 22px; flex:1 1 320px; min-width:280px; }
   .food-profile-card h3 { margin:0 0 12px; font-size:1.5rem; font-weight:900; color:#0E5C68; }
   .food-profile-card ol { margin:0; padding-left:22px; }
@@ -1566,6 +1578,93 @@
   </div></div>
 </div>
 
+<!-- ============ SPEAKING: AT THE RESTAURANT ABROAD (ordering, real-life application) ============ -->
+<div class="slide" id="s-restaurant">
+  <div class="banner banner-speaking">✈️ Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>At the restaurant abroad</h2>
+    <p class="instruction">Imagine you're traveling and you sit down at this restaurant. First, match each phrase to what it's used for. Then role-play with your teacher.</p>
+
+    <div class="menu-card">
+      <h3>🍴 Today's Menu</h3>
+      <div class="menu-section">
+        <h4>Starters</h4>
+        <div class="menu-item"><span>Grilled shrimp with lemon<span class="mi-desc">served with a fresh salad</span></span><span class="mi-price">$9</span></div>
+        <div class="menu-item"><span>Steamed mussels<span class="mi-desc">in a light garlic sauce</span></span><span class="mi-price">$8</span></div>
+      </div>
+      <div class="menu-section">
+        <h4>Main courses</h4>
+        <div class="menu-item"><span>Roasted duck<span class="mi-desc">with red peppers and zucchini</span></span><span class="mi-price">$22</span></div>
+        <div class="menu-item"><span>Grilled salmon<span class="mi-desc">with steamed green beans</span></span><span class="mi-price">$19</span></div>
+        <div class="menu-item"><span>Baked eggplant <em>(vegetarian)</em><span class="mi-desc">with tomato and herbs</span></span><span class="mi-price">$15</span></div>
+        <div class="menu-item"><span>Fried squid<span class="mi-desc">with a spicy dipping sauce</span></span><span class="mi-price">$17</span></div>
+      </div>
+      <div class="menu-section">
+        <h4>Dessert</h4>
+        <div class="menu-item"><span>Baked apple<span class="mi-desc">with cinnamon</span></span><span class="mi-price">$6</span></div>
+        <div class="menu-item"><span>Fresh mango with raspberries</span><span class="mi-price">$7</span></div>
+      </div>
+    </div>
+
+    <div class="match-wrap" id="rest-match">
+      <div>
+        <div class="match-col-head mc-left">Phrase</div>
+        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>What's in the roasted duck?</div>
+        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>Is the fried squid very spicy?</div>
+        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>What would you recommend?</div>
+        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>I'll have the grilled salmon, please.</div>
+        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>Could we get the check, please?</div>
+      </div>
+      <div>
+        <div class="match-col-head mc-right">What it's used for</div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">a</span>Asking the waiter for a suggestion</div>
+        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">b</span>Asking what's inside a dish</div>
+        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">c</span>Asking to pay at the end of the meal</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">d</span>Ordering your main course</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">e</span>Checking how spicy a dish is</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkMatchSlide('rest-match')">Check Answers</button>
+      <button class="btn-reset" onclick="resetMatchSlide('rest-match')">Reset</button>
+    </div>
+
+    <h3 class="section-subhead" style="margin-top:22px;">💬 Useful phrases</h3>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:6px;">
+      <div class="phrase-box">
+        <h4>🔎 Asking about a dish</h4>
+        <ul>
+          <li>What's in the…?</li>
+          <li>Does it come with…?</li>
+          <li>Is it spicy / raw / fried?</li>
+          <li>What would you recommend?</li>
+        </ul>
+      </div>
+      <div class="phrase-box">
+        <h4>📝 Ordering</h4>
+        <ul>
+          <li>Could we see the menu, please?</li>
+          <li>I'll have the…, please.</li>
+          <li>Could I have the…, please?</li>
+          <li>For me, the…, please.</li>
+        </ul>
+      </div>
+      <div class="phrase-box">
+        <h4>💳 Finishing the meal</h4>
+        <ul>
+          <li>Could we get the check, please?</li>
+          <li>Is service included?</li>
+          <li>Everything was delicious, thank you!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ccq-box" style="margin-top:16px;">
+      <div class="discuss-label" style="margin:0;">🎭 Role-play: Your teacher is the waiter. Look at the menu, ask about at least one dish before deciding, then order a starter, a main, and a dessert!</div>
+    </div>
+  </div></div>
+</div>
+
 <!-- ============ HOMEWORK COVER ============ -->
 <div class="slide" id="hw-cover">
   <div class="title-inner">
@@ -1782,8 +1881,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "s-restaurant", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Speaking – At the Restaurant Abroad", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
