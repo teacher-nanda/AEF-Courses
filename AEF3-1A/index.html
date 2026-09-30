@@ -330,6 +330,13 @@
   .photo-label .wb-blank { display:block; width:100%; text-align:center; }
 
   /* article */
+  .food-profile-card { background:#DCEEEC; border:2px solid #0E7A8A; border-radius:12px; padding:18px 22px; flex:1 1 320px; min-width:280px; }
+  .food-profile-card h3 { margin:0 0 12px; font-size:1.5rem; font-weight:900; color:#0E5C68; }
+  .food-profile-card ol { margin:0; padding-left:22px; }
+  .food-profile-card ol > li { margin-bottom:12px; font-size:1.06rem; color:#1C2B3A; line-height:1.45; }
+  .food-profile-card ol ol { list-style-type:lower-alpha; margin-top:4px; padding-left:20px; }
+  .food-profile-card ol ol > li { margin-bottom:2px; font-size:1.05rem; }
+  .food-profile-card b { background:#FFF3B0; padding:0 3px; border-radius:3px; }
   .article-box { background:#FAFAF8; border-radius:12px; padding:20px 24px; margin-bottom:16px; border:1px solid #eee; }
   .article-box h3 { font-size:1.3rem; font-weight:900; color:#1C2B3A; margin:0 0 4px; line-height:1.3; }
   .article-box h3 .hl { background:#A83232; color:#fff; padding:2px 8px; border-radius:4px; }
@@ -1083,74 +1090,55 @@
   </div></div>
 </div>
 
-<!-- ============ PRONUNCIATION: VOWEL SOUNDS ============ -->
-<!-- SB p.6, ex 2a/2b; audio 1.6 -->
-<div class="slide" id="s-pron1">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Vowel sounds</h2>
-    <p class="instruction">Match each food phrase on the left to the sound it contains on the right. Then listen and check.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.6<div class="bp-note">Add the audio file for this track</div></div>
-    <div class="match-wrap" id="pron1-match">
-      <div>
-        <div class="match-col-head mc-left">Food phrase</div>
-        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>cr<u>a</u>b s<u>a</u>lad</div>
-        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>gr<u>i</u>lled sq<u>ui</u>d</div>
-        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>a l<u>ar</u>ge c<u>ar</u>ton of milk</div>
-        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>st<u>ea</u>med gr<u>ee</u>n beans</div>
-        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>a g<u>oo</u>d c<u>oo</u>k</div>
-        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>h<u>o</u>t s<u>au</u>sages</div>
-        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>f<u>ou</u>r f<u>or</u>ks</div>
-        <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>t<u>u</u>na with z<u>u</u>cchini</div>
-      </div>
-      <div>
-        <div class="match-col-head mc-right">Sound</div>
-        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">a</span>🐟 fish /ɪ/</div>
-        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">b</span>🌳 tree /i/</div>
-        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">c</span>🐱 cat /æ/</div>
-        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">d</span>🚗 car /ɑr/</div>
-        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">e</span>🕐 clock /ɑ/</div>
-        <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">f</span>🐴 horse /ɔr/</div>
-        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">g</span>🐂 bull /ʊ/</div>
-        <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">h</span>👢 boot /u/</div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('pron1-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('pron1-match')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
 <!-- ============ LISTENING 1: YOUR FOOD PROFILE — KEY WORDS ============ -->
 <!-- SB p.6, ex 3a -->
 <div class="slide" id="s-listen1">
   <div class="banner banner-listening">🎧 Listening &amp; Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Your food profile</h2>
-    <p class="instruction">Before the interviews, match each bold word from the questionnaire to its meaning.</p>
-    <div class="match-wrap" id="l1-match">
-      <div>
-        <div class="match-col-head mc-left">Word</div>
-        <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>topping</div>
-        <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>filling</div>
-        <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>ready-made</div>
-        <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>take-out</div>
-        <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>allergic</div>
-        <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>intolerant</div>
-        <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>cheer yourself up</div>
-        <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>miss</div>
+    <p class="instruction">Read the real questionnaire from the book. Guess what the <b>bold</b> words mean — click a word on the right, then click its meaning.</p>
+    <div class="match-img-row">
+      <div class="food-profile-card">
+        <h3>Your food profile</h3>
+        <ol>
+          <li>What's your favorite…?
+            <ol><li>snack</li><li>pizza <b>topping</b></li><li>sandwich <b>filling</b></li></ol>
+          </li>
+          <li>Do you ever have…?
+            <ol><li><b>ready-made</b> food</li><li><b>take-out</b> food</li><li>very hot / spicy food</li></ol>
+            Give examples.
+          </li>
+          <li>Are you <b>allergic</b> or <b>intolerant</b> to any food? How long have you had the problem?</li>
+          <li>What food do you usually eat…?
+            <ol><li>to <b>cheer yourself up</b> when you're feeling sad</li><li>when you're tired and don't want to cook</li></ol>
+          </li>
+          <li>When you're away from home, is there any food or drink that you really <b>miss</b>?</li>
+          <li>Is there any food or drink that you couldn't live without? How often do you eat / drink it?</li>
+        </ol>
       </div>
-      <div>
-        <div class="match-col-head mc-right">Meaning</div>
-        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">a</span>a meal you buy at a restaurant and eat at home</div>
-        <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">b</span>a layer of food you put on top of a dish for flavor</div>
-        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">c</span>not able to eat particular foods without becoming sick</div>
-        <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">d</span>feel sad because you can't have something</div>
-        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">e</span>food put inside a sandwich</div>
-        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">f</span>reacting badly / feeling sick when you eat something</div>
-        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">g</span>prepared in advance so you can eat it after heating</div>
-        <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">h</span>make yourself happier</div>
+      <div class="match-wrap" id="l1-match" style="flex:1 1 320px;">
+        <div>
+          <div class="match-col-head mc-left">Word</div>
+          <div class="match-item" data-side="left" data-pair="1" onclick="matchPick(this)"><span class="circ-num">1</span>topping</div>
+          <div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>filling</div>
+          <div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>ready-made</div>
+          <div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>take-out</div>
+          <div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>allergic</div>
+          <div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>intolerant</div>
+          <div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>cheer yourself up</div>
+          <div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>miss</div>
+        </div>
+        <div>
+          <div class="match-col-head mc-right">Meaning</div>
+          <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">a</span>a meal you buy at a restaurant and eat at home</div>
+          <div class="match-item" data-side="right" data-pair="1" onclick="matchPick(this)"><span class="circ-num">b</span>a layer of food you put on top of a dish for flavor</div>
+          <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">c</span>not able to eat particular foods without becoming sick</div>
+          <div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">d</span>feel sad because you can't have something</div>
+          <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">e</span>food put inside a sandwich</div>
+          <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">f</span>reacting badly / feeling sick when you eat something</div>
+          <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">g</span>prepared in advance so you can eat it after heating</div>
+          <div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">h</span>make yourself happier</div>
+        </div>
       </div>
     </div>
     <div class="btn-row">
@@ -1166,8 +1154,9 @@
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>Six people answer</h2>
-    <p class="instruction">Six people each answer one question from <i>Your food profile</i>. Match each speaker to the question they answer.</p>
+    <p class="instruction">Six people each answer one question from <i>Your food profile</i>. Match each speaker to the question they answer — use the questionnaire below to check the numbers.</p>
     <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.7<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="gram-note" style="margin-bottom:14px;"><b>📋 Quick reference — Your food profile:</b> 1 favorite topping/filling · 2 ready-made/take-out/hot-spicy food · 3 allergic/intolerant · 4 cheer yourself up / too tired to cook · 5 miss when away from home · 6 couldn't live without</div>
     <div class="match-wrap" id="l2-match">
       <div>
         <div class="match-col-head mc-left">Speaker</div>
@@ -1180,12 +1169,12 @@
       </div>
       <div>
         <div class="match-col-head mc-right">Question they answer</div>
-        <div class="match-item example-pair"><span class="circ-num">5b</span>When you're away from home, is there any food or drink you really miss?</div>
-        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">1b</span>What's your favorite sandwich filling / pizza topping?</div>
-        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">2c</span>Do you ever have very hot / spicy food? Give examples.</div>
-        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">3</span>Are you allergic or intolerant to any food?</div>
-        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4a</span>What food do you eat to cheer yourself up when you're feeling sad?</div>
-        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">6</span>Is there any food or drink that you couldn't live without?</div>
+        <div class="match-item example-pair"><span class="circ-num">a</span>When you're away from home, is there any food or drink you really miss?</div>
+        <div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">b</span>What's your favorite sandwich filling / pizza topping?</div>
+        <div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">c</span>Do you ever have very hot / spicy food? Give examples.</div>
+        <div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">d</span>Are you allergic or intolerant to any food?</div>
+        <div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">e</span>What food do you eat to cheer yourself up when you're feeling sad?</div>
+        <div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">f</span>Is there any food or drink that you couldn't live without?</div>
       </div>
     </div>
     <div class="btn-row">
@@ -1594,11 +1583,11 @@
     <p class="instruction">Click the word in each row that doesn't belong with the others.</p>
     <div id="hw-voc1">
       <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span style="color:#aaa;text-decoration:line-through;">chicken</span> peach · raspberries · pear &nbsp;<span style="color:#2E7D32;font-weight:700;">— the others are all fruit</span></div>
-      <div class="ex-row">2. <button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">chicken</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">lamb</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">squid</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">beef</button> <span class="inst-light" style="font-size:1.05rem;">(the others are all meat)</span></div>
-      <div class="ex-row">3. <button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">melon</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">cherries</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">peach</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">cucumber</button> <span class="inst-light" style="font-size:1.05rem;">(the others are all fruit)</span></div>
-      <div class="ex-row">4. <button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">green beans</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">beets</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">cabbage</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">duck</button> <span class="inst-light" style="font-size:1.05rem;">(the others are all vegetables)</span></div>
-      <div class="ex-row">5. <button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">lemon</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">salmon</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">grapes</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">cherries</button> <span class="inst-light" style="font-size:1.05rem;">(the others are all fruit)</span></div>
-      <div class="ex-row">6. <button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">zucchini</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">crab</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">mussels</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">shrimp</button> <span class="inst-light" style="font-size:1.05rem;">(the others are all seafood)</span></div>
+      <div class="ex-row">2. <button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">chicken</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">lamb</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">squid</button><button class="circ-opt" data-group="hv-2" data-correct="squid" onclick="circPick(this)">beef</button></div>
+      <div class="ex-row">3. <button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">melon</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">cherries</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">peach</button><button class="circ-opt" data-group="hv-3" data-correct="cucumber" onclick="circPick(this)">cucumber</button></div>
+      <div class="ex-row">4. <button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">green beans</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">beets</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">cabbage</button><button class="circ-opt" data-group="hv-4" data-correct="duck" onclick="circPick(this)">duck</button></div>
+      <div class="ex-row">5. <button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">lemon</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">salmon</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">grapes</button><button class="circ-opt" data-group="hv-5" data-correct="salmon" onclick="circPick(this)">cherries</button></div>
+      <div class="ex-row">6. <button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">zucchini</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">crab</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">mussels</button><button class="circ-opt" data-group="hv-6" data-correct="zucchini" onclick="circPick(this)">shrimp</button></div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkCircSlide('hw-voc1')">Check Answers</button>
@@ -1793,8 +1782,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-pron1", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Pronunciation – Vowel Sounds", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-listen1", "s-listen2", "s-speak-profile", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – Your Food Profile", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
