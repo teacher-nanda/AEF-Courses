@@ -275,6 +275,14 @@ In a two-list matching exercise (sentences↔definitions, questions↔answers, w
 - The base `.ans-input` class only defines `min-width:80px` with no default fixed width, so any exercise using variable per-blank widths needs to be checked and corrected under this rule.
 - **Exempt**: blanks in genuinely different exercises/slides where there's no shared answer-length pattern to give away (a single standalone blank with no sibling blanks in the same task), or widths driven by layout/space constraints rather than answer length — but default to uniform width whenever in doubt.
 
+### Exercise + Use/discussion box layout — use horizontal space
+
+**When a slide has a main exercise plus a "Use" note (`.gram-note`) and/or discussion questions (`.ccq-box`), lay them out side by side — exercise on the left, Use/discussion box(es) on the right — instead of stacking everything vertically down the page.**
+- Stacking wastes horizontal space and pushes content below the fold when it doesn't need to; a two-column layout keeps the whole slide visible together.
+- Implementation: wrap the exercise block and the Use/discussion block(s) in a flex container (reuse the existing `.match-img-row`-style pattern: `display:flex; align-items:flex-start; gap:24px;`, wrapping to a single column on narrow screens), exercise first (left), Use/discussion second (right).
+- Applies whenever the exercise itself is naturally narrow or short enough that it doesn't need the full page width (e.g. a short list of pick-one buttons, a handful of discussion prompts, a small matching list) — not to wide exercises that already need the full row (image-matching grids, two-column fill-ins, etc.).
+- Check this on every slide that has this exercise+Use/discussion pattern, not just newly built ones — it applies retroactively across the whole lesson.
+
 ### Check Answers — feedback states (apply to every exercise)
 | State | Border | Text colour | Answer shown? |
 |---|---|---|---|

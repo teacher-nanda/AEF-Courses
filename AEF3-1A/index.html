@@ -169,8 +169,8 @@
   .vclue-grid-lg .vc-photo { height:190px; }
   .vclue-grid-lg .vc-clue { font-size:1.05rem; min-height:2.6em; }
   .vclue-grid-lg .placed { display:inline-block; margin-top:8px; background:#1C2B3A; color:#fff; border-radius:14px; padding:4px 14px; font-size:1.05rem; font-weight:700; }
-  .vclue-grid-lg .placed.correct { background:#1A7A4A; }
-  .vclue-grid-lg .placed.wrong { background:#C4614A; }
+  .vclue-grid-lg .placed.correct { background:#1A7A4A; color:#fff; }
+  .vclue-grid-lg .placed.wrong { background:#C4614A; color:#fff; }
 
   /* ===== flip-card flashcards ===== */
   .flip-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; margin-bottom:10px; }
@@ -893,56 +893,56 @@
     <p class="instruction">Read the clue out loud. Guess the word before you click "Reveal" — then check if you were right!</p>
     <div class="countdown-grid" id="fd-list">
       <div class="countdown-row active">
-        <div class="countdown-num">🦀</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I have a hard shell and big pincers. You have to crack me open to eat my meat. What am I?
           <div class="countdown-ans" id="fd-a1">🔎 Answer: crab</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a1').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🦑</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I have eight arms and a soft body. Restaurants often serve me cut into fried rings. What am I?
           <div class="countdown-ans" id="fd-a2">🔎 Answer: squid</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a2').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🦆</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I'm a bird, but my meat is dark and quite fatty. Restaurants often serve me with an orange sauce. What am I?
           <div class="countdown-ans" id="fd-a3">🔎 Answer: duck</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a3').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🐑</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">My meat is very popular in Middle Eastern and Mediterranean cooking. A baby of my kind is even more tender. What am I?
           <div class="countdown-ans" id="fd-a4">🔎 Answer: lamb</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a4').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🥭</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I'm a fruit with sweet orange flesh and one big flat seed in the middle. What am I?
           <div class="countdown-ans" id="fd-a5">🔎 Answer: mango</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a5').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🥑</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I'm technically a fruit, but people treat me like a vegetable. I'm green and creamy inside — great on toast. What am I?
           <div class="countdown-ans" id="fd-a6">🔎 Answer: avocado</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a6').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🍆</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I'm a shiny purple vegetable, long and smooth. You'll find me in Italian and Middle Eastern dishes. What am I?
           <div class="countdown-ans" id="fd-a7">🔎 Answer: eggplant</div>
         </div>
         <button class="countdown-reveal" onclick="document.getElementById('fd-a7').classList.toggle('show')">Reveal</button>
       </div>
       <div class="countdown-row">
-        <div class="countdown-num">🌶️</div>
+        <div class="countdown-num">🔍</div>
         <div class="countdown-text">I can be red, green, or yellow — and some of my relatives are extremely hot! What am I?
           <div class="countdown-ans" id="fd-a8">🔎 Answer: chili pepper</div>
         </div>
@@ -972,22 +972,29 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Cooking</h2>
-    <p class="instruction">Read the six cooking descriptions. Click a word below, then click the picture it matches.</p>
-    <div class="vclue-grid vclue-grid-lg" id="cook-cols">
-      <div class="vclue-card classify-col" data-target="fried" onclick="classifyTarget(this)"><span class="vc-num">1</span><img class="vc-photo" src="https://images.unsplash.com/photo-1753198674530-21e539ac4303" alt="fried egg"><span class="vc-clue">An egg cooked in a pan with oil, sunny-side up</span></div>
-      <div class="vclue-card classify-col" data-target="grilled" onclick="classifyTarget(this)"><span class="vc-num">2</span><img class="vc-photo" src="https://images.unsplash.com/photo-1626323418665-8cf7dfb52904" alt="grilled meat"><span class="vc-clue">Meat cooked on a hot metal grid, direct heat</span></div>
-      <div class="vclue-card classify-col" data-target="steamed" onclick="classifyTarget(this)"><span class="vc-num">3</span><img class="vc-photo" src="https://images.unsplash.com/photo-1767324672653-84c017d85d8e" alt="steamed food in a bamboo basket"><span class="vc-clue">Vegetables cooked in the steam above boiling water</span></div>
-      <div class="vclue-card classify-col" data-target="roasted" onclick="classifyTarget(this)"><span class="vc-num">4</span><img class="vc-photo" src="https://images.unsplash.com/photo-1602534956586-2f4997a5a8ef" alt="roasted chicken"><span class="vc-clue">Meat cooked in the oven with fat, until crispy outside</span></div>
-      <div class="vclue-card classify-col" data-target="boiled" onclick="classifyTarget(this)"><span class="vc-num">5</span><img class="vc-photo" src="https://images.unsplash.com/photo-1557681140-20615626dcb3" alt="boiled eggs"><span class="vc-clue">An egg cooked whole in its shell, in boiling water</span></div>
-      <div class="vclue-card classify-col" data-target="baked" onclick="classifyTarget(this)"><span class="vc-num">6</span><img class="vc-photo" src="https://images.unsplash.com/photo-1642522685167-cf414ea225be" alt="baked potato"><span class="vc-clue">A potato cooked whole in the oven, skin on</span></div>
-    </div>
-    <div id="cook-bank" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0 4px;">
-      <span class="classify-chip" data-ans="baked" onclick="classifyPick(this)">baked</span>
-      <span class="classify-chip" data-ans="boiled" onclick="classifyPick(this)">boiled</span>
-      <span class="classify-chip" data-ans="fried" onclick="classifyPick(this)">fried</span>
-      <span class="classify-chip" data-ans="grilled" onclick="classifyPick(this)">grilled</span>
-      <span class="classify-chip" data-ans="roasted" onclick="classifyPick(this)">roasted</span>
-      <span class="classify-chip" data-ans="steamed" onclick="classifyPick(this)">steamed</span>
+    <p class="instruction">Read the six cooking descriptions. Click a word on the left, then click the picture it matches.</p>
+    <div class="match-img-row">
+      <div style="flex:0 0 160px;">
+        <div style="font-weight:700;margin-bottom:10px;color:#1C2B3A;">Cooking methods:</div>
+        <div id="cook-bank" style="display:flex;flex-direction:column;gap:10px;">
+          <span class="classify-chip" data-ans="baked" onclick="classifyPick(this)" style="width:100%;text-align:center;">baked</span>
+          <span class="classify-chip" data-ans="boiled" onclick="classifyPick(this)" style="width:100%;text-align:center;">boiled</span>
+          <span class="classify-chip" data-ans="fried" onclick="classifyPick(this)" style="width:100%;text-align:center;">fried</span>
+          <span class="classify-chip" data-ans="grilled" onclick="classifyPick(this)" style="width:100%;text-align:center;">grilled</span>
+          <span class="classify-chip" data-ans="roasted" onclick="classifyPick(this)" style="width:100%;text-align:center;">roasted</span>
+          <span class="classify-chip" data-ans="steamed" onclick="classifyPick(this)" style="width:100%;text-align:center;">steamed</span>
+        </div>
+      </div>
+      <div style="flex:1 1 420px;max-height:480px;overflow-y:auto;padding:4px 6px 4px 0;">
+        <div class="vclue-grid vclue-grid-lg" id="cook-cols" style="grid-template-columns:repeat(2,1fr);">
+          <div class="vclue-card classify-col" data-target="fried" onclick="classifyTarget(this)"><span class="vc-num">1</span><img class="vc-photo" src="https://images.unsplash.com/photo-1753198674530-21e539ac4303" alt="fried egg"><span class="vc-clue">An egg cooked in a pan with oil, sunny-side up</span></div>
+          <div class="vclue-card classify-col" data-target="grilled" onclick="classifyTarget(this)"><span class="vc-num">2</span><img class="vc-photo" src="https://images.unsplash.com/photo-1626323418665-8cf7dfb52904" alt="grilled meat"><span class="vc-clue">Meat cooked on a hot metal grid, direct heat</span></div>
+          <div class="vclue-card classify-col" data-target="steamed" onclick="classifyTarget(this)"><span class="vc-num">3</span><img class="vc-photo" src="https://images.unsplash.com/photo-1767324672653-84c017d85d8e" alt="steamed food in a bamboo basket"><span class="vc-clue">Vegetables cooked in the steam above boiling water</span></div>
+          <div class="vclue-card classify-col" data-target="roasted" onclick="classifyTarget(this)"><span class="vc-num">4</span><img class="vc-photo" src="https://images.unsplash.com/photo-1602534956586-2f4997a5a8ef" alt="roasted chicken"><span class="vc-clue">Meat cooked in the oven with fat, until crispy outside</span></div>
+          <div class="vclue-card classify-col" data-target="boiled" onclick="classifyTarget(this)"><span class="vc-num">5</span><img class="vc-photo" src="https://images.unsplash.com/photo-1557681140-20615626dcb3" alt="boiled eggs"><span class="vc-clue">An egg cooked whole in its shell, in boiling water</span></div>
+          <div class="vclue-card classify-col" data-target="baked" onclick="classifyTarget(this)"><span class="vc-num">6</span><img class="vc-photo" src="https://images.unsplash.com/photo-1642522685167-cf414ea225be" alt="baked potato"><span class="vc-clue">A potato cooked whole in the oven, skin on</span></div>
+        </div>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkClassifySlide('cook')">Check Answers</button>
@@ -1015,27 +1022,22 @@
   <div class="slide-main"><div class="content">
     <h2>Describing food</h2>
     <p class="instruction">Listen to six short conversations and write the food phrase you hear for each adjective.</p>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;background:#EAF5F8;border-radius:10px;padding:10px 16px;">
-      <span style="font-size:1.07rem;font-weight:700;color:#14607A;white-space:nowrap;">🎧 Audio 1.5</span>
-      <audio controls style="flex:1;height:32px;border-radius:8px;min-width:200px;" src="AEF3e_Level_3_SB_1.05.mp3"></audio>
+    <div style="background:#F0F4F8;border-radius:999px;padding:10px 18px;margin-bottom:18px;">
+      <audio controls style="width:100%;height:32px;" src="AEF3e_Level_3_SB_1.05.mp3"></audio>
     </div>
-    <div class="fixed-two-col" id="v4">
-      <div>
-        <div class="ex-row"><b>raw</b> → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">raw salmon</span> <em>(example)</em></div>
-        <div class="ex-row"><b>hot / spicy</b> → <input class="ans-input" style="width:180px" data-ans="spicy shrimp" data-alt="hot food|spicy shrimp, hot food"></div>
-        <div class="ex-row"><b>fresh</b> → <input class="ans-input" style="width:180px" data-ans="fresh tuna"></div>
-      </div>
-      <div>
-        <div class="ex-row"><b>low-fat</b> → <input class="ans-input" style="width:180px" data-ans="low-fat yogurt"></div>
-        <div class="ex-row"><b>canned</b> → <input class="ans-input" style="width:180px" data-ans="canned peaches"></div>
-        <div class="ex-row"><b>frozen</b> → <input class="ans-input" style="width:180px" data-ans="frozen raspberries"></div>
-      </div>
+    <div id="v4">
+      <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <b>raw</b> → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">raw salmon</span></div>
+      <div class="ex-row">2. <b>spicy</b> → <input class="ans-input" style="width:180px" data-ans="spicy shrimp"></div>
+      <div class="ex-row">2. <b>hot</b> → <input class="ans-input" style="width:180px" data-ans="hot food"></div>
+      <div class="ex-row">3. <b>fresh</b> → <input class="ans-input" style="width:180px" data-ans="fresh tuna"></div>
+      <div class="ex-row">4. <b>low-fat</b> → <input class="ans-input" style="width:180px" data-ans="low-fat yogurt"></div>
+      <div class="ex-row">5. <b>canned</b> → <input class="ans-input" style="width:180px" data-ans="canned peaches"></div>
+      <div class="ex-row">6. <b>frozen</b> → <input class="ans-input" style="width:180px" data-ans="frozen raspberries"></div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkSlide('v4')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('v4')">Reset</button>
     </div>
-    <div class="gram-note" style="margin-top:14px;"><b>💡 Which food goes with each?</b> canned (tomatoes, tuna) · fresh (fish, vegetables) · frozen (peas, pizza) · hot/spicy (sauce, chicken) · low-fat (yogurt, cheese) · raw (fish, vegetables)</div>
     <div class="ccq-box" style="margin-top:16px;">
       <div class="discuss-label" style="margin:0;">💬 What canned, frozen, or low-fat food do you have at home right now? Do you prefer fresh food, or do you not mind canned/frozen?</div>
     </div>
@@ -1049,55 +1051,60 @@
     <h2>Build your plate</h2>
     <p class="instruction">Design a meal you'd actually want to eat. Pick one option in each row, then describe your plate to your teacher.</p>
 
-    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
-      <span style="min-width:90px;font-weight:700;">🥩 Protein</span>
-      <span style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">salmon</button>
-        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">chicken</button>
-        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">lamb</button>
-        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">shrimp</button>
-        <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">tofu (no meat)</button>
-      </span>
-    </div>
-    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
-      <span style="min-width:90px;font-weight:700;">🥦 Side</span>
-      <span style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">carrots</button>
-        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">green beans</button>
-        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">sweet potato</button>
-        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">rice</button>
-        <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">salad</button>
-      </span>
-    </div>
-    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
-      <span style="min-width:90px;font-weight:700;">🔥 Cooked</span>
-      <span style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">grilled</button>
-        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">roasted</button>
-        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">steamed</button>
-        <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">fried</button>
-      </span>
-    </div>
-    <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;">
-      <span style="min-width:90px;font-weight:700;">🍓 Dessert</span>
-      <span style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">fresh mango</button>
-        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">frozen raspberries</button>
-        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">canned peaches</button>
-        <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">none, I'm full!</button>
-      </span>
-    </div>
-
-    <div class="btn-row" style="justify-content:flex-start;">
-      <button class="btn-reset" onclick="resetCircSlide('s-myplate')">↺ New Plate</button>
-    </div>
-    <div class="gram-note" style="margin-top:14px;"><b>💡 Use:</b> "My plate has grilled salmon with steamed carrots and fresh mango for dessert. I chose this because…"</div>
-    <div class="ccq-box" style="margin-top:16px;">
-      <ul class="discuss-list" style="margin:0;padding-left:20px;">
-        <li>🍽️ Describe your plate in full sentences — why did you choose each thing?</li>
-        <li>🚫 Is there anything on the board you would never eat? Why not?</li>
-        <li>👥 Ask your teacher what's on their plate — do you have anything in common?</li>
-      </ul>
+    <div class="match-img-row">
+      <div style="flex:1 1 380px;">
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+          <span style="min-width:90px;font-weight:700;">🥩 Protein</span>
+          <span style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">salmon</button>
+            <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">chicken</button>
+            <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">lamb</button>
+            <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">shrimp</button>
+            <button class="circ-opt" data-group="mp-protein" onclick="circPick(this)">tofu (no meat)</button>
+          </span>
+        </div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+          <span style="min-width:90px;font-weight:700;">🥦 Side</span>
+          <span style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">carrots</button>
+            <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">green beans</button>
+            <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">sweet potato</button>
+            <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">rice</button>
+            <button class="circ-opt" data-group="mp-side" onclick="circPick(this)">salad</button>
+          </span>
+        </div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;margin-bottom:8px;">
+          <span style="min-width:90px;font-weight:700;">🔥 Cooked</span>
+          <span style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">grilled</button>
+            <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">roasted</button>
+            <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">steamed</button>
+            <button class="circ-opt" data-group="mp-cook" onclick="circPick(this)">fried</button>
+          </span>
+        </div>
+        <div class="ex-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 14px;background:#F4F8FA;border-radius:10px;">
+          <span style="min-width:90px;font-weight:700;">🍓 Dessert</span>
+          <span style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">fresh mango</button>
+            <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">frozen raspberries</button>
+            <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">canned peaches</button>
+            <button class="circ-opt" data-group="mp-dessert" onclick="circPick(this)">none, I'm full!</button>
+          </span>
+        </div>
+        <div class="btn-row" style="justify-content:flex-start;">
+          <button class="btn-reset" onclick="resetCircSlide('s-myplate')">↺ New Plate</button>
+        </div>
+      </div>
+      <div style="flex:1 1 260px;">
+        <div class="gram-note"><b>💡 Use:</b> "My plate has grilled salmon with steamed carrots and fresh mango for dessert. I chose this because…"</div>
+        <div class="ccq-box" style="margin-top:14px;">
+          <ul class="discuss-list" style="margin:0;padding-left:20px;">
+            <li>🍽️ Describe your plate in full sentences — why did you choose each thing?</li>
+            <li>🚫 Is there anything on the board you would never eat? Why not?</li>
+            <li>👥 Ask your teacher what's on their plate — do you have anything in common?</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div></div>
 </div>
@@ -1167,7 +1174,7 @@
   <div class="slide-main"><div class="content">
     <h2>Six people answer</h2>
     <p class="instruction">Six people each answer one question from <i>Your food profile</i>. Match each speaker to the question they answer — use the questionnaire below to check the numbers.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.7<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
     <div class="gram-note" style="margin-bottom:14px;"><b>📋 Quick reference — Your food profile:</b> 1 favorite topping/filling · 2 ready-made/take-out/hot-spicy food · 3 allergic/intolerant · 4 cheer yourself up / too tired to cook · 5 miss when away from home · 6 couldn't live without</div>
     <div class="match-wrap" id="l2-match">
       <div>
@@ -1328,7 +1335,7 @@
       <p style="margin:0;font-size:1.06rem;line-height:1.7;"><b>Marianna Leivaditaki</b> is the head chef at Morito, a very popular restaurant in London. She was born on the island of Crete, in Greece. Her father was a Cretan fisherman and her mother was Scottish. Together they ran a seafood restaurant, which is where Marianna spent most of her childhood.</p>
     </div>
     <p class="instruction" style="margin-top:16px;">Part 1 — how does she finish each sentence? Listen and check.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.8<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
     <ul class="discuss-list">
       <li>"We ate fish every day, which…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…my dad caught.</span></li>
       <li>"We boiled it and ate it with…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…lemon and olive oil.</span></li>
@@ -1337,7 +1344,7 @@
       <li>"Occasionally, my mum used to buy me and my brother souvlaki for lunch, a sort of…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…Greek sandwich with pita bread.</span></li>
     </ul>
     <p class="instruction" style="margin-top:16px;">Part 2 — listen and answer the questions.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio 1.9<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
     <ul class="discuss-list">
       <li>1. What three things did Marianna do before becoming a chef in London?</li>
       <li>2. What was her first connection with the restaurant Moro? Why did she go back to it later?</li>
@@ -1380,7 +1387,7 @@
       <div class="ex-row">2. This week, for example, <button class="circ-opt" data-group="g1-2" data-correct="I'm making" onclick="circPick(this)">I make</button> <button class="circ-opt" data-group="g1-2" data-correct="I'm making" onclick="circPick(this)">I'm making</button> "ntakos," a Cretan salad.</div>
       <div class="ex-row">3. <button class="circ-opt" data-group="g1-3" data-correct="I go" onclick="circPick(this)">I go</button> <button class="circ-opt" data-group="g1-3" data-correct="I go" onclick="circPick(this)">I'm going</button> to Crete maybe four or five times a year.</div>
     </div>
-    <div class="book-placeholder" style="margin-top:14px;"><span class="bp-icon">🎧</span>Audio 1.10<div class="bp-note">Add the audio file for this track</div></div>
+    <div class="book-placeholder" style="margin-top:14px;"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkCircSlide('g1')">Check Answers</button>
       <button class="btn-reset" onclick="resetCircSlide('g1')">Reset</button>
