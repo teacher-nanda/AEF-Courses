@@ -389,6 +389,9 @@
   .tip-lunch { background:#EAF5EE; } .tip-lunch h4 { color:#2A6B42; }
   .tip-dinner { background:#F3EEF7; } .tip-dinner h4 { color:#5A2E8C; }
   .tip-more { background:#EAF5F8; } .tip-more h4 { color:#0E5C68; }
+  .rq-list { list-style:none; margin:0 0 18px; padding:0; }
+  .rq-list li { display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; font-size:1.06rem; line-height:1.6; color:#1C2B3A; }
+  .rq-num { flex-shrink:0; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:.95rem; margin-top:1px; }
 
   /* checkbox tick list */
   .tick-list { display:flex; flex-direction:column; gap:8px; margin:10px 0 18px; }
@@ -1339,13 +1342,13 @@
     <p class="instruction">Read the article on the right, then answer the questions on the left.</p>
     <div class="match-img-row eqh-row">
       <div style="flex:1 1 320px;">
-        <ul class="discuss-list">
-          <li>1. Why is it important to have breakfast every day when you're a teenager?</li>
-          <li>2. What effect does caffeine have on us if we drink it between 2:00 and 5:00 p.m.?</li>
-          <li>3. What's the difference between having steak and French fries for lunch and having it for dinner?</li>
-          <li>4. Why should an early evening meal be "delicious"?</li>
-          <li>5. What's the best physical activity to do a) early in the morning, b) in the afternoon?</li>
-          <li>6. Why does the body produce melatonin?</li>
+        <ul class="rq-list">
+          <li><span class="rq-num" style="background:#B5731A;">1</span><span>Why is it important to have <b style="color:#B5731A;">breakfast</b> every day when you're a teenager?</span></li>
+          <li><span class="rq-num" style="background:#6B4420;">2</span><span>What effect does <b style="color:#6B4420;">caffeine</b> have on us if we drink it between 2:00 and 5:00 p.m.?</span></li>
+          <li><span class="rq-num" style="background:#2A6B42;">3</span><span>What's the difference between having steak and French fries for <b style="color:#2A6B42;">lunch</b> and having it for <b style="color:#5A2E8C;">dinner</b>?</span></li>
+          <li><span class="rq-num" style="background:#5A2E8C;">4</span><span>Why should an early evening meal be "<b style="color:#5A2E8C;">delicious</b>"?</span></li>
+          <li><span class="rq-num" style="background:#0E5C68;">5</span><span>What's the best <b style="color:#0E5C68;">physical activity</b> to do a) early in the morning, b) in the afternoon?</span></li>
+          <li><span class="rq-num" style="background:#0E5C68;">6</span><span>Why does the body produce <b style="color:#0E5C68;">melatonin</b>?</span></li>
         </ul>
         <div class="btn-row" style="justify-content:flex-start;">
           <button class="btn-akey" onclick="toggleSuggested('r1-key')">🔑 Show Answer Key</button>
@@ -1501,50 +1504,52 @@
   <div class="slide-main"><div class="content">
     <h2>Simple present &amp; present continuous</h2>
     <p class="inst-light">Study how the two present tenses are used.</p>
-    <div class="gram-box">
-      <h3>Simple present — <i>I live, he works</i></h3>
-      <p><i>I <span class="hl">live</span> in New York. She <span class="hl">works</span> in a restaurant. We <span class="hl">don't eat</span> meat. <span class="hl">Does</span> the supermarket <span class="hl">open</span> on Sundays?</i></p>
-      <ul>
-        <li>We use it for things that are <span class="hl">always true</span> or <span class="hl">happen regularly</span>.</li>
-        <li>Often with adverbs of frequency (<i>usually, never</i>) or expressions (<i>every day, once a week</i>).</li>
-      </ul>
-    </div>
-    <div class="ccq-box" style="margin-bottom:16px;">
-      <p class="ccq-label">💭 Check your understanding</p>
-      <ul class="ccq-list">
-        <li>Is living in New York true only today, or all the time? <em>(all the time)</em></li>
-        <li>Is this happening right now, or is it a routine? <em>(a routine)</em></li>
-      </ul>
-    </div>
-    <div class="gram-box" style="border-left-color:#1E6B3E;">
-      <h3 style="color:#1E6B3E;">Present continuous — <i>be + verb + -ing</i></h3>
-      <p><i>The phone<span class="hl">'s ringing</span>. Can you answer it? House prices <span class="hl">are going up</span> very fast right now.</i></p>
-      <ul>
-        <li>We use it (NOT the simple present) for actions <span class="hl">in progress now</span> or around now — usually temporary, not habitual.</li>
-      </ul>
-    </div>
-    <div class="ccq-box" style="margin-bottom:16px;">
-      <p class="ccq-label">💭 Check your understanding</p>
-      <ul class="ccq-list">
-        <li>Is the phone ringing all the time, or right now? <em>(right now)</em></li>
-        <li>Will house prices keep going up forever, or is this just for now? <em>(just for now)</em></li>
-      </ul>
-    </div>
-    <div class="gram-box" style="border-left-color:#A8451E;">
-      <h3 style="color:#A8451E;">Action and nonaction verbs</h3>
-      <p><i>What <span class="hl">are</span> you <span class="hl">cooking</span>? It <span class="hl">smells</span> delicious. — I<span class="hl">'m making</span> pasta. — I <span class="hl">love</span> pasta.</i></p>
-      <ul>
-        <li><b>Action</b> verbs (cook, make) can be simple or continuous.</li>
-        <li><b>Nonaction</b> verbs describe states or feelings and are <b>not</b> usually used in the continuous: <i>agree, be, believe, belong, depend, forget, hate, hear, know, like, love, matter, mean, need, prefer, realize, remember, seem, suppose, want</i>, and verbs of the senses (<i>look, smell, taste, sound</i>).</li>
-        <li>A few verbs can be both: <i>I'm having lunch</i> (action) vs. <i>I have a cat</i> (nonaction) · <i>What are you thinking about?</i> (action) vs. <i>I think this music's great</i> (opinion).</li>
-      </ul>
-    </div>
-    <div class="ccq-box">
-      <p class="ccq-label">💭 Check your understanding</p>
-      <ul class="ccq-list">
-        <li>Can you see "cooking" and "making" happening right now, in front of you? <em>(yes)</em></li>
-        <li>Is "loving pasta" one moment in time, or a general feeling? <em>(a general feeling)</em></li>
-      </ul>
+    <div class="fixed-three-col">
+      <div class="gram-box" style="margin-bottom:0;">
+        <h3>Simple present</h3>
+        <p><i>I <span class="hl">live</span> in New York. She <span class="hl">works</span> in a restaurant. We <span class="hl">don't eat</span> meat. <span class="hl">Does</span> the supermarket <span class="hl">open</span> on Sundays?</i></p>
+        <div class="ccq-box" style="margin:12px 0;">
+          <p class="ccq-label" style="margin-bottom:8px;">💭 Check your understanding</p>
+          <ul class="ccq-list" style="margin:0;">
+            <li>Is living in New York true only today, or all the time? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">All the time.</span></li>
+            <li>Is this happening right now, or is it a routine? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">A routine.</span></li>
+          </ul>
+        </div>
+        <ul style="margin:0;">
+          <li>We use it for things that are <span class="hl">always true</span> or <span class="hl">happen regularly</span>.</li>
+          <li>Often with adverbs of frequency (<i>usually, never</i>) or expressions (<i>every day, once a week</i>).</li>
+        </ul>
+      </div>
+      <div class="gram-box" style="border-left-color:#1E6B3E;margin-bottom:0;">
+        <h3 style="color:#1E6B3E;">Present continuous</h3>
+        <p><i>The phone<span class="hl">'s ringing</span>. Can you answer it? House prices <span class="hl">are going up</span> very fast right now.</i></p>
+        <div class="ccq-box" style="margin:12px 0;">
+          <p class="ccq-label" style="margin-bottom:8px;">💭 Check your understanding</p>
+          <ul class="ccq-list" style="margin:0;">
+            <li>Is the phone ringing all the time, or right now? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">Right now.</span></li>
+            <li>Will house prices keep going up forever, or just for now? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">Just for now.</span></li>
+          </ul>
+        </div>
+        <ul style="margin:0;">
+          <li>We use it (NOT the simple present) for actions <span class="hl">in progress now</span> or around now — usually temporary, not habitual.</li>
+        </ul>
+      </div>
+      <div class="gram-box" style="border-left-color:#A8451E;margin-bottom:0;">
+        <h3 style="color:#A8451E;">Action &amp; nonaction verbs</h3>
+        <p><i>What <span class="hl">are</span> you <span class="hl">cooking</span>? It <span class="hl">smells</span> delicious. — I<span class="hl">'m making</span> pasta. — I <span class="hl">love</span> pasta.</i></p>
+        <div class="ccq-box" style="margin:12px 0;">
+          <p class="ccq-label" style="margin-bottom:8px;">💭 Check your understanding</p>
+          <ul class="ccq-list" style="margin:0;">
+            <li>Can you see "cooking" and "making" happening right now, in front of you? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">Yes.</span></li>
+            <li>Is "loving pasta" one moment in time, or a general feeling? &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">A general feeling.</span></li>
+          </ul>
+        </div>
+        <ul style="margin:0;">
+          <li><b>Action</b> verbs (cook, make) can be simple or continuous.</li>
+          <li><b>Nonaction</b> verbs describe states or feelings and are <b>not</b> usually used in the continuous: <i>agree, be, believe, belong, depend, forget, hate, hear, know, like, love, matter, mean, need, prefer, realize, remember, seem, suppose, want</i>, and verbs of the senses (<i>look, smell, taste, sound</i>).</li>
+          <li>A few verbs can be both: <i>I'm having lunch</i> (action) vs. <i>I have a cat</i> (nonaction) · <i>What are you thinking about?</i> (action) vs. <i>I think this music's great</i> (opinion).</li>
+        </ul>
+      </div>
     </div>
   </div></div>
 </div>
