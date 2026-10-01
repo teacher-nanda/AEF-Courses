@@ -362,14 +362,18 @@
   .fp-num-chip.classify-chip { width:32px; height:32px; border-radius:50%; padding:0; display:inline-flex; align-items:center; justify-content:center; font-size:1.05rem; background:#0E7A8A; color:#fff; border:none; flex-shrink:0; }
   .fp-num-chip.classify-chip.selected { background:#5A2E8C; }
   .fp-num-chip.classify-chip.used, .fp-num-chip.classify-chip.locked { opacity:.4; background:#999; cursor:default; }
-  .fp-person-target.classify-col { background:#F4F8FA; border:2px solid #ddd; border-radius:10px; padding:10px 14px; cursor:pointer; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
-  .fp-person-target .placed { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#1C2B3A; color:#fff; font-weight:800; font-size:.95rem; flex-shrink:0; }
+  .fp-person-target.classify-col { background:#F4F8FA; border:2px solid #ddd; border-radius:10px; padding:7px 12px; cursor:pointer; display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .fp-person-target .placed { order:-1; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#1C2B3A; color:#fff; font-weight:800; font-size:.95rem; flex-shrink:0; }
   .fp-person-target .placed.correct { background:#1A7A4A; }
   .fp-person-target .placed.wrong { background:#C4614A; }
-  .fp-example-target { background:#ECECEC; border:2px solid #ccc; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px; color:#777; margin-bottom:12px; flex-wrap:wrap; }
-  .fp-example-target .placed-example { width:26px; height:26px; border-radius:50%; background:#999; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.95rem; flex-shrink:0; }
-  .fp-person-name { font-weight:700; color:#1C2B3A; }
+  .fp-example-target { background:#ECECEC; border:2px solid #ccc; border-radius:10px; padding:7px 12px; display:flex; align-items:center; gap:10px; color:#777; margin-bottom:8px; }
+  .fp-example-target .placed-example { order:-1; width:26px; height:26px; border-radius:50%; background:#999; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.95rem; flex-shrink:0; }
+  .fp-person-name { font-weight:700; color:#1C2B3A; min-width:60px; flex-shrink:0; }
   .fp-example-target .fp-person-name { color:#777; }
+  .fp-play-btn { flex-shrink:0; width:30px; height:30px; border-radius:50%; border:none; background:#0E7A8A; color:#fff; font-size:.85rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+  .fp-example-target .fp-play-btn { background:#999; }
+  .fp-play-btn.playing { background:#5A2E8C; }
+  .fp-ans { flex:1 1 auto; min-width:90px; min-height:30px; }
   .article-box { background:#FAFAF8; border-radius:12px; padding:20px 24px; margin-bottom:16px; border:1px solid #eee; }
   .article-box h3 { font-size:1.3rem; font-weight:900; color:#1C2B3A; margin:0 0 4px; line-height:1.3; }
   .article-box h3 .hl { background:#A83232; color:#fff; padding:2px 8px; border-radius:4px; }
@@ -519,7 +523,7 @@
   <div class="banner banner-leadin">🎯 Warm-Up</div>
   <div class="slide-main"><div class="content">
     <h2>Food countdown</h2>
-    <p class="instruction">For each category, how fast can you think of the right number of things? Say your answers out loud — check the hint if you get stuck.</p>
+    <p class="instruction">For each category, how fast can you think of the right number of things?<br>Say your answers out loud — check the hint if you get stuck.</p>
     <div class="countdown-grid" id="countdown-list">
       <div class="countdown-row active">
         <div class="countdown-num">1</div>
@@ -585,7 +589,7 @@
   <div class="banner banner-leadin">🎯 Warm-Up</div>
   <div class="slide-main"><div class="content">
     <h2>Complete the joke</h2>
-    <p class="instruction">These are real quotes about food. Click a word in the bank, then click the blank to finish each one.</p>
+    <p class="instruction">These are real quotes about food.<br>Click a word in the bank, then click the blank to finish each one.</p>
     <div class="match-img-row">
     <div class="wb-bank book-style wb-bank-sticky" id="wu-bank">
       <span class="wb-tile" data-val="cake" onclick="wbPick(this)">cake</span>
@@ -874,7 +878,7 @@
     </div>
 
     <h3 class="section-subhead" style="margin-top:26px;">🌱 Underground or above ground?</h3>
-    <p class="instruction">Now sort these same vegetables by how they grow. Click a word, then click the correct box.</p>
+    <p class="instruction">Now sort these same vegetables by how they grow.<br>Click a word, then click the correct box.</p>
     <div id="veg-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:10px;">
       <div class="classify-col" data-target="underground" onclick="classifyTarget(this)"><h4>⬇️ Grows underground</h4></div>
       <div class="classify-col" data-target="above" onclick="classifyTarget(this)"><h4>⬆️ Grows above ground</h4></div>
@@ -904,7 +908,7 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Love it, hate it, never tried it</h2>
-    <p class="instruction">Pick 5 fruits or vegetables from the last two pages. For each one, say a sentence out loud using one of these reactions.</p>
+    <p class="instruction">Pick 5 fruits or vegetables you just learned.<br>For each one, say a sentence out loud using one of these reactions.</p>
     <div class="wyr-intro"><span class="wyr-emoji">🥑</span><p>"I love it, but it's expensive here." / "I've never tried it." / "I hate it — the texture is strange!"</p></div>
     <div class="ccq-box">
       <ul class="discuss-list" style="margin:0;padding-left:20px;">
@@ -921,7 +925,7 @@
   <div class="banner banner-speaking">🕵️ Guessing Game</div>
   <div class="slide-main"><div class="content">
     <h2>Food detective</h2>
-    <p class="instruction">Read the clue out loud. Guess the word before you click "Reveal" — then check if you were right!</p>
+    <p class="instruction">Read the clue out loud.<br>Guess the word before you click "Reveal" — then check if you were right!</p>
     <div class="countdown-grid" id="fd-list">
       <div class="countdown-row active">
         <div class="countdown-num">🔍</div>
@@ -1003,7 +1007,7 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>Cooking</h2>
-    <p class="instruction">Read the six cooking descriptions. Click a word on the left, then click the picture it matches.</p>
+    <p class="instruction">Read the six cooking descriptions.<br>Click a word on the left, then click the picture it matches.</p>
     <div class="match-img-row">
       <div style="flex:0 0 160px;">
         <div style="font-weight:700;margin-bottom:10px;color:#1C2B3A;">Cooking methods:</div>
@@ -1086,7 +1090,7 @@
   <div class="banner banner-speaking">🍽️ Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Build your plate</h2>
-    <p class="instruction">Design a meal you'd actually want to eat. Pick one option in each row, then describe your plate to your teacher.</p>
+    <p class="instruction">Design a meal you'd actually want to eat.<br>Pick one option in each row, then describe your plate to me.</p>
 
     <div class="match-img-row">
       <div style="flex:1 1 380px;">
@@ -1152,7 +1156,7 @@
   <div class="banner banner-listening">🎧 Listening &amp; Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Your food profile</h2>
-    <p class="instruction">Read the questionnaire below. Guess what the <b>bold</b> words mean — click a word on the right, then click its meaning.</p>
+    <p class="instruction">Read the questionnaire below.<br>Guess what the <b>bold</b> words mean — click a word on the right, then click its meaning.</p>
     <div class="match-img-row">
       <div class="food-profile-card">
         <h3>Your food profile</h3>
@@ -1210,9 +1214,9 @@
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>Six people answer</h2>
-    <p class="instruction">Six people each answer one question from the questionnaire on the left. Click the number of the question, then click the person who answers it. Listen, then write the key points in the box next to their name.</p>
+    <p class="instruction">Six people each answer one question from the questionnaire on the left.<br>Click the number of the question, then click the person who answers it.<br>Listen, then write the key points in the box next to their name.</p>
     <div class="match-img-row">
-      <div class="food-profile-card" id="fpnum-bank">
+      <div class="food-profile-card" id="fpnum-bank" style="flex:1 1 320px;max-height:480px;overflow-y:auto;">
         <h3>Your food profile</h3>
         <div class="fp-q-row">
           <span class="classify-chip fp-num-chip" data-ans="1" onclick="classifyPick(this)">1</span>
@@ -1246,48 +1250,42 @@
         </div>
       </div>
       <div style="flex:1 1 320px;" id="fpnum-cols">
-        <div class="fp-person-block">
-          <div class="fp-example-target">
-            <span class="placed-example">5</span>
-            <span class="fp-person-name">Naomi</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-1.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-example-target">
+          <span class="placed-example">5</span>
+          <span class="fp-person-name">Naomi</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-1.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
-        <div class="fp-person-block">
-          <div class="fp-person-target classify-col" data-target="6" onclick="classifyTarget(this)">
-            <span class="fp-person-name">Sarah</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-2.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-person-target classify-col" data-target="6" onclick="classifyTarget(this)">
+          <span class="fp-person-name">Sarah</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-2.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
-        <div class="fp-person-block">
-          <div class="fp-person-target classify-col" data-target="2" onclick="classifyTarget(this)">
-            <span class="fp-person-name">Emilio</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-3.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-person-target classify-col" data-target="2" onclick="classifyTarget(this)">
+          <span class="fp-person-name">Emilio</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-3.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
-        <div class="fp-person-block">
-          <div class="fp-person-target classify-col" data-target="4" onclick="classifyTarget(this)">
-            <span class="fp-person-name">Tran</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-4.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-person-target classify-col" data-target="4" onclick="classifyTarget(this)">
+          <span class="fp-person-name">Tran</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-4.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
-        <div class="fp-person-block">
-          <div class="fp-person-target classify-col" data-target="3" onclick="classifyTarget(this)">
-            <span class="fp-person-name">Austin</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-5.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-person-target classify-col" data-target="3" onclick="classifyTarget(this)">
+          <span class="fp-person-name">Austin</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-5.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
-        <div class="fp-person-block">
-          <div class="fp-person-target classify-col" data-target="1" onclick="classifyTarget(this)">
-            <span class="fp-person-name">Sean</span>
-            <span onclick="event.stopPropagation()"><audio controls style="height:30px;width:150px;" src="AEF3e_Level_3_SB_1.07-6.mp3"></audio></span>
-          </div>
-          <textarea class="ans-input" style="width:100%;min-height:40px;"></textarea>
+        <div class="fp-person-target classify-col" data-target="1" onclick="classifyTarget(this)">
+          <span class="fp-person-name">Sean</span>
+          <audio class="fp-audio" src="AEF3e_Level_3_SB_1.07-6.mp3"></audio>
+          <button type="button" class="fp-play-btn" onclick="event.stopPropagation();toggleFpAudio(this)">▶</button>
+          <input type="text" class="ans-input fp-ans" onclick="event.stopPropagation()">
         </div>
       </div>
     </div>
@@ -1304,7 +1302,7 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>What time do you usually…?</h2>
-    <p class="instruction">Tell me what time you usually do each of these things. You're about to read an article that says timing matters — let's see how close you already are!</p>
+    <p class="instruction">Tell me what time you usually do each of these things.<br>You're about to read an article that says timing matters — let's see how close you already are!</p>
     <div class="ccq-box" style="display:flex;gap:32px;flex-wrap:wrap;">
       <ul class="discuss-list" style="margin:0;padding-left:20px;flex:1 1 220px;">
         <li style="display:flex;align-items:center;gap:10px;">⏰ get up <input class="ans-input" style="width:120px;"></li>
@@ -1319,7 +1317,7 @@
       </ul>
     </div>
     <h3 class="section-subhead" style="margin-top:24px;color:#2A6B42;">🎯 Guess the Right Time!</h3>
-    <p class="instruction">Before you read, guess: what does science say is the best time for each? Pick one option for each.</p>
+    <p class="instruction">Before you read, guess: what does science say is the best time for each?<br>Pick one option for each.</p>
     <div id="grt">
       <div class="ex-row" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;"><span style="min-width:150px;">🥐 Best time for breakfast:</span><button class="circ-opt" data-group="grt-1" data-correct="8:00 a.m." onclick="circPick(this)">7:00 a.m.</button><button class="circ-opt" data-group="grt-1" data-correct="8:00 a.m." onclick="circPick(this)">8:00 a.m.</button><button class="circ-opt" data-group="grt-1" data-correct="8:00 a.m." onclick="circPick(this)">10:00 a.m.</button></div>
       <div class="ex-row" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;"><span style="min-width:150px;">☕ Best time for your first coffee:</span><button class="circ-opt" data-group="grt-2" data-correct="3:00 p.m." onclick="circPick(this)">7:00 a.m.</button><button class="circ-opt" data-group="grt-2" data-correct="3:00 p.m." onclick="circPick(this)">10:00 a.m.</button><button class="circ-opt" data-group="grt-2" data-correct="3:00 p.m." onclick="circPick(this)">3:00 p.m.</button></div>
@@ -1339,12 +1337,12 @@
   <div class="slide-main"><div class="content">
     <h2>Eat and drink — but at the right time!</h2>
     <p class="instruction">Read the article on the right, then answer the questions on the left.</p>
-    <div class="match-img-row">
+    <div class="match-img-row eqh-row">
       <div style="flex:1 1 320px;">
         <ul class="discuss-list">
           <li>1. Why is it important to have breakfast every day when you're a teenager?</li>
           <li>2. What effect does caffeine have on us if we drink it between 2:00 and 5:00 p.m.?</li>
-          <li>3. What's the difference between having steak and fries for lunch and having it for dinner?</li>
+          <li>3. What's the difference between having steak and French fries for lunch and having it for dinner?</li>
           <li>4. Why should an early evening meal be "delicious"?</li>
           <li>5. What's the best physical activity to do a) early in the morning, b) in the afternoon?</li>
           <li>6. Why does the body produce melatonin?</li>
@@ -1362,31 +1360,42 @@
             <li>6. Because it helps us to go to sleep.</li>
           </ul>
         </div>
-        <p class="discuss-label" style="margin-top:16px;">💬 Do you believe all the information in this article? Would you consider changing any of your habits?</p>
+        <p class="discuss-label" style="margin-top:16px;">💬 Do you believe all the information in this article? Why (not)? Give examples from your own experience.</p>
+        <p class="discuss-label" style="margin-top:10px;">💬 Would you consider changing any of your habits based on this information?</p>
       </div>
-      <div style="flex:1 1 380px;max-height:560px;overflow-y:auto;padding-right:6px;">
-        <div class="article-box" style="margin-bottom:0;">
-          <p>In our super-busy 21st-century lives, most of us try to do as much as we can in 24 hours. However, we usually do things whenever it suits us, and science says this is disrupting our body's natural cycle, making us feel tired when we should feel awake, and vice versa. By doing things at the right time, we can be happier and healthier.</p>
-        </div>
-        <div class="tip-card tip-breakfast">
-          <h4>🥐 Have breakfast at <span class="tip-time">8:00 a.m.</span></h4>
-          <p>Researchers found that having breakfast at this time is good for our blood sugar levels. A research team from Sweden suggested that people who ate a regular breakfast as teenagers were <b>32% less likely</b> to be at risk of heart disease as adults.</p>
-        </div>
-        <div class="tip-card tip-coffee">
-          <h4>☕ Don't drink coffee in the morning — have one at <span class="tip-time">3:00 p.m.</span></h4>
-          <p>Early morning is the worst time to drink coffee because it stops the body from producing the stress hormone <b>cortisol</b>, which we need to help us wake up. The best time for caffeine is between <b>2:00 and 5:00 p.m.</b>, when it can make us more mentally alert.</p>
-        </div>
-        <div class="tip-card tip-lunch">
-          <h4>🍽️ Have lunch between <span class="tip-time">12:00 and 2:00</span></h4>
-          <p>This is when our body digests food best, because the stomach produces the most acid. An experiment found that <b>blood glucose levels</b> after an evening meal were much higher than when people had the same meal earlier in the day — and high glucose can cause diabetes.</p>
-        </div>
-        <div class="tip-card tip-dinner">
-          <h4>🍝 Have dinner at <span class="tip-time">7:00 p.m.</span></h4>
-          <p>Have your evening meal early. It should be delicious — our sense of smell and taste are at their best at this time — but light. Ideally, go to bed between <b>9:00 and 11:00 p.m.</b>, when the brain begins producing the sleep hormone <b>melatonin</b>.</p>
-        </div>
-        <div class="tip-card tip-more">
-          <h4>⭐ More good times for your body</h4>
-          <p>Get up when the sun rises · do yoga or go for a walk before breakfast · do important tasks at <b>11:00 a.m.</b> (your brain is working best) · lift weights around midday (your muscles are strongest) · run or ride a bike at <b>5:00 p.m.</b> (your lung capacity is greatest) · go to bed between 9:00 and 11:00 p.m.</p>
+      <div style="flex:1 1 380px;">
+        <h3 style="margin:0 0 10px;color:#2A6B42;">Eat and drink — but at the right time!</h3>
+        <div class="eqh-scroll" style="overflow-y:auto;padding-right:6px;">
+          <div class="article-box" style="margin-bottom:0;">
+            <p>In our super-busy 21st-century lives, most of us try to do as much as we can in 24 hours. However, we usually do things whenever it suits us, and experts say that this is disrupting our body's natural cycle, making us feel tired at times when we should feel awake, and vice versa. Science shows that by doing things at the right time, we can be happier and healthier.</p>
+          </div>
+          <div class="tip-card tip-breakfast">
+            <h4>🥐 Have breakfast at <span class="tip-time">8:00 a.m.</span></h4>
+            <p>In a recent study, researchers found having breakfast at this time is good for our blood sugar levels, so the food you eat now will give you the energy you need. It's also important not to skip breakfast. Another research team, from Sweden, suggested that people who ate a regular breakfast as teenagers were <b>32% less likely</b> to be at risk of heart disease as adults.</p>
+          </div>
+          <div class="tip-card tip-coffee">
+            <h4>☕ Don't drink coffee in the morning. Have one at <span class="tip-time">3:00 p.m.</span></h4>
+            <p>Most coffee drinkers make a cup as soon as they wake up. However, researchers have suggested that early morning is the worst time to drink coffee because it stops the body from producing the stress hormone <b>cortisol</b>, which we need at this time to help us wake up. The best time to drink coffee — or caffeine in general — is between <b>2:00 p.m. and 5:00 p.m.</b>, when it can make us more mentally alert, according to a study conducted by the University of Sheffield a few years ago.</p>
+          </div>
+          <div class="tip-card tip-lunch">
+            <h4>🍽️ Have lunch between <span class="tip-time">12:00 and 2:00</span></h4>
+            <p>This is when our body digests food best because this is when the stomach produces the most acid. So it's the ideal time to have your main meal of the day. An experiment by nutritionists at the University of Surrey found that <b>blood glucose levels</b> after an evening meal were much higher than when people had the same meal earlier in the day, and high levels of glucose can cause diabetes.</p>
+          </div>
+          <div class="tip-card tip-dinner">
+            <h4>🍝 Have dinner at <span class="tip-time">7:00 p.m.</span></h4>
+            <p>Have your evening meal early. It should be delicious — our sense of smell and taste are at their best at this time — but light.</p>
+          </div>
+          <div class="tip-card tip-more">
+            <h4>⭐ More good times for your body</h4>
+            <ul style="margin:6px 0 0;padding-left:20px;line-height:1.7;">
+              <li>Ideally, you should get up when the sun rises. When we see daylight, we stop producing the sleep hormone <b>melatonin</b> and start getting ready for the day ahead.</li>
+              <li>Do yoga or go for a walk before breakfast.</li>
+              <li>Do important tasks at <b>11:00 a.m.</b>, when your brain is working the best.</li>
+              <li>Weightlifting sessions are best done at midday — that's when your muscles are strongest.</li>
+              <li>The best time to run or ride a bike is <b>5:00 p.m.</b>, when your lung capacity — important for endurance sports — is at its greatest.</li>
+              <li>Go to bed between <b>9:00 p.m. and 11:00 p.m.</b> This is when your body temperature starts to go down and the brain begins producing melatonin.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -1408,47 +1417,56 @@
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>Marianna Leivaditaki</h2>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1709034041512-219bc92fc333" alt="Harbor in Chania, Crete" style="width:100%;height:200px;object-fit:cover;border-radius:10px;margin-bottom:12px;">
-      <p style="margin:0;font-size:1.06rem;line-height:1.7;"><b>Marianna Leivaditaki</b> is the head chef at Morito, a very popular restaurant in London. She was born on the island of Crete, in Greece. Her father was a Cretan fisherman and her mother was Scottish. Together they ran a seafood restaurant, which is where Marianna spent most of her childhood.</p>
+    <p class="instruction">Look at the photos and extracts from an interview with Marianna.<br>Say how you think she finishes each sentence.</p>
+    <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+      <img src="images/Sunlit%20Woman%20with%20Fried%20Fish%20Plate.png" alt="Marianna Leivaditaki" style="width:140px;height:140px;object-fit:cover;border-radius:10px;flex-shrink:0;">
+      <p style="margin:0;flex:1 1 220px;font-size:1.06rem;line-height:1.7;"><b>Marianna Leivaditaki</b> is the head chef at Morito, a very popular restaurant in London. She was born on the island of Crete, in Greece. Her father was a Cretan fisherman and her mother was Scottish. Together they ran a seafood restaurant, which is where Marianna spent most of her childhood.</p>
     </div>
-    <p class="instruction" style="margin-top:16px;">Part 1 — how does she finish each sentence? Listen and check.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
-    <ul class="discuss-list">
-      <li>"We ate fish every day, which…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…my dad caught.</span></li>
-      <li>"We boiled it and ate it with…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…lemon and olive oil.</span></li>
-      <li>"I wrote down recipes which I wanted to cook for the family in…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…a small blue notebook.</span></li>
-      <li>"My aunt, Thia Koula, had…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…animals, a garden, olive trees, and grapes.</span></li>
-      <li>"Occasionally, my mum used to buy me and my brother souvlaki for lunch, a sort of…" &nbsp;<button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Reveal</button><span class="ccq-answer">…Greek sandwich with pita bread.</span></li>
-    </ul>
-    <p class="instruction" style="margin-top:16px;">Part 2 — listen and answer the questions.</p>
-    <div class="book-placeholder"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
-    <ul class="discuss-list">
-      <li>1. What three things did Marianna do before becoming a chef in London?</li>
-      <li>2. What was her first connection with the restaurant Moro? Why did she go back to it later?</li>
-      <li>3. What happened seven years later?</li>
-      <li>4. How is her restaurant, Morito, different from Moro?</li>
-      <li>5. How often does she go back to Crete? What happens when she has lunch with her old friends there?</li>
-    </ul>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="flex:1 1 220px;">
+        <div class="ex-row" style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span>1.</span><input class="ans-input" style="flex:1 1 auto;width:auto;"></div>
+        <img src="images/Seafood%20Workbook%20by%20the%20Shore.png" alt="A box of fresh fish and a spiny lobster" style="width:100%;border-radius:10px;display:block;">
+        <div class="ex-row" style="margin-top:8px;display:flex;align-items:center;gap:8px;"><span>2.</span><input class="ans-input" style="flex:1 1 auto;width:auto;"></div>
+      </div>
+      <div style="flex:1 1 220px;">
+        <div class="ex-row" style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span>3.</span><input class="ans-input" style="flex:1 1 auto;width:auto;"></div>
+        <img src="images/Greek%20Recipe%20and%20Mediterranean%20Vineyard%20Exercises.png" alt="A handwritten Greek recipe notebook, and olive trees with grapevines" style="width:100%;border-radius:10px;display:block;">
+        <div class="ex-row" style="margin-top:8px;display:flex;align-items:center;gap:8px;"><span>4.</span><input class="ans-input" style="flex:1 1 auto;width:auto;"></div>
+      </div>
+      <div style="flex:1 1 220px;">
+        <div class="ex-row" style="margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span>5.</span><input class="ans-input" style="flex:1 1 auto;width:auto;"></div>
+        <img src="images/Greek%20Souvlaki%20English%20Workbook%20Page.png" alt="Souvlaki wraps" style="width:100%;border-radius:10px;display:block;">
+      </div>
+    </div>
+    <p class="instruction" style="margin-top:16px;">Listen to the interview and check your answers.</p>
+    <div style="background:#F0F4F8;border-radius:999px;padding:10px 18px;margin-bottom:18px;"><audio controls style="width:100%;height:32px;" src="AEF3e_Level_3_SB_1.08.mp3"></audio></div>
     <div class="btn-row" style="justify-content:flex-start;">
-      <button class="btn-akey" onclick="toggleSuggested('l3-key')">🔑 Show Answer Key</button>
+      <button class="btn-suggest" onclick="toggleSuggested('l3-sugg')">💡 Suggested Answer</button>
     </div>
-    <div class="akey-box" id="l3-key">
+    <div class="suggest-box" id="l3-sugg">
       <ul>
-        <li>1. She studied psychology at Kent University, traveled around southern Europe and South America, and went back to Crete to work in the family restaurant.</li>
-        <li>2. As a student she used to save money and go and eat there; she went back later because she wanted to work there.</li>
-        <li>3. She became head chef.</li>
-        <li>4. It has more Cretan dishes on the menu.</li>
-        <li>5. Four or five times a year. They share all the food and always order too much.</li>
+        <li>1. …my dad caught.</li>
+        <li>2. …lemon and olive oil.</li>
+        <li>3. …a small blue notebook.</li>
+        <li>4. …animals, a garden, olive trees, and grapes.</li>
+        <li>5. …a Greek sandwich with pita bread.</li>
       </ul>
     </div>
-    <div class="ccq-box" style="margin-top:16px;">
-      <div class="discuss-label" style="margin-bottom:10px;">💬 What about you?</div>
-      <ul class="discuss-list" style="margin:0;padding-left:20px;">
-        <li>What was your favorite food when you were a child?</li>
-        <li>What kinds of things did your mother or father cook? Do you still eat them?</li>
-        <li>Do you have a favorite restaurant? What do you like most about it — the food, the atmosphere, the service, or the price?</li>
+  </div></div>
+</div>
+
+<div class="slide" id="s-listen3b">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>What about you?</h2>
+    <p class="instruction">Answer the questions with me.</p>
+    <div class="match-img-row">
+      <ul class="discuss-list" style="flex:1 1 320px;">
+        <li>1. What was your favorite food when you were a child?</li>
+        <li>2. What kinds of things did your mother or father cook? Do you still eat them?</li>
+        <li>3. Do you have a favorite restaurant? What do you like most about it — the food, the atmosphere, the service, or the price?</li>
       </ul>
+      <img src="images/victoria-shes-UC0HZdUitWY-unsplash.jpg" alt="A grilled meat and vegetable platter with dipping sauces" style="flex:1 1 260px;width:100%;max-height:360px;object-fit:cover;border-radius:12px;">
     </div>
   </div></div>
 </div>
@@ -1459,13 +1477,13 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Three sentences from the interview</h2>
-    <p class="instruction">Choose the correct verb form. Then listen and check, and think about why each form is used.</p>
+    <p class="instruction">Choose the correct verb form.<br>Then listen and check, and think about why each form is used.</p>
     <div id="g1">
       <div class="ex-row">1. You <button class="circ-opt" data-group="g1-1" data-correct="don't need" onclick="circPick(this)">don't need</button> <button class="circ-opt" data-group="g1-1" data-correct="don't need" onclick="circPick(this)">aren't needing</button> anything except lemon and olive oil when fish and seafood is really fresh.</div>
       <div class="ex-row">2. This week, for example, <button class="circ-opt" data-group="g1-2" data-correct="I'm making" onclick="circPick(this)">I make</button> <button class="circ-opt" data-group="g1-2" data-correct="I'm making" onclick="circPick(this)">I'm making</button> "ntakos," a Cretan salad.</div>
       <div class="ex-row">3. <button class="circ-opt" data-group="g1-3" data-correct="I go" onclick="circPick(this)">I go</button> <button class="circ-opt" data-group="g1-3" data-correct="I go" onclick="circPick(this)">I'm going</button> to Crete maybe four or five times a year.</div>
     </div>
-    <div class="book-placeholder" style="margin-top:14px;"><span class="bp-icon">🎧</span>Audio needed<div class="bp-note">Add the audio file for this track</div></div>
+    <div style="background:#F0F4F8;border-radius:999px;padding:10px 18px;margin:14px 0 18px;"><audio controls style="width:100%;height:32px;" src="AEF3e_Level_3_SB_1.10.mp3"></audio></div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkCircSlide('g1')">Check Answers</button>
       <button class="btn-reset" onclick="resetCircSlide('g1')">Reset</button>
@@ -1491,11 +1509,25 @@
         <li>Often with adverbs of frequency (<i>usually, never</i>) or expressions (<i>every day, once a week</i>).</li>
       </ul>
     </div>
+    <div class="ccq-box" style="margin-bottom:16px;">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>Is living in New York true only today, or all the time? <em>(all the time)</em></li>
+        <li>Is this happening right now, or is it a routine? <em>(a routine)</em></li>
+      </ul>
+    </div>
     <div class="gram-box" style="border-left-color:#1E6B3E;">
       <h3 style="color:#1E6B3E;">Present continuous — <i>be + verb + -ing</i></h3>
       <p><i>The phone<span class="hl">'s ringing</span>. Can you answer it? House prices <span class="hl">are going up</span> very fast right now.</i></p>
       <ul>
         <li>We use it (NOT the simple present) for actions <span class="hl">in progress now</span> or around now — usually temporary, not habitual.</li>
+      </ul>
+    </div>
+    <div class="ccq-box" style="margin-bottom:16px;">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>Is the phone ringing all the time, or right now? <em>(right now)</em></li>
+        <li>Will house prices keep going up forever, or is this just for now? <em>(just for now)</em></li>
       </ul>
     </div>
     <div class="gram-box" style="border-left-color:#A8451E;">
@@ -1505,6 +1537,13 @@
         <li><b>Action</b> verbs (cook, make) can be simple or continuous.</li>
         <li><b>Nonaction</b> verbs describe states or feelings and are <b>not</b> usually used in the continuous: <i>agree, be, believe, belong, depend, forget, hate, hear, know, like, love, matter, mean, need, prefer, realize, remember, seem, suppose, want</i>, and verbs of the senses (<i>look, smell, taste, sound</i>).</li>
         <li>A few verbs can be both: <i>I'm having lunch</i> (action) vs. <i>I have a cat</i> (nonaction) · <i>What are you thinking about?</i> (action) vs. <i>I think this music's great</i> (opinion).</li>
+      </ul>
+    </div>
+    <div class="ccq-box">
+      <p class="ccq-label">💭 Check your understanding</p>
+      <ul class="ccq-list">
+        <li>Can you see "cooking" and "making" happening right now, in front of you? <em>(yes)</em></li>
+        <li>Is "loving pasta" one moment in time, or a general feeling? <em>(a general feeling)</em></li>
       </ul>
     </div>
   </div></div>
@@ -1578,7 +1617,7 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>On a typical day…</h2>
-    <p class="instruction">Make a question from each prompt, then answer it about yourself. Remember: habits → simple present; things happening right now → present continuous (unless the verb is nonaction).</p>
+    <p class="instruction">Make a question from each prompt, then answer it about yourself.<br>Remember: habits → simple present; things happening right now → present continuous (unless the verb is nonaction).</p>
     <div class="fixed-two-col" id="g5">
       <div>
         <p class="inst-light" style="font-weight:700;">On a typical day</p>
@@ -1605,7 +1644,7 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>🎯 Vocabulary Bingo</h2>
-    <p class="instruction">I'll describe a word from this lesson — click the matching square when you hear it! Can you mark all 16?</p>
+    <p class="instruction">I'll describe a word from this lesson — click the matching square when you hear it!<br>Can you mark all 16?</p>
     <div class="bingo-grid">
       <div class="bingo-cell" onclick="bingoToggle(this)">squid</div>
       <div class="bingo-cell" onclick="bingoToggle(this)">lobster</div>
@@ -1636,13 +1675,13 @@
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Do you agree?</h2>
-    <p class="instruction">Not sure where to start? Roll the die to pick which statement to discuss first!</p>
+    <p class="instruction">Not sure where to start?<br>Roll the die to pick which statement to discuss first!</p>
     <div class="dice-box" id="dice-agree" style="margin-bottom:18px;padding:16px;">
       <div class="die-face" id="dice-agree-face" style="font-size:2.6rem;margin-bottom:6px;">⚀</div>
       <button class="btn-check" onclick="rollDie('dice-agree')">🎲 Roll the Die</button>
       <p class="dice-prompt" id="dice-agree-prompt" style="font-size:1rem;min-height:20px;"></p>
     </div>
-    <p class="instruction">Click ✓ for the statements you agree with and ✗ for the ones you disagree with. Then give your reasons out loud, using the language below.</p>
+    <p class="instruction">Click ✓ for the statements you agree with and ✗ for the ones you disagree with.<br>Then give your reasons out loud, using the language below.</p>
     <div id="sp1">
       <div class="ex-row" style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;"><span style="flex:1;min-width:280px;">1. Good service is more important than good food.</span><span><button class="circ-opt" data-group="sp-1" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="sp-1" onclick="circPick(this)">✗</button></span></div>
       <div class="ex-row" style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;"><span style="flex:1;min-width:280px;">2. The best chefs are usually men.</span><span><button class="circ-opt" data-group="sp-2" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="sp-2" onclick="circPick(this)">✗</button></span></div>
@@ -1668,7 +1707,7 @@
   <div class="banner banner-speaking">✈️ Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>At the restaurant abroad</h2>
-    <p class="instruction">Imagine you're traveling and you sit down at this restaurant. First, match each phrase to what it's used for. Then role-play with your teacher.</p>
+    <p class="instruction">Imagine you're traveling and you sit down at this restaurant.<br>First, match each phrase to what it's used for.<br>Then role-play with me.</p>
 
     <div class="menu-card">
       <h3>🍴 Today's Menu</h3>
@@ -1910,7 +1949,7 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW6 — Right or wrong?</h2>
-    <p class="instruction">Decide whether each highlighted phrase is right or wrong. If it's wrong, type the correction in the box.</p>
+    <p class="instruction">Decide whether each highlighted phrase is right or wrong.<br>If it's wrong, type the correction in the box.</p>
     <div id="hw-gr2">
       <div class="ex-row">1. I <b>like</b> your jacket. Is it new? <button class="circ-opt" data-group="hg2-1" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="hg2-1" data-correct="✓" onclick="circPick(this)">✗</button> <input class="ans-input" style="width:180px" data-ans="like"></div>
       <div class="ex-row">2. Something <b>is smelling</b> good. What are you making? <button class="circ-opt" data-group="hg2-2" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="hg2-2" data-correct="✗" onclick="circPick(this)">✗</button> <input class="ans-input" style="width:180px" data-ans="smells"></div>
@@ -1966,8 +2005,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-listen1", "s-listen2", "s-speak-routine", "s-read1", "s-listen3", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "s-restaurant", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
-var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Speaking – At the Restaurant Abroad", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
+var slideIds = ["s1", "s-countdown", "s-leadin", "s-wyr", "s-vocab1", "s-speak-seafood", "s-vocab1b", "s-speak-meat", "s-vocab2", "s-vocab2b", "s-speak-fruitveg", "s-food-detective", "s-vocab3", "s-vocab4", "s-myplate", "s-listen1", "s-listen2", "s-speak-routine", "s-read1", "s-listen3", "s-listen3b", "s-gram1", "s-gram2", "s-gram3", "s-gram4", "s-gram5", "s-bingo", "s-speak1", "s-restaurant", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-voc3-slide", "hw-voc4-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide"];
+var slideLabels = ["Cover", "Warm-Up Game – Food Countdown", "Warm-Up – Complete the Joke", "Would You Rather – Food Showdown", "Vocabulary – Fish & Seafood", "Speaking – Would You Try It?", "Vocabulary – Meat", "Speaking – Meat Interview", "Vocabulary – Fruit", "Vocabulary – Vegetables", "Speaking – Love It, Hate It, Never Tried It", "Guessing Game – Food Detective", "Vocabulary – Cooking + Speaking", "Vocabulary – Describing Food", "Speaking – Build Your Plate", "Listening – Your Food Profile", "Listening – Six People Answer", "Speaking – What Time Do You…?", "Reading – Eat at the Right Time", "Listening – Marianna the Chef", "Speaking – What About You?", "Grammar – From the Interview", "Grammar – Present Simple & Continuous", "Grammar – Choose the Correct Form", "Grammar – Complete the Form", "Grammar – On a Typical Day", "Vocabulary Review – Bingo", "Speaking – Do You Agree?", "Speaking – At the Restaurant Abroad", "Homework Cover", "HW1 – Which Word Is Different?", "HW2 – What Food Is It?", "HW3 – Describing Food", "HW4 – Label the Cooking Method", "HW5 – Simple Present or Continuous", "HW6 – Right or Wrong?", "HW7 – Complete with a Verb"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2001,8 +2040,23 @@ function goTo(n){
   if (current === 0) { if (notesOpen) panel.classList.add('cover'); }
   else { panel.classList.remove('cover'); }
   loadNotes(current);
+  requestAnimationFrame(syncEqualHeightRows);
 }
 function goToId(id){ var i = slideIds.indexOf(id); if (i>-1) goTo(i); }
+function syncEqualHeightRows(){
+  document.querySelectorAll('.eqh-row').forEach(function(row){
+    var cols = row.children;
+    if (cols.length < 2) return;
+    var ref = cols[0];
+    var target = cols[1];
+    var scrollBox = target.querySelector('.eqh-scroll');
+    if (!scrollBox) return;
+    scrollBox.style.maxHeight = '';
+    var h = ref.offsetHeight;
+    if (h > 0) scrollBox.style.maxHeight = h + 'px';
+  });
+}
+window.addEventListener('resize', function(){ requestAnimationFrame(syncEqualHeightRows); });
 
 document.addEventListener('keydown', function(e){
   var tag = document.activeElement.tagName;
@@ -2323,6 +2377,15 @@ function resetClassifySlide(prefix){
   bank.querySelectorAll('.classify-chip').forEach(function(c){ c.classList.remove('used','selected'); });
   classifySelected = {};
 }
+function toggleFpAudio(btn){
+  var audio = btn.previousElementSibling;
+  if (!audio || audio.tagName !== 'AUDIO') return;
+  document.querySelectorAll('audio.fp-audio').forEach(function(a){ if (a !== audio){ a.pause(); a.currentTime = 0; } });
+  document.querySelectorAll('.fp-play-btn').forEach(function(b){ if (b !== btn){ b.textContent = '▶'; b.classList.remove('playing'); } });
+  if (audio.paused){ audio.play(); btn.textContent = '⏸'; btn.classList.add('playing'); }
+  else { audio.pause(); btn.textContent = '▶'; btn.classList.remove('playing'); }
+  audio.onended = function(){ btn.textContent = '▶'; btn.classList.remove('playing'); };
+}
 
 /* ===================== GENERIC: WORD BANK FILL ===================== */
 var wbSelected = {};
@@ -2446,6 +2509,7 @@ function resetTickSlide(sid){
 function toggleSuggested(id){
   var box = document.getElementById(id);
   box.classList.toggle('show');
+  requestAnimationFrame(syncEqualHeightRows);
 }
 
 /* ===================== SHARED NO-REPEAT SHUFFLE BAG ===================== */
