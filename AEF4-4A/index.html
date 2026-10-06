@@ -194,6 +194,11 @@
   .pred-empty { display:flex; align-items:center; justify-content:center; min-height:90px; color:#aaa; font-size:.98rem; font-style:italic; background:#fff; border-radius:10px; border:2px dashed #D0E8D8; text-align:center; padding:14px; margin-top:10px; width:100%; box-sizing:border-box; }
   .pred-result { display:none; background:#fff; border-left:4px solid #2F7A52; border-radius:0 10px 10px 0; padding:14px 16px; margin-top:10px; width:100%; box-sizing:border-box; }
   .pred-result.show { display:block; }
+  .pred-history { width:100%; box-sizing:border-box; background:#fff; border-radius:10px; border:1px solid #D0E8D8; padding:12px 16px; margin-top:10px; }
+  .pred-history-title { font-size:1.05rem; font-weight:800; color:#2F7A52; margin:0 0 6px; }
+  .pred-history-list { margin:0; padding-left:0; list-style:none; }
+  .pred-history-list li { display:flex; gap:10px; align-items:flex-start; font-size:1.05rem; line-height:1.5; color:#1C2B3A; margin-bottom:6px; }
+  .pred-history-list .ph-num { flex-shrink:0; width:26px; height:26px; border-radius:50%; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center; margin-top:1px; }
   .pred-sentence { font-size:1.08rem; font-weight:700; color:#1C2B3A; line-height:1.5; margin:0 0 8px; }
   .certainty-funnel { width:46px; flex-shrink:0; background:linear-gradient(180deg,#1F5F72 0%,#8ED0E0 100%); clip-path:polygon(0 0, 100% 0, 50% 100%); }
   .certainty-list { flex:1; margin:0; line-height:2.1; font-style:italic; color:#1C2B3A; }
@@ -800,7 +805,14 @@
             <p class="pred-sentence" id="pred-sentence"></p>
             <p class="instruction" style="margin:0;">Do you agree or disagree? Why?</p>
             <div style="text-align:right;margin-top:8px;">
-              <button class="btn-check" style="font-size:.85rem;padding:8px 16px;" onclick="spinPredWheel()">🎡 Spin again!</button>
+              <button class="btn-check" id="pred-spin-again" style="font-size:.85rem;padding:8px 16px;" onclick="spinPredWheel()">🎡 Spin again!</button>
+            </div>
+          </div>
+          <div id="pred-history" class="pred-history" style="display:none;">
+            <p class="pred-history-title">📜 Already discussed</p>
+            <ol id="pred-history-list" class="pred-history-list"></ol>
+            <div style="text-align:right;margin-top:8px;">
+              <button class="btn-reset" style="font-size:.85rem;padding:8px 16px;" onclick="resetPredWheel()">Reset wheel</button>
             </div>
           </div>
         </div>
@@ -2023,11 +2035,11 @@ function drawPredWheel(rot){
   ctx.strokeStyle = '#ddd'; ctx.lineWidth = 2; ctx.stroke();
 }
 function spinPredWheel(){
-  if (predSpinning) return;
+  if (predSpinning || predRemaining.length === 0) return;
   predSpinning = true;
   document.getElementById('pred-result').classList.remove('show');
   document.getElementById('pred-empty').style.display = 'flex';
-  var idx = nextNoRepeat('pred-wheel', predSentences.length);
+  var idx = predRemaining.splice(Math.floor(Math.random()*predRemaining.length), 1)[0];
   var seg = Math.PI*2/predSentences.length;
   var targetAngle = -(idx*seg + seg/2);
   var spins = (5 + Math.floor(Math.random()*3)) * Math.PI*2;
@@ -2044,10 +2056,29 @@ function spinPredWheel(){
   }
   requestAnimationFrame(step);
 }
+var predRemaining = [0,1,2,3,4,5];
 function showPredSentence(idx){
   document.getElementById('pred-sentence').textContent = predSentences[idx];
   document.getElementById('pred-empty').style.display = 'none';
   document.getElementById('pred-result').classList.add('show');
+  var li = document.createElement('li');
+  li.innerHTML = '<span class="ph-num" style="background:' + predColors[idx] + ';">' + (idx+1) + '</span><span></span>';
+  li.lastChild.textContent = predSentences[idx];
+  document.getElementById('pred-history-list').appendChild(li);
+  document.getElementById('pred-history').style.display = 'block';
+  var done = predRemaining.length === 0;
+  document.getElementById('pred-spin-again').style.display = done ? 'none' : '';
+  if (done) document.getElementById('pred-wheel').style.cursor = 'default';
+}
+function resetPredWheel(){
+  if (predSpinning) return;
+  predRemaining = [0,1,2,3,4,5];
+  document.getElementById('pred-history-list').innerHTML = '';
+  document.getElementById('pred-history').style.display = 'none';
+  document.getElementById('pred-result').classList.remove('show');
+  document.getElementById('pred-empty').style.display = 'flex';
+  document.getElementById('pred-spin-again').style.display = '';
+  document.getElementById('pred-wheel').style.cursor = 'pointer';
 }
 document.addEventListener('DOMContentLoaded', function(){ drawPredWheel(0); });
 
