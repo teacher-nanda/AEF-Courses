@@ -46,6 +46,10 @@
   .inst-light { font-size:1.05rem; font-weight:400; color:#1C2B3A; margin:0 0 18px; line-height:1.7; }
   .discuss-label { font-size:1.08rem; font-weight:700; color:#1C2B3A; margin:0 0 14px; line-height:1.7; }
   .section-subhead { font-size:1.3rem; font-weight:800; color:#6B3F86; margin:24px 0 10px; }
+  .classify-col.story-card { background:#fff; border:2px solid #ddd; border-radius:12px; padding:14px 16px; margin-bottom:12px; cursor:pointer; }
+  .classify-col.story-card:hover { border-color:#6B3F86; }
+  .classify-col.story-card .placed { display:inline-block; margin:8px 6px 0 0; }
+  .topic-row { display:flex; align-items:center; margin-bottom:10px; }
   .topics-card { background:#F4F8FA; border-radius:12px; padding:1.1rem 1.3rem; }
   .topics-card h4 { margin:0 0 10px; color:#6B3F86; font-size:1.1rem; }
   .topics-card ul { margin:0; padding-left:20px; line-height:1.9; font-size:1.05rem; color:#1C2B3A; }
@@ -1238,10 +1242,10 @@
   <div class="banner banner-reading">📖 Reading</div>
   <div class="slide-main"><div class="content">
     <h2>Who said it?</h2>
-    <p class="instruction">Look at each topic on the right. Find out who mentioned it in their story, then read that person's story again. Report back to your partner what you remember — in your own words, as if you were telling a friend.</p>
+    <p class="instruction">Read the stories again. Then click a topic in the list, and click the story of the person who mentions it.<br>Tell me why each one is significant.</p>
     <div style="display:grid;grid-template-columns:3fr 1fr;gap:24px;align-items:start;">
-      <div class="scroll-box">
-        <div class="card">
+      <div class="scroll-box" id="rwho-cols">
+        <div class="classify-col story-card" data-target="umberto" onclick="classifyTarget(this)">
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <img src="person-umberto.png" alt="Umberto" class="person-thumb">
             <div>
@@ -1250,7 +1254,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="classify-col story-card" data-target="nadine" onclick="classifyTarget(this)">
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <img src="person-nadine.png" alt="Nadine" class="person-thumb">
             <div>
@@ -1259,7 +1263,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="classify-col story-card" data-target="harou" onclick="classifyTarget(this)">
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <img src="person-harou.png" alt="Harou" class="person-thumb">
             <div>
@@ -1268,7 +1272,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="classify-col story-card" data-target="jordan" onclick="classifyTarget(this)">
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <img src="person-jordan.png" alt="Jordan" class="person-thumb">
             <div>
@@ -1278,15 +1282,17 @@
           </div>
         </div>
       </div>
-      <div class="topics-card">
+      <div class="topics-card" id="rwho-bank" style="position:sticky;top:0;">
         <h4>Topics</h4>
-        <ul>
-          <li>September 21st</li>
-          <li>Los Angeles and Manhattan</li>
-          <li>the river</li>
-          <li>beautiful properties and parks</li>
-        </ul>
+          <div class="topic-row"><span class="circ-num">1</span><span class="classify-chip" data-ans="umberto" onclick="classifyPick(this)">September 21st</span></div>
+          <div class="topic-row"><span class="circ-num">2</span><span class="classify-chip" data-ans="jordan" onclick="classifyPick(this)">Los Angeles and Manhattan</span></div>
+          <div class="topic-row"><span class="circ-num">3</span><span class="classify-chip" data-ans="harou" onclick="classifyPick(this)">the river</span></div>
+          <div class="topic-row"><span class="circ-num">4</span><span class="classify-chip" data-ans="nadine" onclick="classifyPick(this)">beautiful properties and parks</span></div>
       </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkClassifySlide('rwho')">Check Answers</button>
+      <button class="btn-reset" onclick="resetClassifySlide('rwho')">Reset</button>
     </div>
     <h3 class="section-subhead">💬 Comprehension</h3>
     <div class="card" style="background:linear-gradient(135deg,#F3EEF8 0%,#EAE0F3 100%);border-left:6px solid #6B3F86;">
