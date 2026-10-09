@@ -941,6 +941,16 @@ The Homework Cover is the **first slide of the Homework section**. It is a full-
 
 > These rules apply to every slide inside the Homework section (after `hw-cover`). Established during AEF4-3A after repeated corrections — treat all of these as settled, not open questions.
 
+### Homework = workbook-exact AND lesson-covered only — NON-NEGOTIABLE
+
+> Added 2026-10-09 after AEF4-4A homework shipped with (a) a workbook sentence rewritten (hail → typhoon), (b) a workbook option swapped (mist → chilly), and (c) exercises full of vocabulary never taught in the lesson (changeable, fog, smog, settled, sunny, icy, towel, sweat…). This must never happen again.
+
+1. **Every homework exercise must be exactly the workbook exercise** — same items, same words, same options, same order, same answers (answers from the TB/WB key). Instructions may be reworded; content never.
+2. **Before building or auditing any homework exercise, list every target word/structure in it and confirm each one appears in a non-homework slide of that lesson** (grep the lesson). If even one target item was not taught in the lesson, **delete that entire exercise** — never swap in a different word, rewrite the sentence, or "fix" it to fit. Optionally propose a teaching slide to the teacher instead.
+3. Pronunciation homework only stays if the sound set was taught AND every option word in it was seen/said in the lesson.
+4. Sample answers/tips on homework slides may only use vocabulary taught in the lesson.
+5. Run this check on every homework slide whenever the lesson's slides change (e.g. a vocabulary slide deleted) — homework depends on lesson content.
+
 ### No book references — ever
 
 Never show a book-specific exercise-letter label anywhere the student/teacher can see it: no "a", "b", "c", no "(a)", "Part a", "Exercise 3b", no audio track numbers (e.g. "3.2"), nothing that only makes sense if you're holding the physical book open. This applies to instructions, button labels, HTML comments intended as visible text, and audio labels alike.
