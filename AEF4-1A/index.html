@@ -2462,7 +2462,7 @@ function checkHW1b() {
       var ob = document.getElementById('hw1-' + other + '-' + n);
       if (ob) { ob.style.opacity='.35'; ob.style.borderColor='#ccc'; }
     }
-    if (d.wrong && inp) { inp.style.background=corrOk?'#d4edda':'#fff0f0'; inp.style.borderColor=corrOk?'#2A6B42':'#e74c3c'; }
+    if (inp) { if (d.wrong && sel==='W') { inp.style.background=corrOk?'#d4edda':'#fff0f0'; inp.style.borderColor=corrOk?'#2A6B42':'#e74c3c'; } else { inp.style.background=''; inp.style.borderColor=''; } }
   });
   var sc = document.getElementById('hw1b-score');
   if (sc) { sc.style.display='inline-block'; sc.textContent=ok+'/'+tot; sc.style.background=ok===tot?'#d4edda':'#fff3cd'; sc.style.color=ok===tot?'#1A7A4A':'#856404'; sc.style.border='1px solid '+(ok===tot?'#1A7A4A':'#856404'); sc.style.borderRadius='8px'; sc.style.padding='6px 12px'; }
