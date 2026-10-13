@@ -15,6 +15,28 @@
   }
   .slide.active { opacity:1; pointer-events:auto; }
 
+  /* City weather report */
+  .cw-layout { display:grid; grid-template-columns:2fr 1fr; gap:24px; align-items:start; }
+  .cw-card { background:#fff; border-radius:16px; box-shadow:0 4px 18px rgba(0,0,0,.15); overflow:hidden; min-height:340px; }
+  .cw-empty { text-align:center; font-size:1.3rem; font-weight:700; color:#6B3F86; padding:90px 20px; line-height:1.8; }
+  .cw-photo { position:relative; height:150px; display:flex; align-items:center; justify-content:center; font-size:4.5rem; }
+  .cw-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .cw-name { position:absolute; left:0; right:0; bottom:0; padding:8px 16px; background:linear-gradient(transparent,rgba(0,0,0,.65)); color:#fff; font-size:1.4rem; font-weight:800; }
+  .cw-name small { font-size:1.05rem; font-weight:600; opacity:.9; margin-left:8px; }
+  .cw-forecast { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:14px 16px 6px; }
+  .cw-slot { background:#F4F8FA; border-radius:12px; text-align:center; padding:10px 6px; }
+  .cw-slot .t { font-size:1.05rem; font-weight:700; color:#6B3F86; }
+  .cw-slot .ic { font-size:2.6rem; line-height:1.2; }
+  .cw-slot .degf { font-size:1.05rem; font-weight:700; color:#6B7B88; }
+  .cw-slot .deg { font-size:1.4rem; font-weight:800; color:#1C2B3A; }
+  .cw-extras { display:flex; gap:12px; padding:6px 16px 16px; flex-wrap:wrap; }
+  .cw-extras span { background:#EEF1FA; border-radius:14px; padding:4px 14px; font-size:1.05rem; font-weight:700; color:#3B4C99; }
+  .cw-words, .cw-history { background:#F4F8FA; border-radius:12px; padding:14px 16px; margin-bottom:14px; }
+  .cw-words h4, .cw-history h4 { margin:0 0 8px; color:#6B3F86; font-size:1.1rem; }
+  .cw-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .cw-chips span { background:#fff; border:1.5px solid #6B3F86; color:#6B3F86; border-radius:14px; padding:3px 11px; font-size:1.05rem; font-weight:700; }
+  .cw-hist-list { display:flex; flex-wrap:wrap; gap:6px; font-size:1.05rem; }
+  .cw-hist-list .h { background:#E3F5EA; color:#1A7A4A; border-radius:14px; padding:3px 11px; font-weight:700; }
   /* ===== COVER / HW COVER ===== */
   #s1, #hw-cover {
     background: linear-gradient(135deg, #071A14 0%, #0F2E24 28%, #123B2C 48%, #1B4A4A 70%, #1F5F72 100%);
@@ -941,41 +963,30 @@
 <div class="slide" id="s-speak-weather">
   <div class="banner banner-speaking">💬 Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>Weather detective</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
-      <div>
-        <p class="instruction">Read each clue and say the weather word out loud.<br>Then click "Check" to see if you were right!</p>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>1.</b> 🥶 It's −10°. What can you say? <button class="btn-ccq" onclick="toggleSuggested('wd-1')">Check</button></p>
-          <div class="ccq-answer" id="wd-1">It's below zero.</div>
+    <h2>City weather report</h2>
+    <p class="instruction">Draw a city card and look at the forecast.<br>Tell me what the weather is like there.<br>Use the weather words you just learned!</p>
+    <div class="cw-layout">
+      <div class="cw-main">
+        <div class="cw-card" id="cw-card">
+          <div class="cw-empty">🌍<br>Click “Draw a city” to start!</div>
         </div>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>2.</b> 🌧️ It's raining a lot. <button class="btn-ccq" onclick="toggleSuggested('wd-2')">Check</button></p>
-          <div class="ccq-answer" id="wd-2">It's pouring.</div>
+        <div class="btn-row">
+          <button class="btn-check" id="cw-draw" onclick="cwDraw()">🎴 Draw a city</button>
+          <button class="btn-suggest" id="cw-model-btn" onclick="toggleSuggested('cw-model')" style="display:none;">💡 Model description</button>
+          <button class="btn-reset" onclick="cwReset()">Reset</button>
         </div>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>3.</b> 🌦️ It's raining very lightly. <button class="btn-ccq" onclick="toggleSuggested('wd-3')">Check</button></p>
-          <div class="ccq-answer" id="wd-3">It's drizzling.</div>
-        </div>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>4.</b> 😓 It's warm and wet, but it isn't raining. <button class="btn-ccq" onclick="toggleSuggested('wd-4')">Check</button></p>
-          <div class="ccq-answer" id="wd-4">It's humid.</div>
-        </div>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>5.</b> 🍃 There's a light wind. <button class="btn-ccq" onclick="toggleSuggested('wd-5')">Check</button></p>
-          <div class="ccq-answer" id="wd-5">There's a breeze.</div>
-        </div>
-        <div class="ccq-block">
-          <p class="ccq-q"><b>6.</b> 🔥 It's unpleasantly hot. <button class="btn-ccq" onclick="toggleSuggested('wd-6')">Check</button></p>
-          <div class="ccq-answer" id="wd-6">It's boiling.</div>
-        </div>
+        <div class="suggest-box" id="cw-model"></div>
       </div>
-      <div>
-        <p class="instruction">Roll the die and answer the question about yourself.<br>Use the weather words you just learned!</p>
-        <div class="dice-box" id="dice-weather" style="margin:0;">
-          <div class="die-face" id="dice-weather-face">⚀</div>
-          <button class="btn-check" onclick="rollDie('dice-weather')">🎲 Roll the Die</button>
-          <p class="dice-prompt" id="dice-weather-prompt"></p>
+      <div class="cw-side">
+        <div class="cw-words">
+          <h4>Weather words</h4>
+          <div class="cw-chips">
+            <span>below zero</span><span>freezing</span><span>chilly</span><span>cool</span><span>mild</span><span>warm</span><span>boiling</span><span>humid</span><span>damp</span><span>drizzling</span><span>showers</span><span>pouring</span><span>breeze</span>
+          </div>
+        </div>
+        <div class="cw-history">
+          <h4>Cities visited</h4>
+          <div class="cw-hist-list" id="cw-hist"><em style="color:#6B7B88;">None yet</em></div>
         </div>
       </div>
     </div>
@@ -1981,6 +1992,45 @@ function nextNoRepeat(key, size){
   return n;
 }
 
+/* ===================== CITY WEATHER REPORT (s-speak-weather) ===================== */
+var cwCities = [
+  {name:'Moscow', country:'Russia', bg:'linear-gradient(135deg,#9FB8D6,#DDE8F4)', pic:'🏰', f:[['Morning','❄️','−20°C|−4°F'],['Afternoon','🌨️','−17°C|2°F'],['Evening','❄️','−22°C|−8°F']], x:[], model:"It's freezing in Moscow. It's below zero in the morning and in the evening."},
+  {name:'London', country:'England', bg:'linear-gradient(135deg,#8E9AAF,#C9D3DF)', pic:'🎡', f:[['Morning','🌦️','11°C|52°F'],['Afternoon','☁️','13°C|55°F'],['Evening','🌧️','10°C|50°F']], x:['💧 Wet streets'], model:"It's cool and damp in London. It's drizzling in the morning and in the evening."},
+  {name:'Singapore', country:'Singapore', bg:'linear-gradient(135deg,#7FD1AE,#C4EBDD)', pic:'🌆', f:[['Morning','☀️','30°C|86°F'],['Afternoon','⛈️','32°C|90°F'],['Evening','🌧️','29°C|84°F']], x:['💧 Humidity: 90%'], model:"It's warm and very humid in Singapore. There are showers in the afternoon."},
+  {name:'Dubai', country:'United Arab Emirates', bg:'linear-gradient(135deg,#F6C873,#FBE5B6)', pic:'🏙️', f:[['Morning','☀️','37°C|98°F'],['Afternoon','🔥','45°C|113°F'],['Evening','☀️','40°C|104°F']], x:[], model:"It's boiling in Dubai. It's very hot all day, even in the evening."},
+  {name:'Mumbai', country:'India', bg:'linear-gradient(135deg,#6F8FB5,#B6C9DE)', pic:'🌉', f:[['Morning','🌧️','28°C|82°F'],['Afternoon','🌧️','29°C|84°F'],['Evening','⛈️','27°C|81°F']], x:['💧 Humidity: 95%'], model:"It's warm and humid in Mumbai. It's pouring all day."},
+  {name:'San Francisco', country:'United States', bg:'linear-gradient(135deg,#B7D6E8,#E4F1F8)', pic:'🌁', f:[['Morning','⛅','14°C|58°F'],['Afternoon','🌤️','19°C|66°F'],['Evening','⛅','16°C|60°F']], x:['💨 Wind: 19 km/h (12 mph)'], model:"It's mild in San Francisco. There's a breeze in the afternoon."}
+];
+var cwSeen = [];
+function cwRender(i){
+  var c = cwCities[i];
+  var slots = c.f.map(function(f){ return '<div class="cw-slot"><div class="t">'+f[0]+'</div><div class="ic">'+f[1]+'</div><div class="deg">'+f[2].split('|')[0]+'</div><div class="degf">'+f[2].split('|')[1]+'</div></div>'; }).join('');
+  var extras = c.x.length ? '<div class="cw-extras">'+c.x.map(function(e){return '<span>'+e+'</span>';}).join('')+'</div>' : '<div class="cw-extras"></div>';
+  document.getElementById('cw-card').innerHTML =
+    '<div class="cw-photo" style="background:'+c.bg+';"><span>'+c.pic+'</span><img src="city-'+c.name.toLowerCase().replace(/ /g,'-')+'.jpg" alt="'+c.name+'" onerror="this.style.display=\'none\'"><div class="cw-name">'+c.name+'<small>'+c.country+'</small></div></div>'+
+    '<div class="cw-forecast">'+slots+'</div>'+extras;
+  var m = document.getElementById('cw-model');
+  m.classList.remove('show'); m.textContent = c.model;
+  document.getElementById('cw-model-btn').style.display = 'inline-block';
+}
+function cwDraw(){
+  if (cwSeen.length >= cwCities.length){ cwReset(); return; }
+  var i;
+  do { i = nextNoRepeat('cw', cwCities.length); } while (cwSeen.indexOf(i) !== -1);
+  cwSeen.push(i);
+  cwRender(i);
+  document.getElementById('cw-hist').innerHTML = cwSeen.map(function(k){ return '<span class="h">'+cwCities[k].name+'</span>'; }).join('');
+  document.getElementById('cw-draw').textContent = cwSeen.length >= cwCities.length ? '🔄 All visited — start over' : '🎴 Draw another city';
+}
+function cwReset(){
+  cwSeen = []; shuffleBags['cw'] = [];
+  document.getElementById('cw-card').innerHTML = '<div class="cw-empty">🌍<br>Click “Draw a city” to start!</div>';
+  document.getElementById('cw-hist').innerHTML = '<em style="color:#6B7B88;">None yet</em>';
+  document.getElementById('cw-model').classList.remove('show');
+  document.getElementById('cw-model-btn').style.display = 'none';
+  document.getElementById('cw-draw').textContent = '🎴 Draw a city';
+}
+
 /* ===================== SPEAKING CARD DRAW ===================== */
 var speakCardPrompts = {
   'speak2': [
@@ -1995,7 +2045,7 @@ var speakCardPrompts = {
     "Have you, or has anyone you know, ever been somewhere when it was absolutely freezing?",
     "Have you, or has anyone you know, ever been somewhere when it was very foggy, or there was bad smog?",
     "Have you, or has anyone you know, ever been somewhere when there was a terrible heat wave?",
-    "Have you, or has anyone you know, ever been caught outside in a thunderstorm?"
+    "What do you do and what do you wear on a chilly day?"
   ]
 };
 function drawSpeakCard(id){
@@ -2012,14 +2062,6 @@ function drawSpeakCard(id){
 /* ===================== DICE ROLLER ===================== */
 var diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
 var dicePrompts = {
-  'dice-weather': {
-    1: "Tell me about the last time it was freezing where you live. What did you do?",
-    2: "When it's drizzling, do you stay in or go out? Why?",
-    3: "What's your favorite kind of weather: mild, warm, or boiling? Why?",
-    4: "Describe a really humid day you remember. How did you feel?",
-    5: "What do you do and what do you wear on a chilly day?",
-    6: "Pick a city. What's the weather like there right now, do you think?"
-  },
   'dice-future': {
     1: "What predictions do you have about fashion in 20 years?",
     2: "What do you think health and medicine will be like in 20 years?",
