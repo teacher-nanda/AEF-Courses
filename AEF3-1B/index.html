@@ -525,8 +525,28 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
 
 
 .rd-chip.rd-active { outline: 3px solid #FFD700; transform: scale(1.02); }
-.rd-chip.rd-used { opacity: 1; color: #1C2B3A; background: #E3F5EA !important; border-color: #3A8A4A !important; text-decoration: none !important; pointer-events: none; }
-.rd-chip.rd-used::after { content: " ✓"; color: #2E7D4A; font-weight: 800; }
+.rd-chip.rd-used { opacity: 1; color: #1C2B3A; text-decoration: none !important; pointer-events: none; }
+.rd-chip.rd-used:not([onclick]) { background: #ececec !important; border-color: #bbb !important; }
+.rd-chip.rd-used.rd-c1 { background: #E8E4F3 !important; border-color: #7A5BAA !important; }
+.rd-blank.rd-c1 { background: #E8E4F3 !important; color: #1C2B3A !important; border-bottom-color: #7A5BAA !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c2 { background: #FFE6C2 !important; border-color: #C8891E !important; }
+.rd-blank.rd-c2 { background: #FFE6C2 !important; color: #1C2B3A !important; border-bottom-color: #C8891E !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c3 { background: #D5EEF2 !important; border-color: #14607A !important; }
+.rd-blank.rd-c3 { background: #D5EEF2 !important; color: #1C2B3A !important; border-bottom-color: #14607A !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c4 { background: #FCE0EA !important; border-color: #C2185B !important; }
+.rd-blank.rd-c4 { background: #FCE0EA !important; color: #1C2B3A !important; border-bottom-color: #C2185B !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c5 { background: #DCE8FA !important; border-color: #3B6EC4 !important; }
+.rd-blank.rd-c5 { background: #DCE8FA !important; color: #1C2B3A !important; border-bottom-color: #3B6EC4 !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c6 { background: #FFF3B0 !important; border-color: #A38A00 !important; }
+.rd-blank.rd-c6 { background: #FFF3B0 !important; color: #1C2B3A !important; border-bottom-color: #A38A00 !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c7 { background: #E4F0C8 !important; border-color: #6E8B1A !important; }
+.rd-blank.rd-c7 { background: #E4F0C8 !important; color: #1C2B3A !important; border-bottom-color: #6E8B1A !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-c8 { background: #E0E4EA !important; border-color: #5A6472 !important; }
+.rd-blank.rd-c8 { background: #E0E4EA !important; color: #1C2B3A !important; border-bottom-color: #5A6472 !important; border-radius: 4px; padding: 1px 6px; }
+.rd-chip.rd-used.rd-ok { background: #E3F5EA !important; border-color: #1A7A4A !important; }
+.rd-chip.rd-used.rd-ok::after { content: " ✓"; color: #1A7A4A; font-weight: 800; }
+.rd-chip.rd-used.rd-bad { background: #FBEAE6 !important; border-color: #C4614A !important; }
+.rd-chip.rd-used.rd-bad::after { content: " ✗"; color: #C4614A; font-weight: 800; }
 .rd-blank { transition: background .15s; }
 .rd-blank:hover:not(.rd-pre) { background: rgba(90,100,114,.1); border-radius: 3px; }
 .rd-blank.rd-correct { background: #d4edda !important; color: #1a5c2a !important; border-radius: 4px; padding: 1px 6px; }
@@ -1774,7 +1794,7 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-top:12px;">
-        <button onclick="checkRd()" style="background:#3A8A4A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">Answer Key</button>
+        <button onclick="checkRd()" style="background:#3A8A4A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">Check Answers</button>
         <button onclick="resetRd()" style="background:#888;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">Reset</button>
         <button onclick="toggleFullRd()" id="rd-full-btn" style="background:#14607A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">📖 Read the complete article</button>
       </div>
@@ -2866,48 +2886,52 @@ function rdSelectChip(el) {
   rdSelectedChip = el;
   el.classList.add('rd-active');
 }
+function rdUncolor(el){ el.className = el.className.replace(/\brd-c\d+\b/g,'').replace(/\s+/g,' ').trim(); }
+function rdFreeChip(val){ document.querySelectorAll('#s21 .rd-chip').forEach(function(c){ if (c.dataset.val === val) { c.classList.remove('rd-used','rd-active'); rdUncolor(c); } }); }
+function rdClearMarks() { document.querySelectorAll('#s21 .rd-chip').forEach(function(c){ c.classList.remove('rd-ok','rd-bad'); }); document.querySelectorAll('#s21 .rd-blank').forEach(function(b){ b.classList.remove('rd-correct','rd-wrong'); }); }
 function rdFillBlank(blank) {
+  rdClearMarks();
   if (!rdSelectedChip && blank.dataset.current) {
-    document.querySelectorAll('.rd-chip').forEach(c => {
-      if (c.dataset.val === blank.dataset.current) c.classList.remove('rd-used','rd-active');
-    });
+    rdFreeChip(blank.dataset.current);
     blank.textContent = '___';
     delete blank.dataset.current;
-    blank.classList.remove('rd-correct','rd-wrong');
+    blank.classList.remove('rd-correct','rd-wrong'); rdUncolor(blank);
     return;
   }
   if (!rdSelectedChip) return;
   if (blank.dataset.current) {
-    document.querySelectorAll('.rd-chip').forEach(c => {
-      if (c.dataset.val === blank.dataset.current) c.classList.remove('rd-used','rd-active');
-    });
+    rdFreeChip(blank.dataset.current);
   }
   blank.textContent = rdSelectedChip.dataset.val;
   blank.dataset.current = rdSelectedChip.dataset.val;
-  blank.classList.remove('rd-correct','rd-wrong');
+  blank.classList.remove('rd-correct','rd-wrong'); rdUncolor(blank);
+  var cn = 'rd-c' + blank.dataset.n;
+  blank.classList.add(cn); rdSelectedChip.classList.add(cn);
   rdSelectedChip.classList.add('rd-used');
   rdSelectedChip.classList.remove('rd-active');
   rdSelectedChip = null;
 }
 function checkRd() {
+  rdClearMarks();
   document.querySelectorAll('#s21 .rd-blank').forEach(blank => {
     if (blank.classList.contains('rd-pre')) return;
     blank.classList.remove('rd-correct','rd-wrong');
     if (!blank.dataset.current) return;
-    if (blank.dataset.current === blank.dataset.correct) blank.classList.add('rd-correct');
-    else blank.classList.add('rd-wrong');
+    var ok = blank.dataset.current === blank.dataset.correct;
+    blank.classList.add(ok ? 'rd-correct' : 'rd-wrong');
+    var chip = document.querySelector('#s21 .rd-chip[data-val="' + blank.dataset.current + '"]');
+    if (chip) chip.classList.add(ok ? 'rd-ok' : 'rd-bad');
   });
 }
 function resetRd() {
+  rdClearMarks();
   document.querySelectorAll('#s21 .rd-blank:not(.rd-pre)').forEach(blank => {
     if (blank.dataset.current) {
-      document.querySelectorAll('.rd-chip').forEach(c => {
-        if (c.dataset.val === blank.dataset.current) c.classList.remove('rd-used','rd-active');
-      });
+      rdFreeChip(blank.dataset.current);
     }
     blank.textContent = '___';
     delete blank.dataset.current;
-    blank.classList.remove('rd-correct','rd-wrong');
+    blank.classList.remove('rd-correct','rd-wrong'); rdUncolor(blank);
   });
   rdSelectedChip = null;
 }
