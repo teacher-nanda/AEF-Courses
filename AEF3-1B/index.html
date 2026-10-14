@@ -525,7 +525,8 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
 
 
 .rd-chip.rd-active { outline: 3px solid #FFD700; transform: scale(1.02); }
-.rd-chip.rd-used { opacity: 0.35; pointer-events: none; }
+.rd-chip.rd-used { opacity: 1; color: #1C2B3A; background: #E3F5EA !important; border-color: #3A8A4A !important; text-decoration: none !important; pointer-events: none; }
+.rd-chip.rd-used::after { content: " ✓"; color: #2E7D4A; font-weight: 800; }
 .rd-blank { transition: background .15s; }
 .rd-blank:hover:not(.rd-pre) { background: rgba(90,100,114,.1); border-radius: 3px; }
 .rd-blank.rd-correct { background: #d4edda !important; color: #1a5c2a !important; border-radius: 4px; padding: 1px 6px; }
@@ -1769,13 +1770,15 @@ mark.vm { background: #FFD54F; color: inherit; border-radius: 2px; padding: 0 1p
           <div class="rd-chip" data-val="E" onclick="rdSelectChip(this)" style="border:2px solid #5A6472;border-radius:8px;padding:6px 10px;font-size:1.05rem;color:#1C2B3A;cursor:pointer;background:#fff;transition:all .2s;"><strong>E</strong> they have always been the baby of the family</div>
           <div class="rd-chip" data-val="F" onclick="rdSelectChip(this)" style="border:2px solid #5A6472;border-radius:8px;padding:6px 10px;font-size:1.05rem;color:#1C2B3A;cursor:pointer;background:#fff;transition:all .2s;"><strong>F</strong> they spend a lot of time with adults</div>
           <div class="rd-chip" data-val="G" onclick="rdSelectChip(this)" style="border:2px solid #5A6472;border-radius:8px;padding:6px 10px;font-size:1.05rem;color:#1C2B3A;cursor:pointer;background:#fff;transition:all .2s;"><strong>G</strong> they have never had to deal with problems with other brothers and sisters</div>
-          <div class="rd-chip rd-used" data-val="H" style="background:#f0f0f0;border:2px solid #ccc;border-radius:8px;padding:6px 10px;font-size:1.05rem;color:#999;text-decoration:line-through;pointer-events:none;"><strong>H</strong> when the second child was born, they lost some of their parents attention, and maybe they felt rejected <em style="font-size:1.05rem;">(example)</em></div>
+          <div class="rd-chip rd-used" data-val="H" style="background:#f0f0f0;border:2px solid #ccc;border-radius:8px;padding:6px 10px;font-size:1.05rem;color:#1C2B3A;pointer-events:none;"><strong>H</strong> when the second child was born, they lost some of their parents attention, and maybe they felt rejected <em style="font-size:1.05rem;">(example)</em></div>
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-top:12px;">
-        <button onclick="checkRd()" style="background:#3A8A4A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:.92rem;font-weight:700;cursor:pointer;">Answer Key</button>
-        <button onclick="resetRd()" style="background:#888;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:.92rem;font-weight:700;cursor:pointer;">Reset</button>
+        <button onclick="checkRd()" style="background:#3A8A4A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">Answer Key</button>
+        <button onclick="resetRd()" style="background:#888;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">Reset</button>
+        <button onclick="toggleFullRd()" id="rd-full-btn" style="background:#14607A;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;">📖 Read the complete article</button>
       </div>
+      <div id="rd-full" style="display:none;margin-top:14px;background:#F4F8FA;border-radius:10px;padding:14px 18px;"></div>
     </div>
   </div>
 </div>
@@ -2907,6 +2910,28 @@ function resetRd() {
     blank.classList.remove('rd-correct','rd-wrong');
   });
   rdSelectedChip = null;
+}
+
+function toggleFullRd() {
+  var box = document.getElementById('rd-full'), btn = document.getElementById('rd-full-btn');
+  if (box.style.display === 'block') { box.style.display = 'none'; btn.textContent = '📖 Read the complete article'; return; }
+  var col = document.querySelector('#s21 [style*="overflow-y:auto;max-height"]');
+  var clone = col.cloneNode(true);
+  clone.removeAttribute('style');
+  function reason(v) {
+    var chip = document.querySelector('#s21 .rd-chip[data-val="' + v + '"]');
+    var t = chip.cloneNode(true);
+    var em = t.querySelector('em'); if (em) em.remove();
+    var st = t.querySelector('strong'); if (st) st.remove();
+    return t.textContent.trim();
+  }
+  function chipHtml(txt) { return '<span style="background:#e0f0e0;border-radius:4px;padding:1px 6px;font-weight:700;color:#2E6B3A;">' + txt + '</span>'; }
+  clone.querySelectorAll('.rd-blank').forEach(function(b){ b.outerHTML = chipHtml(reason(b.dataset.correct)); });
+  clone.querySelectorAll('span').forEach(function(sp){ if (sp.textContent.trim() === 'H' && sp.children.length === 0) sp.outerHTML = chipHtml(reason('H')); });
+  box.innerHTML = '<p style="font-weight:800;color:#14607A;font-size:1.1rem;margin:0 0 8px;">📖 Complete article — read it aloud!</p>';
+  box.appendChild(clone);
+  box.style.display = 'block'; btn.textContent = '✕ Hide the complete article';
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 
