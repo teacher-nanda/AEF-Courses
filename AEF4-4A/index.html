@@ -1498,11 +1498,43 @@
   </div></div>
 </div>
 
-<!-- ============ HW5: COMPLETE THE SENTENCES ============ -->
+<!-- ============ HW5: WEATHER WORDS — WHICH ONE FITS? (original exercise, slide-13 vocabulary only) ============ -->
+<div class="slide" id="hw-voc1">
+  <div class="banner banner-hw">📝 Homework</div>
+  <div class="slide-main"><div class="content">
+    <h2>HW5 — Which weather word fits?</h2>
+    <p class="instruction">Read each situation and select the weather word that fits best.</p>
+    <div class="fixed-two-col" id="hwvoc1">
+      <div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> 🌦️ Tiny drops of rain are falling — so light that you don’t need an umbrella.<br>It's <span style="color:#1A5030;font-weight:800;">drizzling ✓</span>.</div>
+        <div class="ex-row">2. 🌧️ You can’t see across the street, and your umbrella is useless.<br>It's <button class="circ-opt" data-group="hv5-2" data-correct="pouring" onclick="circPick(this)">pouring</button> <button class="circ-opt" data-group="hv5-2" data-correct="pouring" onclick="circPick(this)">drizzling</button> <button class="circ-opt" data-group="hv5-2" data-correct="pouring" onclick="circPick(this)">damp</button>.</div>
+        <div class="ex-row">3. 🧥 You only need a light jacket. It’s a little cold, but not unpleasant.<br>It's <button class="circ-opt" data-group="hv5-3" data-correct="cool" onclick="circPick(this)">cool</button> <button class="circ-opt" data-group="hv5-3" data-correct="cool" onclick="circPick(this)">freezing</button> <button class="circ-opt" data-group="hv5-3" data-correct="cool" onclick="circPick(this)">mild</button>.</div>
+        <div class="ex-row">4. 🥶 The thermometer says −10°C.<br>It's <button class="circ-opt" data-group="hv5-4" data-correct="below zero" onclick="circPick(this)">below zero</button> <button class="circ-opt" data-group="hv5-4" data-correct="below zero" onclick="circPick(this)">cool</button> <button class="circ-opt" data-group="hv5-4" data-correct="below zero" onclick="circPick(this)">mild</button> <button class="circ-opt" data-group="hv5-4" data-correct="below zero" onclick="circPick(this)">humid</button>.</div>
+        <div class="ex-row">5. 😓 The air feels warm and sticky, but it isn’t raining.<br>It's <button class="circ-opt" data-group="hv5-5" data-correct="humid" onclick="circPick(this)">humid</button> <button class="circ-opt" data-group="hv5-5" data-correct="humid" onclick="circPick(this)">damp</button> <button class="circ-opt" data-group="hv5-5" data-correct="humid" onclick="circPick(this)">drizzling</button>.</div>
+        <div class="ex-row">6. 🌦️ The sun comes out, then it rains for ten minutes, then the sun comes out again.<br>There are <button class="circ-opt" data-group="hv5-6" data-correct="showers" onclick="circPick(this)">showers</button> <button class="circ-opt" data-group="hv5-6" data-correct="showers" onclick="circPick(this)">a breeze</button> <button class="circ-opt" data-group="hv5-6" data-correct="showers" onclick="circPick(this)">humid</button>.</div>
+        <div class="ex-row">7. 🍃 A light wind is moving the leaves, and the air feels fresh.<br>There's a <button class="circ-opt" data-group="hv5-7" data-correct="breeze" onclick="circPick(this)">breeze</button> <button class="circ-opt" data-group="hv5-7" data-correct="breeze" onclick="circPick(this)">damp</button> <button class="circ-opt" data-group="hv5-7" data-correct="breeze" onclick="circPick(this)">showers</button>.</div>
+      </div>
+      <div>
+        <div class="ex-row">8. 🧊 You can’t feel your fingers, and there’s ice on the lake.<br>It's <button class="circ-opt" data-group="hv5-8" data-correct="freezing" onclick="circPick(this)">freezing</button> <button class="circ-opt" data-group="hv5-8" data-correct="freezing" onclick="circPick(this)">mild</button> <button class="circ-opt" data-group="hv5-8" data-correct="freezing" onclick="circPick(this)">warm</button>.</div>
+        <div class="ex-row">9. 🔥 It’s 42°C, and everyone is hiding in the shade.<br>It's <button class="circ-opt" data-group="hv5-9" data-correct="boiling" onclick="circPick(this)">boiling</button> <button class="circ-opt" data-group="hv5-9" data-correct="boiling" onclick="circPick(this)">warm</button> <button class="circ-opt" data-group="hv5-9" data-correct="boiling" onclick="circPick(this)">humid</button>.</div>
+        <div class="ex-row">10. 🌫️ It’s not raining, but the grass and the air feel cold and slightly wet.<br>It's <button class="circ-opt" data-group="hv5-10" data-correct="damp" onclick="circPick(this)">damp</button> <button class="circ-opt" data-group="hv5-10" data-correct="damp" onclick="circPick(this)">drizzling</button> <button class="circ-opt" data-group="hv5-10" data-correct="damp" onclick="circPick(this)">showers</button>.</div>
+        <div class="ex-row">11. 🧣 You need a scarf: it’s unpleasantly cold, but not freezing.<br>It's <button class="circ-opt" data-group="hv5-11" data-correct="chilly" onclick="circPick(this)">chilly</button> <button class="circ-opt" data-group="hv5-11" data-correct="chilly" onclick="circPick(this)">mild</button> <button class="circ-opt" data-group="hv5-11" data-correct="chilly" onclick="circPick(this)">boiling</button>.</div>
+        <div class="ex-row">12. 🌤️ Not cold at all — a nice, pleasant day for a walk in a light sweater.<br>It's <button class="circ-opt" data-group="hv5-12" data-correct="mild" onclick="circPick(this)">mild</button> <button class="circ-opt" data-group="hv5-12" data-correct="mild" onclick="circPick(this)">below zero</button> <button class="circ-opt" data-group="hv5-12" data-correct="mild" onclick="circPick(this)">drizzling</button>.</div>
+        <div class="ex-row">13. ☀️ A pleasantly high temperature — perfect for the beach, in shorts and sunglasses.<br>It's <button class="circ-opt" data-group="hv5-13" data-correct="warm" onclick="circPick(this)">warm</button> <button class="circ-opt" data-group="hv5-13" data-correct="warm" onclick="circPick(this)">chilly</button> <button class="circ-opt" data-group="hv5-13" data-correct="warm" onclick="circPick(this)">pouring</button>.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkCircSlide('hwvoc1')">Check Answers</button>
+      <button class="btn-reset" onclick="resetCircSlide('hwvoc1')">Reset</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ============ HW6: COMPLETE THE SENTENCES ============ -->
 <div class="slide" id="hw-voc2">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW5 — Complete the sentences</h2>
+    <h2>HW6 — Complete the sentences</h2>
     <p class="instruction">Complete each sentence with the correct extreme-weather vocabulary word. The first letters of each word are given as a hint.</p>
     <div class="fixed-two-col" id="hwvoc2">
       <div>
@@ -1526,11 +1558,11 @@
   </div></div>
 </div>
 
-<!-- ============ HW9: WRITING ============ -->
+<!-- ============ HW7: WRITING ============ -->
 <div class="slide" id="hw-writing">
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
-    <h2>HW6 — Write a paragraph about the weather</h2>
+    <h2>HW7 — Write a paragraph about the weather</h2>
     <p class="instruction">Write a paragraph about the weather in your country in January, April, July, and October.</p>
     <textarea class="ans-input wide" id="wr1" style="min-height:180px;"></textarea>
     <div class="btn-row">
@@ -1556,8 +1588,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1","s-leadin","s-gram-read","s-gram-predict","s-gram-classify","s-gram-mpf-meaning","s-gram-mpf-form","s-gram-mpf-pron","s-gram-ex1","s-gram-ex2","s-speak-future","s-vocab-lead","s-vocab1","s-speak-weather","s-vocab-extreme","s-speak-extreme","s-pron1","s-read1","s-read3","s-speak2","s-review","hw-cover","hw-gr1","hw-gr2","hw-gr3","hw-gr4","hw-voc2","hw-writing"];
-var slideLabels = ["Cover","Lead-in – Environmentally Friendly?","Speaking – Brainstorming","Reading – Reading Practice","Grammar – Meaning (Classify Verbs)","Grammar – Finished or Still Happening? (CCQs)","Grammar – Building the Sentence","Grammar – MPF Pronunciation","Grammar – Complete the Sentence","Grammar – Complete the Conversation","Speaking – In 20 Years...","Vocabulary – Weather Events (Lead-in)","Vocabulary – What's the Weather Like?","Speaking – Weather Detective","Vocabulary – Extreme Weather","Speaking – Extreme Weather in Real Life","Pronunciation – Vowel Sounds","Reading – Climate Stories Project","Reading – Who Said It?","Speaking – Let's Talk About the Weather","Lesson Review","Homework Cover","HW1 – Circle the Correct Form","HW2 – Complete the Sentences","HW3 – Write the Questions","HW4 – Answer the Questions","HW5 – Complete the Sentences","HW6 – Write a Paragraph"];
+var slideIds = ["s1","s-leadin","s-gram-read","s-gram-predict","s-gram-classify","s-gram-mpf-meaning","s-gram-mpf-form","s-gram-mpf-pron","s-gram-ex1","s-gram-ex2","s-speak-future","s-vocab-lead","s-vocab1","s-speak-weather","s-vocab-extreme","s-speak-extreme","s-pron1","s-read1","s-read3","s-speak2","s-review","hw-cover","hw-gr1","hw-gr2","hw-gr3","hw-gr4","hw-voc1","hw-voc2","hw-writing"];
+var slideLabels = ["Cover","Lead-in – Environmentally Friendly?","Speaking – Brainstorming","Reading – Reading Practice","Grammar – Meaning (Classify Verbs)","Grammar – Finished or Still Happening? (CCQs)","Grammar – Building the Sentence","Grammar – MPF Pronunciation","Grammar – Complete the Sentence","Grammar – Complete the Conversation","Speaking – In 20 Years...","Vocabulary – Weather Events (Lead-in)","Vocabulary – What's the Weather Like?","Speaking – Weather Detective","Vocabulary – Extreme Weather","Speaking – Extreme Weather in Real Life","Pronunciation – Vowel Sounds","Reading – Climate Stories Project","Reading – Who Said It?","Speaking – Let's Talk About the Weather","Lesson Review","Homework Cover","HW1 – Circle the Correct Form","HW2 – Complete the Sentences","HW3 – Write the Questions","HW4 – Answer the Questions","HW5 – Which Weather Word Fits?","HW6 – Complete the Sentences","HW7 – Write a Paragraph"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;

@@ -959,6 +959,7 @@ The Homework Cover is the **first slide of the Homework section**. It is a full-
 2. **Before building or auditing any homework exercise, list every target word/structure in it and confirm each one appears in a non-homework slide of that lesson** (grep the lesson). If even one target item was not taught in the lesson, **delete that entire exercise** — never swap in a different word, rewrite the sentence, or "fix" it to fit. Optionally propose a teaching slide to the teacher instead.
 3. Pronunciation homework only stays if the sound set was taught AND every option word in it was seen/said in the lesson.
 4. Sample answers/tips on homework slides may only use vocabulary taught in the lesson.
+5a. **Exception — teacher-requested original exercises:** if the teacher explicitly asks for a new, original homework exercise (not from the workbook), build it only from words/structures taught in the lesson (state which slide's vocabulary it covers in an HTML comment above the slide), follow every other homework standard (example numbered 1, items from 2, column order, Check/Reset), and keep it clearly separate from workbook-exact exercises. Never use this exception on your own initiative.
 5. Run this check on every homework slide whenever the lesson's slides change (e.g. a vocabulary slide deleted) — homework depends on lesson content.
 
 ### Temperatures — °F always paired with a °C conversion card
