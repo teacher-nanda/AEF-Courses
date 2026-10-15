@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AEF4 4B — A Risky Business</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
   body { margin:0; font-family:'Segoe UI', system-ui, sans-serif; background:#0A0A0A; }
@@ -322,185 +320,9 @@
   }
   #s1 .title-inner, #hw-cover .title-inner { position:relative; z-index:2; }
   @media print { #s1::after, #hw-cover::after { display:none !important; } }
-  .risk-avg { background:#F4F8FA; border-radius:12px; padding:14px 18px; margin-top:14px; }
-  .risk-avg .ra-top { display:flex; justify-content:space-between; align-items:baseline; }
-  .risk-avg .ra-label { font-weight:800; font-size:.95rem; }
-  .risk-avg .ra-num { font-weight:800; font-size:1.6rem; }
-  .risk-avg .ra-meter { position:relative; height:14px; border-radius:7px; margin-top:8px; background:linear-gradient(90deg,#2EC4B6,#9BE3A0,#FFD23F,#FF9F43,#FF5A36); }
-  .risk-avg .ra-marker { position:absolute; top:-5px; width:6px; height:24px; margin-left:-3px; background:#14161f; border-radius:3px; transition:left .35s ease, opacity .2s; }
-  .risk-avg .ra-ends { display:flex; justify-content:space-between; font-size:.75rem; opacity:.7; margin-top:4px; }
-  .risk-avg .ra-verdict { font-weight:700; margin:10px 0 2px; line-height:1.35; }
-  .risk-avg .ra-count { font-size:.8rem; opacity:.7; margin:0; }
-</style>
-<style id="aef-new-theme">
-  /* =====================================================================
-     NEW DESIGN LAYER (index_new.html) — "hazard tape" look
-     Palette: ink #14161F · cream #FFF6E0 · yellow #FFD23F · orange #FF5A36 · teal #2EC4B6
-     Sits on top of the original lesson CSS: same classes, same behaviour,
-     new look. Delete this block to get the original design back.
-     ===================================================================== */
-  :root { --ink:#14161F; --cream:#FFF6E0; --yellow:#FFD23F; --orange:#FF5A36; --teal:#2EC4B6; --paper:#FFFFFF; }
-  body { font-family:'DM Sans','Segoe UI',system-ui,sans-serif; background:var(--ink); }
-  .slide { background:var(--cream); }
-  .slide-main { padding-bottom:70px; }
-
-  /* ---------- progress bar (top of the screen) ---------- */
-  #progBar { position:fixed; top:0; left:0; height:7px; width:0; z-index:1200; transition:width .45s ease;
-    background:repeating-linear-gradient(135deg,#FFD23F 0 10px,#14161F 10px 20px); pointer-events:none; }
-
-  /* ---------- cover + homework cover ---------- */
-  #s1, #hw-cover { background:radial-gradient(circle at 78% 30%, #2A2F4A 0%, #14161F 58%); }
-  #s1::before, #hw-cover::before { content:""; position:absolute; left:0; right:0; top:0; height:26px; z-index:3;
-    background:repeating-linear-gradient(135deg,#FFD23F 0 26px,#14161F 26px 52px); }
-  #s1::after, #hw-cover::after { content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 652 420'%3E%3Cpolygon points='0,420 0,300 90,300 130,420' fill='%232A2F4A'/%3E%3Cpolygon points='652,420 652,290 560,290 520,420' fill='%232A2F4A'/%3E%3Cpath d='M90 300 Q326 345 560 290' fill='none' stroke='%23FFD23F' stroke-width='8'/%3E%3Cline x1='326' y1='318' x2='305' y2='262' stroke='%23FFF6E0' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='326' y1='318' x2='347' y2='262' stroke='%23FFF6E0' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='326' y1='262' x2='326' y2='190' stroke='%23FFF6E0' stroke-width='14' stroke-linecap='round'/%3E%3Ccircle cx='326' cy='162' r='26' fill='%23FFF6E0'/%3E%3Cline x1='326' y1='205' x2='190' y2='182' stroke='%23FFF6E0' stroke-width='8' stroke-linecap='round'/%3E%3Cline x1='326' y1='205' x2='462' y2='182' stroke='%23FFF6E0' stroke-width='8' stroke-linecap='round'/%3E%3Cline x1='90' y1='182' x2='562' y2='182' stroke='%23FF5A36' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:center calc(100% - 58px); background-size:min(420px,40vw) auto; opacity:.6; }
-  #s1 .title-inner, #hw-cover .title-inner { position:relative; z-index:2; }
-  .title-label { color:var(--yellow); font-weight:700; letter-spacing:.3em; }
-  .title-sub { color:rgba(255,246,224,.8); }
-  .title-main { font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; text-transform:uppercase; color:var(--cream); letter-spacing:-.01em; line-height:1.02; max-width:1100px; font-size:clamp(3.4rem,7.4vw,6.6rem); }
-  .title-accent { color:var(--yellow); text-shadow:none; }
-  .hw-badge, #hw-cover .title-inner > div:first-child { background:var(--yellow); color:var(--ink) !important; font-weight:800; border-radius:999px; }
-  #s1 button[onclick^="goToId"] { background:var(--yellow) !important; color:var(--ink) !important; border:2px solid var(--ink) !important; box-shadow:4px 4px 0 var(--orange); transition:transform .15s, box-shadow .15s; }
-  #s1 button[onclick^="goToId"]:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--orange); }
-
-  /* ---------- section banners (colour per section kept for wayfinding) ---------- */
-  .banner { position:relative; font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.08em; font-size:1.05rem; padding:15px 48px; margin-bottom:14px; border-bottom:3px solid var(--ink); }
-  .banner::after { content:""; position:absolute; left:0; right:0; bottom:-17px; height:14px; z-index:2;
-    background:repeating-linear-gradient(135deg,#FFD23F 0 14px,#14161F 14px 28px); }
-  .slide-main { margin-top:6px; }
-
-  /* ---------- typography ---------- */
-  h2 { font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; color:var(--ink); font-size:2.1rem; letter-spacing:-.005em; line-height:1.15; }
-  .instruction { color:var(--ink); border-left:7px solid var(--yellow); padding-left:16px; }
-  .inst-light { color:#2B2F44; }
-  .discuss-label, .ex-row, .discuss-list { color:var(--ink); }
-  .section-subhead { color:var(--orange); font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; }
-
-  /* ---------- cards & boxes: ink outline + hard shadow ---------- */
-  .card, .gram-box, .glossary-box, .ccq-box, .discuss-box, .score-card, .match-wrap, .article-box, .dice-box, .speaker-card, .who-table, .bingo-prompt {
-    background:var(--paper); border:2px solid var(--ink); border-radius:18px; box-shadow:6px 6px 0 var(--ink); }
-  .gram-box { border-left:12px solid var(--yellow); }
-  .gram-box h3, .glossary-box h4, .ccq-label { color:var(--ink); font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; }
-  .gram-box h3, .glossary-box h4 { display:inline-block; background:var(--ink); color:var(--yellow); padding:4px 14px; border-radius:8px; }
-  .gram-box .hl { color:var(--ink); background:var(--yellow); padding:0 6px; border-radius:5px; }
-  .gram-note { background:#FFF1B8; border:2px solid var(--ink); border-left-width:8px; color:#3D2F00; border-radius:12px; }
-  .gram-mistake { background:#FFE0D8; border:2px solid var(--ink); border-left-width:8px; color:#5A1608; border-radius:12px; }
-  .ex-example-centered { background:#DDF7F3; color:#0B5149; border:2px dashed var(--teal); border-radius:14px; }
-  .ex-example-centered .ex-tag { color:#0B5149; }
-  .discuss-box { border-left:12px solid var(--teal); }
-  .suggest-box { background:#DDF7F3; border:2px solid var(--ink); border-left-width:8px; border-radius:12px; }
-  .akey-box { background:#FFF1B8; border:2px solid var(--ink); border-left-width:8px; border-radius:12px; }
-  .book-placeholder, .img-placeholder { background:repeating-linear-gradient(135deg,#FFF6E0 0 18px,#FFEFC4 18px 36px); border:3px dashed var(--ink); color:var(--ink); border-radius:16px; }
-  .book-placeholder .bp-note { color:#4A4A5A; }
-  .lead-img { border:3px solid var(--ink); border-radius:18px; box-shadow:8px 8px 0 var(--yellow); }
-  .lead-img-caption { color:var(--orange); }
-
-  /* ---------- answer fields ---------- */
-  .ans-input { border-bottom:3px solid var(--ink); background:rgba(255,210,63,.28); border-radius:6px 6px 0 0; color:var(--ink); }
-  .ans-input:focus { border-bottom-color:var(--orange); background:rgba(255,210,63,.5); }
-
-  /* ---------- buttons ---------- */
-  .btn-check, .btn-reset, .btn-suggest, .btn-akey { border:2px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); transition:transform .12s, box-shadow .12s; }
-  .btn-check { background:var(--yellow); color:var(--ink); }
-  .btn-reset { background:var(--paper); color:var(--ink); }
-  .btn-suggest { background:var(--teal); color:var(--ink); }
-  .btn-akey { background:var(--orange); color:var(--ink); }
-  .btn-check:hover, .btn-reset:hover, .btn-suggest:hover, .btn-akey:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
-  .btn-check:active, .btn-reset:active, .btn-suggest:active, .btn-akey:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
-  .ccq-reveal-btn { background:var(--ink); color:var(--yellow); }
-  .ccq-reveal-btn:hover { background:#2A2F4A; }
-
-  /* ---------- choice chips, tiles, ticks ---------- */
-  .circ-num { background:var(--ink); color:var(--yellow); }
-  .example-badge { background:#1A7A4A; }
-  .circ-opt, .classify-chip, .wb-tile { border:2px solid var(--ink); color:var(--ink); transition:transform .12s, background .12s; }
-  .circ-opt:hover, .classify-chip:hover, .wb-tile:hover { background:#FFE98A; transform:translateY(-2px); }
-  .circ-opt.picked, .classify-chip.selected, .wb-tile.selected { background:var(--yellow); border-color:var(--ink); color:var(--ink); font-weight:800; }
-  .circ-opt.correct { border-color:#1A7A4A; background:#E3F5EA; color:#1A7A4A; }
-  .circ-opt.wrong { border-color:#C4614A; background:#FBEAE6; color:#C4614A; }
-  .classify-col { border:2px solid var(--ink); border-radius:14px; }
-  .classify-col h4 { color:var(--ink); }
-  .classify-col .placed { background:#FFE98A; }
-  .wb-bank.book-style { border-top:3px double var(--ink); }
-  .wb-blank { border-bottom:3px solid var(--ink); color:var(--ink); }
-  .match-col-head.mc-left, .match-col-head.mc-right { color:var(--ink); border-bottom:3px solid var(--yellow); }
-  .match-item { border:2px solid var(--ink); border-radius:12px; }
-  .match-item.picking { border-color:var(--ink); }
-  .tick-item { border:2px solid var(--ink); border-radius:12px; }
-  .tick-item:hover { border-color:var(--ink); background:#FFF1B8; }
-  .tick-box { border:2px solid var(--ink); }
-  .tick-item.picked { border-color:var(--ink); background:var(--yellow); }
-  .tick-item.picked .tick-box { background:var(--ink); border-color:var(--ink); color:var(--yellow); }
-  .tick-item.correct { border-color:#1A7A4A; background:#E3F5EA; }
-  .tick-item.wrong { border-color:#C4614A; background:#FBEAE6; }
-  .who-row.who-head { background:var(--yellow); }
-
-  /* risk score scale: 1 (safe) to 5 (very risky) in traffic-light colours */
-  .env-pill { border:2px solid var(--ink); color:var(--ink); transition:transform .12s; }
-  .env-pill:hover { transform:scale(1.12); }
-  .env-scale .env-pill:nth-child(1) { background:#2EC4B6; }
-  .env-scale .env-pill:nth-child(2) { background:#9BE3A0; }
-  .env-scale .env-pill:nth-child(3) { background:#FFD23F; }
-  .env-scale .env-pill:nth-child(4) { background:#FF9F43; }
-  .env-scale .env-pill:nth-child(5) { background:#FF5A36; }
-  .env-pill.picked { background:var(--ink) !important; color:var(--yellow); transform:scale(1.15); }
-
-  /* audio / video / bingo / dice */
-  .audio-box { background:var(--yellow); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--ink); }
-  .speaker-card img { border:2px solid var(--ink); }
-  .video-box { background:var(--ink); border:2px solid var(--ink); box-shadow:6px 6px 0 var(--yellow); }
-  .bingo-cell { border:2px solid var(--ink); color:var(--ink); }
-  .bingo-cell.marked { background:var(--orange); color:var(--ink); }
-  .bingo-cell.inline { box-shadow:0 0 0 4px var(--yellow); }
-  .bingo-ball { background:var(--ink); color:var(--yellow); box-shadow:6px 6px 0 var(--orange); }
-  .bingo-ball.empty { background:#FFE98A; color:var(--ink); }
-  .bingo-area { color:var(--orange); }
-  .bingo-status.win { color:var(--orange); }
-  .article-box { background:#FFFDF6; }
-  .article-box h3 { font-family:'Archivo Black','Segoe UI',sans-serif; font-weight:400; }
-  .article-box h3 .hl { background:var(--orange); color:var(--ink); }
-  .photo-num { background:var(--ink); color:var(--yellow); }
-
-  /* ---------- navigation chrome ---------- */
-  #notesBtn, #homeBtn { background:var(--yellow); color:var(--ink); border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); backdrop-filter:none; font-weight:800; }
-  #notesBtn:hover, #homeBtn:hover { background:#FFE98A; }
-  #nav { background:var(--ink); border-top:4px solid var(--yellow); }
-  #nav button { background:var(--yellow); color:var(--ink); font-weight:800; border-radius:8px; transition:transform .12s; }
-  #nav button:hover:not(:disabled) { transform:translateY(-2px); }
-  #nav button:disabled { opacity:.3; }
-  .dot { background:rgba(255,246,224,.3); transition:all .2s; }
-  .dot.active { background:var(--yellow); width:20px; border-radius:6px; }
-  #counter { color:var(--cream); font-weight:700; }
-
-  /* ---------- motion ---------- */
-  @keyframes aefRise { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
-  @keyframes aefPop { 0% { transform:scale(1); } 45% { transform:scale(1.12); } 100% { transform:scale(1); } }
-  @keyframes aefShake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-5px); } 75% { transform:translateX(5px); } }
-  .slide.active .content > * { animation:aefRise .55s ease both; }
-  .slide.active .content > *:nth-child(2) { animation-delay:.06s; }
-  .slide.active .content > *:nth-child(3) { animation-delay:.12s; }
-  .slide.active .content > *:nth-child(4) { animation-delay:.18s; }
-  .slide.active .content > *:nth-child(5) { animation-delay:.24s; }
-  .slide.active .content > *:nth-child(n+6) { animation-delay:.3s; }
-  .slide.active .title-inner > * { animation:aefRise .7s ease both; }
-  .slide.active .title-inner > *:nth-child(2) { animation-delay:.1s; }
-  .slide.active .title-inner > *:nth-child(3) { animation-delay:.2s; }
-  .circ-opt.correct, .tick-item.correct, .wb-blank.correct, .classify-col .placed.correct, .match-item.correctpair, .ans-input.correct { animation:aefPop .45s ease; }
-  .circ-opt.wrong, .tick-item.wrong, .wb-blank.wrong, .classify-col .placed.wrong, .match-item.wrongpair, .ans-input.wrong { animation:aefShake .35s ease; }
-  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
-
-  @media print {
-    #progBar, .banner::after, #s1::before, #hw-cover::before { display:none !important; }
-    * { animation:none !important; }
-    .card, .gram-box, .glossary-box, .ccq-box, .discuss-box, .score-card, .match-wrap, .article-box, .dice-box, .speaker-card, .who-table, .bingo-prompt { box-shadow:none !important; }
-    .lesson-link-print { background:linear-gradient(135deg,#14161F 0%,#2A2F4A 100%) !important; }
-    .lesson-link-print a { color:#FFD23F !important; }
-  }
 </style>
 </head>
 <body>
-<div id="progBar"></div>
 <button id="homeBtn" onclick="goTo(0)">🏠</button>
 <button id="notesBtn" onclick="toggleNotes()">📝 Notes</button>
 <div id="notesPanel">
@@ -576,6 +398,14 @@
         <span style="flex:1;min-width:280px;">…invest all your savings in a friend's new business — or keep it all in the bank earning almost nothing?</span>
         <span><button class="circ-opt" data-group="wr-3" onclick="circPick(this)">A</button><button class="circ-opt" data-group="wr-3" onclick="circPick(this)">B</button></span>
       </div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+        <span style="flex:1;min-width:280px;">…go skydiving tomorrow — or eat something you've never heard of, cooked by a stranger?</span>
+        <span><button class="circ-opt" data-group="wr-4" onclick="circPick(this)">A</button><button class="circ-opt" data-group="wr-4" onclick="circPick(this)">B</button></span>
+      </div>
+      <div class="ex-row" style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+        <span style="flex:1;min-width:280px;">…tell your boss exactly what you think of them — or never say it and always wonder?</span>
+        <span><button class="circ-opt" data-group="wr-5" onclick="circPick(this)">A</button><button class="circ-opt" data-group="wr-5" onclick="circPick(this)">B</button></span>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-suggest" onclick="toggleSuggested('wu2-sugg')">💡 Useful language</button>
@@ -626,17 +456,7 @@
           <button class="env-pill" onclick="scorePick(this)">1</button><button class="env-pill" onclick="scorePick(this)">2</button><button class="env-pill" onclick="scorePick(this)">3</button><button class="env-pill" onclick="scorePick(this)">4</button><button class="env-pill" onclick="scorePick(this)">5</button></span></div>
       </div>
     </div>
-    <div>
     <img src="loic-leray-fCzSfVIQlVY-unsplash.jpg" alt="A man walking a highline stretched high above dark water and rocks, arms out for balance" style="width:100%;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:block;">
-      <div class="risk-avg" id="risk-avg" aria-live="polite">
-        <div class="ra-top"><span class="ra-label">Your risk score</span><span class="ra-num" id="ra-num">–</span></div>
-        <div class="ra-meter"><span class="ra-marker" id="ra-marker" style="left:0%;opacity:0;"></span></div>
-        <div class="ra-ends"><span>risk-taker</span><span>plays it safe</span></div>
-        <p class="ra-verdict" id="ra-verdict">Score the 8 things to find out how much of a risk-taker you are.</p>
-        <p class="ra-count" id="ra-count">0 of 8 scored</p>
-        <button class="btn-reset" style="margin-top:6px;" onclick="riskReset()">Reset scores</button>
-      </div>
-    </div>
     </div>
   </div></div>
 </div>
@@ -907,19 +727,19 @@
     <p class="instruction">Select the correct form to complete each sentence.</p>
     <div class="fixed-two-col" id="gex3">
       <div>
-        <div class="ex-row"><span class="example-badge">★</span><em>(example)</em> If Rob <span style="color:#1A5030;font-weight:800;">has studied ✓</span> / <span style="color:#aaa;text-decoration:line-through;">had studied</span> enough, he'll easily pass the exam.</div>
-        <div class="ex-row">1. If you <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">aren't feeling</button> / <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">won't be feeling</button> better tomorrow, you should go to the doctor.</div>
-        <div class="ex-row">2. If we're lucky, we <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">have sold</button> / <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">'ll have sold</button> our house by New Year's.</div>
-        <div class="ex-row">3. I'll pay for dinner – if I <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">have</button> / <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">'ll have</button> enough money!</div>
-        <div class="ex-row">4. If we continue playing like this, we <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">'ll have scored</button> / <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">have scored</button> ten goals by halftime.</div>
-        <div class="ex-row">5. Don't call Sophie now. If it's eight o'clock, she <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll bath</button> / <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll be bathing</button> the baby.</div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> If Rob <span style="color:#1A5030;font-weight:800;">has studied ✓</span> / <span style="color:#aaa;text-decoration:line-through;">had studied</span> enough, he'll easily pass the exam.</div>
+        <div class="ex-row">2. If you <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">aren't feeling</button> / <button class="circ-opt" data-group="ge3-2" data-correct="aren't feeling" onclick="circPick(this)">won't be feeling</button> better tomorrow, you should go to the doctor.</div>
+        <div class="ex-row">3. If we're lucky, we <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">have sold</button> / <button class="circ-opt" data-group="ge3-3" data-correct="'ll have sold" onclick="circPick(this)">'ll have sold</button> our house by New Year's.</div>
+        <div class="ex-row">4. I'll pay for dinner – if I <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">have</button> / <button class="circ-opt" data-group="ge3-4" data-correct="have" onclick="circPick(this)">'ll have</button> enough money!</div>
+        <div class="ex-row">5. If we continue playing like this, we <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">'ll have scored</button> / <button class="circ-opt" data-group="ge3-5" data-correct="'ll have scored" onclick="circPick(this)">have scored</button> ten goals by halftime.</div>
+        <div class="ex-row">6. Don't call Sophie now. If it's eight o'clock, she <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll bath</button> / <button class="circ-opt" data-group="ge3-6" data-correct="'ll be bathing" onclick="circPick(this)">'ll be bathing</button> the baby.</div>
       </div>
       <div>
-        <div class="ex-row">6. If you don't hurry up, you <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">don't get</button> / <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">won't get</button> to school on time.</div>
-        <div class="ex-row">7. You can be fined if you <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">aren't wearing</button> / <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">won't be wearing</button> a seat belt in your car.</div>
-        <div class="ex-row">8. If you go out with wet hair, you <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll catch</button> / <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll be catching</button> a cold.</div>
-        <div class="ex-row">9. My suitcase <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">always gets</button> / <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">will always get</button> lost if I have a connecting flight.</div>
-        <div class="ex-row">10. I <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">won't go</button> / <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">don't go</button> to work on Monday if my daughter is still sick.</div>
+        <div class="ex-row">7. If you don't hurry up, you <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">don't get</button> / <button class="circ-opt" data-group="ge3-7" data-correct="won't get" onclick="circPick(this)">won't get</button> to school on time.</div>
+        <div class="ex-row">8. You can be fined if you <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">aren't wearing</button> / <button class="circ-opt" data-group="ge3-8" data-correct="aren't wearing" onclick="circPick(this)">won't be wearing</button> a seat belt in your car.</div>
+        <div class="ex-row">9. If you go out with wet hair, you <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll catch</button> / <button class="circ-opt" data-group="ge3-9" data-correct="'ll catch" onclick="circPick(this)">'ll be catching</button> a cold.</div>
+        <div class="ex-row">10. My suitcase <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">always gets</button> / <button class="circ-opt" data-group="ge3-10" data-correct="always gets" onclick="circPick(this)">will always get</button> lost if I have a connecting flight.</div>
+        <div class="ex-row">11. I <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">won't go</button> / <button class="circ-opt" data-group="ge3-11" data-correct="won't go" onclick="circPick(this)">don't go</button> to work on Monday if my daughter is still sick.</div>
       </div>
     </div>
     <div class="btn-row">
@@ -950,41 +770,25 @@
     </div>
     <div class="fixed-two-col" id="gex4">
       <div>
-        <div class="ex-row"><span class="example-badge">★</span><em>(example)</em> I'll call you <span style="color:#1A5030;font-weight:800;">as soon as</span> my plane lands.</div>
-        <div class="ex-row">1. I'm going to pack my suitcase <span class="wb-blank" data-ans="before" onclick="wbPlace(this)">______</span> I go to bed.</div>
-        <div class="ex-row">2. Take your phone with you <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> you get lost.</div>
-        <div class="ex-row">3. I'll be leaving work early tomorrow <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> there's a last-minute crisis.</div>
-        <div class="ex-row">4. Let's meet <span class="wb-blank" data-ans="when" onclick="wbPlace(this)">______</span> I'm in Toronto next week.</div>
-        <div class="ex-row">5. There's a crisis! Please call me <span class="wb-blank" data-ans="as soon as" onclick="wbPlace(this)">______</span> you possibly can.</div>
+        <div class="ex-row"><span class="example-badge">1</span><em>(example)</em> I'll call you <span style="color:#1A5030;font-weight:800;">as soon as</span> my plane lands.</div>
+        <div class="ex-row">2. I'm going to pack my suitcase <span class="wb-blank" data-ans="before" onclick="wbPlace(this)">______</span> I go to bed.</div>
+        <div class="ex-row">3. Take your phone with you <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> you get lost.</div>
+        <div class="ex-row">4. I'll be leaving work early tomorrow <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> there's a last-minute crisis.</div>
+        <div class="ex-row">5. Let's meet <span class="wb-blank" data-ans="when" onclick="wbPlace(this)">______</span> I'm in Toronto next week.</div>
+        <div class="ex-row">6. There's a crisis! Please call me <span class="wb-blank" data-ans="as soon as" onclick="wbPlace(this)">______</span> you possibly can.</div>
       </div>
       <div>
-        <div class="ex-row">6. <span class="wb-blank" data-ans="if" onclick="wbPlace(this)">______</span> I'm late tomorrow, start the meeting without me.</div>
-        <div class="ex-row">7. Mei Ting will have packed some sandwiches <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> we get hungry.</div>
-        <div class="ex-row">8. Dan will be playing soccer in the park <span class="wb-blank" data-ans="until" onclick="wbPlace(this)">______</span> it gets dark.</div>
-        <div class="ex-row">9. Then, <span class="wb-blank" data-ans="after" onclick="wbPlace(this)">______</span> we've eaten, we could go for a walk.</div>
-        <div class="ex-row">10. Don't call 911 <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> it's a real emergency.</div>
+        <div class="ex-row">7. <span class="wb-blank" data-ans="if" onclick="wbPlace(this)">______</span> I'm late tomorrow, start the meeting without me.</div>
+        <div class="ex-row">8. Mei Ting will have packed some sandwiches <span class="wb-blank" data-ans="in case" onclick="wbPlace(this)">______</span> we get hungry.</div>
+        <div class="ex-row">9. Dan will be playing soccer in the park <span class="wb-blank" data-ans="until" onclick="wbPlace(this)">______</span> it gets dark.</div>
+        <div class="ex-row">10. Then, <span class="wb-blank" data-ans="after" onclick="wbPlace(this)">______</span> we've eaten, we could go for a walk.</div>
+        <div class="ex-row">11. Don't call 911 <span class="wb-blank" data-ans="unless" onclick="wbPlace(this)">______</span> it's a real emergency.</div>
       </div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkWbSlide('gex4')">Check Answers</button>
       <button class="btn-reset" onclick="resetWbSlide('gex4')">Reset</button>
     </div>
-  </div></div>
-</div>
-
-
-<!-- ============ GRAMMAR: COMPLETE THE SENTENCES IN YOUR OWN WORDS ============ -->
-<!-- SB 4B 3e (Teacher's Book suggested answers added) -->
-<div class="slide" id="s-gram-ex5">
-  <div class="banner banner-grammar">📐 Grammar</div>
-  <div class="slide-main"><div class="content">
-    <h2>Finish the sentences</h2>
-    <p class="instruction">In pairs, complete each sentence in your own words. Then compare ideas with the class and vote for the best ones.</p>
-    <div class="fixed-two-col"><div><div class="ex-row">1. Don't buy a used car unless… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 1"></div><div class="ex-row">2. You shouldn't think about getting a tattoo if… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 2"></div><div class="ex-row">3. Keep a first-aid kit in your house in case… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 3"></div><div class="ex-row">4. Children shouldn't use social media until… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 4"></div><div class="ex-row">5. Always take out travel insurance in case… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 5"></div><div class="ex-row">6. As soon as I've received your new credit card,… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 6"></div><div class="ex-row">7. Don't go hiking in the mountains on your own unless… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 7"></div><div class="ex-row">8. If you are taking a new job abroad,… <input class="ans-input" style="width:min(420px,100%)" aria-label="sentence 8"></div></div></div>
-    <div class="btn-row">
-      <button class="btn-suggest" onclick="toggleSuggested('gex5-sugg')">💡 Suggested Answers</button>
-    </div>
-    <div class="suggest-box" id="gex5-sugg"><ol><li>…you're sure it's in good condition.</li><li>…you're afraid of needles.</li><li>…someone has an accident.</li><li>…they are at least 14 years old.</li><li>…you have a problem when you're on vacation.</li><li>…destroy the old one immediately.</li><li>…you've told someone where you're going.</li><li>…you'll need to learn the language.</li></ol></div>
   </div></div>
 </div>
 
@@ -1032,7 +836,7 @@
         <div class="ex-row">5. I dyed my hair blue a <input class="ans-input" data-ans="short time ago">, and I hated it!</div>
         <div class="ex-row">6. I was scared at first, but it was <input class="ans-input" data-ans="worth it in"> the end.</div>
         <div class="ex-row">7. <input class="ans-input" data-ans="first of all">, let's try to find a cheap hotel.</div>
-        <div class="ex-row">8. <input class="ans-input" data-ans="In an ideal" data-alt="an ideal"> world, everyone would earn a salary.</div>
+        <div class="ex-row">8. In <input class="ans-input" data-ans="an ideal"> world, everyone would earn a salary.</div>
       </div>
     </div>
     <div class="btn-row">
@@ -1300,9 +1104,8 @@
   <div class="banner banner-vocab">📚 Vocabulary</div>
   <div class="slide-main"><div class="content">
     <h2>I'll take a question</h2>
-    <p class="instruction">Student A and Student B: complete the phrasal verbs and expressions in your own set of questions. Then ask your partner your questions, answer theirs — give examples to explain your answers.</p>
-    <h3 class="section-subhead">Student A</h3>
-  <div id="vocab4">
+    <p class="instruction">Complete the phrasal verbs and expressions below. Then answer the questions out loud — give examples to explain your answers.</p>
+    <div id="vocab4">
       <div class="ex-row">1. Who do you take <input class="ans-input small" data-ans="after"> more, your father or your mother?</div>
       <div class="ex-row">2. Do you take <input class="ans-input small" data-ans="care of"> yourself, or are you very laid-back about your health?</div>
       <div class="ex-row">3. Have you ever <u>not</u> taken <input class="ans-input small" data-ans="advantage of"> a good opportunity and then regretted it?</div>
@@ -1313,19 +1116,6 @@
       <button class="btn-check" onclick="checkSlide('vocab4')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('vocab4')">Reset</button>
     </div>
-  <h3 class="section-subhead" style="margin-top:26px;">Student B</h3>
-  <div id="vocab4b">
-    <div class="ex-row">1. Do you get up very quickly in the morning or do you take <input class="ans-input small" data-ans="your time">?</div>
-    <div class="ex-row">2. Have you taken <input class="ans-input small" data-ans="up"> a new sport or hobby recently, or is there one you would like to take <input class="ans-input small" data-ans="up">?</div>
-    <div class="ex-row">3. If you were thinking of buying a new phone, what factors would you take <input class="ans-input small" data-ans="into account">?</div>
-    <div class="ex-row">4. Have you ever taken <input class="ans-input small" data-ans="part in"> a charity walk or some other kind of fundraiser that benefited your community?</div>
-    <div class="ex-row">5. Who takes the trash <input class="ans-input small" data-ans="out"> in your house, you or someone else?</div>
-  </div>
-  <div class="btn-row">
-    <button class="btn-check" onclick="checkSlide('vocab4b')">Check Answers</button>
-    <button class="btn-reset" onclick="resetSlide('vocab4b')">Reset</button>
-  </div>
-
     <div class="gram-note" style="margin-top:20px;">
       <b>💡 Giving examples</b> — We often use <i>for example</i> or <i>for instance</i> to give examples.<br>
       <i>I usually get up quickly, but sometimes I take my time, for example / for instance, on the weekend.</i>
@@ -1482,7 +1272,7 @@
       <div class="ex-row">4. I'm going to call my husband. He might forget his doctor's appointment.<br>→ I'm going to call my husband <input class="ans-input" style="width:190px" data-ans="in case he forgets"> his doctor's appointment.</div>
       <div class="ex-row">5. Sarah is going to pack her suitcase. Then she'll go to bed.<br>→ Sarah is going to pack her suitcase <input class="ans-input" style="width:190px" data-ans="before she goes"> to bed.</div>
       <div class="ex-row">6. We'll wait for you to get home. Then we'll have dinner.<br>→ We won't have dinner <input class="ans-input" style="width:190px" data-ans="until you get"> home.</div>
-      <div class="ex-row">7. I might be late tonight, so don't wait up for me.<br>→ Don't wait up for me <input class="ans-input" style="width:190px" data-ans="if I'm" data-alt="if i am"> late tonight.</div>
+      <div class="ex-row">7. I might be late tonight, so don't wait up for me.<br>→ Don't wait up for me <input class="ans-input" style="width:190px" data-ans="in case I'm" data-alt="in case i am"> late tonight.</div>
       <div class="ex-row">8. I'll go to New York and I'll stay with some friends.<br>→ I'll stay with some friends <input class="ans-input" style="width:190px" data-ans="when I go"> to New York.</div>
     </div>
     <div class="btn-row">
@@ -1610,45 +1400,6 @@
   </div></div>
 </div>
 
-
-<!-- ============ HW7: GRAMMAR — ABOUT YOU ============ -->
-<!-- WB 4B 1d -->
-<div class="slide" id="hw-gr4-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW7 — Complete the sentences about you</h2>
-    <p class="instruction">Finish each sentence with your own ideas. Use a present form after the time expression.</p>
-    <div class="fixed-two-col"><div><div class="ex-row">1. I'll have dinner after <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 1"></div><div class="ex-row">2. I'll buy a new car as soon as <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 2"></div><div class="ex-row">3. I won't go to bed tonight until <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 3"></div><div class="ex-row">4. I'll go shopping before <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 4"></div><div class="ex-row">5. I might go out later if <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 5"></div><div class="ex-row">6. I won't move to a new house unless <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 6"></div><div class="ex-row">7. I'll finish my English homework now, in case <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 7"></div><div class="ex-row">8. I'll retire when <input class="ans-input wide" style="width:min(380px,100%)" aria-label="sentence 8"></div></div></div>
-  </div></div>
-</div>
-
-<!-- ============ HW8: PRONUNCIATION — LINKED PHRASES ============ -->
-<!-- WB 4B 2a, 2b -->
-<div class="slide" id="hw-pron-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW8 — Linked phrases</h2>
-    <p class="instruction">Listen and complete the sentences with a three-word linked phrase. Then listen again and repeat the words. Copy the rhythm.</p>
-    <div class="img-placeholder"><span class="ip-icon">🎧</span>Audio placeholder — add the Workbook 4.2 audio file here</div>
-    <div id="hw-pron" style="margin-top:12px;"><div class="ex-row"><span class="example-badge">1</span><em>(example)</em> <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">First of all</span>, let's see how much money we have.</div><div class="ex-row">2. I didn't really want to go, but it was <input class="ans-input" style="width:170px" data-ans="worth it in"> the end.</div><div class="ex-row">3. Dress professionally, <input class="ans-input" style="width:170px" data-ans="and above all">, don't be late.</div><div class="ex-row">4. <input class="ans-input" style="width:170px" data-ans="In an ideal" data-alt="an ideal"> world, everyone would have a roof over their head.</div><div class="ex-row">5. Don't disturb me <input class="ans-input" style="width:170px" data-ans="unless it's" data-alt="unless it’s"> important.</div><div class="ex-row">6. I'll call you <input class="ans-input" style="width:170px" data-ans="as soon as"> I get home.</div><div class="ex-row">7. <input class="ans-input" style="width:170px" data-ans="As far as"> I'm concerned, there's nothing more to say.</div><div class="ex-row">8. It was <input class="ans-input" style="width:170px" data-ans="such an awful"> experience that I don't really want to think about.</div></div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('hw-pron')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('hw-pron')">Reset</button>
-    </div>
-  </div></div>
-</div>
-
-<!-- ============ HW9: VOCABULARY — ABOUT YOU ============ -->
-<!-- WB 4B 3d -->
-<div class="slide" id="hw-voc4-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW9 — Answer the questions about you</h2>
-    <p class="instruction">Answer the questions from HW6 about you. Write full sentences.</p>
-    <div><div class="ex-row">1. When was the last time someone took you out for dinner? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 1"></div><div class="ex-row">2. Who was the last person you took to immediately? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 2"></div><div class="ex-row">3. Do you take your shoes off as soon as you go into your house? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 3"></div><div class="ex-row">4. Do you take your time doing your English homework? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 4"></div><div class="ex-row">5. In what ways do you take after your parents? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 5"></div><div class="ex-row">6. How often do you take the trash out? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 6"></div><div class="ex-row">7. Have you ever watched the planes take off and land at an airport? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 7"></div><div class="ex-row">8. If you could take up a new activity, what would it be? <input class="ans-input wide" style="width:min(520px,100%)" aria-label="answer 8"></div></div>
-  </div></div>
-</div>
-
 </div><!-- END #deck -->
 
 <div id="nav">
@@ -1663,8 +1414,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1","s-leadin","s-listen1","s-listen2","s-listen2b","s-speak1","s-gram-meaning","s-gram-future","s-gram-ex1","s-gram-ex2","s-gram-ex3","s-gram-ex4","s-gram-ex5","s-pron1","s-pron2","s-pron3","s-read1","s-read2","s-read3","s-read4","s-vocab1","s-vocab2","s-vocab3","s-vocab4","s-video","hw-cover","hw-gr1-slide","hw-gr2-slide","hw-gr3-slide","hw-voc1-slide","hw-voc2-slide","hw-voc3-slide","hw-gr4-slide","hw-pron-slide","hw-voc4-slide"];
-var slideLabels = ["Cover","Warm-Up – The Man in the Lawn Chair","Listening – Score the Risks","Listening – Are You a Risk-Taker?","Listening – Who Said It?","Speaking – Risk Bingo","Grammar – Zero & First Conditionals","Grammar – Future Time Clauses","Grammar – Match the Sentence Halves","Grammar – Look More Closely at the Form","Grammar – Circle the Correct Form","Grammar – Complete with a Time Expression","Grammar – Finish the Sentences","Pronunciation – Listen and Complete","Pronunciation – Complete the Sentences","Pronunciation – Practice and Personalize","Reading – Label the Photos","Reading – Article & Reasons","Reading – Find the Information","Reading – Discussion","Vocabulary – Match the Answers","Vocabulary – Listen Again","Vocabulary – Expressions & Phrasal Verbs with Take","Vocabulary – I'll Take a Question","Video Listening – Riding the Waves","Homework Cover","HW1 – Zero & First Conditionals","HW2 – Correct Form","HW3 – Rewrite with a Time Expression","HW4 – Match the Sentence Halves","HW5 – Expressions with Take","HW6 – Phrasal Verbs with Take","HW7 – About You: Time Clauses","HW8 – Linked Phrases","HW9 – About You: Take"];
+var slideIds = ["s1","s-leadin","s-listen1","s-listen2","s-listen2b","s-speak1","s-gram-meaning","s-gram-future","s-gram-ex1","s-gram-ex2","s-gram-ex3","s-gram-ex4","s-pron1","s-pron2","s-pron3","s-read1","s-read2","s-read3","s-read4","s-vocab1","s-vocab2","s-vocab3","s-vocab4","s-video","hw-cover","hw-gr1-slide","hw-gr2-slide","hw-gr3-slide","hw-voc1-slide","hw-voc2-slide","hw-voc3-slide"];
+var slideLabels = ["Cover","Warm-Up – The Man in the Lawn Chair","Listening – Score the Risks","Listening – Are You a Risk-Taker?","Listening – Who Said It?","Speaking – Risk Bingo","Grammar – Zero & First Conditionals","Grammar – Future Time Clauses","Grammar – Match the Sentence Halves","Grammar – Look More Closely at the Form","Grammar – Circle the Correct Form","Grammar – Complete with a Time Expression","Pronunciation – Listen and Complete","Pronunciation – Complete the Sentences","Pronunciation – Practice and Personalize","Reading – Label the Photos","Reading – Article & Reasons","Reading – Find the Information","Reading – Discussion","Vocabulary – Match the Answers","Vocabulary – Listen Again","Vocabulary – Expressions & Phrasal Verbs with Take","Vocabulary – I'll Take a Question","Video Listening – Riding the Waves","Homework Cover","HW1 – Zero & First Conditionals","HW2 – Correct Form","HW3 – Rewrite with a Time Expression","HW4 – Match the Sentence Halves","HW5 – Expressions with Take","HW6 – Phrasal Verbs with Take"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -2088,34 +1839,6 @@ function scorePick(el){
   var row = el.parentElement;
   row.querySelectorAll('.env-pill').forEach(function(p){ p.classList.remove('picked'); });
   el.classList.add('picked');
-  riskUpdate();
-}
-function riskUpdate(){
-  var rows = document.querySelectorAll('#risk-scale .env-scale'), sum = 0, n = 0;
-  rows.forEach(function(r){
-    var p = r.querySelector('.env-pill.picked');
-    if (p) { sum += parseInt(p.textContent, 10); n++; }
-  });
-  var num = document.getElementById('ra-num'), mk = document.getElementById('ra-marker');
-  var vd = document.getElementById('ra-verdict'), ct = document.getElementById('ra-count');
-  if (!num) return;
-  ct.textContent = n + ' of ' + rows.length + ' scored';
-  if (!n) { num.textContent = '–'; mk.style.opacity = 0; vd.textContent = 'Score the 8 things to find out how much of a risk-taker you are.'; return; }
-  var avg = sum / n;
-  num.textContent = avg.toFixed(1) + ' / 5';
-  mk.style.opacity = 1; mk.style.left = ((avg - 1) / 4 * 100) + '%';
-  if (n < rows.length) { vd.textContent = 'Keep going — score all ' + rows.length + ' to see your result.'; return; }
-  var t;
-  if (avg < 1.8) t = '🔥 Total risk-taker! Almost nothing scares you.';
-  else if (avg < 2.6) t = '🧗 Adventurous — you like a little danger.';
-  else if (avg < 3.4) t = '⚖️ Balanced — you think before you leap.';
-  else if (avg < 4.2) t = '🛡️ Careful — you prefer to play it safe.';
-  else t = '🐢 Very cautious — you avoid risks whenever you can.';
-  vd.textContent = t;
-}
-function riskReset(){
-  document.querySelectorAll('#risk-scale .env-pill.picked').forEach(function(p){ p.classList.remove('picked'); });
-  riskUpdate();
 }
 
 /* ===================== RISK BINGO (Speaking) ===================== */
@@ -2280,15 +2003,6 @@ document.getElementById('prevBtn').disabled = true;
       return '';
     }
   });
-})();
-</script>
-<script>
-/* new design: slide progress bar (observer only, original navigation untouched) */
-(function(){
-  var bar=document.getElementById('progBar'); var all=Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  function upd(){ var i=all.findIndex(function(x){return x.classList.contains('active');}); if(i<0)return; bar.style.width=((i+1)/all.length*100)+'%'; }
-  new MutationObserver(upd).observe(document.getElementById('deck'),{attributes:true,subtree:true,attributeFilter:['class']});
-  upd();
 })();
 </script>
 </body>
