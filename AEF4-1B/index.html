@@ -95,6 +95,21 @@
   .fixed-four-col { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0 20px; align-items:start; }
 
   .btn-row { display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+  /* Chain reaction */
+  .chn-layout { display:grid; grid-template-columns:1.5fr 1fr; gap:24px; align-items:start; }
+  .chn-card { background:linear-gradient(135deg,#F3EEF8,#EAE0F3); border-left:6px solid #5A2E8C; border-radius:14px; padding:22px 24px; min-height:150px; display:flex; align-items:center; gap:18px; margin-bottom:14px; }
+  .chn-icon { font-size:3.2rem; }
+  .chn-text { font-size:1.5rem; font-weight:800; color:#2a1a40; margin:0; line-height:1.5; }
+  .chn-chain { margin-top:14px; font-size:1.8rem; line-height:1.6; color:#1C2B3A; }
+  .chn-score { display:flex; gap:12px; margin-bottom:14px; }
+  .chn-score > div { flex:1; background:#F4F8FA; border-radius:12px; text-align:center; padding:10px; }
+  .chn-score span { display:block; font-size:2.4rem; font-weight:800; color:#5A2E8C; }
+  .chn-score small { font-size:1.05rem; font-weight:700; color:#6B7B88; }
+  .chn-example { background:#F4F8FA; border-radius:12px; padding:14px 18px; }
+  .chn-example p { font-size:1.05rem; line-height:1.7; margin:0 0 6px; color:#1C2B3A; }
+  .chn-ex-title { font-size:1.1rem; font-weight:800; color:#5A2E8C; margin-bottom:8px; }
+  .chn-a { background:#E7EAF7; color:#3B4C99; font-weight:800; padding:1px 7px; border-radius:5px; }
+  .chn-b { background:#FFF0D9; color:#9A5B00; font-weight:800; padding:1px 7px; border-radius:5px; }
   .btn-check { background:#5A2E8C; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
   .btn-reset { background:#e8e8ec; color:#333; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
   .btn-suggest { background:#1B6E96; color:#fff; border:none; border-radius:8px; padding:11px 26px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; }
@@ -1286,6 +1301,39 @@
   </div></div>
 </div>
 
+<!-- ============ GRAMMAR 2: EXTRA SPEAKING GAME — CHAIN REACTION (original activity, not from the book) ============ -->
+<div class="slide" id="s-gram2-chain">
+  <div class="banner banner-speaking">💬 Speaking</div>
+  <div class="slide-main"><div class="content">
+    <h2>Chain reaction!</h2>
+    <p class="instruction">Step 1 — Draw a starter and finish the sentence.<br>Step 2 — Take the end of your sentence and use it to start a new one: <i>The …, the …</i><br>Step 3 — Keep the chain going! Click “Add a link” for every good sentence.<br>Step 4 — If you get stuck or make a mistake, the chain breaks. Can you beat your best chain?</p>
+    <div class="chn-layout">
+      <div>
+        <div class="chn-card">
+          <div class="chn-icon" id="chn-icon">🔗</div>
+          <p class="chn-text" id="chn-text">Click “Draw a starter” to begin!</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn-check" onclick="chnDraw()" style="font-size:1.05rem;">🎴 Draw a starter</button>
+          <button class="btn-suggest" onclick="chnAdd()" style="font-size:1.05rem;">🔗 Add a link</button>
+          <button class="btn-reset" onclick="chnBreak()" style="font-size:1.05rem;">💥 Chain broken</button>
+        </div>
+        <div class="chn-chain" id="chn-chain">No links yet</div>
+      </div>
+      <div>
+        <div class="chn-score"><div><span id="chn-now">0</span><small>Current chain</small></div><div><span id="chn-best">0</span><small>Best chain</small></div></div>
+        <div class="chn-example">
+          <div class="chn-ex-title">Example chain</div>
+          <p>🍕 <span class="chn-a">The more</span> pizza I eat, <span class="chn-b">the happier</span> I am.</p>
+          <p>🔗 <span class="chn-a">The happier</span> I am, <span class="chn-b">the more</span> I smile.</p>
+          <p>🔗 <span class="chn-a">The more</span> I smile, <span class="chn-b">the more</span> friends I make.</p>
+          <p>🔗 <span class="chn-a">The more</span> friends I make, … 🎉</p>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
 <!-- ============ LESSON REVIEW ============ -->
 <div class="slide" id="s-review">
   <div class="banner banner-review">⭐ Lesson Review</div>
@@ -1507,8 +1555,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3"];
-var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Speaking – Make It Personal", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…"];
+var slideIds = ["s1", "s-review-link", "s-warmup", "s-gram1-2a", "s-gram1-reacting", "s-gram1-2b", "s-gram1-2c", "s-gbank-theory", "s-dice-react", "s-gbank-a", "s-gbank-b", "s-pron-3d", "s-pron-3c", "s-forest-intro", "s-forest-audio", "s-forest-interpret", "s-forest-belief", "s-gram2-mfp", "s-gram2-practice", "s-gram2-personalize", "s-gram2-chain", "s-review", "hw-cover", "hw-wb1a", "hw-wb1b", "hw-wb1c", "hw-wb2a", "hw-wb3"];
+var slideLabels = ["Cover", "Bridge – Case Files: Ask About It!", "Warm-Up – You're Superstitious, Aren't You?", "Have You (Or Has Anybody You Know)…?", "How Weird!", "Ghost Stories & Gossip", "What's the Function?", "Auxiliary Verbs", "Communication Practice – React to It! (Dice)", "Quick-Fire Practice", "A Night at the Club", "Speaking – What Would You Say?", "Speaking – You're Psychic, Aren't You?", "Speaking – A Walk in the Forest", "Follow the Path", "Listening – What Does It Mean?", "Speaking – Do You Believe It?", "Grammar 2 – The More, the Merrier", "Grammar 2 – Rewrite the Sentences", "Speaking – Make It Personal", "Speaking – Chain Reaction!", "Lesson Review", "Homework Cover", "HW1 – What's Unnecessary?", "HW2 – Complete the Conversations", "HW3 – React and Say Why", "HW4 – Listen and Complete", "HW5 – The More…, The More…"];
 
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
@@ -1982,6 +2030,32 @@ function nextNoRepeat(key, size){
   var n = shuffleBags[key].pop();
   shuffleLast[key] = n;
   return n;
+}
+
+/* ===================== CHAIN REACTION (s-gram2-chain) ===================== */
+var chnStarters = [
+  ['🍕','The more pizza I eat, …'],['😴','The later I go to bed, …'],['📱','The more time I spend on my phone, …'],
+  ['✈️','The more I travel, …'],['🌶️','The spicier the food is, …'],['🎂','The older I get, …'],
+  ['🚗','The more traffic there is, …'],['🎧','The louder the music is, …'],['🌧️','The colder the weather is, …'],
+  ['🎉','The more friends I invite to a party, …'],['🛍️','The cheaper something is, …'],['🎮','The more I play video games, …']
+];
+var chnNow = 0, chnBest = 0;
+function chnRender(){
+  document.getElementById('chn-now').textContent = chnNow;
+  document.getElementById('chn-best').textContent = chnBest;
+  document.getElementById('chn-chain').textContent = chnNow ? new Array(chnNow+1).join('🔗 ') : 'No links yet';
+}
+function chnDraw(){
+  var i = nextNoRepeat('chn', chnStarters.length);
+  document.getElementById('chn-icon').textContent = chnStarters[i][0];
+  document.getElementById('chn-text').textContent = chnStarters[i][1];
+  chnNow = 0; chnRender();
+}
+function chnAdd(){ chnNow++; if (chnNow > chnBest) chnBest = chnNow; chnRender(); }
+function chnBreak(){
+  chnNow = 0; chnRender();
+  document.getElementById('chn-icon').textContent = '💥';
+  document.getElementById('chn-text').textContent = 'The chain broke! Draw a new starter and try again.';
 }
 
 /* ===================== PSYCHIC CARD DRAW (ex3c + Communication, merged) ===================== */
