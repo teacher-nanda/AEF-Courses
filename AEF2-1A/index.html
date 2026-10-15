@@ -544,7 +544,7 @@
   .sound-cell .sc-num { display:block; font-size:1.05rem; font-weight:800; color:var(--navy); margin-bottom:6px; }
   .sound-cell .ans-input { width:100%; text-align:left; font-size:1.05rem; }
   .sound-cell .eg-word { display:inline-block; color:#1A7A4A; font-weight:800; background:#E3F5EA; padding:1px 8px; border-radius:6px; font-size:1.05rem; }
-  .classify-cols.seven { grid-template-columns:repeat(4,1fr); }
+  .classify-cols.seven { grid-template-columns:repeat(7,1fr); gap:8px; }
   .classify-col .col-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:800; color:var(--navy); font-size:1.05rem; }
   .classify-col .col-head .pic { font-size:1.6rem; }
   .classify-col .col-head .ipa { color:var(--coral); }
@@ -619,7 +619,7 @@
   @media (max-width:900px) {
     .party-grid, .wu-grid, .verb-grid { grid-template-columns:1fr; }
     .sound-grid { grid-template-columns:repeat(4,1fr); }
-    .classify-cols.seven { grid-template-columns:repeat(2,1fr); }
+    .classify-cols.seven { grid-template-columns:repeat(7,1fr); }
     .quiz-two, .pair-grid, .lock-row, .photo-strip { grid-template-columns:1fr; }
     .content { padding:20px 20px 20px; }
   }
@@ -668,10 +668,67 @@
   .slide-main { padding-bottom:84px; }
   /* layouts that need more room now that text is larger */
   .sound-grid { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
-  .classify-cols.seven { grid-template-columns:repeat(3,1fr); }
+  .classify-cols.seven { grid-template-columns:repeat(7,1fr); }
   .photo-strip { grid-template-columns:repeat(2,1fr); }
   .cover-bubble.cb3 { bottom:9%; left:14%; } .cover-bubble.cb4 { bottom:14%; right:30%; }
   @media print { .content { zoom:1; } }
+
+  /* highlighted phrases inside exercise rows */
+  .ex-row .hl, .notice-row .hl { color:var(--navy); background:var(--lemon); padding:0 7px; border-radius:6px; font-weight:800; }
+
+  /* chat simulation */
+  .chat-phone { max-width:820px; margin:8px auto 0; background:#fff; border:3px solid var(--navy); border-radius:28px; box-shadow:8px 8px 0 var(--sky); overflow:hidden; }
+  .chat-top { background:var(--navy); color:#FFE27A; padding:12px 20px; display:flex; align-items:center; gap:12px; font-size:1.15rem; }
+  .chat-av { font-size:1.8rem; }
+  .chat-on { margin-left:auto; color:#7CF0C0; font-size:1.05rem; font-weight:700; }
+  .chat-thread { padding:14px 18px; display:flex; flex-direction:column; gap:10px; min-height:220px; max-height:340px; overflow-y:auto; background:#FAFAFF; }
+  .chat-thread .bub { max-width:80%; margin:0; }
+  .chat-thread .bub.typing { opacity:.6; font-style:italic; }
+  .chat-controls { padding:14px 18px 18px; border-top:3px solid var(--navy); background:#fff; }
+  .chat-controls .cc-task { font-weight:800; color:var(--navy); font-size:1.12rem; margin:0 0 10px; }
+  .cc-opt { display:block; width:100%; text-align:left; margin:0 0 8px; border:2px solid var(--navy); border-radius:16px; background:#fff; padding:9px 16px; font-family:inherit; font-size:1.1rem; font-weight:700; color:var(--navy); cursor:pointer; transition:transform .12s, background .12s; }
+  .cc-opt:hover { background:#FFE98A; transform:translateX(3px); }
+  .cc-opt.bad { background:#FBEAE6; border-color:#C4614A; color:#C4614A; animation:aefShake .35s ease; }
+  .cc-hint { color:#7A5A00; font-size:1.05rem; font-weight:700; margin:4px 0 0; min-height:1.4em; }
+  .cc-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .cc-row input { flex:1; min-width:200px; border:none; border-bottom:3px solid var(--navy); background:rgba(255,216,77,.28); font-family:inherit; font-size:1.1rem; font-weight:700; color:var(--navy); padding:6px 8px; }
+
+.classify-cols.seven .classify-col{padding:8px 4px;min-width:0}.classify-cols.seven .col-head{flex-direction:column;gap:0;font-size:1rem;text-align:center}.classify-cols.seven .col-head .pic{font-size:2rem}.classify-cols.seven .col-head .ipa{font-size:1.05rem}
+
+.classify-cols.seven .sound-cell{box-shadow:none;padding:8px 4px}.classify-cols.seven .sound-cell .sc-pic{font-size:2.2rem}.classify-cols.seven .sound-cell .ans-input{text-align:center;padding:4px 2px}.sc-letters{margin-top:6px;min-height:40px}.sound-cell.classify-col .given,.sound-cell .placed{padding:2px 8px;margin:2px}
+
+.classify-cols.seven.book{gap:0;border:3px solid var(--navy);border-radius:10px;overflow:hidden;background:#fff}
+.classify-cols.seven.book .sound-cell{border:0;border-right:2px solid var(--navy);border-radius:0;padding:0;display:flex;flex-direction:column;box-shadow:none;min-width:0}
+.classify-cols.seven.book .sound-cell:last-child{border-right:0}
+.bk-top{position:relative;background:#FCEAF2;height:92px;display:flex;align-items:center;justify-content:center;border-bottom:0}
+.bk-pic{font-size:3rem;line-height:1}
+.bk-ipa{position:absolute;inset:auto 0 4px 0;text-align:center;font-size:1.7rem;font-weight:900;color:#E8337A;text-shadow:0 0 3px #fff,0 0 3px #fff}
+.bk-word{display:flex;align-items:baseline;gap:4px;padding:6px 6px 6px;border-bottom:2px solid var(--navy)}
+.bk-word .sc-num{display:inline;margin:0;font-size:1.1rem}
+.bk-word .ans-input{flex:1;min-width:0;width:100%;font-size:1.05rem;padding:2px 2px;text-align:center}
+.bk-word .eg-word{flex:1;text-align:center;font-style:italic;text-decoration:underline;background:none;color:var(--navy);padding:0}
+.classify-cols.seven.book .sc-letters{flex:1;min-height:170px;padding:10px 4px;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:6px 14px}
+.classify-cols.seven.book .given{background:none;border:0;border-radius:0;margin:0;padding:0;font-size:1.3rem;min-width:30px;text-align:center}
+.classify-cols.seven.book .given.eg{background:none;border:0;color:var(--navy);text-decoration:underline}
+.classify-cols.seven.book .placed{margin:0;min-width:30px;text-align:center;font-size:1.2rem;padding:0 6px}
+.slot-blank{display:inline-block;width:30px;border-bottom:2px solid var(--navy);height:1.5rem;margin:0}
+.slot-blank.gone{display:none}
+
+.two-col-ex{display:grid;grid-auto-flow:column;grid-template-rows:repeat(3,auto);grid-template-columns:1fr 1fr;gap:6px 40px;margin:10px 0 4px}.two-col-ex .ex-row{margin:6px 0}.two-col-ex .ans-input{max-width:100%}@media(max-width:760px){.two-col-ex{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:1fr}}
+
+/* compact matching exercises so everything fits on screen */
+.match-wrap{gap:28px;padding:10px 16px 6px}
+.match-wrap .match-col-head{margin-bottom:8px;padding-bottom:4px;font-size:1.05rem}
+.match-wrap .match-item{padding:5px 10px;margin-bottom:6px;font-size:1.05rem;border-radius:10px}
+.match-wrap .match-item .circ-num{width:22px;height:22px;font-size:.9rem;margin-right:6px}
+.content:has(.match-wrap) h2{margin-bottom:8px;font-size:2rem}
+.content:has(.match-wrap) .instruction{margin:6px 0 8px}
+.content:has(.match-wrap) .btn-row{margin-top:8px}
+
+/* worked example = first row of the exercise, answer highlighted */
+.ex-given{margin-bottom:10px}
+
+.given-line{display:block;margin:2px 0 0 32px;width:min(430px,100%);background:#E3F5EA;border-bottom:3px solid #1A7A4A;border-radius:6px 6px 0 0;padding:2px 8px;font-weight:800;color:#1A7A4A;font-size:1.05rem;line-height:1.6}.given-line span{background:none!important;padding:0!important}
 
 </style>
 </head>
@@ -812,41 +869,9 @@
       <button class="btn-check" onclick="checkSlide('vocab1')">Check Answers</button>
       <button class="btn-reset" onclick="resetSlide('vocab1')">Reset</button>
     </div>
-    <div class="photo-strip">
-      <div class="img-placeholder"><span class="ip-icon">🏙️</span>Photo: a city street along a waterfront, with a cozy living room (sofa, plant, shelves) in the corner</div>
-      <div class="img-placeholder"><span class="ip-icon">🩺</span>Photo: three nurses in blue scrubs walking along a hospital corridor</div>
-      <div class="img-placeholder"><span class="ip-icon">📚</span>Photo: a woman reading a book at a table in a library, bookshelves behind her</div>
-      <div class="img-placeholder"><span class="ip-icon">🎧</span>Photo: a smiling young man with headphones, holding a tablet that shows TV shows</div>
-    </div>
-  </div></div>
-</div>
-
-<div class="slide" id="s-vocab2">
-  <div class="banner banner-vocab">📚 Vocabulary &amp; Speaking</div>
-  <div class="slide-main"><div class="content">
-    <h2>Listen and check</h2>
-    <p class="instruction">Listen to the questions and check your answers. Make sure you understand the whole question, not just the missing verb.</p>
-    <!-- SB 1.2 -->
+    <!-- SB 1.2: listen and check -->
+    <p class="discuss-label" style="margin-top:14px;">🎧 Now listen and check your answers.</p>
     <div class="audio-box pending"><audio controls data-track="1.2"></audio></div>
-    <div class="btn-row" style="justify-content:flex-start;">
-      <button class="btn-akey" onclick="toggleSuggested('v2-key')">🔑 Show the 18 questions</button>
-    </div>
-    <div class="akey-box" id="v2-key">
-      <ul style="list-style:none;padding:0;margin:0;columns:2;column-gap:40px;"><li><b>1</b> Where are you from?</li><li><b>2</b> Where were you born?</li><li><b>3</b> Where do you live?</li><li><b>4</b> Do you live in a house or an apartment?</li><li><b>5</b> Do you have any brothers and sisters?</li><li><b>6</b> Do you have any pets?</li><li><b>7</b> What do you do?</li><li><b>8</b> What time do you get up during the week?</li><li><b>9</b> Where do you usually have lunch?</li><li><b>10</b> What time do you usually go to bed?</li><li><b>11</b> Where did you study English before?</li><li><b>12</b> Can you speak any other languages? Which?</li><li><b>13</b> What kind of music do you listen to?</li><li><b>14</b> What TV shows or series do you watch?</li><li><b>15</b> Do you exercise or play any sports? What?</li><li><b>16</b> What kinds of books or magazines do you read?</li><li><b>17</b> How often do you go to the movies?</li><li><b>18</b> What did you do last weekend?</li></ul>
-    </div>
-    <div class="gram-note" style="margin-top:18px;">💡 <b>have</b> has two meanings here: <i>have brothers and sisters</i> (= own / there are) and <i>have lunch</i> (= eat).</div>
-  </div></div>
-</div>
-
-<div class="slide" id="s-vocab3">
-  <div class="banner banner-vocab">📚 Vocabulary &amp; Speaking</div>
-  <div class="slide-main"><div class="content">
-    <h2>Rhythm and intonation</h2>
-    <p class="instruction">Listen and repeat questions 1–6. Copy the rhythm and intonation.</p>
-    <!-- SB 1.3 -->
-    <div class="audio-box pending"><audio controls data-track="1.3"></audio></div>
-    <div class="card" style="max-width:760px;"><div class="ex-row"><span class="circ-num">1</span>Where are you from?</div><div class="ex-row"><span class="circ-num">2</span>Where were you born?</div><div class="ex-row"><span class="circ-num">3</span>Where do you live?</div><div class="ex-row"><span class="circ-num">4</span>Do you live in a house or an apartment?</div><div class="ex-row"><span class="circ-num">5</span>Do you have any brothers and sisters?</div><div class="ex-row"><span class="circ-num">6</span>Do you have any pets?</div></div>
-    <div class="gram-note">🎵 In questions we usually <b>stress</b> the important words — question words, verbs, and nouns — and say the other words less strongly, e.g., <i>Where were you born?</i> <i>Do you have any brothers and sisters?</i></div>
   </div></div>
 </div>
 
@@ -854,9 +879,9 @@
   <div class="banner banner-vocab">📚 Vocabulary &amp; Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Common verb phrases</h2>
-    <p class="instruction">Click each verb to see the words and phrases that usually go with it. Then make one question with each verb.</p>
+    <p class="instruction">Look at the common verb phrases. Try to guess what words and phrases usually go with each verb.<br>Click to check, and then make your own sentences.</p>
     <!-- Verb-phrase partners come from the Workbook (Vocabulary exercise), so the homework target language is taught in class. -->
-    <div class="verb-grid"><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">be born</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">in Toronto, Canada, in 1997</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">do</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">yoga, karate</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">listen to</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">dance music, R&amp;B</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">read</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">an email, a magazine</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">speak</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">a foreign language, English</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">live</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">in a house, with friends</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">watch</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">a movie, a TV series</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">go</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">to the movies, on vacation</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">have</span><span class="vc-hint">click to see what goes with it</span><span class="vc-partner">two sisters, a pet</span></button></div>
+    <div class="verb-grid"><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">be born</span><span class="vc-hint">click to check</span><span class="vc-partner">in Toronto, Canada, in 1997</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">do</span><span class="vc-hint">click to check</span><span class="vc-partner">sports, your homework, exercise</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">listen to</span><span class="vc-hint">click to check</span><span class="vc-partner">electronic music, a presentation</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">read</span><span class="vc-hint">click to check</span><span class="vc-partner">an email, a book</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">speak</span><span class="vc-hint">click to check</span><span class="vc-partner">a foreign language, English</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">live</span><span class="vc-hint">click to check</span><span class="vc-partner">in a house, with friends</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">watch</span><span class="vc-hint">click to check</span><span class="vc-partner">a movie, a TV series</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">go</span><span class="vc-hint">click to check</span><span class="vc-partner">to the movies, on vacation</span></button><button class="verb-card" onclick="this.classList.toggle('open')"><span class="vc-verb">have</span><span class="vc-hint">click to check</span><span class="vc-partner">two sisters, a pet</span></button></div>
   </div></div>
 </div>
 
@@ -864,7 +889,7 @@
   <div class="banner banner-speaking">🗣️ Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>"Returning" a question</h2>
-    <p class="instruction">Draw a question from the questionnaire and answer it. After you answer, "return" it to your partner.</p>
+    <p class="instruction">Draw a question from the questionnaire and answer it. After you answer, "return" it to me – then I answer too.</p>
     <div class="gram-box">
       <h3>When you're having a conversation…</h3>
       <p>You often "return" questions, which means: ask somebody the same question that they asked you. You can do this by:</p>
@@ -905,10 +930,10 @@
   <div class="banner banner-grammar">📐 Grammar</div>
   <div class="slide-main"><div class="content">
     <h2>Word order in questions</h2>
-    <p class="instruction">Look at the highlighted phrases in questions 1–6. Mark the three correct questions (✓) and rewrite the incorrect ones.</p>
+    <p class="instruction">Look at the highlighted phrases in questions 1–6. There are three correct questions in total. Mark the correct questions (✓) and rewrite the incorrect ones.</p>
     <!-- SB p.7 ex 2a. Book numbers the worked example 1. -->
     <div class="ex-row"><span class="example-badge">1</span><span class="gram-box" style="display:inline-block;padding:2px 12px;border-left-width:3px;box-shadow:none;margin:0 8px 0 0;"><span class="hl">Can you play</span> a musical instrument?</span> <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">✓</span></div>
-    <div id="notice"><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">2</span>Where <span class="hl">works your father</span>?</span><span><button class="circ-opt" data-group="nt-2" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-2" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 2" data-ans="Where does your father work?"></div><div class="ex-row notice-row" data-ok="✓" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">3</span><span class="hl">Were you</span> at this school last year?</span><span><button class="circ-opt" data-group="nt-3" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-3" data-correct="✓" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 3"></div><div class="ex-row notice-row" data-ok="✓" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">4</span><span class="hl">Is there</span> a supermarket near here?</span><span><button class="circ-opt" data-group="nt-4" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-4" data-correct="✓" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 4"></div><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">5</span><span class="hl">Have you</span> cereal for breakfast?</span><span><button class="circ-opt" data-group="nt-5" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-5" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 5" data-ans="Do you have cereal for breakfast?"></div><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">6</span>Where <span class="hl">went you</span> for your last vacation?</span><span><button class="circ-opt" data-group="nt-6" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-6" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 6" data-ans="Where did you go for your last vacation?"></div></div>
+    <div id="notice"><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">2</span><span class="hl">Where works your</span> father?</span><span><button class="circ-opt" data-group="nt-2" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-2" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 2" data-ans="Where does your father work?"></div><div class="ex-row notice-row" data-ok="✓" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">3</span><span class="hl">Were you at this school</span> last year?</span><span><button class="circ-opt" data-group="nt-3" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-3" data-correct="✓" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 3"></div><div class="ex-row notice-row" data-ok="✓" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">4</span><span class="hl">Is there a supermarket</span> near here?</span><span><button class="circ-opt" data-group="nt-4" data-correct="✓" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-4" data-correct="✓" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 4"></div><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">5</span><span class="hl">Have you cereal</span> for breakfast?</span><span><button class="circ-opt" data-group="nt-5" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-5" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 5" data-ans="Do you have cereal for breakfast?"></div><div class="ex-row notice-row" data-ok="✗" style="display:grid;grid-template-columns:minmax(0,1.05fr) auto minmax(0,1fr);gap:14px;align-items:center;"><span><span class="circ-num">6</span><span class="hl">Where went you</span> for your last vacation?</span><span><button class="circ-opt" data-group="nt-6" data-correct="✗" onclick="circPick(this)">✓</button><button class="circ-opt" data-group="nt-6" data-correct="✗" onclick="circPick(this)">✗</button></span><input class="ans-input notice-in" style="width:100%" aria-label="rewrite question 6" data-ans="Where did you go for your last vacation?"></div></div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkNotice('notice')">Check Answers</button>
       <button class="btn-reset" onclick="resetNotice('notice')">Reset</button>
@@ -1011,37 +1036,51 @@
 </div>
 
 <div class="slide" id="s-gram-ex1">
-  <div class="banner banner-grammar">📐 Grammar</div>
-  <div class="slide-main"><div class="content">
-    <h2>Put the word in the correct place</h2>
-    <p class="instruction">Put the word or phrase in brackets in the correct place in the question, and write the whole question.</p>
-    <!-- SB p.127 Grammar Bank 1A ex a -->
-    <div class="ex-example-centered"><span class="ex-tag">Example</span>Where <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">are</span> you from? <span class="cue-chip">are</span></div>
-    <div class="fixed-two-col" id="gram-ex1">
-      <div><div class="ex-row"><span class="circ-num">1</span>Where we park? <span class="cue-chip">can</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Where can we park?" aria-label="question 1"></div><div class="ex-row"><span class="circ-num">2</span>How are you? <span class="cue-chip">old</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="How old are you?" aria-label="question 2"></div><div class="ex-row"><span class="circ-num">3</span>Does finish at 8:00? <span class="cue-chip">the class</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Does the class finish at 8:00?" aria-label="question 3"></div><div class="ex-row"><span class="circ-num">4</span>Where do your friends? <span class="cue-chip">live</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Where do your friends live?" aria-label="question 4"></div><div class="ex-row"><span class="circ-num">5</span>Why you answer my email? <span class="cue-chip">didn't</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Why didn't you answer my email?" data-alt="Why did not you answer my email?" aria-label="question 5"></div></div>
-      <div><div class="ex-row"><span class="circ-num">6</span>Do you often to the movies? <span class="cue-chip">go</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Do you often go to the movies?" aria-label="question 6"></div><div class="ex-row"><span class="circ-num">7</span>What this word mean? <span class="cue-chip">does</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="What does this word mean?" aria-label="question 7"></div><div class="ex-row"><span class="circ-num">8</span>What time did arrive? <span class="cue-chip">your friends</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="What time did your friends arrive?" aria-label="question 8"></div><div class="ex-row"><span class="circ-num">9</span>Who are you talking? <span class="cue-chip">to</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Who are you talking to?" aria-label="question 9"></div><div class="ex-row"><span class="circ-num">10</span>Where were last night? <span class="cue-chip">you</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Where were you last night?" aria-label="question 10"></div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('gram-ex1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('gram-ex1')">Reset</button>
-    </div>
-  </div></div>
+<div class="banner banner-grammar">📐 Grammar</div>
+<div class="slide-main"><div class="content">
+<h2>Put the word in the correct place</h2>
+<p class="instruction">Put the word or phrase in brackets in the correct place in the question, and write the whole question.</p>
+<!-- SB p.127 Grammar Bank 1A ex a -->
+
+<div class="fixed-two-col" id="gram-ex1">
+<div><div class="ex-row ex-given"><span class="example-badge">✓</span>Where <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">are</span> you from? <span class="cue-chip">are</span></div><div class="ex-row"><span class="circ-num">1</span>Where we park? <span class="cue-chip">can</span><br/><input aria-label="question 1" class="ans-input" data-ans="Where can we park?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">2</span>How are you? <span class="cue-chip">old</span><br/><input aria-label="question 2" class="ans-input" data-ans="How old are you?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">3</span>Does finish at 8:00? <span class="cue-chip">the class</span><br/><input aria-label="question 3" class="ans-input" data-ans="Does the class finish at 8:00?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">4</span>Where do your friends? <span class="cue-chip">live</span><br/><input aria-label="question 4" class="ans-input" data-ans="Where do your friends live?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">5</span>Why you answer my email? <span class="cue-chip">didn't</span><br/><input aria-label="question 5" class="ans-input" data-alt="Why did not you answer my email?" data-ans="Why didn't you answer my email?" style="width:min(520px,100%);margin-left:32px;"/></div></div>
+<div><div class="ex-row"><span class="circ-num">6</span>Do you often to the movies? <span class="cue-chip">go</span><br/><input aria-label="question 6" class="ans-input" data-ans="Do you often go to the movies?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">7</span>What this word mean? <span class="cue-chip">does</span><br/><input aria-label="question 7" class="ans-input" data-ans="What does this word mean?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">8</span>What time did arrive? <span class="cue-chip">your friends</span><br/><input aria-label="question 8" class="ans-input" data-ans="What time did your friends arrive?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">9</span>Who are you talking? <span class="cue-chip">to</span><br/><input aria-label="question 9" class="ans-input" data-ans="Who are you talking to?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">10</span>Where were last night? <span class="cue-chip">you</span><br/><input aria-label="question 10" class="ans-input" data-ans="Where were you last night?" style="width:min(520px,100%);margin-left:32px;"/></div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkSlide('gram-ex1')">Check Answers</button>
+<button class="btn-reset" onclick="resetSlide('gram-ex1')">Reset</button>
+</div>
+</div></div>
 </div>
 
 <div class="slide" id="s-gram-ex2">
-  <div class="banner banner-grammar">📐 Grammar</div>
+<div class="banner banner-grammar">📐 Grammar</div>
+<div class="slide-main"><div class="content">
+<h2>Put the words in order</h2>
+<p class="instruction">Put the words in the correct order to make questions.</p>
+<!-- SB p.127 Grammar Bank 1A ex b -->
+
+<div class="fixed-two-col" id="gram-ex2">
+<div><div class="ex-row ex-given"><span class="example-badge">✓</span>you / live / where / do ?<br/><span class="given-line"><span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Where do you live?</span></span></div><div class="ex-row"><span class="circ-num">1</span><span style="letter-spacing:.02em;">you / a / do / have / car ?</span><br/><input aria-label="question 1" class="ans-input" data-ans="Do you have a car?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">2</span><span style="letter-spacing:.02em;">was / brother / your / where / born ?</span><br/><input aria-label="question 2" class="ans-input" data-ans="Where was your brother born?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">3</span><span style="letter-spacing:.02em;">often / he / how / call / does / you ?</span><br/><input aria-label="question 3" class="ans-input" data-ans="How often does he call you?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">4</span><span style="letter-spacing:.02em;">their / time / arrive / does / flight / what ?</span><br/><input aria-label="question 4" class="ans-input" data-ans="What time does their flight arrive?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">5</span><span style="letter-spacing:.02em;">Brazil / from / is / girlfriend / your ?</span><br/><input aria-label="question 5" class="ans-input" data-ans="Is your girlfriend from Brazil?" style="width:min(520px,100%);margin-left:32px;"/></div></div>
+<div><div class="ex-row"><span class="circ-num">6</span><span style="letter-spacing:.02em;">languages / how / you / many / can / speak ?</span><br/><input aria-label="question 6" class="ans-input" data-ans="How many languages can you speak?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">7</span><span style="letter-spacing:.02em;">party / the / how / was ?</span><br/><input aria-label="question 7" class="ans-input" data-ans="How was the party?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">8</span><span style="letter-spacing:.02em;">last / go / where / you / summer / did ?</span><br/><input aria-label="question 8" class="ans-input" data-ans="Where did you go last summer?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">9</span><span style="letter-spacing:.02em;">there / doctor / here / is / a ?</span><br/><input aria-label="question 9" class="ans-input" data-ans="Is there a doctor here?" style="width:min(520px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">10</span><span style="letter-spacing:.02em;">come / bus / to / you / by / school / did ?</span><br/><input aria-label="question 10" class="ans-input" data-ans="Did you come to school by bus?" style="width:min(520px,100%);margin-left:32px;"/></div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkSlide('gram-ex2')">Check Answers</button>
+<button class="btn-reset" onclick="resetSlide('gram-ex2')">Reset</button>
+</div>
+</div></div>
+</div>
+
+<div class="slide" id="s-chat">
+  <div class="banner banner-speaking">🗣️ Speaking</div>
   <div class="slide-main"><div class="content">
-    <h2>Put the words in order</h2>
-    <p class="instruction">Put the words in the correct order to make questions.</p>
-    <!-- SB p.127 Grammar Bank 1A ex b -->
-    <div class="ex-example-centered"><span class="ex-tag">Example</span>you / live / where / do ? → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Where do you live?</span></div>
-    <div class="fixed-two-col" id="gram-ex2">
-      <div><div class="ex-row"><span class="circ-num">1</span><span style="letter-spacing:.02em;">you / a / do / have / car ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Do you have a car?" aria-label="question 1"></div><div class="ex-row"><span class="circ-num">2</span><span style="letter-spacing:.02em;">was / brother / your / where / born ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Where was your brother born?" aria-label="question 2"></div><div class="ex-row"><span class="circ-num">3</span><span style="letter-spacing:.02em;">often / he / how / call / does / you ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="How often does he call you?" aria-label="question 3"></div><div class="ex-row"><span class="circ-num">4</span><span style="letter-spacing:.02em;">their / time / arrive / does / flight / what ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="What time does their flight arrive?" aria-label="question 4"></div><div class="ex-row"><span class="circ-num">5</span><span style="letter-spacing:.02em;">Brazil / from / is / girlfriend / your ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Is your girlfriend from Brazil?" aria-label="question 5"></div></div>
-      <div><div class="ex-row"><span class="circ-num">6</span><span style="letter-spacing:.02em;">languages / how / you / many / can / speak ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="How many languages can you speak?" aria-label="question 6"></div><div class="ex-row"><span class="circ-num">7</span><span style="letter-spacing:.02em;">party / the / how / was ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="How was the party?" aria-label="question 7"></div><div class="ex-row"><span class="circ-num">8</span><span style="letter-spacing:.02em;">last / go / where / you / summer / did ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Where did you go last summer?" aria-label="question 8"></div><div class="ex-row"><span class="circ-num">9</span><span style="letter-spacing:.02em;">there / doctor / here / is / a ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Is there a doctor here?" aria-label="question 9"></div><div class="ex-row"><span class="circ-num">10</span><span style="letter-spacing:.02em;">come / bus / to / you / by / school / did ?</span><br><input class="ans-input" style="width:min(520px,100%);margin-left:32px;" data-ans="Did you come to school by bus?" aria-label="question 10"></div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('gram-ex2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('gram-ex2')">Reset</button>
+    <h2>Chat with Alex</h2>
+    <p class="instruction">You're meeting Alex, a new friend. Choose the correct question to keep the conversation going. Then answer Alex's question about <i>you</i> — out loud!</p>
+    <!-- Uses: word order in questions (be, can, do / does / did), verb phrases, returning a question. -->
+    <div class="chat-phone">
+      <div class="chat-top"><span class="chat-av">🧑</span><b>Alex</b><span class="chat-on">● online</span></div>
+      <div class="chat-thread" id="cc-thread"></div>
+      <div class="chat-controls" id="cc-controls"></div>
     </div>
   </div></div>
 </div>
@@ -1076,7 +1115,7 @@
   <div class="banner banner-speaking">🗣️ Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Ask and follow up</h2>
-    <p class="instruction">Ask the first question until your partner says <i>Yes</i>. Then ask the follow-up question. Continue with the other questions.</p>
+    <p class="instruction">Ask the first question until I say <i>Yes</i>. Then ask the follow-up question. Continue with the other questions.</p>
     <!-- SB p.7 ex 2d (stand up and ask different students) adapted for one-on-one -->
     <div class="chat" style="max-width:760px;">
       <div class="bub a"><span class="who">A</span>Do you drink a lot of tea or coffee?</div>
@@ -1143,51 +1182,24 @@
   <div class="banner banner-pron">🔊 Pronunciation</div>
   <div class="slide-main"><div class="content">
     <h2>The alphabet</h2>
-    <p class="instruction">Say the groups of letters to your partner. Then listen and check.</p>
+    <p class="instruction">Read the letters out loud.</p>
     <!-- SB 1.6 -->
     <div class="alpha-row"><div class="alpha-group">ABCD</div><div class="alpha-group">EFGH</div><div class="alpha-group">IJKL</div><div class="alpha-group">MNOP</div><div class="alpha-group">QRST</div><div class="alpha-group">UVW</div><div class="alpha-group">XYZ</div></div>
-    <div class="audio-box pending"><audio controls data-track="1.6"></audio></div>
     <div class="gram-box">
       <h3>The alphabet</h3>
       <p>The letters of the alphabet are pronounced with <span class="hl">different vowel sounds</span>, e.g., <b>S</b> = /ɛs/, like <i>egg</i>, but <b>C</b> = /si/, like <i>tree</i>.</p>
     </div>
     <div class="gram-note">💡 In American English the last letter is <b>zee</b>. In British English it's <b>zed</b> — the only letter that is different.</div>
-  </div></div>
-</div>
-
-<div class="slide" id="s-pron2">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Sound pictures</h2>
-    <p class="instruction">Look at the sound pictures. What are the words and vowel sounds? Listen and write the words.</p>
-    <!-- SB 1.7. Book numbers the example 1 (train). The book's own sound pictures can replace the emoji here. -->
-    <div class="audio-box pending"><audio controls data-track="1.7"></audio></div>
-    <div class="sound-grid" id="pron2"><div class="sound-cell"><div class="sc-pic">🚂</div><span class="sc-ipa">/eɪ/</span><span class="sc-num">1</span><span class="eg-word">train</span></div><div class="sound-cell"><div class="sc-pic">🌳</div><span class="sc-ipa">/i/</span><span class="sc-num">2</span><input class="ans-input" data-ans="tree" aria-label="word 2"></div><div class="sound-cell"><div class="sc-pic">🥚</div><span class="sc-ipa">/ɛ/</span><span class="sc-num">3</span><input class="ans-input" data-ans="egg" aria-label="word 3"></div><div class="sound-cell"><div class="sc-pic">🚲</div><span class="sc-ipa">/aɪ/</span><span class="sc-num">4</span><input class="ans-input" data-ans="bike" aria-label="word 4"></div><div class="sound-cell"><div class="sc-pic">☎️</div><span class="sc-ipa">/oʊ/</span><span class="sc-num">5</span><input class="ans-input" data-ans="phone" aria-label="word 5"></div><div class="sound-cell"><div class="sc-pic">🥾</div><span class="sc-ipa">/u/</span><span class="sc-num">6</span><input class="ans-input" data-ans="boot" aria-label="word 6"></div><div class="sound-cell"><div class="sc-pic">🚗</div><span class="sc-ipa">/ɑr/</span><span class="sc-num">7</span><input class="ans-input" data-ans="car" aria-label="word 7"></div></div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('pron2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('pron2')">Reset</button>
+    <h3 style="margin-top:22px;">Sound pictures</h3>
+    <p class="instruction">Look at the sound pictures. Try to complete with the missing words. Then click a letter and click the column with the same vowel sound.</p>
+    <div id="pron2"><div class="classify-cols seven book" id="pcl-cols"><div class="classify-col sound-cell" data-target="train" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🚂</span><span class="bk-ipa">/eɪ/</span></div><div class="bk-word"><span class="sc-num">1</span><span class="eg-word">train</span></div><div class="sc-letters"><span class="given">A</span><span class="given">H</span><span class="given eg" data-ans="train">J</span><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="tree" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🌳</span><span class="bk-ipa">/i/</span></div><div class="bk-word"><span class="sc-num">2</span><input class="ans-input" data-ans="tree" aria-label="word 2" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="given">B</span><span class="given">C</span><span class="given">D</span><span class="given">P</span><span class="given">T</span><span class="given">V</span><span class="given">Z</span><span class="slot-blank"></span><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="egg" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🥚</span><span class="bk-ipa">/ɛ/</span></div><div class="bk-word"><span class="sc-num">3</span><input class="ans-input" data-ans="egg" aria-label="word 3" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="given">F</span><span class="given">L</span><span class="given">N</span><span class="given">S</span><span class="slot-blank"></span><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="bike" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🚲</span><span class="bk-ipa">/aɪ/</span></div><div class="bk-word"><span class="sc-num">4</span><input class="ans-input" data-ans="bike" aria-label="word 4" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="given">I</span><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="phone" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">☎️</span><span class="bk-ipa">/oʊ/</span></div><div class="bk-word"><span class="sc-num">5</span><input class="ans-input" data-ans="phone" aria-label="word 5" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="boot" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🥾</span><span class="bk-ipa">/u/</span></div><div class="bk-word"><span class="sc-num">6</span><input class="ans-input" data-ans="boot" aria-label="word 6" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="given">U</span><span class="given">W</span><span class="slot-blank"></span></div></div><div class="classify-col sound-cell" data-target="car" onclick="classifyTarget(this)"><div class="bk-top"><span class="bk-pic">🚗</span><span class="bk-ipa">/ɑr/</span></div><div class="bk-word"><span class="sc-num">7</span><input class="ans-input" data-ans="car" aria-label="word 7" onclick="event.stopPropagation()"></div><div class="sc-letters"><span class="slot-blank"></span></div></div></div></div>
+    <div class="classify-bank" id="pcl-bank" style="align-items:center;justify-content:center;margin-top:14px;"><button class="classify-chip" data-ans="tree" onclick="classifyPick(this)">E</button><button class="classify-chip" data-ans="tree" onclick="classifyPick(this)">G</button><button class="classify-chip" data-ans="train" onclick="classifyPick(this)">K</button><button class="classify-chip" data-ans="egg" onclick="classifyPick(this)">M</button><button class="classify-chip" data-ans="phone" onclick="classifyPick(this)">O</button><button class="classify-chip" data-ans="boot" onclick="classifyPick(this)">Q</button><button class="classify-chip" data-ans="car" onclick="classifyPick(this)">R</button><button class="classify-chip" data-ans="egg" onclick="classifyPick(this)">X</button><button class="classify-chip" data-ans="bike" onclick="classifyPick(this)">Y</button></div>
+    <div class="btn-row" style="margin-top:26px;margin-bottom:32px;">
+      <button class="btn-check" onclick="checkSlide('pron2');checkClassifySlide('pcl')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('pron2');resetClassifySlide('pcl')">Reset</button>
     </div>
-    <div class="img-placeholder" style="margin-top:18px;"><span class="ip-icon">🖼️</span>Sound pictures from the book: train, tree, egg, bike, phone, boot, car — each with its red vowel symbol (replace the emoji above)</div>
-  </div></div>
-</div>
-
-<div class="slide" id="s-pron3">
-  <div class="banner banner-pron">🔊 Pronunciation</div>
-  <div class="slide-main"><div class="content">
-    <h2>Which sound is it?</h2>
-    <p class="instruction">Click a letter, then click the column with the same vowel sound. Then listen and check, and practice saying the letters in each column.</p>
-    <!-- SB 1.8. Book shows J as the example (already placed in the train column). -->
-    <div class="classify-bank" id="pcl-bank" style="align-items:center;">
-      <span class="classify-chip" style="border-style:dashed;cursor:default;opacity:.7;" title="example">J ✓</span>
-      <button class="classify-chip" data-ans="tree" onclick="classifyPick(this)">E</button><button class="classify-chip" data-ans="tree" onclick="classifyPick(this)">G</button><button class="classify-chip" data-ans="train" onclick="classifyPick(this)">K</button><button class="classify-chip" data-ans="egg" onclick="classifyPick(this)">M</button><button class="classify-chip" data-ans="phone" onclick="classifyPick(this)">O</button><button class="classify-chip" data-ans="boot" onclick="classifyPick(this)">Q</button><button class="classify-chip" data-ans="car" onclick="classifyPick(this)">R</button><button class="classify-chip" data-ans="egg" onclick="classifyPick(this)">X</button><button class="classify-chip" data-ans="bike" onclick="classifyPick(this)">Y</button>
-    </div>
-    <div class="classify-cols seven" id="pcl-cols"><div class="classify-col" data-target="train" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🚂</span><span>train</span><span class="ipa">/eɪ/</span></div><span class="given">A</span><span class="given">H</span><span class="given eg" data-ans="train">J</span></div><div class="classify-col" data-target="tree" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🌳</span><span>tree</span><span class="ipa">/i/</span></div><span class="given">B</span><span class="given">C</span><span class="given">D</span><span class="given">P</span><span class="given">T</span><span class="given">V</span><span class="given">Z</span></div><div class="classify-col" data-target="egg" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🥚</span><span>egg</span><span class="ipa">/ɛ/</span></div><span class="given">F</span><span class="given">L</span><span class="given">N</span><span class="given">S</span></div><div class="classify-col" data-target="bike" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🚲</span><span>bike</span><span class="ipa">/aɪ/</span></div><span class="given">I</span></div><div class="classify-col" data-target="phone" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">☎️</span><span>phone</span><span class="ipa">/oʊ/</span></div></div><div class="classify-col" data-target="boot" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🥾</span><span>boot</span><span class="ipa">/u/</span></div><span class="given">U</span><span class="given">W</span></div><div class="classify-col" data-target="car" onclick="classifyTarget(this)"><div class="col-head"><span class="pic">🚗</span><span>car</span><span class="ipa">/ɑr/</span></div></div></div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkClassifySlide('pcl')">Check Answers</button>
-      <button class="btn-reset" onclick="resetClassifySlide('pcl')">Reset</button>
-    </div>
+    <div class="gram-note" style="margin-top:0;margin-bottom:34px;">👂 Which letters are difficult for you? Watch out for pairs that are often confused: <b>A / E / I</b>, <b>G / J</b>, <b>K / Q</b>.</div>
     <div class="audio-box pending"><audio controls data-track="1.8"></audio></div>
-    <div class="gram-note" style="margin-top:6px;">👂 Which letters are difficult for you? Watch out for pairs that are often confused: <b>A / E / I</b>, <b>G / J</b>, <b>K / Q</b>.</div>
   </div></div>
 </div>
 
@@ -1195,11 +1207,11 @@
   <div class="banner banner-pron">🔊 Pronunciation</div>
   <div class="slide-main"><div class="content">
     <h2>Alphabet quiz</h2>
-    <p class="instruction">Take turns asking and answering the questions. Ask your question 1, then answer your partner's question 1, and so on. The answers are under each question.</p>
+    <p class="instruction">Take turns asking and answering the questions. You ask your question 1, then answer my question 1, and so on. The answers are under each question.</p>
     <!-- SB Communication: Alphabet quiz, A p.102 / B p.108 -->
     <div class="quiz-two">
-      <div class="quiz-card"><h4>Student A</h4><div class="quiz-q"><b>1</b> Which country's security service is called the FBI?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">the US</span></div><div class="quiz-q"><b>2</b> What do you use a USB cable for?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">connecting something to a computer</span></div><div class="quiz-q"><b>3</b> What can you do at a B&amp;B?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">stay the night and have breakfast</span></div><div class="quiz-q"><b>4</b> Which famous writer has the initials JK?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">J.K. Rowling</span></div><div class="quiz-q"><b>5</b> What kind of person is a VIP?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">a very important person</span></div><div class="quiz-q"><b>6</b> What can you get from an ATM?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">money / cash</span></div><div class="quiz-q"><b>7</b> Which country's national radio and TV is called the BBC?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">the UK / Britain</span></div></div>
-      <div class="quiz-card b"><h4>Student B</h4><div class="quiz-q"><b>1</b> What kind of machine is a BMW?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">a car</span></div><div class="quiz-q"><b>2</b> What does a DJ do?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">plays music at a club</span></div><div class="quiz-q"><b>3</b> Which country's national airline is called KLM?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">Holland / the Netherlands</span></div><div class="quiz-q"><b>4</b> What's the difference between a.m. and p.m.?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">morning and afternoon</span></div><div class="quiz-q"><b>5</b> What do people who work in IT do?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">They work with computers, software, etc.</span></div><div class="quiz-q"><b>6</b> How many states are there in the USA?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">50</span></div><div class="quiz-q"><b>7</b> In the US do people have ID cards, passports, or both?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">only passports</span></div></div>
+      <div class="quiz-card"><h4>You</h4><div class="quiz-q"><b>1</b> Which country's security service is called the FBI?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">the US</span></div><div class="quiz-q"><b>2</b> What do you use a USB cable for?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">connecting something to a computer</span></div><div class="quiz-q"><b>3</b> What can you do at a B&amp;B?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">stay the night and have breakfast</span></div><div class="quiz-q"><b>4</b> Which famous writer has the initials JK?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">J.K. Rowling</span></div><div class="quiz-q"><b>5</b> What kind of person is a VIP?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">a very important person</span></div><div class="quiz-q"><b>6</b> What can you get from an ATM?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">money / cash</span></div><div class="quiz-q"><b>7</b> Which country's national radio and TV is called the BBC?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">the UK / Britain</span></div></div>
+      <div class="quiz-card b"><h4>Teacher</h4><div class="quiz-q"><b>1</b> What kind of machine is a BMW?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">a car</span></div><div class="quiz-q"><b>2</b> What does a DJ do?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">plays music at a club</span></div><div class="quiz-q"><b>3</b> Which country's national airline is called KLM?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">Holland / the Netherlands</span></div><div class="quiz-q"><b>4</b> What's the difference between a.m. and p.m.?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">morning and afternoon</span></div><div class="quiz-q"><b>5</b> What do people who work in IT do?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">They work with computers, software, etc.</span></div><div class="quiz-q"><b>6</b> How many states are there in the USA?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">50</span></div><div class="quiz-q"><b>7</b> In the US do people have ID cards, passports, or both?<br><button class="ccq-reveal-btn" onclick="this.nextElementSibling.classList.toggle('show')">Answer</button><span class="ccq-answer">only passports</span></div></div>
     </div>
   </div></div>
 </div>
@@ -1211,8 +1223,8 @@
     <p class="instruction">Listen to extracts from six conversations. Write the letters and numbers you hear.</p>
     <!-- SB 1.9. Book numbers the example 1 (first name: Wayne). -->
     <div class="audio-box pending"><audio controls data-track="1.9"></audio></div>
-    <div class="ex-row"><span class="example-badge">1</span>first name: <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Wayne</span></div>
-    <div id="listen1">
+    <div id="listen1" class="two-col-ex">
+      <div class="ex-row"><span class="example-badge">1</span>first name: <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">Wayne</span></div>
       <div class="ex-row"><span class="circ-num">2</span>zip code: <input class="ans-input" style="width:200px" data-ans="80222" aria-label="zip code:"></div><div class="ex-row"><span class="circ-num">3</span>phone number: <input class="ans-input" style="width:220px" data-ans="914-555-7782" data-alt="9145557782|914 555 7782" aria-label="phone number:"></div><div class="ex-row"><span class="circ-num">4</span>email: <input class="ans-input" style="width:280px" data-ans="jvine64@mail.net" aria-label="email:"></div><div class="ex-row"><span class="circ-num">5</span>last name: <input class="ans-input" style="width:200px" data-ans="Rathbone" aria-label="last name:"></div><div class="ex-row"><span class="circ-num">6</span>address: <input class="ans-input" style="width:280px" data-ans="16 Russell Street" data-alt="16 Russell St|sixteen Russell Street" aria-label="address:"></div>
     </div>
     <div class="btn-row">
@@ -1236,16 +1248,13 @@
   <div class="banner banner-listening">🎧 Listening</div>
   <div class="slide-main"><div class="content">
     <h2>Six conversations</h2>
-    <p class="instruction">Now listen to the conversations. Match conversations 1–6 to situations a–f.</p>
+    <p class="instruction">Now listen to the conversations. Write the conversation number (1–6) for each situation.</p>
     <!-- SB 1.10. Book: 1 b is the example. -->
     <div class="audio-box pending"><audio controls data-track="1.10"></audio></div>
-    <div class="match-wrap" id="listen2-match">
-      <div><div class="match-col-head mc-left">Conversations</div><div class="match-item example-pair"><span class="circ-num">1</span>Conversation 1</div><div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>Conversation 2</div><div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>Conversation 3</div><div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>Conversation 4</div><div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>Conversation 5</div><div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>Conversation 6</div></div>
-      <div><div class="match-col-head mc-right">Situations</div><div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">a</span>buying something</div><div class="match-item example-pair"><span class="circ-num">b</span>checking into a hotel</div><div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">c</span>trying to get help</div><div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">d</span>giving a student directions</div><div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">e</span>giving a class some information</div><div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">f</span>arriving at a restaurant</div></div>
-    </div>
+    <div id="listen2" class="two-col-ex"><div class="ex-row"><span class="circ-num">a</span>buying something <input class="ans-input" style="width:70px;text-align:center" data-ans="2" aria-label="conversation number for buying something"></div><div class="ex-row"><span class="circ-num">b</span>checking into a hotel <span class="example-badge">1</span></div><div class="ex-row"><span class="circ-num">c</span>trying to get help <input class="ans-input" style="width:70px;text-align:center" data-ans="3" aria-label="conversation number for trying to get help"></div><div class="ex-row"><span class="circ-num">d</span>giving a student directions <input class="ans-input" style="width:70px;text-align:center" data-ans="6" aria-label="conversation number for giving a student directions"></div><div class="ex-row"><span class="circ-num">e</span>giving a class some information <input class="ans-input" style="width:70px;text-align:center" data-ans="4" aria-label="conversation number for giving a class some information"></div><div class="ex-row"><span class="circ-num">f</span>arriving at a restaurant <input class="ans-input" style="width:70px;text-align:center" data-ans="5" aria-label="conversation number for arriving at a restaurant"></div></div>
     <div class="btn-row">
-      <button class="btn-check" onclick="checkMatchSlide('listen2-match')">Check Answers</button>
-      <button class="btn-reset" onclick="resetMatchSlide('listen2-match')">Reset</button>
+      <button class="btn-check" onclick="checkSlide('listen2')">Check Answers</button>
+      <button class="btn-reset" onclick="resetSlide('listen2')">Reset</button>
       <button class="btn-akey" onclick="toggleSuggested('l2-script')">📜 Script</button>
     </div>
     <div class="akey-box" id="l2-script"><div class="small-script">
@@ -1263,7 +1272,7 @@
   <div class="banner banner-speaking">🗣️ Speaking</div>
   <div class="slide-main"><div class="content">
     <h2>Interview and fill in the form</h2>
-    <p class="instruction">Interview your partner and complete the form. If you don't want to give your real address and phone number, invent one.</p>
+    <p class="instruction">Interview me and complete the form. If you don't want to give your real address and phone number, invent one.</p>
     <!-- SB p.7 ex 4c. Model question: What's your first name? -->
     <div class="chat" style="max-width:640px;">
       <div class="bub a"><span class="who">A</span>What's your first name?</div>
@@ -1280,7 +1289,7 @@
         <div class="wide"><label>Email address</label><input type="text" aria-label="email address"></div>
       </div>
     </div>
-    <div class="gram-note" style="margin-top:18px;">✅ When you finish, show each other your forms to check the information. Is the spelling right?</div>
+    <div class="gram-note" style="margin-top:18px;">✅ When you finish, show me your form to check the information. Is the spelling right?</div>
   </div></div>
 </div>
 
@@ -1327,7 +1336,7 @@
     <p class="instruction">Match the verbs on the left to the nouns on the right.</p>
     <div class="match-wrap" id="hwv1-match">
       <div><div class="match-col-head mc-left">Verbs</div><div class="match-item example-pair"><span class="circ-num">1</span>be born</div><div class="match-item" data-side="left" data-pair="2" onclick="matchPick(this)"><span class="circ-num">2</span>do</div><div class="match-item" data-side="left" data-pair="3" onclick="matchPick(this)"><span class="circ-num">3</span>listen to</div><div class="match-item" data-side="left" data-pair="4" onclick="matchPick(this)"><span class="circ-num">4</span>read</div><div class="match-item" data-side="left" data-pair="5" onclick="matchPick(this)"><span class="circ-num">5</span>speak</div><div class="match-item" data-side="left" data-pair="6" onclick="matchPick(this)"><span class="circ-num">6</span>live</div><div class="match-item" data-side="left" data-pair="7" onclick="matchPick(this)"><span class="circ-num">7</span>watch</div><div class="match-item" data-side="left" data-pair="8" onclick="matchPick(this)"><span class="circ-num">8</span>go</div><div class="match-item" data-side="left" data-pair="9" onclick="matchPick(this)"><span class="circ-num">9</span>have</div></div>
-      <div><div class="match-col-head mc-right">Nouns</div><div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">a</span>a movie, a TV series</div><div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">b</span>in a house, with friends</div><div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">c</span>an email, a magazine</div><div class="match-item" data-side="right" data-pair="9" onclick="matchPick(this)"><span class="circ-num">d</span>two sisters, a pet</div><div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">e</span>to the movies, on vacation</div><div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">f</span>yoga, karate</div><div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">g</span>a foreign language, English</div><div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">h</span>dance music, R&amp;B</div><div class="match-item example-pair"><span class="circ-num">i</span>in Toronto, Canada, in 1997</div></div>
+      <div><div class="match-col-head mc-right">Nouns</div><div class="match-item" data-side="right" data-pair="7" onclick="matchPick(this)"><span class="circ-num">a</span>a movie, a TV series</div><div class="match-item" data-side="right" data-pair="6" onclick="matchPick(this)"><span class="circ-num">b</span>in a house, with friends</div><div class="match-item" data-side="right" data-pair="4" onclick="matchPick(this)"><span class="circ-num">c</span>an email, a book</div><div class="match-item" data-side="right" data-pair="9" onclick="matchPick(this)"><span class="circ-num">d</span>two sisters, a pet</div><div class="match-item" data-side="right" data-pair="8" onclick="matchPick(this)"><span class="circ-num">e</span>to the movies, on vacation</div><div class="match-item" data-side="right" data-pair="2" onclick="matchPick(this)"><span class="circ-num">f</span>sports, your homework, exercise</div><div class="match-item" data-side="right" data-pair="5" onclick="matchPick(this)"><span class="circ-num">g</span>a foreign language, English</div><div class="match-item" data-side="right" data-pair="3" onclick="matchPick(this)"><span class="circ-num">h</span>electronic music, a presentation</div><div class="match-item example-pair"><span class="circ-num">i</span>in Toronto, Canada, in 1997</div></div>
     </div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkMatchSlide('hwv1-match')">Check Answers</button>
@@ -1338,74 +1347,74 @@
 
 <!-- WB 1A ex 1b -->
 <div class="slide" id="hw-voc2-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW2 — Complete the conversations</h2>
-    <p class="instruction">Complete the conversations with the missing word.</p>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><b>A:</b> What time do you usually go to <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">bed</span>?<br><span style="display:inline-block;margin-left:24px;"><b>B:</b> At about 10:30, and I get up at 7:00.</span> <br><em>(example)</em></div>
-    <div class="fixed-two-col" id="hw-voc2">
-      <div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">2</span><b>A:</b> What did you <input class="ans-input" style="width:130px" data-ans="do" aria-label="missing word"> last weekend?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> I went to the movies with some friends.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">3</span><b>A:</b> Do you play any <input class="ans-input" style="width:130px" data-ans="sports" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> Yes, I play tennis and basketball.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">4</span><b>A:</b> What kind of <input class="ans-input" style="width:130px" data-ans="music" aria-label="missing word"> do you listen to?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> I love pop and rock.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">5</span><b>A:</b> What do you usually have for <input class="ans-input" style="width:130px" data-ans="lunch" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> Usually just a sandwich and some potato chips.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">6</span><b>A:</b> Do you have any <input class="ans-input" style="width:130px" data-ans="pets" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> Yes, we have two cats.</span></div></div>
-      <div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">7</span><b>A:</b> Where do you <input class="ans-input" style="width:130px" data-ans="live" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> In a small apartment near the train station.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">8</span><b>A:</b> Where did you <input class="ans-input" style="width:130px" data-ans="learn" data-alt="study" aria-label="missing word"> English before?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> At school.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">9</span><b>A:</b> What does your father <input class="ans-input" style="width:130px" data-ans="do" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> He's a teacher.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">10</span><b>A:</b> Where were you <input class="ans-input" style="width:130px" data-ans="born" aria-label="missing word">?<br><span style="margin-left:32px;display:inline-block;"><b>B:</b> In the US, in 1998. My mom is Mexican.</span></div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('hw-voc2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('hw-voc2')">Reset</button>
-    </div>
-  </div></div>
+<div class="banner banner-hw">📝 Homework</div>
+<div class="slide-main"><div class="content">
+<h2>HW2 — Complete the conversations</h2>
+<p class="instruction">Complete the conversations with the missing word.</p>
+
+<div class="fixed-two-col" id="hw-voc2">
+<div><div class="ex-row ex-given"><span class="example-badge">1</span><b>A:</b> What time do you usually go to <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">bed</span>?<br/><span style="display:inline-block;margin-left:24px;"><b>B:</b> At about 10:30, and I get up at 7:00.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">2</span><b>A:</b> What did you <input aria-label="missing word" class="ans-input" data-ans="do" style="width:130px"/> last weekend?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> I went to the movies with some friends.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">3</span><b>A:</b> Do you play any <input aria-label="missing word" class="ans-input" data-ans="sports" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> Yes, I play tennis and basketball.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">4</span><b>A:</b> What kind of <input aria-label="missing word" class="ans-input" data-ans="music" style="width:130px"/> do you listen to?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> I love pop and rock.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">5</span><b>A:</b> What do you usually have for <input aria-label="missing word" class="ans-input" data-ans="lunch" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> Usually just a sandwich and some potato chips.</span></div></div>
+<div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">6</span><b>A:</b> Do you have any <input aria-label="missing word" class="ans-input" data-ans="pets" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> Yes, we have two cats.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">7</span><b>A:</b> Where do you <input aria-label="missing word" class="ans-input" data-ans="live" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> In a small apartment near the train station.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">8</span><b>A:</b> Where did you <input aria-label="missing word" class="ans-input" data-alt="study" data-ans="learn" style="width:130px"/> English before?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> At school.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">9</span><b>A:</b> What does your father <input aria-label="missing word" class="ans-input" data-ans="do" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> He's a teacher.</span></div><div class="ex-row" style="margin-bottom:16px;"><span class="circ-num">10</span><b>A:</b> Where were you <input aria-label="missing word" class="ans-input" data-ans="born" style="width:130px"/>?<br/><span style="margin-left:32px;display:inline-block;"><b>B:</b> In the US, in 1998. My mom is Mexican.</span></div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkSlide('hw-voc2')">Check Answers</button>
+<button class="btn-reset" onclick="resetSlide('hw-voc2')">Reset</button>
+</div>
+</div></div>
 </div>
 
 <!-- WB 1A ex 2a -->
 <div class="slide" id="hw-gr1-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW3 — Choose the correct form</h2>
-    <p class="instruction">Click the correct form to complete each question.</p>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><em>(example)</em> <span class="ok-chip">Does your sister have ✓</span> <span class="strike-opt">Your sister has</span> a job?</div>
-    <div class="fixed-two-col" id="hw-gr1">
-      <div><div class="ex-row"><span class="circ-num">2</span>Hello, <button class="circ-opt" data-group="hg3-2" data-correct="can I" onclick="circPick(this)">I can</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-2" data-correct="can I" onclick="circPick(this)">can I</button> help you?</div><div class="ex-row"><span class="circ-num">3</span>Where <button class="circ-opt" data-group="hg3-3" data-correct="were you" onclick="circPick(this)">were you</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-3" data-correct="were you" onclick="circPick(this)">you were</button> born?</div><div class="ex-row"><span class="circ-num">4</span><button class="circ-opt" data-group="hg3-4" data-correct="Do the children want" onclick="circPick(this)">Do the children want</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-4" data-correct="Do the children want" onclick="circPick(this)">Want the children</button> a drink?</div><div class="ex-row"><span class="circ-num">5</span><button class="circ-opt" data-group="hg3-5" data-correct="Did you see" onclick="circPick(this)">Did you see</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-5" data-correct="Did you see" onclick="circPick(this)">Saw you</button> the soccer game on TV last night?</div></div>
-      <div><div class="ex-row"><span class="circ-num">6</span>What <button class="circ-opt" data-group="hg3-6" data-correct="does your boyfriend do" onclick="circPick(this)">does do your boyfriend</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-6" data-correct="does your boyfriend do" onclick="circPick(this)">does your boyfriend do</button>?</div><div class="ex-row"><span class="circ-num">7</span>Where <button class="circ-opt" data-group="hg3-7" data-correct="did she learn" onclick="circPick(this)">she learned</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-7" data-correct="did she learn" onclick="circPick(this)">did she learn</button> to speak English?</div><div class="ex-row"><span class="circ-num">8</span>What time <button class="circ-opt" data-group="hg3-8" data-correct="do you get up" onclick="circPick(this)">do you get up</button><span class="circ-sep">/</span><button class="circ-opt" data-group="hg3-8" data-correct="do you get up" onclick="circPick(this)">get you up</button> in the morning?</div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkCircSlide('hw-gr1')">Check Answers</button>
-      <button class="btn-reset" onclick="resetCircSlide('hw-gr1')">Reset</button>
-    </div>
-  </div></div>
+<div class="banner banner-hw">📝 Homework</div>
+<div class="slide-main"><div class="content">
+<h2>HW3 — Choose the correct form</h2>
+<p class="instruction">Click the correct form to complete each question.</p>
+
+<div class="fixed-two-col" id="hw-gr1">
+<div><div class="ex-row ex-given"><span class="example-badge">1</span><span class="ok-chip">Does your sister have ✓</span> <span class="strike-opt">Your sister has</span> a job?</div><div class="ex-row"><span class="circ-num">2</span>Hello, <button class="circ-opt" data-correct="can I" data-group="hg3-2" onclick="circPick(this)">I can</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="can I" data-group="hg3-2" onclick="circPick(this)">can I</button> help you?</div><div class="ex-row"><span class="circ-num">3</span>Where <button class="circ-opt" data-correct="were you" data-group="hg3-3" onclick="circPick(this)">were you</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="were you" data-group="hg3-3" onclick="circPick(this)">you were</button> born?</div><div class="ex-row"><span class="circ-num">4</span><button class="circ-opt" data-correct="Do the children want" data-group="hg3-4" onclick="circPick(this)">Do the children want</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="Do the children want" data-group="hg3-4" onclick="circPick(this)">Want the children</button> a drink?</div></div>
+<div><div class="ex-row"><span class="circ-num">5</span><button class="circ-opt" data-correct="Did you see" data-group="hg3-5" onclick="circPick(this)">Did you see</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="Did you see" data-group="hg3-5" onclick="circPick(this)">Saw you</button> the soccer game on TV last night?</div><div class="ex-row"><span class="circ-num">6</span>What <button class="circ-opt" data-correct="does your boyfriend do" data-group="hg3-6" onclick="circPick(this)">does do your boyfriend</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="does your boyfriend do" data-group="hg3-6" onclick="circPick(this)">does your boyfriend do</button>?</div><div class="ex-row"><span class="circ-num">7</span>Where <button class="circ-opt" data-correct="did she learn" data-group="hg3-7" onclick="circPick(this)">she learned</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="did she learn" data-group="hg3-7" onclick="circPick(this)">did she learn</button> to speak English?</div><div class="ex-row"><span class="circ-num">8</span>What time <button class="circ-opt" data-correct="do you get up" data-group="hg3-8" onclick="circPick(this)">do you get up</button><span class="circ-sep">/</span><button class="circ-opt" data-correct="do you get up" data-group="hg3-8" onclick="circPick(this)">get you up</button> in the morning?</div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkCircSlide('hw-gr1')">Check Answers</button>
+<button class="btn-reset" onclick="resetCircSlide('hw-gr1')">Reset</button>
+</div>
+</div></div>
 </div>
 
 <!-- WB 1A ex 2b -->
 <div class="slide" id="hw-gr2-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW4 — Re-order the words</h2>
-    <p class="instruction">Re-order the words to make questions.</p>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><em>(example)</em> do / do / parents / what / your → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">What do your parents do?</span></div>
-    <div class="fixed-two-col" id="hw-gr2">
-      <div><div class="ex-row"><span class="circ-num">2</span>girlfriend / student / is / a / your<br><input class="ans-input" style="width:min(430px,100%);margin-left:32px;" data-ans="Is your girlfriend a student?" aria-label="question 2"></div><div class="ex-row"><span class="circ-num">3</span>what / on / you / do / the / weekend / do<br><input class="ans-input" style="width:min(430px,100%);margin-left:32px;" data-ans="What do you do on the weekend?" aria-label="question 3"></div><div class="ex-row"><span class="circ-num">4</span>out / how / you / go / often / do<br><input class="ans-input" style="width:min(430px,100%);margin-left:32px;" data-ans="How often do you go out?" aria-label="question 4"></div></div>
-      <div><div class="ex-row"><span class="circ-num">5</span>did / go / last / where / you / Saturday<br><input class="ans-input" style="width:min(430px,100%);margin-left:32px;" data-ans="Where did you go last Saturday?" aria-label="question 5"></div><div class="ex-row"><span class="circ-num">6</span>a / did / time / nice / you / have<br><input class="ans-input" style="width:min(430px,100%);margin-left:32px;" data-ans="Did you have a nice time?" aria-label="question 6"></div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('hw-gr2')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('hw-gr2')">Reset</button>
-    </div>
-  </div></div>
+<div class="banner banner-hw">📝 Homework</div>
+<div class="slide-main"><div class="content">
+<h2>HW4 — Re-order the words</h2>
+<p class="instruction">Re-order the words to make questions.</p>
+
+<div class="fixed-two-col" id="hw-gr2">
+<div><div class="ex-row ex-given"><span class="example-badge">1</span>do / do / parents / what / your<br/><span class="given-line"><span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">What do your parents do?</span></span></div><div class="ex-row"><span class="circ-num">2</span>girlfriend / student / is / a / your<br/><input aria-label="question 2" class="ans-input" data-ans="Is your girlfriend a student?" style="width:min(430px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">3</span>what / on / you / do / the / weekend / do<br/><input aria-label="question 3" class="ans-input" data-ans="What do you do on the weekend?" style="width:min(430px,100%);margin-left:32px;"/></div></div>
+<div><div class="ex-row"><span class="circ-num">4</span>out / how / you / go / often / do<br/><input aria-label="question 4" class="ans-input" data-ans="How often do you go out?" style="width:min(430px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">5</span>did / go / last / where / you / Saturday<br/><input aria-label="question 5" class="ans-input" data-ans="Where did you go last Saturday?" style="width:min(430px,100%);margin-left:32px;"/></div><div class="ex-row"><span class="circ-num">6</span>a / did / time / nice / you / have<br/><input aria-label="question 6" class="ans-input" data-ans="Did you have a nice time?" style="width:min(430px,100%);margin-left:32px;"/></div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkSlide('hw-gr2')">Check Answers</button>
+<button class="btn-reset" onclick="resetSlide('hw-gr2')">Reset</button>
+</div>
+</div></div>
 </div>
 
 <!-- WB 1A ex 2c -->
 <div class="slide" id="hw-gr3-slide">
-  <div class="banner banner-hw">📝 Homework</div>
-  <div class="slide-main"><div class="content">
-    <h2>HW5 — Write questions</h2>
-    <p class="instruction">Write questions in the simple present or past.</p>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><em>(example)</em> Where <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">do you live</span>? <span class="cue-chip">(you / live)</span></div>
-    <div class="fixed-two-col" id="hw-gr3">
-      <div><div class="ex-row"><span class="circ-num">2</span>What <input class="ans-input" style="width:270px" data-ans="did you do last night" aria-label="question 2"> ?<br><span class="cue-chip" style="margin-left:32px;">(you / do last night)</span></div><div class="ex-row"><span class="circ-num">3</span>What <input class="ans-input" style="width:270px" data-ans="TV shows do you watch" aria-label="question 3"> ?<br><span class="cue-chip" style="margin-left:32px;">(TV shows / you / watch)</span></div><div class="ex-row"><span class="circ-num">4</span>When <input class="ans-input" style="width:270px" data-ans="is your birthday" aria-label="question 4"> ?<br><span class="cue-chip" style="margin-left:32px;">(your birthday)</span></div></div>
-      <div><div class="ex-row"><span class="circ-num">5</span>Where <input class="ans-input" style="width:270px" data-ans="are you from" aria-label="question 5"> ?<br><span class="cue-chip" style="margin-left:32px;">(you / from)</span></div><div class="ex-row"><span class="circ-num">6</span>Where <input class="ans-input" style="width:270px" data-ans="did you go on vacation last year" aria-label="question 6"> ?<br><span class="cue-chip" style="margin-left:32px;">(you / go / on vacation last year)</span></div><div class="ex-row"><span class="circ-num">7</span>What kind of books <input class="ans-input" style="width:270px" data-ans="do you read" aria-label="question 7"> ?<br><span class="cue-chip" style="margin-left:32px;">(you / read)</span></div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-check" onclick="checkSlide('hw-gr3')">Check Answers</button>
-      <button class="btn-reset" onclick="resetSlide('hw-gr3')">Reset</button>
-    </div>
-  </div></div>
+<div class="banner banner-hw">📝 Homework</div>
+<div class="slide-main"><div class="content">
+<h2>HW5 — Write questions</h2>
+<p class="instruction">Write questions in the simple present or past.</p>
+
+<div class="fixed-two-col" id="hw-gr3">
+<div><div class="ex-row ex-given"><span class="example-badge">1</span>Where <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">do you live</span>? <span class="cue-chip">(you / live)</span></div><div class="ex-row"><span class="circ-num">2</span>What <input aria-label="question 2" class="ans-input" data-ans="did you do last night" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(you / do last night)</span></div><div class="ex-row"><span class="circ-num">3</span>What <input aria-label="question 3" class="ans-input" data-ans="TV shows do you watch" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(TV shows / you / watch)</span></div><div class="ex-row"><span class="circ-num">4</span>When <input aria-label="question 4" class="ans-input" data-ans="is your birthday" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(your birthday)</span></div></div>
+<div><div class="ex-row"><span class="circ-num">5</span>Where <input aria-label="question 5" class="ans-input" data-ans="are you from" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(you / from)</span></div><div class="ex-row"><span class="circ-num">6</span>Where <input aria-label="question 6" class="ans-input" data-ans="did you go on vacation last year" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(you / go / on vacation last year)</span></div><div class="ex-row"><span class="circ-num">7</span>What kind of books <input aria-label="question 7" class="ans-input" data-ans="do you read" style="width:270px"/> ?<br/><span class="cue-chip" style="margin-left:32px;">(you / read)</span></div></div>
+</div>
+<div class="btn-row">
+<button class="btn-check" onclick="checkSlide('hw-gr3')">Check Answers</button>
+<button class="btn-reset" onclick="resetSlide('hw-gr3')">Reset</button>
+</div>
+</div></div>
 </div>
 
 <!-- WB 1A ex 2d -->
@@ -1423,14 +1432,13 @@
   <div class="banner banner-hw">📝 Homework</div>
   <div class="slide-main"><div class="content">
     <h2>HW7 — The odd one out</h2>
-    <p class="instruction">In each line, click the letter with a different vowel sound from the picture word. Then listen and check, and listen again and repeat the letters.</p>
-    <div class="audio-box pending"><audio controls data-track="WB1.1"></audio></div>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><em>(example)</em> 🚂 <b>train</b> &nbsp; <span class="strike-opt">A</span> <span class="strike-opt">K</span> <span class="ok-chip">E ✓</span></div>
-    <div id="hw-pron" style="max-width:760px;"><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🌳</span> <b>tree</b></span><span class="circ-num">2</span><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">G</button><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">V</button><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">R</button></div><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🥚</span> <b>egg</b></span><span class="circ-num">3</span><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">N</button><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">B</button><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">F</button></div><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🚂</span> <b>train</b></span><span class="circ-num">4</span><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">H</button><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">P</button><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">J</button></div><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🥚</span> <b>egg</b></span><span class="circ-num">5</span><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">X</button><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">S</button><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">K</button></div><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🌳</span> <b>tree</b></span><span class="circ-num">6</span><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">M</button><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">C</button><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">D</button></div><div class="ex-row" style="display:flex;align-items:center;gap:14px;border-bottom:1px solid #E4E2FA;padding-bottom:8px;"><span style="min-width:110px;"><span style="font-size:1.8rem;">🥾</span> <b>boot</b></span><span class="circ-num">7</span><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">Q</button><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">I</button><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">U</button></div></div>
+    <p class="instruction">In each line, click the letter with a different vowel sound from the picture word. Then listen and check.</p>
+    <div class="fixed-two-col" id="hw-pron" style="gap:0 36px;"><div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="example-badge">1</span><span style="font-size:1.5rem;margin-right:6px;">🚂</span> <b>train</b></span><span class="circ-opt" style="min-width:48px;opacity:.55;cursor:default;pointer-events:none;">A</span><span class="circ-opt" style="min-width:48px;opacity:.55;cursor:default;pointer-events:none;">K</span><span class="circ-opt" style="min-width:48px;background:#E3F5EA;border-color:#1A7A4A;color:#1A7A4A;font-weight:800;cursor:default;pointer-events:none;">E ✓</span></div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">2</span><span style="font-size:1.5rem;margin-right:6px;">🌳</span> <b>tree</b></span><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">G</button><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">V</button><button class="circ-opt" data-group="hp-2" data-correct="R" onclick="circPick(this)" style="min-width:48px;">R</button></div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">3</span><span style="font-size:1.5rem;margin-right:6px;">🥚</span> <b>egg</b></span><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">N</button><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">B</button><button class="circ-opt" data-group="hp-3" data-correct="B" onclick="circPick(this)" style="min-width:48px;">F</button></div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">4</span><span style="font-size:1.5rem;margin-right:6px;">🚂</span> <b>train</b></span><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">H</button><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">P</button><button class="circ-opt" data-group="hp-4" data-correct="P" onclick="circPick(this)" style="min-width:48px;">J</button></div></div><div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">5</span><span style="font-size:1.5rem;margin-right:6px;">🥚</span> <b>egg</b></span><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">X</button><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">S</button><button class="circ-opt" data-group="hp-5" data-correct="K" onclick="circPick(this)" style="min-width:48px;">K</button></div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">6</span><span style="font-size:1.5rem;margin-right:6px;">🌳</span> <b>tree</b></span><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">M</button><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">C</button><button class="circ-opt" data-group="hp-6" data-correct="M" onclick="circPick(this)" style="min-width:48px;">D</button></div><div class="ex-row" style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4E2FA;padding-bottom:4px;margin-bottom:6px;"><span class="circ-num-wrap" style="display:flex;align-items:center;min-width:118px;"><span class="circ-num">7</span><span style="font-size:1.5rem;margin-right:6px;">🥾</span> <b>boot</b></span><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">Q</button><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">I</button><button class="circ-opt" data-group="hp-7" data-correct="I" onclick="circPick(this)" style="min-width:48px;">U</button></div></div></div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkCircSlide('hw-pron')">Check Answers</button>
       <button class="btn-reset" onclick="resetCircSlide('hw-pron')">Reset</button>
     </div>
+    <div style="margin-top:26px;"><div class="audio-box pending"><audio controls data-track="WB1.1"></audio></div></div>
   </div></div>
 </div>
 
@@ -1441,8 +1449,7 @@
     <h2>HW8 — Alphabet quiz</h2>
     <p class="instruction">Which letter of the alphabet sounds like…? Click a letter in the bank, then click the blank where it belongs.</p>
     <div class="wb-bank book-style" id="hw-voc4-bank" style="font-size:1.3rem;"><span class="wb-tile" data-val="A" onclick="wbPick(this)">A</span><span class="wb-tile example-used" data-val="I">I</span><span class="wb-tile" data-val="O" onclick="wbPick(this)">O</span><span class="wb-tile" data-val="P" onclick="wbPick(this)">P</span><span class="wb-tile" data-val="U" onclick="wbPick(this)">U</span><span class="wb-tile" data-val="Y" onclick="wbPick(this)">Y</span></div>
-    <div class="ex-example-centered"><span class="ex-tag">Example</span><span class="example-badge">1</span><em>(example)</em> my → <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 7px;border-radius:5px;">I</span></div>
-    <div id="hw-voc4" style="max-width:520px;"><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">2</span>play <span class="wb-blank" data-ans="A" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">3</span>you <span class="wb-blank" data-ans="U" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">4</span>see <span class="wb-blank" data-ans="P" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">5</span>go <span class="wb-blank" data-ans="O" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">6</span>why <span class="wb-blank" data-ans="Y" onclick="wbPlace(this)">______</span></div></div>
+    <div class="fixed-two-col" id="hw-voc4" style="gap:0 40px;"><div><div class="ex-row" style="font-size:1.3rem;"><span class="example-badge">1</span>my <span class="given-line" style="display:inline-block;width:auto;margin:0;min-width:90px;text-align:center;">I</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">2</span>play <span class="wb-blank" data-ans="A" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">3</span>you <span class="wb-blank" data-ans="U" onclick="wbPlace(this)">______</span></div></div><div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">4</span>see <span class="wb-blank" data-ans="P" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">5</span>go <span class="wb-blank" data-ans="O" onclick="wbPlace(this)">______</span></div><div class="ex-row" style="font-size:1.3rem;"><span class="circ-num">6</span>why <span class="wb-blank" data-ans="Y" onclick="wbPlace(this)">______</span></div></div></div>
     <div class="btn-row">
       <button class="btn-check" onclick="checkWbSlide('hw-voc4')">Check Answers</button>
       <button class="btn-reset" onclick="resetWbSlide('hw-voc4')">Reset</button>
@@ -1464,8 +1471,8 @@
 
 <script>
 /* ===================== SLIDE NAV DATA ===================== */
-var slideIds = ["s1", "s-bridge", "s-warm", "s-vocab1", "s-vocab2", "s-vocab3", "s-vocab-map", "s-vocab4", "s-gram-notice", "s-gram-form1", "s-gram-form2", "s-gram-pron", "s-gram-ex1", "s-gram-ex2", "s-gram-ex3", "s-gram-ex4", "s-pron1", "s-pron2", "s-pron3", "s-pron4", "s-listen1", "s-listen2", "s-listen3", "s-review", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide", "hw-gr4-slide", "hw-pron-slide", "hw-voc4-slide"];
-var slideLabels = ["Cover", "Bridge – Party Mingle", "Warm-Up – What's the Question?", "Vocabulary – Getting to Know You", "Vocabulary – Listen and Check", "Vocabulary – Listen and Repeat", "Vocabulary – Verb Phrases", "Speaking – Returning a Question", "Grammar – Spot the Mistakes", "Grammar – Questions with be and can", "Grammar – Questions with do / does / did", "Grammar – Say It with Rhythm", "Grammar – Put the Word in Place", "Grammar – Put the Words in Order", "Grammar – Missing Words", "Grammar – Ask and Follow Up", "Pronunciation – The Alphabet", "Pronunciation – Sound Pictures", "Pronunciation – Letters and Sounds", "Pronunciation – Alphabet Quiz", "Listening – Letters and Numbers", "Listening – Match the Situations", "Speaking – Student Information", "Wrap-Up – Unlock the Party", "Homework Cover", "HW1 – Match the Verb Phrases", "HW2 – Complete the Conversations", "HW3 – Correct Form", "HW4 – Re-order the Words", "HW5 – Write Questions", "HW6 – About You: Answer the Questions", "HW7 – Different Vowel Sound", "HW8 – Alphabet Quiz"];
+var slideIds = ["s1", "s-bridge", "s-warm", "s-vocab1", "s-vocab-map", "s-vocab4", "s-gram-notice", "s-gram-form1", "s-gram-form2", "s-gram-pron", "s-gram-ex1", "s-gram-ex2", "s-chat", "s-gram-ex3", "s-gram-ex4", "s-pron1", "s-pron4", "s-listen1", "s-listen2", "s-listen3", "s-review", "hw-cover", "hw-voc1-slide", "hw-voc2-slide", "hw-gr1-slide", "hw-gr2-slide", "hw-gr3-slide", "hw-gr4-slide", "hw-pron-slide", "hw-voc4-slide"];
+var slideLabels = ["Cover", "Bridge – Party Mingle", "Warm-Up – What's the Question?", "Vocabulary – Getting to Know You", "Vocabulary – Verb Phrases", "Speaking – Returning a Question", "Grammar – Spot the Mistakes", "Grammar – Questions with be and can", "Grammar – Questions with do / does / did", "Grammar – Say It with Rhythm", "Grammar – Put the Word in Place", "Grammar – Put the Words in Order", "Conversation – Chat with Alex", "Grammar – Missing Words", "Grammar – Ask and Follow Up", "Pronunciation – The Alphabet", "Pronunciation – Alphabet Quiz", "Listening – Letters and Numbers", "Listening – Match the Situations", "Speaking – Student Information", "Wrap-Up – Unlock the Party", "Homework Cover", "HW1 – Match the Verb Phrases", "HW2 – Complete the Conversations", "HW3 – Correct Form", "HW4 – Re-order the Words", "HW5 – Write Questions", "HW6 – About You: Answer the Questions", "HW7 – Different Vowel Sound", "HW8 – Alphabet Quiz"];
 var slides = Array.from(document.querySelectorAll('.slide'));
 var current = 0;
 var notesStoreKey = 'aefNotes::' + document.title;
@@ -1889,7 +1896,7 @@ function nextNoRepeat(key, size){
 
 /* ===================== AUDIO FILES (fill in when the files are available) ===================== */
 var AUDIO = {
-  '1.2':'', '1.3':'', '1.4':'', '1.5':'', '1.6':'', '1.7':'', '1.8':'', '1.9':'', '1.10':'', 'WB1.1':''
+  '1.2':'AEF3e_Level_2_SB_1.2.mp3', '1.3':'', '1.4':'AEF3e_Level_2_SB_1.4.mp3', '1.5':'AEF3e_Level_2_SB_1.5.mp3', '1.6':'', '1.7':'', '1.8':'AEF3e_Level_2_SB_1.8.mp3', '1.9':'AEF3e_Level_2_SB_1.9.mp3', '1.10':'AEF3e_Level_2_SB_1.10.mp3', 'WB1.1':'AEF3e_Level_2_WB_1.1.mp3'
 };
 document.querySelectorAll('audio[data-track]').forEach(function(a){
   var f = AUDIO[a.dataset.track];
@@ -1972,6 +1979,64 @@ function checkLock(lockEl){
   document.getElementById('lock-win').classList.toggle('show', open === all);
 }
 
+
+/* ===================== CONVERSATION: CHAT WITH ALEX ===================== */
+var CC = [
+ {hi:"Hi! I'm Alex. Nice to meet you! 😊", task:"Ask Alex where he's from.", opts:[["Where are you from?",1],["Where you are from?",0],["Are you where from?",0]], reply:"I'm from Toronto. And you?", answer:"Answer Alex."},
+ {task:"Ask Alex if he has any brothers or sisters.", opts:[["Do you have any brothers or sisters?",1],["You have any brothers or sisters?",0],["Do have you any brothers or sisters?",0]], reply:"Yes, I have a sister. She's 15. What about you?", answer:"Answer Alex."},
+ {task:"Ask what Alex's sister does.", opts:[["What does your sister do?",1],["What your sister does?",0],["What does do your sister?",0]], reply:"She's a student. She studies music and she plays the violin!", answer:"Answer Alex."},
+ {task:"Ask if Alex can speak other languages.", opts:[["Can you speak any other languages?",1],["Do you can speak any other languages?",0],["You can speak any other languages?",0]], reply:"Yes, I can speak French and a little Spanish. Can you speak any other languages?", answer:"Answer Alex."},
+ {task:"Ask where Alex went last weekend.", opts:[["Where did you go last weekend?",1],["Where you went last weekend?",0],["Where went you last weekend?",0]], reply:"I went to the movies with some friends. And you? What did you do?", answer:"Answer Alex."},
+ {task:"Ask what kind of music Alex listens to.", opts:[["What kind of music do you listen to?",1],["What kind of music you listen to?",0],["What kind of music do you listen?",0]], reply:"I listen to electronic music. What about you?", answer:"Answer Alex."}
+];
+var ccI = 0, ccMistakes = 0;
+function ccBub(who, html, typing){
+  var d = document.createElement('div'); d.className = 'bub ' + who + (typing ? ' typing' : ''); d.innerHTML = html;
+  var th = document.getElementById('cc-thread'); th.appendChild(d); th.scrollTop = th.scrollHeight; return d;
+}
+function ccInit(){
+  ccI = 0; ccMistakes = 0;
+  var th = document.getElementById('cc-thread'); if (!th) return;
+  th.innerHTML = '';
+  ccBub('a', CC[0].hi);
+  ccAsk();
+}
+function ccAsk(){
+  var c = CC[ccI], box = document.getElementById('cc-controls');
+  var opts = shuffleArray(c.opts);
+  box.innerHTML = '<p class="cc-task">💬 ' + c.task + '</p>' + opts.map(function(o, k){
+    return '<button class="cc-opt" data-ok="' + o[1] + '" onclick="ccPick(this)">' + o[0] + '</button>';
+  }).join('') + '<p class="cc-hint" id="cc-hint"></p>';
+}
+function ccPick(btn){
+  if (btn.dataset.ok !== '1'){
+    btn.classList.add('bad'); ccMistakes++;
+    document.getElementById('cc-hint').textContent = 'Not quite — try again!';
+    return;
+  }
+  var c = CC[ccI], box = document.getElementById('cc-controls');
+  ccBub('b', btn.textContent);
+  box.innerHTML = '';
+  var t = ccBub('a', '…', true);
+  setTimeout(function(){
+    t.classList.remove('typing'); t.innerHTML = c.reply;
+    var th = document.getElementById('cc-thread'); th.scrollTop = th.scrollHeight;
+    var last = ccI === CC.length - 1;
+    box.innerHTML = '<p class="cc-task">🎤 ' + c.answer + '</p><div class="cc-row"><input type="text" aria-label="your answer" placeholder="Type or say your answer…"><button class="btn-check" onclick="ccNext()">' + (last ? 'Finish ✔' : 'Next ▶') + '</button></div>';
+  }, 700);
+}
+function ccNext(){
+  var box = document.getElementById('cc-controls');
+  var inp = box.querySelector('input');
+  if (inp && inp.value.trim()) ccBub('b', inp.value.trim().replace(/</g,'&lt;'));
+  ccI++;
+  if (ccI >= CC.length){
+    ccBub('a', "This was fun! Let's talk again soon! 👋");
+    box.innerHTML = '<p class="cc-task">🎉 Great chat! ' + (ccMistakes === 0 ? 'No mistakes — perfect word order!' : ccMistakes + ' wrong ' + (ccMistakes === 1 ? 'try' : 'tries') + ' — good practice!') + '</p><p style="margin:0 0 10px;font-size:1.1rem;color:var(--navy);">Now it\'s your turn: ask <i>me</i> the same questions (and returning them: <i>And you?</i>).</p><button class="btn-reset" onclick="ccInit()">↺ Chat again</button>';
+  } else { ccAsk(); }
+}
+ccInit();
+
 /* ===================== PRINT LESSON ===================== */
 function printAll(){
   saveNotes();
@@ -2024,6 +2089,23 @@ function printAll(){
 document.getElementById('counter').textContent = '1/' + slides.length;
 document.getElementById('prevBtn').disabled = true;
 loadNotes(0);
+
+/* blank slots in the alphabet table */
+(function(){
+  var _ct = classifyTarget, _rs = resetClassifySlide;
+  classifyTarget = function(col){
+    var before = col.querySelectorAll('.placed').length;
+    _ct(col);
+    var tags = col.querySelectorAll('.placed');
+    if (tags.length > before){
+      var b = col.querySelector('.slot-blank:not(.gone)'), t = tags[tags.length-1], old = t.onclick;
+      if (b){ b.classList.add('gone'); }
+      t.onclick = function(e){ old(e); if (b) b.classList.remove('gone'); };
+      var L = col.querySelector('.sc-letters'); if (L && b) L.insertBefore(t, L.querySelector('.slot-blank:not(.gone)') || null);
+    }
+  };
+  resetClassifySlide = function(p){ _rs(p); document.querySelectorAll('#'+p+'-cols .slot-blank').forEach(function(x){ x.classList.remove('gone'); }); };
+})();
 
 </script>
 </body>

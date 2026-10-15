@@ -115,6 +115,16 @@ Never lay out exercises left-to-right across a row (1 on left, 2 on right, 3 on 
 
 Layout classes: `.fixed-two-col` (2 columns), `.fixed-three-col` (3 columns), `.fixed-four-col` (4 columns) — all fixed CSS grids, used when items must split by an exact count rather than auto-balance by height.
 
+### Two columns whenever possible + worked examples (added 2026-10-15)
+
+> Added after AEF2-1A/1B review: several numbered exercises were left in a single long column, and worked examples were shown in a separate dashed "Example" box.
+
+- **Numbered exercises are always laid out in two columns when possible** (`.fixed-two-col`, items split per the Column Order Rule: top to bottom, then left to right). Only keep a single column when an item is too wide to fit half the slide (e.g. a long paragraph or a full-width writing box). This includes Homework slides.
+- **The worked example is item 1 of the exercise, not a separate box.** Do not use the "Example" label or the text "(example)". Build it as the first row of the left column in the same layout as the other items, with the answer already filled and highlighted green. The count for the column split includes the example (11 rows → 6 left / 5 right; 10 rows → 5 / 5).
+- **Badge:** if the book numbers the example as 1, the example badge shows `1` (green) and the student's items start at 2. If the student's items start at 1, the example row shows a green ✓ instead of a number.
+- **Answer line:** for word-order / rewrite items, put the correct answer on its own line below the prompt, styled like the answer box (`.given-line`).
+- **Build check:** run an audit that lists any slide with 4 or more numbered rows in a single column, and any two-column grid whose left column is not equal to or one item longer than the right.
+
 ### `.two-col` vs `.fixed-two-col` — pick based on content, not habit
 
 > Added 2026-08-26 after AEF4-1B's HW2/HW4 dialogue exercises (multi-line `A:`/`B:` turns with `<br>`) were left in `.two-col` (native CSS multi-column auto-balancing), causing the first item of the left column and the first item of the right column to start at visibly different heights once turns spanned multiple lines.
@@ -950,6 +960,12 @@ The Homework Cover is the **first slide of the Homework section**. It is a full-
 3. Pronunciation homework only stays if the sound set was taught AND every option word in it was seen/said in the lesson.
 4. Sample answers/tips on homework slides may only use vocabulary taught in the lesson.
 5. Run this check on every homework slide whenever the lesson's slides change (e.g. a vocabulary slide deleted) — homework depends on lesson content.
+
+### Temperatures — °F always paired with a °C conversion card
+
+> Added 2026-10-15 (teacher is not used to °F).
+
+Whenever a slide shows a temperature in °F (book text, dialogue, forecast cards), add a **small card in a corner of that slide** (e.g. `.temp-card`, top-right of the image or content area, font ≥ 1.05rem) giving the conversion to °C, e.g. `🌡️ 96°F ≈ 36°C`. Convert with (°F − 32) × 5/9 and round to the nearest whole degree. If a slide shows several °F values, list each one in the card. Bare "°" values with no unit stay as the book prints them (do not guess the unit). Slides built with both units side by side (e.g. city forecast cards) don't need an extra card.
 
 ### No book references — ever
 
