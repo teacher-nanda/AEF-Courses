@@ -275,6 +275,7 @@ In a two-list matching exercise (sentences↔definitions, questions↔answers, w
 - No `placeholder="Type the correct sentence..."`, `placeholder="Complete the sentence..."`, `placeholder="Write your answer here..."`, or any other instructional/example filler inside an `<input>` or `<textarea>` a student types into.
 - The instruction line above the exercise (`.instruction` / `.inst-light`) is where any guidance belongs — never inside the answer field itself.
 - Applies to every typed-answer exercise type: sentence-rewrite boxes, listening-completion lines, writing-task textareas (short story, reading continuation, "make it personal" sentences), word-scramble inputs, and any future typed-answer exercise.
+- **Notes panel font**: `#notesTA` is set to `font-size:1.1rem` in every lesson (raised from 1rem on 2026-10-19 at the teacher's request).
 - **Exempt**: `#notesTA` (the slide Notes panel) — app UI chrome for the tutor/student's own private notes, not lesson exercise content, and keeps its `data-placeholder="Your notes for this slide…"`.
 
 ### Uniform width for typed answer blanks
