@@ -23,7 +23,7 @@ h2 { font-family:var(--fh,'Fredoka'),sans-serif; color:var(--c1); }
 .sup::before { content:"🌱 Support"; display:block; font-weight:800; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:#2FA36B; margin-bottom:2px; }
 .chal { background:#FFF0E6; border-left:5px solid #E8590C; border-radius:10px; padding:12px 16px; margin:12px 0; font-size:1.02rem; line-height:1.7; color:#6B2A05; }
 .chal::before { content:"🔥 Challenge"; display:block; font-weight:800; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:#E8590C; margin-bottom:2px; }
-#lvBar { position:fixed; top:12px; left:62px; z-index:1100; display:flex; gap:4px; background:rgba(0,0,0,.55); padding:4px; border-radius:999px; }
+#lvBar { position:fixed; top:12px; left:250px; z-index:1100; display:flex; gap:4px; background:rgba(0,0,0,.55); padding:4px; border-radius:999px; }
 #lvBar button { border:none; border-radius:999px; padding:5px 12px; font-size:.82rem; font-weight:700; cursor:pointer; background:transparent; color:#fff; font-family:inherit; }
 #lvBar button.on { background:#fff; color:#12324A; }
 .lv-pick { display:flex; gap:14px; margin-top:26px; flex-wrap:wrap; justify-content:center; position:relative; z-index:4; }

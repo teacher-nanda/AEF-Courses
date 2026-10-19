@@ -72,9 +72,9 @@ pur = ('<div class="tipbox"><h3>🧠 What the interviewer wants</h3>'
  '<b>f.</b> They want to know what drives and inspires you at work.</div>')
 qs = [('Can you tell me about yourself?','c'),('What are your greatest strengths and weaknesses?','e'),('Why are you interested in this position?','d'),
       ('What motivates you to perform well in your work?','f'),('What are your short-term and long-term career goals?','b'),('How do you prioritize your work and manage your time effectively?','a')]
-rows = ['<div class="ex-row"><span class="example-badge">✓</span>%s <span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 9px;border-radius:5px;">%s</span></div>' % (qs[0][0], qs[0][1])]
+rows = ['<div class="ex-row"><span class="example-badge">✓</span><span style="color:#1A7A4A;font-weight:800;background:#E3F5EA;padding:1px 9px;border-radius:5px;margin-right:10px;display:inline-block;min-width:56px;text-align:center;">%s</span>%s</div>' % (qs[0][1], qs[0][0])]
 for i,(t,a) in enumerate(qs[1:],1):
-    rows.append('<div class="ex-row"><span class="circ-num">%d</span>%s <input class="ans-input" style="width:56px" type="text" maxlength="1" data-ans="%s" aria-label="purpose %d"></div>' % (i,t,a,i))
+    rows.append('<div class="ex-row"><span class="circ-num">%d</span><input class="ans-input" style="width:56px;margin-right:10px" type="text" maxlength="1" data-ans="%s" aria-label="purpose %d">%s</div>' % (i,a,i,t))
 L.slide('s-purpose','Why do they ask?','vocab','Why do they ask that?',
   '<p class="instruction">Match each question to what the interviewer wants. Type the letter.</p>'
   '<div class="twocol"><div id="ex-purpose">' + ''.join(rows) + btns("checkSlide('ex-purpose')","resetSlide('ex-purpose')") + '</div><div>' + pur + '</div></div>'
