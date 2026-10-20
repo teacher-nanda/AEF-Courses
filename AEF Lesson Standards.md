@@ -969,6 +969,12 @@ The Homework Cover is the **first slide of the Homework section**. It is a full-
 
 Whenever a slide shows a temperature in °F (book text, dialogue, forecast cards), add a **small card in a corner of that slide** (e.g. `.temp-card`, top-right of the image or content area, font ≥ 1.05rem) giving the conversion to °C, e.g. `🌡️ 96°F ≈ 36°C`. Convert with (°F − 32) × 5/9 and round to the nearest whole degree. If a slide shows several °F values, list each one in the card. Bare "°" values with no unit stay as the book prints them (do not guess the unit). Slides built with both units side by side (e.g. city forecast cards) don't need an extra card.
 
+### Original multiple-choice exercises — vary the position of the correct answer
+
+> Added 2026-10-20 after AEF4-4A HW5 shipped with the correct option first in every item.
+
+In any exercise you author yourself (not copied from the book — book exercises keep the book's option order), spread the correct answer across positions (1st, 2nd, 3rd…) so no position dominates and the student can't guess a pattern. Check this explicitly before shipping: list the correct position of every item.
+
 ### No book references — ever
 
 Never show a book-specific exercise-letter label anywhere the student/teacher can see it: no "a", "b", "c", no "(a)", "Part a", "Exercise 3b", no audio track numbers (e.g. "3.2"), nothing that only makes sense if you're holding the physical book open. This applies to instructions, button labels, HTML comments intended as visible text, and audio labels alike.
